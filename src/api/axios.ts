@@ -1,7 +1,7 @@
 import { SERVER_EXPRESS } from 'config/keys';
 import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
-
+import Cookie from 'js-cookie'
 const axiosClient = axios.create({
     baseURL: SERVER_EXPRESS,
     headers: {
@@ -11,6 +11,11 @@ const axiosClient = axios.create({
 })
 axiosClient.interceptors.request.use(async (config:AxiosRequestConfig) => {
     // Handle token here ...
+    if (config && config.headers) {
+        const token = Cookie.get('token')
+        config.headers["Authorization"] = `Bearer ${token}`
+    }
+
     return config
 })
 axiosClient.interceptors.response.use(

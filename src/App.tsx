@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import GlobalStyles,{theme} from 'styles/global'
@@ -9,6 +9,10 @@ import Authentication from 'screens/authenticate'
 
 
 function App() {
+    useEffect(() => {
+        
+    },[])
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

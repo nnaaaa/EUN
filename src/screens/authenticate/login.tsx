@@ -1,36 +1,36 @@
-import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import GitHubIcon from '@mui/icons-material/GitHub'
-import { Button, TextField } from '@mui/material'
-import { unwrapResult } from '@reduxjs/toolkit'
-import { useFormik } from 'formik'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { loginValidate } from 'utils/yup'
-import { loginAsync } from './authSlice'
-import { Divider, useStyle } from './styles'
+import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { Button, TextField } from "@mui/material";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useFormik } from "formik";
+import { useAppDispatch, useAppSelector } from "states/hooks";
+import { loginValidate } from "utils/yup";
+import { loginAsync } from "./authSlice";
+import { Divider, useStyle } from "./styles";
 
-
-
-interface Props{
-  switchForm: () => void
+interface Props {
+  switchForm: () => void;
 }
 
-
-
 export default function Login({ switchForm }: Props) {
-  const style = useStyle()
-  const isLoading = useAppSelector(state => state.auth.loading)
-  const dispatch = useAppDispatch()
+  const style = useStyle();
+  const isLoading = useAppSelector((state) => state.auth.loading);
+  const dispatch = useAppDispatch();
 
   const { errors, values, touched, handleSubmit, handleChange } = useFormik({
     initialValues: {
-      account: '',
-      password: '',
+      account: "",
+      password: "",
     },
     validationSchema: loginValidate,
     onSubmit: async (values, { setFieldError }) => {
-      const actionResult = await dispatch(loginAsync(values))
-      const token = unwrapResult(actionResult)
+      try {
+        const actionResult = await dispatch(loginAsync(values));
+        unwrapResult(actionResult);
+      } catch {
+        setFieldError("account", "Tài khoản chưa đăng ký");
+      }
       // dispatch(Actions.setLoading(true))
       // try {
       //   const {user} = await auth.signInWithEmailAndPassword(
@@ -52,9 +52,8 @@ export default function Login({ switchForm }: Props) {
       // } finally {
       //   dispatch(Actions.setLoading(false))
       // }
-    }
-  })
-
+    },
+  });
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
@@ -63,7 +62,7 @@ export default function Login({ switchForm }: Props) {
         label="Tài khoản"
         variant="outlined"
         fullWidth
-        style={{marginBottom: 20}}
+        style={{ marginBottom: 20 }}
         error={touched.account && Boolean(errors.account)}
         helperText={touched.account && errors.account}
         onChange={handleChange}
@@ -75,13 +74,18 @@ export default function Login({ switchForm }: Props) {
         variant="outlined"
         fullWidth
         type="password"
-        style={{marginBottom: 20}}
+        style={{ marginBottom: 20 }}
         error={touched.password && Boolean(errors.password)}
         helperText={touched.password && errors.password}
         onChange={handleChange}
         value={values.password}
       />
-      <Button color="primary" variant="contained" type="submit" disabled={isLoading}>
+      <Button
+        color="primary"
+        variant="contained"
+        type="submit"
+        disabled={isLoading}
+      >
         Đăng nhập
       </Button>
       <Divider />
@@ -115,5 +119,5 @@ export default function Login({ switchForm }: Props) {
         Tạo tài khoản mới
       </Button>
     </form>
-  )
+  );
 }
