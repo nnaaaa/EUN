@@ -11,21 +11,18 @@ const axiosClient = axios.create({
 })
 axiosClient.interceptors.request.use(async (config:AxiosRequestConfig) => {
     // Handle token here ...
-    console.log(config)
     return config
 })
 axiosClient.interceptors.response.use(
     (response) => {
-        console.log(response.headers)
         if (!response) return
         if (response.headers && response.headers.token) {
             //save token here
         }
 
-        return response.data
+        return response
     },
     (error) => {
-        console.log(error)
         // Handle errors
         throw error
     }

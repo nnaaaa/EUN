@@ -1,5 +1,5 @@
 import { SignInType, IUser } from 'models/user';
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authAPI } from 'api'
 
 
@@ -17,8 +17,9 @@ const initialState:IinitState = {
     }
 }
 
-export const loginAsync = createAsyncThunk('auth/login', async (credential: SignInType) => {
-    const data = await authAPI.postLogin(credential)
+export const loginAsync = createAsyncThunk('auth/login', async(credential: SignInType) => {
+    const res = await authAPI.postLogin(credential)
+    return res.data
 })
 
 

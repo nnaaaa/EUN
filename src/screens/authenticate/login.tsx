@@ -2,6 +2,7 @@ import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import { Button, TextField } from '@mui/material'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { loginValidate } from 'utils/yup'
@@ -28,7 +29,8 @@ export default function Login({ switchForm }: Props) {
     },
     validationSchema: loginValidate,
     onSubmit: async (values, { setFieldError }) => {
-      await dispatch(loginAsync(values))
+      const actionResult = await dispatch(loginAsync(values))
+      const token = unwrapResult(actionResult)
       // dispatch(Actions.setLoading(true))
       // try {
       //   const {user} = await auth.signInWithEmailAndPassword(
