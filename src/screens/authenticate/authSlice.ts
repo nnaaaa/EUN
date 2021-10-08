@@ -6,7 +6,7 @@ import Cookie from 'js-cookie'
 interface IinitState {
     loading: boolean
     error: SignInType
-    current?: IUser
+    state:'stranger' | 'logged'
 }
 
 const initialState: IinitState = {
@@ -14,13 +14,15 @@ const initialState: IinitState = {
     error: {
         account: '',
         password: ''
-    }
+    },
+    state:'stranger'
 }
 
 export const loginAsync = createAsyncThunk('auth/login', async (credential: SignInType) => {
     const res = await authAPI.postLogin(credential)
-    if (res.data.token)
+    if (res.data.token) {
         Cookie.set('token', res.data.token)
+    }
     else {
         throw new Error()
     }
@@ -42,6 +44,7 @@ const authSlice = createSlice({
             state.error.account = 'Fail Account'
         }).addCase(loginAsync.fulfilled, (state, action) => {
             state.loading = false
+            state.state = 'logged'
         })
     }
 })

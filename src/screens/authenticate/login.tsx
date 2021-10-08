@@ -5,6 +5,7 @@ import { Button, TextField } from "@mui/material";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "states/hooks";
+import { getProfile } from "states/slices/userSlice";
 import { loginValidate } from "utils/yup";
 import { loginAsync } from "./authSlice";
 import { Divider, useStyle } from "./styles";
@@ -26,8 +27,8 @@ export default function Login({ switchForm }: Props) {
     validationSchema: loginValidate,
     onSubmit: async (values, { setFieldError }) => {
       try {
-        const actionResult = await dispatch(loginAsync(values));
-        unwrapResult(actionResult);
+        await dispatch(loginAsync(values));
+        await dispatch(getProfile())
       } catch {
         setFieldError("account", "Tài khoản chưa đăng ký");
       }
