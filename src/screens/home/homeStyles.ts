@@ -1,8 +1,8 @@
 
 import {compose, spacing, palette, breakpoints} from '@mui/system'
-import { makeStyles } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import styled from 'styled-components'
-export const css = makeStyles({
+export const useStyle = makeStyles({
   wrapper: {
     paddingTop: 85,
   },

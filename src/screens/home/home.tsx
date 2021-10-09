@@ -1,6 +1,6 @@
 import { CircularProgress, Grid, Hidden, Skeleton,Box } from '@mui/material'
 
-import { css } from './homeStyles'
+import { useStyle } from './homeStyles'
 
 import {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
@@ -22,7 +22,7 @@ import ListGame from 'features/listGame/listGame'
 import { useAppSelector } from 'states/hooks'
 
 export default function Home() {
-  const style = css()
+  const style = useStyle()
   const dispatch = useDispatch()
   const {path} = useRouteMatch()
   const loading = useAppSelector(state=>state.user.loading)
