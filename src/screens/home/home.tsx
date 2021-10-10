@@ -7,18 +7,14 @@ import {useSelector, useDispatch} from 'react-redux'
 
 import Header from 'features/header/header'
 import Gutter from 'features/gutter/gutter'
-import ListChat from 'features/message/listChat/listChat'
+// import ListChat from 'features/message/listChat/listChat'
 import ListOnline from 'features/listOnline/listOnline'
 
 import {Redirect, Route, Switch, useRouteMatch} from 'react-router-dom'
-import {useWatchDoc} from 'firebase/useWatching'
-import Actions from 'states/rootAction'
-import {updateDocument} from 'firebase/api'
+
 
 // import Map from 'components/map'
 import Newsfeed from './newsfeed/newsfeed'
-import Games from './games/games'
-import ListGame from 'features/listGame/listGame'
 import { useAppSelector } from 'states/hooks'
 
 export default function Home() {
@@ -85,7 +81,7 @@ export default function Home() {
             <ListGame />
           </Grid>
         </Hidden>
-        <ListChat />
+        {/* <ListChat /> */}
       </Grid>
     </>
   )

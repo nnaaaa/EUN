@@ -2,9 +2,11 @@
 import { configureStore, combineReducers, ThunkAction, Action } from "@reduxjs/toolkit";
 import authReducer from 'screens/authenticate/authSlice'
 import userReducer from 'states/slices/userSlice'
+import chatReducer from 'features/message/chatSlice'
 const rootReducer = combineReducers({
     auth: authReducer,
-    user: userReducer
+    user: userReducer,
+    chat: chatReducer
 })
 
 export const store = configureStore({

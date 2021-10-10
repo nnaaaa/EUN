@@ -19,17 +19,16 @@ import {
   WrapperMessage,
 } from 'features/message/chat/chatStyles'
 import {useEffect, useRef} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
 import moment from 'moment'
 import {useStyle} from './chatStyles'
+import { useAppSelector } from 'states/hooks'
+import { IChatRoom } from 'models/chatRoom'
 
-const time = 5000
-const checkerTime = 10000
-const numberOfMessage = 30
+
 
 interface IIconBox{
   children: ReactNode
-  [key]:any
+  [key:string]:any
 }
 
 const IconBox = ({children, ...attr}:IIconBox) => (
@@ -43,99 +42,103 @@ interface IChat{
 
 }
 
-function Chat({ messages, name, avatar, id, uid, composing }) {
+function Chat(props: IChatRoom) {
+  const time = 5000
+  const checkerTime = 10000
+  const numberOfMessage = 30
   
   const style = useStyle()
   const inputMessage = useRef(null)
   const heightOfChatWrapper = useRef(null)
-  const protectSpamTimeout = useRef(null)
   const [timeToAllowChat, setTimeToAllowChat] = useState(0)
   const [isAllowChat, setAllowChat] = useState(true)
   let countSpam = useRef(0)
-  const {uid: myUid} = useSelector((state) => state.user)
+  const user = useAppSelector(state => state.user.current)
+  const { messages, _id, members, composing } = props
+  
   const dispatch = useDispatch()
 
-  useWatchDoc('rooms', id, dispatch, Actions.updateMessages)
+  // useWatchDoc('rooms', id, dispatch, Actions.updateMessages)
 
-  useEffect(() => {
-    setInterval(() => {
-      if (countSpam.current < numberOfMessage) countSpam.current = 0
-      else {
-        if (!isAllowChat) return
-        setAllowChat(false)
-        let percentTimeout = setInterval(() => {
-          setTimeToAllowChat((pre) => pre + 1)
-        }, time / 100)
-        setTimeout(() => {
-          clearTimeout(percentTimeout)
-          setAllowChat(true)
-          setTimeToAllowChat(0)
-          countSpam.current = 0
-        }, time)
-      }
-    }, checkerTime)
-  }, [])
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     if (countSpam.current < numberOfMessage) countSpam.current = 0
+  //     else {
+  //       if (!isAllowChat) return
+  //       setAllowChat(false)
+  //       let percentTimeout = setInterval(() => {
+  //         setTimeToAllowChat((pre) => pre + 1)
+  //       }, time / 100)
+  //       setTimeout(() => {
+  //         clearTimeout(percentTimeout)
+  //         setAllowChat(true)
+  //         setTimeToAllowChat(0)
+  //         countSpam.current = 0
+  //       }, time)
+  //     }
+  //   }, checkerTime)
+  // }, [])
 
-  const sendMessage = async (e) => {
-    e.preventDefault()
+  // const sendMessage = async (e) => {
+  //   e.preventDefault()
 
-    if (!isAllowChat) return
+  //   if (!isAllowChat) return
 
-    countSpam.current++
+  //   countSpam.current++
 
-    const content = inputMessage.current.value.trim()
-    if (!content) return
-    //gửi lời nhắn
-    await updateDocument('rooms', id, {
-      messages: firebase.firestore.FieldValue.arrayUnion({
-        uid,
-        content,
-        createAt: firebase.firestore.Timestamp.now(),
-      }),
-      composing: firebase.firestore.FieldValue.arrayRemove(myUid),
-    })
+  //   const content = inputMessage.current.value.trim()
+  //   if (!content) return
+  //   //gửi lời nhắn
+  //   await updateDocument('rooms', id, {
+  //     messages: firebase.firestore.FieldValue.arrayUnion({
+  //       uid,
+  //       content,
+  //       createAt: firebase.firestore.Timestamp.now(),
+  //     }),
+  //     composing: firebase.firestore.FieldValue.arrayRemove(myUid),
+  //   })
 
-    //set input về giá trị trống và trỏ vào
-    inputMessage.current.value = ''
-    inputMessage.current.focus()
-  }
+  //   //set input về giá trị trống và trỏ vào
+  //   inputMessage.current.value = ''
+  //   inputMessage.current.focus()
+  // }
 
-  const focus = async () => {
-    await updateDocument('rooms', id, {
-      composing: firebase.firestore.FieldValue.arrayUnion(myUid),
-    })
-  }
-  const blur = async () => {
-    await updateDocument('rooms', id, {
-      composing: firebase.firestore.FieldValue.arrayRemove(myUid),
-    })
-  }
-  const closeChat = () => {
-    dispatch(Actions.closeChat(uid))
-  }
+  // const focus = async () => {
+  //   await updateDocument('rooms', id, {
+  //     composing: firebase.firestore.FieldValue.arrayUnion(myUid),
+  //   })
+  // }
+  // const blur = async () => {
+  //   await updateDocument('rooms', id, {
+  //     composing: firebase.firestore.FieldValue.arrayRemove(myUid),
+  //   })
+  // }
+  // const closeChat = () => {
+  //   dispatch(Actions.closeChat(uid))
+  // }
 
-  //scroll xuống khi vừa mở khung chat hoặc có tin nhắn mới
-  useEffect(() => {
-    const chatRef = heightOfChatWrapper.current
-    const scrolling = (e) => {
-      e.currentTarget.scroll({
-        top: e.currentTarget.scrollHeight,
-        behavior: 'smooth',
-      })
-    }
-    //vừa mở khung chat -> scroll
-    chatRef.scroll({
-      top: chatRef.scrollHeight,
-      behavior: 'smooth',
-    })
+  // //scroll xuống khi vừa mở khung chat hoặc có tin nhắn mới
+  // useEffect(() => {
+  //   const chatRef = heightOfChatWrapper.current
+  //   const scrolling = (e) => {
+  //     e.currentTarget.scroll({
+  //       top: e.currentTarget.scrollHeight,
+  //       behavior: 'smooth',
+  //     })
+  //   }
+  //   //vừa mở khung chat -> scroll
+  //   chatRef.scroll({
+  //     top: chatRef.scrollHeight,
+  //     behavior: 'smooth',
+  //   })
 
-    //bắt sự kiện thêm 1 tin nhắn mới sẽ scroll
-    chatRef.addEventListener('DOMNodeInserted', scrolling)
+  //   //bắt sự kiện thêm 1 tin nhắn mới sẽ scroll
+  //   chatRef.addEventListener('DOMNodeInserted', scrolling)
 
-    return () => {
-      chatRef.removeEventListener('DOMNodeInserted', scrolling)
-    }
-  }, [])
+  //   return () => {
+  //     chatRef.removeEventListener('DOMNodeInserted', scrolling)
+  //   }
+  // }, [])
 
   return (
     <Box bgcolor="white" boxShadow={2} mr={1} borderRadius={10} width="20rem">
