@@ -1,6 +1,6 @@
 import { SERVER_EXPRESS } from 'config/keys'
 import { IPublicInfo } from 'models/user'
-import Axios from 'axios'
+import Axios from 'api/rest/axios'
 
 class FriendAPI {
     url = `${SERVER_EXPRESS}/friend`

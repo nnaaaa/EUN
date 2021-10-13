@@ -2,7 +2,7 @@ import { SERVER_EXPRESS } from 'config/keys';
 import { IChatRoom } from 'models/chatRoom';
 import { ID } from 'models/Common';
 import { IMessage } from 'models/message';
-import Axios from 'axios';
+import Axios from 'api/rest/axios';
 
 class ChatAPI {
     url = `${SERVER_EXPRESS}/chat`

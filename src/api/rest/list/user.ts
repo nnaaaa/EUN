@@ -1,7 +1,7 @@
 import { SERVER_EXPRESS } from 'config/keys'
 import { IPublicInfo, IUser } from 'models/user'
 
-import Axios from 'api/axios'
+import Axios from 'api/rest/axios'
 
 class UserAPI {
     url = `${SERVER_EXPRESS}/user`

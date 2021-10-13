@@ -1,6 +1,6 @@
 import { SignInType, IUser } from 'models/user';
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { authAPI } from 'api'
+import { authAPI } from 'api/rest'
 import Cookie from 'js-cookie'
 
 interface IinitState {

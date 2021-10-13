@@ -1,7 +1,7 @@
 import { SERVER_EXPRESS } from 'config/keys';
 import { IQueryPost } from 'models/Common';
 import { IPost } from 'models/post';
-import Axios from 'axios';
+import Axios from 'api/rest/axios';
 
 class PostAPI {
     url = `${SERVER_EXPRESS}/post`

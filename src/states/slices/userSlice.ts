@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IPublicInfo } from 'models/user';
-import { userAPI } from './../../api/list/user';
+import { userAPI } from '../../api/rest/list/user';
 
 interface IinitState {
     loading: boolean
