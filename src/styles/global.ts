@@ -1,12 +1,8 @@
-import { createTheme } from '@mui/material';
-import {
-    createGlobalStyle
-} from 'styled-components'
-import {
-    pink,blue
-} from '@mui/material/colors'
+import { createTheme } from '@mui/material'
+import { createGlobalStyle } from 'styled-components'
+import { pink, blue } from '@mui/material/colors'
 
-const globalStyles = createGlobalStyle `
+const globalStyles = createGlobalStyle`
     html{
         font-family:'VT323';
     }

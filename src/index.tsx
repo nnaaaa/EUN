@@ -4,12 +4,14 @@ import App from './App'
 import { store } from 'states/store'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
-
+import { SocketProvider } from 'states/context/socket'
 ReactDOM.render(
     <React.StrictMode>
-        <Provider store={store}>
-            <App />
-        </Provider>
+        <SocketProvider>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </SocketProvider>
     </React.StrictMode>,
     document.getElementById('root')
 )

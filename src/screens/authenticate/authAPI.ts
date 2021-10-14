@@ -5,7 +5,10 @@ import { AxiosResponse } from 'axios'
 
 class AuthAPI {
     async postLogin(credential: SignInType) {
-        return Axios.post<SignInType, AxiosResponse<{ token?: "string" }>>(`auth/login`, credential)
+        return Axios.post<SignInType, AxiosResponse<{ token?: 'string' }>>(
+            `auth/login`,
+            credential
+        )
     }
     async postRegister(userInfo: IUser) {
         return Axios.post(`auth/register`, userInfo)

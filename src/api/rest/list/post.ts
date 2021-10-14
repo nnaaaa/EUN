@@ -1,13 +1,13 @@
-import { SERVER_EXPRESS } from 'config/keys';
-import { IQueryPost } from 'models/Common';
-import { IPost } from 'models/post';
-import Axios from 'api/rest/axios';
+import { SERVER_EXPRESS } from 'config/keys'
+import { IQueryPost } from 'models/Common'
+import { IPost } from 'models/post'
+import Axios from 'api/rest/axios'
 
 class PostAPI {
     url = `${SERVER_EXPRESS}/post`
 
     async create(postInfo: IPost) {
-        return Axios.post<IPost>(`${this.url}/create`, postInfo)  
+        return Axios.post<IPost>(`${this.url}/create`, postInfo)
     }
     async getFromAllUser(query: IQueryPost) {
         return Axios.get<IPost[]>(`${this.url}/getAllUser`)

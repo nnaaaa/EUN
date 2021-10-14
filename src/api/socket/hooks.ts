@@ -1,13 +1,13 @@
-import { ID } from 'models/Common';
-import { useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client';
+import { ID } from 'models/Common'
+import { useEffect, useState } from 'react'
+import { Socket } from 'socket.io-client'
 
 type ICollection = 'user' | 'room'
 
-export const useWatchCollection = <T>(socket:Socket,collection: ICollection) => { 
+export const useWatchCollection = <T>(socket: Socket, collection: ICollection) => {
     const [data, setData] = useState<T>()
     useEffect(() => {
-        const listener = (newData:T) => {
+        const listener = (newData: T) => {
             setData(newData)
         }
         socket.on(`server-sendData/${collection}`, listener)
@@ -19,13 +19,17 @@ export const useWatchCollection = <T>(socket:Socket,collection: ICollection) => 
 
     return data
 }
-export const useWatchTarget = <T>(socket: Socket, collection: ICollection, target: ID) => {
+export const useWatchTarget = <T>(
+    socket: Socket,
+    collection: ICollection,
+    target: ID
+) => {
     const [data, setData] = useState<T>()
 
     useEffect(() => {
         console.log('useWatch')
         if (!target) return
-        const listener = (newData:T) => {
+        const listener = (newData: T) => {
             console.log(target, newData)
             setData(newData)
         }

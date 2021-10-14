@@ -1,8 +1,8 @@
-import { SERVER_EXPRESS } from 'config/keys';
-import { IChatRoom } from 'models/chatRoom';
-import { ID } from 'models/Common';
-import { IMessage } from 'models/message';
-import Axios from 'api/rest/axios';
+import { SERVER_EXPRESS } from 'config/keys'
+import { IChatRoom } from 'models/chatRoom'
+import { ID } from 'models/Common'
+import { IMessage } from 'models/message'
+import Axios from 'api/rest/axios'
 
 class ChatAPI {
     url = `${SERVER_EXPRESS}/chat`
@@ -14,8 +14,8 @@ class ChatAPI {
         return Axios.get<IChatRoom>(`${this.url}/getRoom/${roomId}`)
     }
     async sendMessage(roomInfo: IMessage) {
-        return Axios.put<IMessage>(`${this.url}/addMessage/${roomInfo.owner}`,roomInfo)
+        return Axios.put<IMessage>(`${this.url}/addMessage/${roomInfo.owner}`, roomInfo)
     }
 }
 
-export const chatAPI =  new ChatAPI()
+export const chatAPI = new ChatAPI()

@@ -1,4 +1,4 @@
-import { SERVER_EXPRESS } from 'config/keys';
+import { SERVER_EXPRESS } from 'config/keys'
 import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
 import Cookie from 'js-cookie'
@@ -9,11 +9,11 @@ const axiosClient = axios.create({
     },
     paramsSerializer: (params) => queryString.stringify(params),
 })
-axiosClient.interceptors.request.use(async (config:AxiosRequestConfig) => {
+axiosClient.interceptors.request.use(async (config: AxiosRequestConfig) => {
     // Handle token here ...
     if (config && config.headers) {
         const token = Cookie.get('token')
-        config.headers["Authorization"] = `Bearer ${token}`
+        config.headers['Authorization'] = `Bearer ${token}`
     }
 
     return config
