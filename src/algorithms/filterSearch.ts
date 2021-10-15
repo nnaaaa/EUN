@@ -1,5 +1,5 @@
-import { IUser } from 'models/user';
-export const filterSearch = (data:IUser[], user:IUser, input:string) => {
+import { IUser, IPublicInfo } from 'models/user';
+export const filterSearch = (data:IPublicInfo[], user:Partial<IPublicInfo>, input:string) => {
     // const exceptMe = data.filter((u) => u.uid !== user.uid)
     // const findName = exceptMe.filter((u) =>
     //     u.name.toLowerCase().includes(input.trim().toLowerCase())

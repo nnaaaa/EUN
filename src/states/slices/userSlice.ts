@@ -15,13 +15,21 @@ const initialState: IinitState = {
 
 export const getProfile = createAsyncThunk('user/getProfile', async () => {
     const response = await userAPI.getProfile()
-    return response.data
+    if (response.data)
+        return response.data
+    else
+        throw new Error()
 })
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        clearUser: (state) => {
+            state.loading = false
+            state.current = {}
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getProfile.pending, (state) => {

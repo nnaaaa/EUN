@@ -30,6 +30,7 @@ export default function Home() {
     // }, [id])
 
     if (loading) return <CircularProgress />
+    
     // return (
     //   <Grid container className={style.wrapper}>
     //     <Hidden smDown>

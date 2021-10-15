@@ -6,7 +6,7 @@ import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { getProfile } from 'states/slices/userSlice'
 import { loginValidate } from 'utils/yup'
-import { loginAsync } from '../authSlice'
+import { loginAsync } from '../../../states/slices/authSlice'
 import { Divider, useStyle } from '../styles'
 
 interface Props {

@@ -6,13 +6,11 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import { SocketProvider } from 'states/context/socket'
 ReactDOM.render(
-    <React.StrictMode>
-        <SocketProvider>
-            <Provider store={store}>
-                <App />
-            </Provider>
-        </SocketProvider>
-    </React.StrictMode>,
+    <SocketProvider>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </SocketProvider>,
     document.getElementById('root')
 )
 

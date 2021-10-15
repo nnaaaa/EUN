@@ -1,6 +1,6 @@
 import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit'
-import chatReducer from 'features/message/chatSlice'
-import authReducer from 'screens/authenticate/authSlice'
+import chatReducer from 'states/slices/chatSlice'
+import authReducer from 'states/slices/authSlice'
 import userReducer from 'states/slices/userSlice'
 import friendReducer from 'states/slices/friendSlice'
 const rootReducer = combineReducers({

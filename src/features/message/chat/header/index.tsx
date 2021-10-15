@@ -13,7 +13,7 @@ import { useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { IconBox } from '../chatStyles'
 import { NameOfFriend } from './headerStyles'
-import { actions } from '../../chatSlice'
+import { actions } from 'states/slices/chatSlice'
 import { IChatRoom } from 'models/chatRoom'
 
 

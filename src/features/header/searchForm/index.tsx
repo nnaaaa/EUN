@@ -13,36 +13,39 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 // import Popup from 'components/popup'
-import { css } from './searchStyles'
+import { useStyle } from './searchStyles'
 // import { addDocument, getDocument, updateDocument } from 'firebase/api'
 // import firebase, { db } from 'firebase/config'
-import { filterSearch } from './filterSearch'
+import { filterSearch } from '../../../algorithms/filterSearch'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import Popup from 'components/popup'
+import ListResult from './listSearch'
+import { findByName } from 'states/slices/friendSlice'
 
 export default function SearchForm() {
-    // const style = css()
-    // const searchInput = useRef(null)
-    // const timeout = useRef<()=>void | null>(null)
-    // const [loading, setLoading] = useState(false)
-    // const [popup, setPopup] = useState(false)
+    const style = useStyle()
+    const searchInput = useRef < null | HTMLInputElement>(null)
+    const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const [popup, setPopup] = useState(false)
 
-    // const [users, setUsers] = useState([])
-    // const user = useSelector((state) => state.user)
-
+    const [users, setUsers] = useState([])
+    const user = useAppSelector(state => state.user.current)
+    const { current:friendList,loading } = useAppSelector(state => state.friend)
+    const dispatch = useAppDispatch()
     // useEffect(() => {
     //     getUser()
     // }, [user])
 
-    // const getUser = useCallback(async () => {
-    //     if (!searchInput?.current?.value) return
-    //     setLoading(true)
-    //     if (timeout.current) clearTimeout(timeout.current)
-    //     timeout.current = setTimeout(async () => {
-    //         const data = await getDocument('users', { value: 'all' })
-    //         const filterData = filterSearch(data, user, searchInput.current.value)
-    //         setUsers(filterData)
-    //         setLoading(false)
-    //     }, 300)
-    // }, [user, searchInput])
+    const getUser = useCallback(async () => {
+        if (!searchInput.current || !searchInput.current?.value) return
+        
+        if (timeout.current) clearTimeout(timeout.current)
+        timeout.current = setTimeout(async () => {
+            dispatch(findByName(searchInput.current?.value || ''))
+            // const filterData = filterSearch(data, user, searchInput.current.value)
+            // setUsers(filterData)
+        }, 300)
+    }, [user, searchInput])
     // const addFriend = async (friend) => {
     //     setLoading(true)
     //     await updateDocument('users', user.id, {
@@ -78,43 +81,18 @@ export default function SearchForm() {
     //     }
     // }
 
-    // const UserRole = (friend) => {
-    //     if (friend.isFriend)
-    //         return <FontAwesomeIcon icon={faCheckCircle} size="md" color="green" />
-
-    //     if (friend.isInviting) return <Typography color="secondary">Inviting</Typography>
-
-    //     if (friend.isInvited)
-    //         return (
-    //             <Button
-    //                 variant="outlined"
-    //                 onClick={() => accept(friend)}
-    //                 color="primary"
-    //                 size="small"
-    //             >
-    //                 accept
-    //             </Button>
-    //         )
-
-    //     return (
-    //         <IconButton size="small" onClick={() => addFriend(friend)}>
-    //             <FontAwesomeIcon icon={faPlus} size="xs" />
-    //         </IconButton>
-    //     )
-    // }
+    
     return (
         <Box width="70%">
-            {/* <Button className={style.inputBtn} onClick={() => setPopup(true)}>
-                <Typography variant="subtitle2" color="textSecondary">
-                    Tìm kiếm bạn bè
-                </Typography>
+            <Button className={style.inputBtn} onClick={() => setPopup(true)}>
+                Tìm kiếm bạn bè
             </Button>
             <Popup
                 open={popup}
                 onClose={() => {
                     setPopup(false)
                     setUsers([])
-                    searchInput.current.value = ''
+                    // searchInput?.current.value = ''
                 }}
             >
                 <Box width="400px" height="600px">
@@ -123,8 +101,7 @@ export default function SearchForm() {
                         onChange={getUser}
                         className={style.input}
                         placeholder="Tìm kiếm bạn bè"
-                        endAdornment={
-                            loading ? (
+                        endAdornment={loading ? (
                                 <IconButton>
                                     <CircularProgress size="18px" />
                                 </IconButton>
@@ -132,42 +109,13 @@ export default function SearchForm() {
                                 <IconButton>
                                     <FontAwesomeIcon icon={faSearch} size="xs" />
                                 </IconButton>
-                            )
-                        }
+                            )}
                     />
                     <Box mt={2}>
-                        {users?.map((user, index) => (
-                            <Box
-                                mb={index === users.length - 1 ? 0 : 1}
-                                display="flex"
-                                key={index}
-                                alignItems="center"
-                                width="100%"
-                                justifyContent="space-between"
-                            >
-                                <Box display="flex">
-                                    <Link
-                                        href={`/friend/${user.account}`}
-                                        color="inherit"
-                                    >
-                                        <Avatar src={user.avatar} />
-                                    </Link>
-                                    <Link
-                                        href={`/friend/${user.account}`}
-                                        color="inherit"
-                                        className={style.name}
-                                    >
-                                        <Typography color="textPrimary">
-                                            {user.name}
-                                        </Typography>
-                                    </Link>
-                                </Box>
-                                <UserRole {...user} />
-                            </Box>
-                        ))}
+                        <ListResult list={friendList}/>
                     </Box>
                 </Box>
-            </Popup> */}
+            </Popup>
         </Box>
     )
 }

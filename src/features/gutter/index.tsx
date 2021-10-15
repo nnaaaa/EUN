@@ -6,20 +6,18 @@ import { useStyle } from './gutterStyles'
 
 export default function Profile() {
     const style = useStyle()
-    const user = useAppSelector(state => state.user.current)
+    const user = useAppSelector((state) => state.user.current)
 
     return (
         <Stack>
-            <Link to={`/profile`}>
-                <Button
-                    startIcon={<Avatar src={user?.avatar} />}
-                    className={style.button}
-                >
-                    <Typography className={style.text}>
-                        {user?.username}
-                    </Typography>
-                </Button>
-            </Link>
+            <Button
+                component={Link}
+                to="/profile"
+                startIcon={<Avatar src={user?.avatar} />}
+                className={style.button}
+            >
+                <Typography className={style.text}>{user?.username}</Typography>
+            </Button>
             <Button startIcon={<Avatar src={Images.group} />} className={style.button}>
                 <Typography className={style.text}>Friends</Typography>
             </Button>

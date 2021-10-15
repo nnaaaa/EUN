@@ -20,7 +20,6 @@ const Notifications = () => {
         <Box
             p={2}
             width="max-content"
-            borderRadius={6}
             boxShadow={2}
             bgcolor="white"
             maxHeight="300px"
@@ -50,11 +49,7 @@ const Notifications = () => {
                         </Button>
                     </Box>
                 ))
-            ) : (
-                <Box>
-                    <Typography>😓 Không có thông báo nào</Typography>
-                </Box>
-            )}
+            ) : (<Typography>😓 Không có thông báo nào</Typography>)}
         </Box>
     )
 }
