@@ -9,11 +9,10 @@ export const useStyle = makeStyles({
         display: 'flex',
         justifyContent: 'flex-start',
         color: '#ccc',
-        textTransform:'none'
+        textTransform: 'none',
     },
     input: {
-        width:'100%',
-        borderRadius: 12,
+        width: '100%',
         padding: 5,
         paddingLeft: 15,
         backgroundColor: '#F0F2F5',

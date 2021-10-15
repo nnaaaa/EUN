@@ -1,26 +1,46 @@
-import { IUser, IPublicInfo } from 'models/user';
-export const filterSearch = (data:IPublicInfo[], user:Partial<IPublicInfo>, input:string) => {
-    // const exceptMe = data.filter((u) => u.uid !== user.uid)
-    // const findName = exceptMe.filter((u) =>
-    //     u.name.toLowerCase().includes(input.trim().toLowerCase())
-    // )
-    // const friendlist = findName.map((u) => {
-    //     const compares = user.friends.filter((uid) => uid === u.uid)
-    //     if (compares.length) u.isFriend = true
-    //     else u.isFriend = false
-    //     return u
-    // })
-    // const checkInviting = friendlist.map((u) => {
-    //     const compares = user.listInviting.filter((uid) => uid === u.uid)
-    //     if (compares.length) u.isInviting = true
-    //     else u.isInviting = false
-    //     return u
-    // })
-    // const checkInvited = checkInviting.map((u) => {
-    //     const compares = user.listInvited.filter((uid) => uid === u.uid)
-    //     if (compares.length) u.isInvited = true
-    //     else u.isInvited = false
-    //     return u
-    // })
-    // return checkInvited
+import { IFriendPublicInfo } from 'states/slices/friendSlice';
+import { IUser, IPublicInfo } from 'models/user'
+
+const findMax = (a: number, b: number, c: number) => {
+    return a > b ? (a > c ? a : c) : b > c ? b : c
+}
+
+export const filterSearch = (
+    data: IPublicInfo[],
+    user: Partial<IPublicInfo>,
+) => {
+    if (!user.friends) return []
+
+    const {accepted , invited,pending} = user.friends
+    const maxLength = findMax(
+        accepted.length,
+        invited.length,
+        pending.length
+    )
+    const exceptMe = data.filter((u) => u.username !== user.username)
+    const checkedList:IFriendPublicInfo[] = exceptMe.map(f => {
+        const userWithRole: IFriendPublicInfo = { ...f, role: 'stranger' }
+        for (let i = 0; i < maxLength; ++i) {
+            if (accepted[i]) {
+                if (f._id === accepted[i]._id) {
+                    userWithRole.role = 'accepted'
+                    break;
+                }
+            }
+            else if (invited[i]) {
+                if (f._id === invited[i]._id) {
+                    userWithRole.role = 'invited'
+                    break;
+                }
+            }
+            else if (pending[i]) {
+                if (f._id === pending[i]._id) {
+                    userWithRole.role = 'pending'
+                    break;
+                }
+            }
+        }
+        return userWithRole
+    })
+    return checkedList
 }

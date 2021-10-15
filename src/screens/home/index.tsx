@@ -15,6 +15,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
 import { useAppSelector } from 'states/hooks'
+import { useUserSocket } from 'api/socket/user'
 
 export default function Home() {
     const style = useStyle()
@@ -23,14 +24,14 @@ export default function Home() {
     const loading = useAppSelector((state) => state.user.loading)
     const status = useAppSelector((state) => state.auth.state)
     const user = useAppSelector((state) => state.user.current)
-
+    useUserSocket(user._id || '')
     // useWatchDoc('users', user._id, dispatch, Actions.setUserInfo)
     // useEffect(() => {
     //     if (id) updateDocument('users', user._id, { isOnline: true })
     // }, [id])
 
     if (loading) return <CircularProgress />
-    
+
     // return (
     //   <Grid container className={style.wrapper}>
     //     <Hidden smDown>
@@ -62,7 +63,7 @@ export default function Home() {
         <>
             <Header />
             <Grid container className={style.wrapper}>
-                <Hidden smDown>
+                <Hidden mdDown>
                     <Grid item md={3} className={style.pLeft}>
                         <Gutter />
                     </Grid>
@@ -81,7 +82,7 @@ export default function Home() {
                         </Switch>
                     </Box>
                 </Grid>
-                <Hidden smDown>
+                <Hidden mdDown>
                     <Grid item md={3} className={style.pRight}>
                         <ListOnline />
                         {/* <ListGame /> */}

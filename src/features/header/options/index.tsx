@@ -21,7 +21,9 @@ const Options = () => {
                     sx={{ width: 70, height: 70, marginRight: 2 }}
                 />
                 <Stack alignItems="flex-start">
-                    <Typography sx={{ fontWeight: 'bold', fontSize: 20, color: '#000' }}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: 20, color: '#000' }}
+                    >
                         {user?.username}
                     </Typography>
                     <Typography variant="subtitle1" color="#a09d9d">

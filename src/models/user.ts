@@ -19,12 +19,12 @@ export interface IUser {
     avatar?: string
 
     friends: {
-        accepted: ID[] | IUser[]
-        invited: ID[] | IUser[]
-        pending: ID[] | IUser[]
+        accepted: IUser[]
+        invited: IUser[]
+        pending: IUser[]
     }
 
-    posts: ID[] | IPost[]
+    posts: IPost[]
 
     isOnline: boolean
     token: string

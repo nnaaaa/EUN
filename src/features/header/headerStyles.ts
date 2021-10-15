@@ -20,10 +20,6 @@ export const css = makeStyles((theme: any) => ({
     button: {
         fontSize: 20,
         color: theme.palette.primary.main,
-        height: '100%',
-        width: '100%',
-    },
-    link: {
         flex: 1,
     },
     icon: {

@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client';
+import { ID } from 'models/Common';
+import { useContext, useEffect, useState } from 'react';
+import { SocketContext } from 'states/context/socket';
 
+import { FACEBOOK_DB } from 'config/keys';
 
-export const useNoticeSocket = (socket: Socket) => {
-    const [data, setData] = useState()
+export const useUserSocket = <T>(targetId:ID) => {
+    const { socket } = useContext(SocketContext)
+
+    const [data, setData] = useState<T>()
     useEffect(() => {
-        const listener = (newData: any) => {
+        const listener = (newData: T) => {
+            console.log(newData)
             setData(newData)
         }
-        socket.on(`social/notices`, listener)
-        socket.emit('get/social/notices')
+        console.log(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/${targetId}`)
+        socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/6169621d4fef8d82ed5e5436`, listener)
+        socket.emit('`${db}/${coll}/${type}/${updateId}`')
         return () => {
-            socket.off('get/social/notices', listener)
+            console.log('remove socket')
+            socket.off(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/6169621d4fef8d82ed5e5436`, listener)
         }
     }, [])
-
-    return data
 }

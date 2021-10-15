@@ -16,7 +16,6 @@ import { NameOfFriend } from './headerStyles'
 import { actions } from 'states/slices/chatSlice'
 import { IChatRoom } from 'models/chatRoom'
 
-
 function Header(props: IChatRoom) {
     const user = useAppSelector((state) => state.user.current)
     const dispatch = useAppDispatch()

@@ -1,4 +1,7 @@
-import { faFacebook, faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
+import {
+    faFacebook,
+    faFacebookMessenger,
+} from '@fortawesome/free-brands-svg-icons'
 import {
     faBars,
     faBell,
@@ -24,7 +27,7 @@ import {
 import Gutter from 'features/gutter'
 import { css } from 'features/header/headerStyles'
 import { useRef, useState } from 'react'
-import { NavLink, useRouteMatch } from 'react-router-dom'
+import { Link, useRouteMatch } from 'react-router-dom'
 import Notifications from './notifications'
 import Options from './options'
 import SearchForm from './searchForm'
@@ -43,7 +46,7 @@ export default function Header() {
 
     const openOptions = () => {
         setToggleMore(true)
-        // setToggleNotice(false)
+        setToggleNotice(false)
     }
     const closeMore = () => {
         setToggleMore(false)
@@ -51,7 +54,7 @@ export default function Header() {
 
     const openNotice = () => {
         setToggleNotice(true)
-        // setToggleMore(false)
+        setToggleMore(false)
     }
     const closeNotice = () => {
         setToggleNotice(false)
@@ -68,31 +71,34 @@ export default function Header() {
                             alignItems="center"
                             justifyContent="space-around"
                         >
-                            <FontAwesomeIcon icon={faFacebook} className={style.logo} />
+                            <FontAwesomeIcon
+                                icon={faFacebook}
+                                className={style.logo}
+                            />
                             <SearchForm />
                         </Grid>
                     </Hidden>
                     <Grid item container md={6} xs={10}>
-                        <NavLink to={url} className={style.link}>
-                            <Button className={style.button}>
-                                <FontAwesomeIcon icon={faHome} />
-                            </Button>
-                        </NavLink>
-                        <NavLink to="/" className={style.link}>
-                            <Button className={style.button} disabled>
-                                <FontAwesomeIcon icon={faTv} />
-                            </Button>
-                        </NavLink>
-                        <NavLink to="/" className={style.link}>
-                            <Button className={style.button} disabled>
-                                <FontAwesomeIcon icon={faUsers} />
-                            </Button>
-                        </NavLink>
-                        <NavLink to={`${url}/games`} className={style.link}>
-                            <Button className={style.button}>
-                                <FontAwesomeIcon icon={faGamepad} />
-                            </Button>
-                        </NavLink>
+                        <Button
+                            className={style.button}
+                            component={Link}
+                            to={url}
+                        >
+                            <FontAwesomeIcon icon={faHome} />
+                        </Button>
+                        <Button className={style.button} disabled>
+                            <FontAwesomeIcon icon={faTv} />
+                        </Button>
+                        <Button className={style.button} disabled>
+                            <FontAwesomeIcon icon={faUsers} />
+                        </Button>
+                        <Button
+                            className={style.button}
+                            component={Link}
+                            to={`${url}/games`}
+                        >
+                            <FontAwesomeIcon icon={faGamepad} />
+                        </Button>
                     </Grid>
                     <Grid
                         item
@@ -103,6 +109,14 @@ export default function Header() {
                         justifyContent="space-evenly"
                     >
                         <Hidden mdDown>
+                            <IconButton className={style.icon} disabled>
+                                <FontAwesomeIcon icon={faBorderNone} />
+                            </IconButton>
+
+                            <IconButton className={style.icon}>
+                                <FontAwesomeIcon icon={faFacebookMessenger} />
+                            </IconButton>
+
                             <IconButton
                                 className={style.icon}
                                 onClick={openNotice}
@@ -125,13 +139,6 @@ export default function Header() {
                             >
                                 <Notifications />
                             </Popover>
-
-                            <IconButton className={style.icon} disabled>
-                                <FontAwesomeIcon icon={faBorderNone} />
-                            </IconButton>
-                            <IconButton className={style.icon}>
-                                <FontAwesomeIcon icon={faFacebookMessenger} />
-                            </IconButton>
 
                             <IconButton
                                 className={style.icon}
@@ -157,7 +164,7 @@ export default function Header() {
                             </Popover>
                         </Hidden>
 
-                        <Hidden lgUp>
+                        <Hidden mdUp>
                             <IconButton
                                 className={style.icon}
                                 onClick={() => setToggleDrawer(true)}

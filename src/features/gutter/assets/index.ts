@@ -6,12 +6,11 @@ import save from './save.png'
 import background from './background.jpg'
 import games from './games.jpg'
 
-
 const Images = {
     defaultAva,
     clock,
     event,
-    group:people,
+    group: people,
     save,
     background,
     games,

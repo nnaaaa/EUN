@@ -1,72 +1,112 @@
-import { AppThunk } from './../store';
-import { IPublicInfo, IUser } from 'models/user';
-import { createSlice, createAsyncThunk, unwrapResult, PayloadAction } from '@reduxjs/toolkit';
-import {friendAPI} from 'api/rest'
-import { filterSearch } from 'algorithms/filterSearch';
+import {
+    createAsyncThunk, createSlice, PayloadAction, unwrapResult
+} from '@reduxjs/toolkit'
+import { filterSearch } from 'algorithms/filterSearch'
+import { friendAPI } from 'api/rest'
+import { IPublicInfo } from 'models/user'
+import { AppThunk } from './../store'
 
-type FriendRole = 'accept' | 'inviting' | 'pending'
+export type IFriendRole = 'accepted' | 'invited' | 'pending' | 'stranger'
 
-type IFriendPublicInfo = IPublicInfo & { role: FriendRole }
+export type IFriendPublicInfo = IPublicInfo & { role: IFriendRole }
 
-interface IinitialState{
+interface IinitialState {
     loading: boolean
     error?: string
     current: IFriendPublicInfo[]
 }
 
-const initialState:IinitialState = {
+const initialState: IinitialState = {
     loading: false,
-    current: []
+    current: [],
 }
 
-export const acceptInvite = createAsyncThunk('friend/acceptInvite', async (friendId: string) => {
-   await friendAPI.acceptInvite(friendId)
-})
-export const getListFriend = createAsyncThunk('friend/getListFriend', async (name: string) => {
-    const response = await friendAPI.findByName(name)
-    return response.data
-})
+export const acceptInvite = createAsyncThunk(
+    'friend/acceptInvite',
+    async (friendId: string) => {
+        await friendAPI.acceptInvite(friendId)
+    }
+)
+export const addFriend = createAsyncThunk(
+    'friend/addFriend',
+    async (friendId: string) => {
+        await friendAPI.addFriend(friendId)
+    }
+)
+
+export const getListUser = createAsyncThunk(
+    'friend/getListFriend',
+    async (name: string) => {
+        const response = await friendAPI.findByName(name)
+        return response.data
+    }
+)
 
 const friendSlice = createSlice({
     name: 'friend',
     initialState,
     reducers: {
-        findByNameSuccess: (state,action:PayloadAction<IFriendPublicInfo[]>) => {
+        findByNameSuccess: (
+            state,
+            action: PayloadAction<IFriendPublicInfo[]>
+        ) => {
             state.current = action.payload
+        },
+        updateRole: (state, action: PayloadAction<IPublicInfo>) => {
+            const filterData = filterSearch(state.current, action.payload)
+            state.current.length = 0
+            state.current = filterData
         }
     },
-    extraReducers:(builder)=> {
+    extraReducers: (builder) => {
         builder
             .addCase(acceptInvite.pending, (state) => {
-            state.loading = true
-        }).addCase(acceptInvite.rejected, (state) => {
-            state.loading = false
-            state.error = 'Load fail'
-        }).addCase(acceptInvite.fulfilled, (state) => {
-            state.loading = false
-        })
-            .addCase(getListFriend.pending, (state) => {
-            state.loading = true
-        }).addCase(getListFriend.rejected, (state) => {
-            state.loading = false
-            state.error = 'Load fail'
-        }).addCase(getListFriend.fulfilled, (state) => {
-            state.loading = false
-        })
-    }
+                state.loading = true
+            })
+            .addCase(acceptInvite.rejected, (state) => {
+                state.loading = false
+                state.error = 'Load fail'
+            })
+            .addCase(acceptInvite.fulfilled, (state) => {
+                state.loading = false
+            })
+
+            .addCase(addFriend.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(addFriend.rejected, (state) => {
+                state.loading = false
+                state.error = 'Load fail'
+            })
+            .addCase(addFriend.fulfilled, (state) => {
+                state.loading = false
+            })
+            
+            .addCase(getListUser.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getListUser.rejected, (state) => {
+                state.loading = false
+                state.error = 'Load fail'
+            })
+            .addCase(getListUser.fulfilled, (state) => {
+                state.loading = false
+            })
+    },
 })
 
-export const findByName = (name: string): AppThunk => async (dispatch, getState) => {
-    try {
-        const listUser = unwrapResult(await dispatch(getListFriend(name)))
-        const myInfo = getState().user.current
-        const filterData = filterSearch(listUser, myInfo, name)
-        dispatch(actions.findByNameSuccess(filterData))
+export const findByName =
+    (name: string): AppThunk =>
+    async (dispatch, getState) => {
+        try {
+            const listUser = unwrapResult(await dispatch(getListUser(name)))
+            const myInfo = getState().user.current
+            const filterData = filterSearch(listUser, myInfo)
+            dispatch(actions.findByNameSuccess(filterData))
+        } catch {
+            console.error('Fail to find by name')
+        }
     }
-    catch {
-        console.error('Fail to find by name')
-    }
-}
 
 export const { actions, reducer } = friendSlice
 export default reducer

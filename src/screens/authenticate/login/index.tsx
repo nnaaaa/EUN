@@ -1,13 +1,12 @@
-import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import GitHubIcon from '@mui/icons-material/GitHub'
+import { LoadingButton } from '@mui/lab'
 import { Button, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { loginAsync } from 'states/slices/authSlice'
 import { getProfile } from 'states/slices/userSlice'
 import { loginValidate } from 'utils/yup'
-import { loginAsync } from '../../../states/slices/authSlice'
-import { Divider, useStyle } from '../styles'
+import { useStyle } from './loginStyles'
+import ThirdPartyLogin from './thirdParty'
 
 interface Props {
     switchForm: () => void
@@ -31,27 +30,6 @@ export default function Login({ switchForm }: Props) {
             } catch {
                 setFieldError('account', 'Tài khoản chưa đăng ký')
             }
-            // dispatch(Actions.setLoading(true))
-            // try {
-            //   const {user} = await auth.signInWithEmailAndPassword(
-            //     values.account,
-            //     values.password
-            //   )
-            //   const userInfo = await getDocument('users', {
-            //     field: 'id',
-            //     operator: '==',
-            //     value: user.uid,
-            //   })
-            //   if (!user) return
-            //   dispatch(Actions.setUserInfo(userInfo))
-            //   dispatch(Actions.setLogin())
-            // } catch (err) {
-            //   if (err.code.search('user') >= 0)
-            //     setFieldError('account', 'Tài khoản chưa đăng ký')
-            //   if (err.code.search('password') >= 0) setFieldError('password', 'Sai mật khẩu')
-            // } finally {
-            //   dispatch(Actions.setLoading(false))
-            // }
         },
     })
 
@@ -80,41 +58,17 @@ export default function Login({ switchForm }: Props) {
                 onChange={handleChange}
                 value={values.password}
             />
-            <Button
+            <LoadingButton
                 color="primary"
                 variant="contained"
                 type="submit"
-                disabled={isLoading}
+                loading={isLoading}
             >
                 Đăng nhập
-            </Button>
-            <Divider />
-            <Button
-                variant="outlined"
-                className={style.signBtn}
-                startIcon={<FontAwesomeIcon icon={faFacebook} color="#2c88dd" />}
-                disabled={isLoading}
-            >
-                Đăng nhập với Facebook
-            </Button>
+            </LoadingButton>
 
-            <Button
-                variant="outlined"
-                className={style.signBtn}
-                startIcon={<FontAwesomeIcon icon={faGoogle} color="#e2441d" />}
-                disabled={isLoading}
-            >
-                Đăng nhập với Google
-            </Button>
-            <Button
-                variant="outlined"
-                className={style.lastSignBtn}
-                startIcon={<GitHubIcon />}
-                disabled={isLoading}
-            >
-                Đăng nhập với Github
-            </Button>
-            <Divider />
+            <ThirdPartyLogin />
+
             <Button onClick={switchForm} variant="contained">
                 Tạo tài khoản mới
             </Button>

@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 
-export const useStyle = makeStyles((theme)=>({
+export const useStyle = makeStyles((theme) => ({
     button: {
         padding: 10,
         justifyContent: `flex-start`,
@@ -11,6 +11,6 @@ export const useStyle = makeStyles((theme)=>({
         fontSize: 14,
         overflow: 'hidden',
         whiteSpace: 'nowrap',
-        color:'#000'
+        color: '#000',
     },
 }))

@@ -1,12 +1,11 @@
-import { Avatar, Typography } from '@mui/material'
+import { Avatar, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { IUser } from 'models/user'
 import { Link } from 'react-router-dom'
-import { useAppSelector } from 'states/hooks'
+import { IFriendPublicInfo } from 'states/slices/friendSlice'
 import UserRole from './userRole'
 
 interface IProps {
-    list: IUser[]
+    list: IFriendPublicInfo[]
 }
 
 function ListResult(props: IProps) {
@@ -15,25 +14,27 @@ function ListResult(props: IProps) {
             {props.list.map((user, index) => (
                 <Box
                     mb={index === props.list.length - 1 ? 0 : 1}
+                    p={1}
                     display="flex"
                     key={index}
                     alignItems="center"
                     width="100%"
                     justifyContent="space-between"
                 >
-                    <Box display="flex">
+                    <Stack direction='row' alignItems='center'>
                         <Link to={`/friend/${user.account}`} color="inherit">
                             <Avatar src={user.avatar} />
                         </Link>
                         <Typography
                             color="textPrimary"
                             component={Link}
+                            sx={{ml:1}}
                             to={`/friend/${user.account}`}
                         >
                             {user.username}
                         </Typography>
-                    </Box>
-                    <UserRole {...user}/>
+                    </Stack>
+                    <UserRole user={user}/>
                 </Box>
             ))}
         </>

@@ -18,16 +18,28 @@ export default function Profile() {
             >
                 <Typography className={style.text}>{user?.username}</Typography>
             </Button>
-            <Button startIcon={<Avatar src={Images.group} />} className={style.button}>
+            <Button
+                startIcon={<Avatar src={Images.group} />}
+                className={style.button}
+            >
                 <Typography className={style.text}>Friends</Typography>
             </Button>
-            <Button startIcon={<Avatar src={Images.save} />} className={style.button}>
+            <Button
+                startIcon={<Avatar src={Images.save} />}
+                className={style.button}
+            >
                 <Typography className={style.text}>Save</Typography>
             </Button>
-            <Button startIcon={<Avatar src={Images.event} />} className={style.button}>
+            <Button
+                startIcon={<Avatar src={Images.event} />}
+                className={style.button}
+            >
                 <Typography className={style.text}>Event</Typography>
             </Button>
-            <Button startIcon={<Avatar src={Images.clock} />} className={style.button}>
+            <Button
+                startIcon={<Avatar src={Images.clock} />}
+                className={style.button}
+            >
                 <Typography className={style.text}>Memories</Typography>
             </Button>
         </Stack>

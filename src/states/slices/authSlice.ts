@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit';
-import { authAPI } from 'api/rest';
-import Cookie from 'js-cookie';
-import { SignInType } from 'models/user';
-import { getProfile } from 'states/slices/userSlice';
-import { AppThunk } from 'states/store';
+import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit'
+import { authAPI } from 'api/rest'
+import Cookie from 'js-cookie'
+import { SignInType } from 'models/user'
+import { getProfile } from 'states/slices/userSlice'
+import { AppThunk } from 'states/store'
 import { actions as userAction } from 'states/slices/userSlice'
 
 interface IinitState {
@@ -44,7 +44,7 @@ const authSlice = createSlice({
         logout: (state) => {
             state.loading = false
             state.state = 'stranger'
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -66,8 +66,7 @@ export const loginWithToken = (): AppThunk => async (dispatch, getState) => {
     try {
         unwrapResult(await dispatch(getProfile()))
         dispatch(actions.login())
-    }
-    catch {
+    } catch {
         console.error('Token unauthorized')
     }
 }
@@ -77,8 +76,7 @@ export const logout = (): AppThunk => async (dispatch, getState) => {
         Cookie.remove('token')
         dispatch(actions.logout())
         dispatch(userAction.clearUser())
-    }
-    catch {
+    } catch {
         console.error('Fail to logout')
     }
 }

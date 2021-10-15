@@ -73,7 +73,12 @@ function Footer() {
         // })
     }
     return (
-        <Box p={1} display="flex" justifyContent="space-between" alignItems="center">
+        <Box
+            p={1}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+        >
             <IconBox>
                 <FontAwesomeIcon icon={faPlusCircle} />
             </IconBox>
@@ -92,7 +97,10 @@ function Footer() {
             <IconBox onClick={sendMessage} className={style.btnSend}>
                 {!isAllowChat && (
                     <div className={style.progress}>
-                        <CircularProgress value={timeToAllowChat} variant="determinate" />
+                        <CircularProgress
+                            value={timeToAllowChat}
+                            variant="determinate"
+                        />
                     </div>
                 )}
                 <FontAwesomeIcon icon={faPaperPlane} />

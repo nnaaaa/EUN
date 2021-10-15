@@ -16,7 +16,7 @@
         "noEmit": true,
         "jsx": "react-jsx",
         "baseUrl": "./src",
-        "typeRoots": ["../node_modules","src/types"]
+        "typeRoots": ["../node_modules", "src/types"]
     },
     "include": ["src/**/*", "src/features/message"]
 }

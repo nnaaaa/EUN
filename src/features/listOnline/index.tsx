@@ -12,12 +12,15 @@ import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { useAppSelector } from 'states/hooks'
 
 export default function ListOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
     // const { friends, uid: myUid } = useSelector((state) => state.user);
-    // const listOnline = useSelector((state) => state.listOnline);
+    const friendList = useAppSelector((state) => {
+        return state.friend.current.filter((f) => f.isOnline)
+    })
     // const listChat = useSelector((state) => state.chat);
     // const dispatch = useDispatch();
 
@@ -45,14 +48,14 @@ export default function ListOnline() {
     // );
     // useWatchCollection("users", condition, dispatch, Actions.setListOnline);
 
-    // if (listOnline.length < 0)
-    //   return (
-    //     <Box p={2} borderRadius={5} boxShadow={1} bgcolor="white">
-    //       <Typography variant="body2">
-    //         Không có bạn bè nào đang online 😓
-    //       </Typography>
-    //     </Box>
-    //   );
+    if (friendList.length <= 0)
+        return (
+            <Button sx={{textTransform:'none',color:'#000',width:'100%'}}>
+                <Typography variant="body2">
+                    Không có bạn bè nào đang online 😓
+                </Typography>
+            </Button>
+        )
 
     return (
         <Accordion
