@@ -3,18 +3,17 @@ export const SERVER_EXPRESS =
 export const SERVER_SOCKET =
     process.env.SERVER_SOCKET || 'http://localhost:9000'
 
-
-interface IDB{
-    name: string,
+interface IDB {
+    name: string
     coll: {
-        [key:string]:string
+        [key: string]: string
     }
 }
 
-export const FACEBOOK_DB:IDB = {
+export const FACEBOOK_DB: IDB = {
     name: 'Facebook',
     coll: {
-        users:'users'
-    }
+        users: 'users',
+    },
 }
 export const BATTLESHIP_DB = 'BattleShip'

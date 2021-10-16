@@ -3,9 +3,9 @@ import { ThemeProvider } from '@mui/material/styles'
 import React, { useEffect } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Authentication from 'screens/authenticate'
-import { loginWithToken } from 'states/slices/authSlice'
 import Home from 'screens/home'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { useAppDispatch } from 'states/hooks'
+import { loginWithToken } from 'states/slices/authSlice'
 import GlobalStyles, { theme } from 'styles/global'
 
 function App() {

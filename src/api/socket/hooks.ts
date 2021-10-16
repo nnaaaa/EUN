@@ -1,7 +1,7 @@
-import { ID } from 'models/Common';
-import { useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client';
-import { useAppDispatch } from 'states/hooks';
+import { ID } from 'models/Common'
+import { useEffect, useState } from 'react'
+import { Socket } from 'socket.io-client'
+import { useAppDispatch } from 'states/hooks'
 
 type ICollection = 'user' | 'room'
 

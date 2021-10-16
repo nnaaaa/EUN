@@ -21,20 +21,20 @@ function ListResult(props: IProps) {
                     width="100%"
                     justifyContent="space-between"
                 >
-                    <Stack direction='row' alignItems='center'>
+                    <Stack direction="row" alignItems="center">
                         <Link to={`/friend/${user.account}`} color="inherit">
                             <Avatar src={user.avatar} />
                         </Link>
                         <Typography
                             color="textPrimary"
                             component={Link}
-                            sx={{ml:1}}
+                            sx={{ ml: 1 }}
                             to={`/friend/${user.account}`}
                         >
                             {user.username}
                         </Typography>
                     </Stack>
-                    <UserRole user={user}/>
+                    <UserRole user={user} />
                 </Box>
             ))}
         </>

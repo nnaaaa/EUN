@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useAppSelector } from 'states/hooks'
 import Login from './login'
+import Register from './register'
 import { Wrapper } from './styles'
 
 export default function Form() {
@@ -23,7 +24,7 @@ export default function Form() {
                 Facebook
             </Typography>
             {isLogin && <Login switchForm={switchForm} />}
-            {/* {!isLogin && <Register onClick={switchForm} login={setIsLogin} />} */}
+            {!isLogin && <Register switchForm={switchForm} />}
         </Wrapper>
     )
 }

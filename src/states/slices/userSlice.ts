@@ -1,4 +1,4 @@
-import { AppThunk } from 'states/store';
+import { AppThunk } from 'states/store'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IPublicInfo } from 'models/user'
 import { userAPI } from 'api/rest/list/user'
@@ -30,7 +30,7 @@ const userSlice = createSlice({
         },
         updateStore: (state, action: PayloadAction<IPublicInfo>) => {
             state.current = action.payload
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -48,11 +48,12 @@ const userSlice = createSlice({
     },
 })
 
-
-export const updateUserStore = (userInfo: IPublicInfo): AppThunk => (dispatch, getState) => {
-    dispatch(actions.updateStore(userInfo))
-    dispatch(friendActions.updateRole(userInfo))
-}
+export const updateUserStore =
+    (userInfo: IPublicInfo): AppThunk =>
+    (dispatch, getState) => {
+        dispatch(actions.updateStore(userInfo))
+        dispatch(friendActions.updateRole(userInfo))
+    }
 
 export const { reducer, actions } = userSlice
 export default reducer

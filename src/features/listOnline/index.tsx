@@ -1,18 +1,12 @@
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-    Box,
-    Typography,
-    Button,
-    Avatar,
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
+    Accordion, AccordionDetails, AccordionSummary, Button, Typography
 } from '@mui/material'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
-
-import { useMemo, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 import { useAppSelector } from 'states/hooks'
+
 
 export default function ListOnline() {
     const style = useStyle()
@@ -50,7 +44,9 @@ export default function ListOnline() {
 
     if (friendList.length <= 0)
         return (
-            <Button sx={{textTransform:'none',color:'#000',width:'100%'}}>
+            <Button
+                sx={{ textTransform: 'none', color: '#000', width: '100%' }}
+            >
                 <Typography variant="body2">
                     Không có bạn bè nào đang online 😓
                 </Typography>

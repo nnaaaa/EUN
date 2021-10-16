@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Stack, Typography } from '@mui/material'
+import { Avatar, Button, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'states/hooks'
 import Images from './assets'

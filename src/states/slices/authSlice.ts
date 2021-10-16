@@ -1,23 +1,20 @@
 import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit'
 import { authAPI } from 'api/rest'
 import Cookie from 'js-cookie'
-import { SignInType } from 'models/user'
+import { IUser, SignInType } from 'models/user'
 import { getProfile } from 'states/slices/userSlice'
 import { AppThunk } from 'states/store'
 import { actions as userAction } from 'states/slices/userSlice'
 
 interface IinitState {
     loading: boolean
-    error: SignInType
+    error: string
     state: 'stranger' | 'logged'
 }
 
 const initialState: IinitState = {
     loading: false,
-    error: {
-        account: '',
-        password: '',
-    },
+    error: '',
     state: 'stranger',
 }
 
@@ -29,6 +26,18 @@ export const loginAsync = createAsyncThunk(
             Cookie.set('token', res.data.token)
         } else {
             throw new Error()
+        }
+    }
+)
+
+export const registerAsync = createAsyncThunk(
+    'auth/register',
+    async (userInfo: Partial<IUser>) => {
+        try {
+            const res = await authAPI.postRegister(userInfo)
+            console.log(res)
+        } catch (e) {
+            console.log(e)
         }
     }
 )
@@ -53,11 +62,22 @@ const authSlice = createSlice({
             })
             .addCase(loginAsync.rejected, (state) => {
                 state.loading = false
-                state.error.account = 'Fail Account'
+                state.error = 'Fail to login'
             })
             .addCase(loginAsync.fulfilled, (state) => {
                 state.loading = false
                 state.state = 'logged'
+            })
+
+            .addCase(registerAsync.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(registerAsync.rejected, (state) => {
+                state.loading = false
+                state.error = 'Fail to register'
+            })
+            .addCase(registerAsync.fulfilled, (state) => {
+                state.loading = false
             })
     },
 })
@@ -81,5 +101,13 @@ export const logout = (): AppThunk => async (dispatch, getState) => {
     }
 }
 
-export const { actions, reducer } = authSlice
+const { actions: authActions, reducer } = authSlice
+
+export const actions = Object.assign(authActions, {
+    loginAsync,
+    registerAsync,
+    loginWithToken,
+    logout,
+})
+
 export default reducer

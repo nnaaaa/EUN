@@ -1,4 +1,4 @@
-import { ID } from '../../models/Common'
+import { ID } from 'models/Common'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { IChatRoom } from 'models/chatRoom'
 import { createSlice } from '@reduxjs/toolkit'

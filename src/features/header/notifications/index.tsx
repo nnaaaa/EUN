@@ -16,11 +16,7 @@ const Notifications = () => {
 
     if (loading)
         return (
-            <Box
-                display="flex"
-                alignItems="center"
-                width="280px"
-            >
+            <Box display="flex" alignItems="center" width="280px">
                 <CircularProgress />
             </Box>
         )

@@ -1,5 +1,8 @@
 import {
-    createAsyncThunk, createSlice, PayloadAction, unwrapResult
+    createAsyncThunk,
+    createSlice,
+    PayloadAction,
+    unwrapResult,
 } from '@reduxjs/toolkit'
 import { filterSearch } from 'algorithms/filterSearch'
 import { friendAPI } from 'api/rest'
@@ -56,7 +59,7 @@ const friendSlice = createSlice({
             const filterData = filterSearch(state.current, action.payload)
             state.current.length = 0
             state.current = filterData
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -81,7 +84,7 @@ const friendSlice = createSlice({
             .addCase(addFriend.fulfilled, (state) => {
                 state.loading = false
             })
-            
+
             .addCase(getListUser.pending, (state) => {
                 state.loading = true
             })

@@ -1,7 +1,6 @@
-import { SERVER_EXPRESS } from 'config/keys'
-import { IUser, SignInType } from 'models/user'
 import Axios from 'api/rest/axios'
 import { AxiosResponse } from 'axios'
+import { IUser, SignInType } from 'models/user'
 
 class AuthAPI {
     async postLogin(credential: SignInType) {
@@ -10,7 +9,7 @@ class AuthAPI {
             credential
         )
     }
-    async postRegister(userInfo: IUser) {
+    async postRegister(userInfo: Partial<IUser>) {
         return Axios.post(`auth/register`, userInfo)
     }
 }

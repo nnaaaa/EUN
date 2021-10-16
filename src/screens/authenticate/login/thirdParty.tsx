@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import { Button, Divider, Stack } from '@mui/material'
 import { useAppSelector } from 'states/hooks'
-import { useStyle } from './loginStyles'
+import { useStyle } from '../styles'
+import { red } from '@mui/material/colors'
 
 function ThirdPartyLogin() {
     const style = useStyle()
@@ -19,6 +20,8 @@ function ThirdPartyLogin() {
                     <FontAwesomeIcon icon={faFacebook} color="#2c88dd" />
                 }
                 disabled={isLoading}
+                color="info"
+                sx={{ mb: 1 }}
             >
                 Đăng nhập với Facebook
             </Button>
@@ -26,16 +29,19 @@ function ThirdPartyLogin() {
             <Button
                 variant="outlined"
                 className={style.signBtn}
-                startIcon={<FontAwesomeIcon icon={faGoogle} color="#e2441d" />}
+                startIcon={<FontAwesomeIcon icon={faGoogle} color={red[400]} />}
                 disabled={isLoading}
+                color="error"
+                sx={{ mb: 1 }}
             >
                 Đăng nhập với Google
             </Button>
             <Button
                 variant="outlined"
-                className={style.lastSignBtn}
+                className={style.signBtn}
                 startIcon={<GitHubIcon />}
                 disabled={isLoading}
+                color="success"
             >
                 Đăng nhập với Github
             </Button>

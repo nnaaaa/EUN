@@ -1,9 +1,9 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { CircularProgress, IconButton, InputBase } from "@mui/material"
-import { useCallback, useRef } from "react"
-import { useAppDispatch, useAppSelector } from "states/hooks"
-import { findByName } from "states/slices/friendSlice"
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { CircularProgress, IconButton, InputBase } from '@mui/material'
+import { useCallback, useRef } from 'react'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { findByName } from 'states/slices/friendSlice'
 import { useStyle } from '../searchStyles'
 
 function SeaerchInput() {

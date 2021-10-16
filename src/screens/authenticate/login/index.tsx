@@ -1,11 +1,13 @@
 import { LoadingButton } from '@mui/lab'
-import { Button, TextField } from '@mui/material'
+import { Button, TextField, Typography } from '@mui/material'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { isEmptyObj } from 'algorithms/object'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { loginAsync } from 'states/slices/authSlice'
 import { getProfile } from 'states/slices/userSlice'
 import { loginValidate } from 'utils/yup'
-import { useStyle } from './loginStyles'
+import { useStyle } from '../styles'
 import ThirdPartyLogin from './thirdParty'
 
 interface Props {
@@ -26,7 +28,7 @@ export default function Login({ switchForm }: Props) {
         onSubmit: async (values, { setFieldError }) => {
             try {
                 await dispatch(loginAsync(values))
-                await dispatch(getProfile())
+                unwrapResult(await dispatch(getProfile()))
             } catch {
                 setFieldError('account', 'Tài khoản chưa đăng ký')
             }
@@ -40,9 +42,9 @@ export default function Login({ switchForm }: Props) {
                 label="Tài khoản"
                 variant="outlined"
                 fullWidth
-                style={{ marginBottom: 20 }}
-                error={touched.account && Boolean(errors.account)}
-                helperText={touched.account && errors.account}
+                sx={{ mb: 2 }}
+                // error={touched.account && Boolean(errors.account)}
+                // helperText={touched.account && errors.account}
                 onChange={handleChange}
                 value={values.account}
             />
@@ -52,12 +54,19 @@ export default function Login({ switchForm }: Props) {
                 variant="outlined"
                 fullWidth
                 type="password"
-                style={{ marginBottom: 20 }}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
+                sx={{ mb: 2 }}
+                // error={touched.password && Boolean(errors.password)}
+                // helperText={touched.password && errors.password}
                 onChange={handleChange}
                 value={values.password}
             />
+
+            {!isEmptyObj(touched) && !isEmptyObj(errors) && (
+                <Typography color="error" gutterBottom>
+                    Sai tài khoản hoặc mật khẩu
+                </Typography>
+            )}
+
             <LoadingButton
                 color="primary"
                 variant="contained"

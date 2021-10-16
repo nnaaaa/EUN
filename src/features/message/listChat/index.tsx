@@ -1,6 +1,4 @@
-import React from 'react'
 import Chat from 'features/message/chat'
-import { useSelector } from 'react-redux'
 import { Wrapper } from 'features/message/listChat/listChatStyles'
 import { useAppSelector } from 'states/hooks'
 

@@ -1,36 +1,46 @@
-import { CircularProgress, Grid, Hidden, Skeleton, Box } from '@mui/material'
-
-import { useStyle } from './homeStyles'
-
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-
-import Header from 'features/header'
+import {
+    Box, CircularProgress,
+    Grid,
+    Hidden, Stack
+} from '@mui/material'
+import { useUserSocket } from 'api/socket/user'
 import Gutter from 'features/gutter'
-import ListChat from 'features/message/listChat'
+import Header from 'features/header'
 import ListOnline from 'features/listOnline'
-
+import ListChat from 'features/message/listChat'
+import { IUser } from 'models/user'
+import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
-
+import { useAppSelector } from 'states/hooks'
+import { actions } from 'states/slices/userSlice'
+import { useStyle } from './homeStyles'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
-import { useAppSelector } from 'states/hooks'
-import { useUserSocket } from 'api/socket/user'
+
 
 export default function Home() {
     const style = useStyle()
     const dispatch = useDispatch()
     const { path } = useRouteMatch()
-    const loading = useAppSelector((state) => state.user.loading)
+    const { loading, current: user } = useAppSelector((state) => state.user)
     const status = useAppSelector((state) => state.auth.state)
-    const user = useAppSelector((state) => state.user.current)
-    useUserSocket(user._id || '')
+
+    const dispatcher = useCallback(()=>(user: IUser) =>
+        dispatch(actions.updateStore(user)), [user,dispatch])
+    useUserSocket(user._id,dispatcher)
+
     // useWatchDoc('users', user._id, dispatch, Actions.setUserInfo)
     // useEffect(() => {
     //     if (id) updateDocument('users', user._id, { isOnline: true })
     // }, [id])
 
-    if (loading) return <CircularProgress />
+    if (loading)
+        return (
+            <Stack sx={{ width: '100vw', height: '100vh' }}>
+                <CircularProgress />
+            </Stack>
+        )
 
     // return (
     //   <Grid container className={style.wrapper}>
@@ -88,6 +98,7 @@ export default function Home() {
                         {/* <ListGame /> */}
                     </Grid>
                 </Hidden>
+
                 <ListChat />
             </Grid>
         </>

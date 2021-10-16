@@ -1,12 +1,11 @@
 import { Avatar, Button, Divider, Stack, Typography } from '@mui/material'
-import { useHistory } from 'react-router-dom'
-import { logout } from 'states/slices/authSlice'
+import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { logout } from 'states/slices/authSlice'
 
 const Options = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.user.current)
-
     return (
         <Stack
             p={1}
@@ -15,7 +14,7 @@ const Options = () => {
             bgcolor="white"
             alignItems="center"
         >
-            <Button sx={{ p: 1.5, textTransform: 'none' }}>
+            <Button sx={{ p: 1.5, textTransform: 'none' }} component={Link} to='/profile'>
                 <Avatar
                     src={user?.avatar}
                     sx={{ width: 70, height: 70, marginRight: 2 }}

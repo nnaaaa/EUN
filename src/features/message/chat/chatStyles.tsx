@@ -1,8 +1,6 @@
+import { IconButton } from '@mui/material'
 import { ReactNode } from 'react'
-import styled, { keyframes } from 'styled-components'
-import { Box, IconButton, Typography } from '@mui/material'
 
-import { styled as styledMUI } from '@mui/system'
 
 interface IIconBox {
     children: ReactNode

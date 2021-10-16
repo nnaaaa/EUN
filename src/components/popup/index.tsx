@@ -1,5 +1,4 @@
-import { IPost } from 'models/post'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Opacity, Wrapper } from './popupStyles'
 
 interface IProps {

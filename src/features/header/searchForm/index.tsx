@@ -1,6 +1,4 @@
-import {
-    Box, Button, Typography
-} from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import Popup from 'components/popup'
 import { useState } from 'react'
 import { useAppSelector } from 'states/hooks'
@@ -12,7 +10,7 @@ export default function SearchForm() {
     const style = useStyle()
     const [popup, setPopup] = useState(false)
     const { current } = useAppSelector((state) => state.friend)
-    
+
     return (
         <Box width="70%">
             <Button className={style.inputBtn} onClick={() => setPopup(true)}>
@@ -28,11 +26,11 @@ export default function SearchForm() {
                     >
                         Facebook
                     </Typography>
-                    
-                    <SearchInput/>
+
+                    <SearchInput />
 
                     <Box mt={2}>
-                        <ListResult list={current}/>
+                        <ListResult list={current} />
                     </Box>
                 </Box>
             </Popup>
