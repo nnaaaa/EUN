@@ -29,7 +29,7 @@ const Notifications = () => {
             maxHeight="300px"
             overflow="auto"
         >
-            {current.length ? (
+            {/* {current.length ? (
                 current?.map((user) => (
                     <Box
                         mb={1}
@@ -64,7 +64,8 @@ const Notifications = () => {
                 ))
             ) : (
                 <Typography>😓 Không có thông báo nào</Typography>
-            )}
+            )} */}
+            <Typography>😓 Không có thông báo nào</Typography>
         </Box>
     )
 }

@@ -1,15 +1,15 @@
 import { Box, Button, Typography } from '@mui/material'
 import Popup from 'components/popup'
 import { useState } from 'react'
-import { useAppSelector } from 'states/hooks'
-import ListResult from './listSearch'
+import { IFriendPublicInfo } from 'states/slices/friendSlice'
+import ListResult from './searchResult'
 import SearchInput from './searchInput'
 import { useStyle } from './searchStyles'
 
 export default function SearchForm() {
     const style = useStyle()
     const [popup, setPopup] = useState(false)
-    const { current } = useAppSelector((state) => state.friend)
+    const [listResult, setListResult] = useState<IFriendPublicInfo[]>([])
 
     return (
         <Box width="70%">
@@ -27,10 +27,10 @@ export default function SearchForm() {
                         Facebook
                     </Typography>
 
-                    <SearchInput />
+                    <SearchInput setListResult={setListResult} listResult={listResult}/>
 
                     <Box mt={2}>
-                        <ListResult list={current} />
+                        <ListResult list={listResult} />
                     </Box>
                 </Box>
             </Popup>

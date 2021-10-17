@@ -9,6 +9,9 @@ class UserAPI {
     async getProfile() {
         return Axios.get<IPublicInfo>(`${this.url}/getProfile`)
     }
+    async getListUser() {
+        return Axios.get<IPublicInfo[]>(`${this.url}/getListUser`)
+    }
     async updateProfile(userInfo: Partial<IUser>) {
         return Axios.put(`${this.url}/updateProfile`, userInfo)
     }

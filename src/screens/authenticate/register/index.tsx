@@ -6,7 +6,6 @@ import { authActions } from 'states/slices/authSlice'
 import { registerValidate } from 'utils/yup'
 import { useStyle } from '../styles'
 
-
 interface Props {
     switchForm: () => void
 }
@@ -24,16 +23,21 @@ export default function Register({ switchForm }: Props) {
             password: '',
             confirm: '',
         },
-        validationSchema:registerValidate,
+        validationSchema: registerValidate,
         onSubmit: async (values, { setFieldError }) => {
-            const username = values.firstName + ' ' + values.fullName
-            await dispatch(
-                authActions.registerAsync({
-                    account: values.account,
-                    password: values.password,
-                    username,
-                })
-            )
+            try {
+                const username = values.firstName + ' ' + values.fullName
+                await dispatch(
+                    authActions.registerAsync({
+                        account: values.account,
+                        password: values.password,
+                        username,
+                    })
+                )
+                switchForm()
+            } catch {
+
+            }
         },
     })
 

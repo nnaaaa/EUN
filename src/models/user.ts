@@ -19,9 +19,9 @@ export interface IUser {
     avatar?: string
 
     friends: {
-        accepted: IUser[]
-        invited: IUser[]
-        pending: IUser[]
+        accepted: IPublicInfo[]
+        invited: IPublicInfo[]
+        pending: IPublicInfo[]
     }
 
     posts: IPost[]

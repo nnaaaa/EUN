@@ -16,7 +16,7 @@ function ListResult(props: IProps) {
                     mb={index === props.list.length - 1 ? 0 : 1}
                     p={1}
                     display="flex"
-                    key={index}
+                    key={'searchResult'+index}
                     alignItems="center"
                     width="100%"
                     justifyContent="space-between"

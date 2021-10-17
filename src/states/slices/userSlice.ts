@@ -1,8 +1,6 @@
-import { AppThunk } from 'states/store'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IPublicInfo } from 'models/user'
 import { userAPI } from 'api/rest/list/user'
-import { friendActions } from 'states/slices/friendSlice'
+import { IPublicInfo } from 'models/user'
 
 interface IinitState {
     loading: boolean
@@ -48,16 +46,10 @@ const userSlice = createSlice({
     },
 })
 
-const updateUserStore =
-    (userInfo: IPublicInfo): AppThunk =>
-    (dispatch, getState) => {
-        dispatch(userActions.updateStore(userInfo))
-        dispatch(friendActions.updateRole(userInfo))
-    }
+
 
 const { reducer, actions } = userSlice
 export const userActions = Object.assign(actions, {
-    getProfile,
-    updateUserStore
+    getProfile
 })
 export default reducer
