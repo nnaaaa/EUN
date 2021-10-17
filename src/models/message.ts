@@ -4,8 +4,8 @@ import { IUser } from './user'
 
 export interface IMessage {
     _id: ID
-    chatRoom: IChatRoom | ID
-    owner: IUser | ID
+    chatRoom: ID
+    owner: IUser
     content: string
     images: string[]
     createAt: Date

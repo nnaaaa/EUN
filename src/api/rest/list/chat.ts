@@ -3,15 +3,17 @@ import { IChatRoom } from 'models/chatRoom'
 import { ID } from 'models/Common'
 import { IMessage } from 'models/message'
 import Axios from 'api/rest/axios'
+import queryString from 'query-string'
 
 class ChatAPI {
     url = `${SERVER_EXPRESS}/chat`
 
     async create(members: ID[]) {
-        return Axios.post<Partial<IChatRoom>>(`${this.url}/create`, { members })
+        return Axios.post<ID[]>(`${this.url}/create`, members)
     }
-    async getRoom(roomId: ID) {
-        return Axios.get<IChatRoom>(`${this.url}/getRoom/${roomId}`)
+    async getRoom(members:ID[]) {
+        return Axios.get<IChatRoom>(`${this.url}/getRoom?${queryString.stringify({ members })}`)
+        
     }
     async sendMessage(roomInfo: IMessage) {
         return Axios.put<IMessage>(

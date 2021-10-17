@@ -1,3 +1,4 @@
+import { ID } from 'models/Common';
 import { SERVER_EXPRESS } from 'config/keys'
 import { IPublicInfo } from 'models/user'
 import Axios from 'api/rest/axios'
@@ -11,7 +12,7 @@ class FriendAPI {
     async findByName(name: string) {
         return Axios.get<IPublicInfo[]>(`${this.url}/findListUser/${name}`)
     }
-    async addFriend(friendId: string) {
+    async addFriend(friendId: ID) {
         return Axios.post(`${this.url}/addRequest`, { friendId })
     }
     async acceptInvite(friendId: string) {

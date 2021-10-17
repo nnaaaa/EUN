@@ -2,7 +2,7 @@ import { Avatar, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Link } from 'react-router-dom'
 import { IFriendPublicInfo } from 'states/slices/friendSlice'
-import UserRole from './userRole'
+import UserRole from '../../../../components/userRole'
 
 interface IProps {
     list: IFriendPublicInfo[]

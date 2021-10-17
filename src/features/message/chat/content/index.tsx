@@ -11,8 +11,12 @@ import {
     WrapperMessage,
 } from './contentStyles'
 
-function Content(props: IChatRoom) {
-    const { messages, composing } = props
+interface IProps {
+    room: IChatRoom
+}
+
+function Content({ room }: IProps) {
+    const { messages, composing } = room
     const user = useAppSelector((state) => state.user.current)
     const heightOfChatWrapper = useRef<null | HTMLDivElement>(null)
 

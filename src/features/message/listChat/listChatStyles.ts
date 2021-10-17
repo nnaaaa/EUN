@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
     bottom: 0;
     right: 0;
     display: flex;
-    padding: 0 1rem;
+    padding: 0 8px;
     justify-content: flex-end;
     flex-direction: row-reverse;
 `

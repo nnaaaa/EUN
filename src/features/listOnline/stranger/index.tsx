@@ -13,7 +13,7 @@ import {
 import { Box } from '@mui/system'
 import { filterSearch } from 'algorithms/filterSearch'
 import { userAPI } from 'api/rest'
-import UserRole from 'features/header/searchForm/searchResult/userRole'
+import UserRole from 'components/userRole'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from 'states/hooks'
@@ -32,7 +32,7 @@ export default function StrangerOnline() {
                 setLoading(true)
                 const res = await userAPI.getListUser()
                 const filterUser = filterSearch(res.data, user)
-                setStrangerList(filterUser)
+                setStrangerList(filterUser.filter(u => u.role === 'stranger'))
             } catch {
                 setError('...')
             } finally {
@@ -40,7 +40,7 @@ export default function StrangerOnline() {
             }
         }
         getListUser().then(() => {})
-    }, [])
+    }, [user])
 
     if (!strangerList || strangerList.length <= 0 || error) {
         return <></>

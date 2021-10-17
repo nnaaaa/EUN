@@ -6,13 +6,17 @@ import {
     AccordionSummary,
     Avatar,
     Button,
+    CircularProgress,
     Stack,
     Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
+import { arrayIsContain } from 'algorithms/array'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
+import { ID } from 'models/Common'
 import { useState } from 'react'
-import { useAppSelector } from 'states/hooks'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { chatActions } from 'states/slices/chatSlice'
 
 export default function FriendOnline() {
     const style = useStyle()
@@ -20,32 +24,33 @@ export default function FriendOnline() {
     const friendOnlineList = useAppSelector((state) => {
         return state.user.current.friends?.accepted.filter((f) => f.isOnline)
     })
-    // const listChat = useSelector((state) => state.chat);
+    const dispatch = useAppDispatch()
+    const { current: listChat, loading } = useAppSelector((state) => state.chat)
+    const user = useAppSelector(state=>state.user.current)
     // const dispatch = useDispatch();
 
     // //ẩn hoặc hiện khung chat khi nhấn vào các người online
-    // const toggleChat = async (name, uid, avatar) => {
-    //   if (loading) return;
-    //   setLoading(true);
-    //   if (listChat.find((room) => room.uid === uid)) {
-    //     dispatch(Actions.closeChat(uid));
-    //     setLoading(false);
-    //     return;
-    //   }
-    //   const room = await getDocument("rooms", {
-    //     field: "members",
-    //     operator: "array-contains-any",
-    //     value: [uid, myUid],
-    //   });
-    //   dispatch(Actions.addChat({ name, uid, avatar, ...room[0] }));
-    //   setLoading(false);
-    // };
+    const toggleChat = async (friendId: ID) => {
+        if (loading) return
 
-    // const condition = useMemo(
-    //   () => ({ field: "uid", operator: "in", value: friends }),
-    //   [friends]
-    // );
-    // useWatchCollection("users", condition, dispatch, Actions.setListOnline);
+        if (!user._id) return
+        
+        if (listChat.find((room) => {
+            const listId = room.members.map(u => u._id)
+            return arrayIsContain(listId,user._id,friendId)
+        }))
+        {
+            dispatch(chatActions.closeChat([user._id,friendId]));
+            return;
+        }
+        await dispatch(chatActions.addChat(friendId))
+        //   const room = await getDocument("rooms", {
+        //     field: "members",
+        //     operator: "array-contains-any",
+        //     value: [uid, myUid],
+        //   });
+        //   dispatch(Actions.addChat({ name, uid, avatar, ...room[0] }));
+    }
 
     if (!friendOnlineList || friendOnlineList.length <= 0) {
         return <></>
@@ -63,6 +68,7 @@ export default function FriendOnline() {
                 <Typography className={style.name} gutterBottom>
                     👩‍👧‍👧 Bạn bè đang trực tuyến
                 </Typography>
+                {loading && <CircularProgress size={20} />}
             </AccordionSummary>
             <AccordionDetails className={style.accorDetail}>
                 {friendOnlineList.map((friend, index) => (
@@ -70,7 +76,7 @@ export default function FriendOnline() {
                         className={style.wrapper}
                         color="inherit"
                         key={'listOnline' + index}
-                        // onClick={() => toggleChat(name, uid, avatar)}
+                        onClick={() => toggleChat(friend._id)}
                     >
                         <Stack direction="row" alignItems="center">
                             <Avatar src={friend.avatar} />

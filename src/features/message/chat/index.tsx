@@ -11,7 +11,7 @@ interface IChat {}
 function Chat(props: IChatRoom) {
     const user = useAppSelector((state) => state.user.current)
     const { messages, _id, members, composing } = props
-
+    const [expand,setExpand] = useState(true) 
     // useWatchDoc('rooms', id, dispatch, Actions.updateMessages)
 
     return (
@@ -19,12 +19,12 @@ function Chat(props: IChatRoom) {
             bgcolor="white"
             boxShadow={2}
             mr={1}
-            borderRadius={10}
+            borderRadius={2}
             width="20rem"
         >
-            <Header {...props} />
-            <Content {...props} />
-            <Footer />
+            <Header room={props} setExpand={setExpand}/>
+            {expand && <Content room={props} />}
+            {expand && <Footer />}
         </Box>
     )
 }

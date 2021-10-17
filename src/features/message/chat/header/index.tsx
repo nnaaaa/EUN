@@ -2,30 +2,34 @@ import {
     faMinusCircle,
     faPhone,
     faTimes,
-    faVideo,
+    faVideo
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar } from '@mui/material'
 import { Box } from '@mui/system'
-import { ID } from 'models/Common'
+import { IChatRoom } from 'models/chatRoom'
 import { IUser } from 'models/user'
-import { useMemo } from 'react'
+import { Dispatch, SetStateAction, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { chatActions } from 'states/slices/chatSlice'
 import { IconBox } from '../chatStyles'
 import { NameOfFriend } from './headerStyles'
-import { chatActions } from 'states/slices/chatSlice'
-import { IChatRoom } from 'models/chatRoom'
 
-function Header(props: IChatRoom) {
+interface IProps {
+    room: IChatRoom
+    setExpand: Dispatch<SetStateAction<boolean>>
+}
+
+function Header({ room, setExpand }: IProps) {
     const user = useAppSelector((state) => state.user.current)
     const dispatch = useAppDispatch()
     const friend = useMemo<IUser>(() => {
-        return (props.members as IUser[]).find(
+        return (room.members as IUser[]).find(
             (member) => member._id !== user?._id
         ) as IUser
     }, [])
 
-    const closeChat = () => dispatch(chatActions.closeChat(props._id))
+    const closeChat = () => dispatch(chatActions.closeChat(room._id))
 
     return (
         <Box p={1} display="flex" justifyContent="space-between" height="60px">
@@ -40,7 +44,7 @@ function Header(props: IChatRoom) {
                 <IconBox>
                     <FontAwesomeIcon icon={faPhone} />
                 </IconBox>
-                <IconBox>
+                <IconBox onClick={() => setExpand(pre=>!pre)}>
                     <FontAwesomeIcon icon={faMinusCircle} />
                 </IconBox>
                 <IconBox onClick={closeChat}>
