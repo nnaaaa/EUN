@@ -2,7 +2,7 @@ import { AppThunk } from 'states/store'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IPublicInfo } from 'models/user'
 import { userAPI } from 'api/rest/list/user'
-import { actions as friendActions } from 'states/slices/friendSlice'
+import { friendActions } from 'states/slices/friendSlice'
 
 interface IinitState {
     loading: boolean
@@ -15,7 +15,7 @@ const initialState: IinitState = {
     current: {},
 }
 
-export const getProfile = createAsyncThunk('user/getProfile', async () => {
+const getProfile = createAsyncThunk('user/getProfile', async () => {
     const response = await userAPI.getProfile()
     if (response.data) return response.data
     else throw new Error()
@@ -29,7 +29,7 @@ const userSlice = createSlice({
             state.current = {}
         },
         updateStore: (state, action: PayloadAction<IPublicInfo>) => {
-            state.current = action.payload
+            Object.assign(state.current,action.payload)
         },
     },
     extraReducers: (builder) => {
@@ -48,12 +48,16 @@ const userSlice = createSlice({
     },
 })
 
-export const updateUserStore =
+const updateUserStore =
     (userInfo: IPublicInfo): AppThunk =>
     (dispatch, getState) => {
-        dispatch(actions.updateStore(userInfo))
+        dispatch(userActions.updateStore(userInfo))
         dispatch(friendActions.updateRole(userInfo))
     }
 
-export const { reducer, actions } = userSlice
+const { reducer, actions } = userSlice
+export const userActions = Object.assign(actions, {
+    getProfile,
+    updateUserStore
+})
 export default reducer

@@ -1,18 +1,15 @@
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
-import React, { useEffect } from 'react'
+import { useOfflineUser, useOnlineUser } from 'api/socket/hooks'
+import React from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Authentication from 'screens/authenticate'
 import Home from 'screens/home'
-import { useAppDispatch } from 'states/hooks'
-import { loginWithToken } from 'states/slices/authSlice'
 import GlobalStyles, { theme } from 'styles/global'
 
 function App() {
-    const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(loginWithToken())
-    }, [])
+    useOnlineUser()
+    useOfflineUser()
 
     return (
         <ThemeProvider theme={theme}>

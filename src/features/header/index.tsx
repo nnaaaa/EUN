@@ -95,7 +95,7 @@ export default function Header() {
                         <Button
                             className={style.button}
                             component={Link}
-                            to={`${url}/games`}
+                            to={`/games`}
                         >
                             <FontAwesomeIcon icon={faGamepad} />
                         </Button>

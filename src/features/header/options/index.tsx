@@ -1,7 +1,7 @@
 import { Avatar, Button, Divider, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { logout } from 'states/slices/authSlice'
+import { authActions } from 'states/slices/authSlice'
 
 const Options = () => {
     const dispatch = useAppDispatch()
@@ -32,7 +32,7 @@ const Options = () => {
             </Button>
             <Divider sx={{ height: 1, my: 2 }} flexItem />
             <Button
-                onClick={() => dispatch(logout())}
+                onClick={() => dispatch(authActions.logoutAsync())}
                 variant="outlined"
                 style={{ marginLeft: 'auto' }}
                 color="primary"

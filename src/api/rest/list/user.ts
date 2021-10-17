@@ -9,7 +9,7 @@ class UserAPI {
     async getProfile() {
         return Axios.get<IPublicInfo>(`${this.url}/getProfile`)
     }
-    async updateProfile(userInfo: IUser) {
+    async updateProfile(userInfo: Partial<IUser>) {
         return Axios.put(`${this.url}/updateProfile`, userInfo)
     }
     async getRelevantImage(userId: string) {

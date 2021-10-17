@@ -24,20 +24,20 @@ const initialState: IinitialState = {
     current: [],
 }
 
-export const acceptInvite = createAsyncThunk(
+const acceptInvite = createAsyncThunk(
     'friend/acceptInvite',
     async (friendId: string) => {
         await friendAPI.acceptInvite(friendId)
     }
 )
-export const addFriend = createAsyncThunk(
+const addFriend = createAsyncThunk(
     'friend/addFriend',
     async (friendId: string) => {
         await friendAPI.addFriend(friendId)
     }
 )
 
-export const getListUser = createAsyncThunk(
+const getListUser = createAsyncThunk(
     'friend/getListFriend',
     async (name: string) => {
         const response = await friendAPI.findByName(name)
@@ -98,18 +98,24 @@ const friendSlice = createSlice({
     },
 })
 
-export const findByName =
+const findByName =
     (name: string): AppThunk =>
     async (dispatch, getState) => {
         try {
             const listUser = unwrapResult(await dispatch(getListUser(name)))
             const myInfo = getState().user.current
             const filterData = filterSearch(listUser, myInfo)
-            dispatch(actions.findByNameSuccess(filterData))
+            dispatch(friendActions.findByNameSuccess(filterData))
         } catch {
             console.error('Fail to find by name')
         }
     }
 
-export const { actions, reducer } = friendSlice
+const { actions, reducer } = friendSlice
+export const friendActions = Object.assign(actions, {
+    acceptInvite,
+    addFriend,
+    getListUser,
+    findByName
+})
 export default reducer

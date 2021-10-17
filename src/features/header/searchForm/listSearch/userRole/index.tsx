@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, IconButton, Typography } from '@mui/material'
 import { useAppDispatch } from 'states/hooks'
 import {
-    acceptInvite,
-    addFriend,
+    friendActions,
     IFriendPublicInfo,
 } from 'states/slices/friendSlice'
 
@@ -25,7 +24,7 @@ function UserRole({ user }: IProps) {
         return (
             <Button
                 variant="outlined"
-                onClick={() => dispatch(acceptInvite(user._id))}
+                onClick={() => dispatch(friendActions.acceptInvite(user._id))}
                 color="primary"
                 size="small"
             >
@@ -34,7 +33,7 @@ function UserRole({ user }: IProps) {
         )
 
     return (
-        <IconButton size="small" onClick={() => dispatch(addFriend(user._id))}>
+        <IconButton size="small" onClick={() => dispatch(friendActions.addFriend(user._id))}>
             <FontAwesomeIcon icon={faPlus} size="xs" />
         </IconButton>
     )

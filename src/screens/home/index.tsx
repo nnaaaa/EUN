@@ -13,7 +13,7 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { useAppSelector } from 'states/hooks'
-import { actions } from 'states/slices/userSlice'
+import { userActions } from 'states/slices/userSlice'
 import { useStyle } from './homeStyles'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
@@ -26,8 +26,8 @@ export default function Home() {
     const { loading, current: user } = useAppSelector((state) => state.user)
     const status = useAppSelector((state) => state.auth.state)
 
-    const dispatcher = useCallback(()=>(user: IUser) =>
-        dispatch(actions.updateStore(user)), [user,dispatch])
+    const dispatcher = useCallback((user: IUser) =>
+        dispatch(userActions.updateStore(user)), [user,dispatch])
     useUserSocket(user._id,dispatcher)
 
     // useWatchDoc('users', user._id, dispatch, Actions.setUserInfo)
@@ -37,7 +37,7 @@ export default function Home() {
 
     if (loading)
         return (
-            <Stack sx={{ width: '100vw', height: '100vh' }}>
+            <Stack sx={{ width: '100vw', height: '100vh',justifyContent:'center',alignItems:'center' }} direction='row'>
                 <CircularProgress />
             </Stack>
         )

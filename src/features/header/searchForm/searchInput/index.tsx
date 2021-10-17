@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress, IconButton, InputBase } from '@mui/material'
 import { useCallback, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { findByName } from 'states/slices/friendSlice'
+import { friendActions } from 'states/slices/friendSlice'
 import { useStyle } from '../searchStyles'
 
 function SeaerchInput() {
@@ -18,7 +18,7 @@ function SeaerchInput() {
 
         if (timeout.current) clearTimeout(timeout.current)
         timeout.current = setTimeout(async () => {
-            dispatch(findByName(searchInput.current?.value || ''))
+            dispatch(friendActions.findByName(searchInput.current?.value || ''))
         }, 300)
     }, [searchInput])
 

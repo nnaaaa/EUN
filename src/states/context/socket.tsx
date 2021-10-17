@@ -7,7 +7,7 @@ interface ISocketContext {
 }
 
 export const SocketContext = createContext<ISocketContext>({
-    socket: io(SERVER_SOCKET),
+    socket: {} as Socket,
 })
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {

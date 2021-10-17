@@ -48,7 +48,7 @@ export default function ListOnline() {
                 sx={{ textTransform: 'none', color: '#000', width: '100%' }}
             >
                 <Typography variant="body2">
-                    Không có bạn bè nào đang online 😓
+                 😓 Không có bạn bè nào đang online 
                 </Typography>
             </Button>
         )

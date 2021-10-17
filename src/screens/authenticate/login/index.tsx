@@ -4,8 +4,8 @@ import { unwrapResult } from '@reduxjs/toolkit'
 import { isEmptyObj } from 'algorithms/object'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { loginAsync } from 'states/slices/authSlice'
-import { getProfile } from 'states/slices/userSlice'
+import { authActions } from 'states/slices/authSlice'
+import { userActions } from 'states/slices/userSlice'
 import { loginValidate } from 'utils/yup'
 import { useStyle } from '../styles'
 import ThirdPartyLogin from './thirdParty'
@@ -16,7 +16,7 @@ interface Props {
 
 export default function Login({ switchForm }: Props) {
     const style = useStyle()
-    const isLoading = useAppSelector((state) => state.auth.loading)
+    const { loading:isLoading,error:authError } = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch()
 
     const { errors, values, touched, handleSubmit, handleChange } = useFormik({
@@ -27,8 +27,8 @@ export default function Login({ switchForm }: Props) {
         validationSchema: loginValidate,
         onSubmit: async (values, { setFieldError }) => {
             try {
-                await dispatch(loginAsync(values))
-                unwrapResult(await dispatch(getProfile()))
+                await dispatch(authActions.loginAsync(values))
+                unwrapResult(await dispatch(userActions.getProfile()))
             } catch {
                 setFieldError('account', 'Tài khoản chưa đăng ký')
             }
@@ -43,8 +43,8 @@ export default function Login({ switchForm }: Props) {
                 variant="outlined"
                 fullWidth
                 sx={{ mb: 2 }}
-                // error={touched.account && Boolean(errors.account)}
-                // helperText={touched.account && errors.account}
+                error={touched.account && Boolean(errors.account)}
+                helperText={touched.account && errors.account}
                 onChange={handleChange}
                 value={values.account}
             />
@@ -55,13 +55,13 @@ export default function Login({ switchForm }: Props) {
                 fullWidth
                 type="password"
                 sx={{ mb: 2 }}
-                // error={touched.password && Boolean(errors.password)}
-                // helperText={touched.password && errors.password}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
                 onChange={handleChange}
                 value={values.password}
             />
 
-            {!isEmptyObj(touched) && !isEmptyObj(errors) && (
+            {authError && (
                 <Typography color="error" gutterBottom>
                     Sai tài khoản hoặc mật khẩu
                 </Typography>

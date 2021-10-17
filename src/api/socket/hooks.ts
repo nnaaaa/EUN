@@ -1,49 +1,29 @@
-import { ID } from 'models/Common'
-import { useEffect, useState } from 'react'
-import { Socket } from 'socket.io-client'
-import { useAppDispatch } from 'states/hooks'
+import { authActions } from 'states/slices/authSlice';
+import { useAppDispatch } from './../../states/hooks';
+import { useEffect } from 'react';
+import { userAPI } from './../rest/list/user';
 
-type ICollection = 'user' | 'room'
-
-export const useWatchCollection = <T>(
-    socket: Socket,
-    collection: ICollection
-) => {
-    const dispatch = useAppDispatch()
-    const [data, setData] = useState<T>()
+export const useOfflineUser = () => {
     useEffect(() => {
-        const listener = (newData: T) => {
-            setData(newData)
+        const eventFunc = async (e:BeforeUnloadEvent) => {
+            e.preventDefault()
+            await userAPI.updateProfile({ isOnline: false })
+            delete e['returnValue']
         }
-        socket.on(`server-sendData/${collection}`, listener)
-        socket.emit('client-getData', collection)
+        window.addEventListener('beforeunload', eventFunc)
         return () => {
-            socket.off(`server-sendData/${collection}`, listener)
+            window.removeEventListener('beforeunload',eventFunc)
         }
-    }, [])
-
-    return data
+    },[])
 }
-export const useWatchTarget = <T>(
-    socket: Socket,
-    collection: ICollection,
-    target: ID
-) => {
-    const [data, setData] = useState<T>()
 
+export const useOnlineUser = () => {
+    const dispatch = useAppDispatch()
     useEffect(() => {
-        console.log('useWatch')
-        if (!target) return
-        const listener = (newData: T) => {
-            console.log(target, newData)
-            setData(newData)
+        const executeFunc = async () => {
+            dispatch(authActions.loginWithToken())
+            await userAPI.updateProfile({ isOnline: true })
         }
-        socket.on(`server-sendData/room/${target}`, listener)
-        socket.emit('client-getData', collection, target)
-        return () => {
-            socket.off(`server-sendData/room/${target}`, listener)
-        }
-    }, [target])
-
-    return data
+        executeFunc().finally(()=>{})
+    },[])
 }

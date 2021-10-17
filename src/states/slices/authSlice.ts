@@ -1,10 +1,10 @@
+import { userAPI } from 'api/rest/list/user';
 import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit'
 import { authAPI } from 'api/rest'
 import Cookie from 'js-cookie'
 import { IUser, SignInType } from 'models/user'
-import { getProfile } from 'states/slices/userSlice'
+import { userActions } from 'states/slices/userSlice'
 import { AppThunk } from 'states/store'
-import { actions as userAction } from 'states/slices/userSlice'
 
 interface IinitState {
     loading: boolean
@@ -18,7 +18,7 @@ const initialState: IinitState = {
     state: 'stranger',
 }
 
-export const loginAsync = createAsyncThunk(
+const loginAsync = createAsyncThunk(
     'auth/login',
     async (credential: SignInType) => {
         const res = await authAPI.postLogin(credential)
@@ -30,7 +30,7 @@ export const loginAsync = createAsyncThunk(
     }
 )
 
-export const registerAsync = createAsyncThunk(
+const registerAsync = createAsyncThunk(
     'auth/register',
     async (userInfo: Partial<IUser>) => {
         try {
@@ -82,32 +82,33 @@ const authSlice = createSlice({
     },
 })
 
-export const loginWithToken = (): AppThunk => async (dispatch, getState) => {
+const loginWithToken = (): AppThunk => async (dispatch, getState) => {
     try {
-        unwrapResult(await dispatch(getProfile()))
+        unwrapResult(await dispatch(userActions.getProfile()))
         dispatch(actions.login())
     } catch {
         console.error('Token unauthorized')
     }
 }
 
-export const logout = (): AppThunk => async (dispatch, getState) => {
+const logoutAsync = (): AppThunk => async (dispatch, getState) => {
     try {
+        await userAPI.updateProfile({ isOnline: false })
         Cookie.remove('token')
-        dispatch(actions.logout())
-        dispatch(userAction.clearUser())
+        dispatch(authActions.logout())
+        dispatch(userActions.clearUser())
     } catch {
         console.error('Fail to logout')
     }
 }
 
-const { actions: authActions, reducer } = authSlice
+const { actions, reducer } = authSlice
 
-export const actions = Object.assign(authActions, {
+export const authActions = Object.assign(actions, {
     loginAsync,
     registerAsync,
     loginWithToken,
-    logout,
+    logoutAsync,
 })
 
 export default reducer

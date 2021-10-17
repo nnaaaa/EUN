@@ -15,6 +15,8 @@ const chatSlice = createSlice({
     },
 })
 
-export const { reducer, actions } = chatSlice
+const { reducer, actions } = chatSlice
+
+export const chatActions = Object.assign(actions,{})
 
 export default reducer

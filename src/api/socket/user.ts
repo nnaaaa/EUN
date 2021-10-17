@@ -14,18 +14,13 @@ export const useUserSocket = <T>(
         const listener = (newData: T) => {
             dispatcher(newData)
         }
-        console.log(
-            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/${targetId}`
-        )
         socket.on(
-            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/6169621d4fef8d82ed5e5436`,
+            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/${targetId}`,
             listener
         )
-        // socket.emit(`${db}/${coll}/${type}/${updateId}`)
         return () => {
-            console.log('remove socket')
             socket.off(
-                `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/6169621d4fef8d82ed5e5436`,
+                `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}/update/${targetId}`,
                 listener
             )
         }

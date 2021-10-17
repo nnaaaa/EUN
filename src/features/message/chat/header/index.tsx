@@ -13,7 +13,7 @@ import { useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { IconBox } from '../chatStyles'
 import { NameOfFriend } from './headerStyles'
-import { actions } from 'states/slices/chatSlice'
+import { chatActions } from 'states/slices/chatSlice'
 import { IChatRoom } from 'models/chatRoom'
 
 function Header(props: IChatRoom) {
@@ -25,7 +25,7 @@ function Header(props: IChatRoom) {
         ) as IUser
     }, [])
 
-    const closeChat = () => dispatch(actions.closeChat(props._id))
+    const closeChat = () => dispatch(chatActions.closeChat(props._id))
 
     return (
         <Box p={1} display="flex" justifyContent="space-between" height="60px">

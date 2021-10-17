@@ -6,7 +6,7 @@ import {
     Typography,
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { acceptInvite } from 'states/slices/friendSlice'
+import { friendActions } from 'states/slices/friendSlice'
 import { css } from './noticeStyles'
 
 const Notifications = () => {
@@ -53,7 +53,7 @@ const Notifications = () => {
                             </Typography>
                         </Box>
                         <Button
-                            onClick={() => dispatch(acceptInvite(user._id))}
+                            onClick={() => dispatch(friendActions.acceptInvite(user._id))}
                             variant="outlined"
                             color="primary"
                             size="small"
