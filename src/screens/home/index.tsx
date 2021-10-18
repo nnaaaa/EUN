@@ -30,7 +30,7 @@ export default function Home() {
     },[dispatch])
     useUserSocket(user._id, dispatcher)
     
-
+    console.log("render home")
 
     if (loading)
         return (
@@ -70,7 +70,7 @@ export default function Home() {
         <>
             <Header />
             <Grid container className={style.wrapper}>
-                <Hidden mdDown>
+                <Hidden lgDown>
                     <Grid item md={3} className={style.pLeft}>
                         <Gutter />
                     </Grid>
@@ -89,7 +89,7 @@ export default function Home() {
                         </Switch>
                     </Box>
                 </Grid>
-                <Hidden mdDown>
+                <Hidden lgDown>
                     <Grid item md={3} className={style.pRight}>
                         <ListOnline />
                         {/* <ListGame /> */}

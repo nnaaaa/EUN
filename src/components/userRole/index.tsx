@@ -17,7 +17,7 @@ function UserRole({ user }: IProps) {
     const acceptInvite = async () => {
         try {
             setLoading(true)
-            friendAPI.acceptInvite(user._id)
+            await friendAPI.acceptInvite(user._id)
         } catch {
             setError("Can't accept this user")
         } finally {
@@ -28,7 +28,7 @@ function UserRole({ user }: IProps) {
     const addFriend = async () => {
         try {
             setLoading(true)
-            friendAPI.addFriend(user._id)
+            await friendAPI.addFriend(user._id)
         } catch {
             setError("Can't add this user")
         } finally {
@@ -36,7 +36,7 @@ function UserRole({ user }: IProps) {
         }
     }
 
-    if (loading) return <CircularProgress size={20}></CircularProgress>
+    if (loading) return <CircularProgress size={20}/>
 
     if (error) return <ErrorIcon color="error" />
 

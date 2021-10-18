@@ -27,7 +27,7 @@ const userSlice = createSlice({
             state.current = {}
         },
         updateStore: (state, action: PayloadAction<IPublicInfo>) => {
-            Object.assign(state.current,action.payload)
+            state.current = action.payload
         },
     },
     extraReducers: (builder) => {

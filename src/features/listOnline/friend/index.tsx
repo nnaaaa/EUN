@@ -27,7 +27,6 @@ export default function FriendOnline() {
     const dispatch = useAppDispatch()
     const { current: listChat, loading } = useAppSelector((state) => state.chat)
     const user = useAppSelector(state=>state.user.current)
-    // const dispatch = useDispatch();
 
     // //ẩn hoặc hiện khung chat khi nhấn vào các người online
     const toggleChat = async (friendId: ID) => {
@@ -44,12 +43,6 @@ export default function FriendOnline() {
             return;
         }
         await dispatch(chatActions.addChat(friendId))
-        //   const room = await getDocument("rooms", {
-        //     field: "members",
-        //     operator: "array-contains-any",
-        //     value: [uid, myUid],
-        //   });
-        //   dispatch(Actions.addChat({ name, uid, avatar, ...room[0] }));
     }
 
     if (!friendOnlineList || friendOnlineList.length <= 0) {

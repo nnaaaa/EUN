@@ -6,47 +6,72 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress } from '@mui/material'
 import { Box } from '@mui/system'
-import { FormEvent, useRef, useState } from 'react'
+import { chatAPI } from 'api/rest'
+import { IChatRoom } from 'models/chatRoom'
+import { IMessage } from 'models/message'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { IconBox } from '../chatStyles'
-import { MessageInput, useStyle } from './footerStyles'
+import { MessageInput } from './footerStyles'
 
-function Footer() {
-    const style = useStyle()
+interface IBlockingSpam{
+    checkerTime: number
+    limitMessagePerCheckerTime: number
+    blockingTime: number
+}
+
+interface IProps{
+    room:IChatRoom
+}
+
+function Footer({room}:IProps) {
     const time = 5000
-    const checkerTime = 10000
-    const numberOfMessage = 30
-    const countSpam = useRef(0)
+    const blockingSpam = useMemo<IBlockingSpam>(() => ({
+        blockingTime:5000,
+        limitMessagePerCheckerTime: 30,
+        checkerTime:10000
+    }),[])
+    const countCurSpam = useRef<number>(0)
 
     const inputMessage = useRef<null | HTMLInputElement>(null)
-    const [timeToAllowChat, setTimeToAllowChat] = useState(0)
-    const [isAllowChat, setAllowChat] = useState(true)
-    // useEffect(() => {
-    //   setInterval(() => {
-    //     if (countSpam.current < numberOfMessage) countSpam.current = 0
-    //     else {
-    //       if (!isAllowChat) return
-    //       setAllowChat(false)
-    //       let percentTimeout = setInterval(() => {
-    //         setTimeToAllowChat((pre) => pre + 1)
-    //       }, time / 100)
-    //       setTimeout(() => {
-    //         clearTimeout(percentTimeout)
-    //         setAllowChat(true)
-    //         setTimeToAllowChat(0)
-    //         countSpam.current = 0
-    //       }, time)
-    //     }
-    //   }, checkerTime)
-    // }, [])
+    const [timeToAllowChat, setTimeToAllowChat] = useState<number>(0)
+    const [isAllowChat, setAllowChat] = useState<boolean>(true)
+    const [content,setContent] = useState<string>('')
+    useEffect(() => {
+        setInterval(() => {
+            if (countCurSpam.current < blockingSpam.limitMessagePerCheckerTime) countCurSpam.current = 0
+            else {
+                if (!isAllowChat) return
+                setAllowChat(false)
+                let percentTimeout = setInterval(() => {
+                    setTimeToAllowChat((pre) => pre + 1)
+                }, time / 100)
+                setTimeout(() => {
+                    clearTimeout(percentTimeout)
+                    setAllowChat(true)
+                    setTimeToAllowChat(0)
+                    countCurSpam.current = 0
+                }, time)
+            }
+        }, blockingSpam.checkerTime)
+    }, [])
     const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+        try {
+            e.preventDefault()
 
-        if (!isAllowChat) return
+            if (!isAllowChat) return
 
-        countSpam.current++
+            countCurSpam.current++
 
-        const content = inputMessage?.valueOf()
-        if (!content) return
+            if (!content) return
+
+            const message: Partial<IMessage> = {
+                content
+            }
+            await chatAPI.sendMessage(message,room._id)
+        } catch {
+            countCurSpam.current = blockingSpam.limitMessagePerCheckerTime
+        }
+
         //gửi lời nhắn
         // await updateDocument('rooms', id, {
         //     messages: firebase.firestore.FieldValue.arrayUnion({
@@ -58,8 +83,8 @@ function Footer() {
         // })
 
         // //set input về giá trị trống và trỏ vào
-        // inputMessage.current.value = ''
-        // inputMessage.current.focus()
+        setContent('')
+        inputMessage.current?.focus()
     }
 
     const focus = async () => {
@@ -88,22 +113,24 @@ function Footer() {
             <form onSubmit={sendMessage}>
                 <MessageInput
                     ref={inputMessage}
+                    value={content}
+                    onChange={(e)=>setContent(e.target.value)}
                     type="text"
                     onFocus={focus}
                     onBlur={blur}
                 />
             </form>
 
-            <IconBox onClick={sendMessage} className={style.btnSend}>
-                {!isAllowChat && (
-                    <div className={style.progress}>
-                        <CircularProgress
-                            value={timeToAllowChat}
-                            variant="determinate"
-                        />
-                    </div>
+            <IconBox color="primary" disabled={!isAllowChat}>
+                {isAllowChat ? (
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                ) : (
+                    <CircularProgress
+                        value={timeToAllowChat}
+                        variant="determinate"
+                        size={20}
+                    />
                 )}
-                <FontAwesomeIcon icon={faPaperPlane} />
             </IconBox>
         </Box>
     )

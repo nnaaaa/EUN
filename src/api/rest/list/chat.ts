@@ -15,10 +15,10 @@ class ChatAPI {
         return Axios.get<IChatRoom>(`${this.url}/getRoom?${queryString.stringify({ members })}`)
         
     }
-    async sendMessage(roomInfo: IMessage) {
-        return Axios.put<IMessage>(
-            `${this.url}/addMessage/${roomInfo.owner}`,
-            roomInfo
+    async sendMessage(chat: Partial<IMessage>,roomId:string) {
+        return Axios.put<Partial<IMessage>>(
+            `${this.url}/addMessage/${roomId}`,
+            chat
         )
     }
 }

@@ -30,7 +30,7 @@ import { useRef, useState } from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
 import Notifications from './notifications'
 import Options from './options'
-import SearchForm from './searchForm'
+import SearchForm from '../searchForm'
 
 export default function Header() {
     const style = css()

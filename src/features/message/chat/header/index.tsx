@@ -27,7 +27,7 @@ function Header({ room, setExpand }: IProps) {
         return (room.members as IUser[]).find(
             (member) => member._id !== user?._id
         ) as IUser
-    }, [])
+    }, [room.members,user?._id])
 
     const closeChat = () => dispatch(chatActions.closeChat(room._id))
 

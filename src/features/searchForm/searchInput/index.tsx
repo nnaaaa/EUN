@@ -1,32 +1,37 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CircularProgress, IconButton, InputBase, Typography } from '@mui/material'
-import { filterSearch } from 'algorithms/filterSearch'
-import { friendAPI } from 'api/rest'
+import {
+    CircularProgress,
+    IconButton,
+    InputBase,
+    Typography
+} from '@mui/material'
 import { useUserSocket } from 'api/socket/user'
 import { IPublicInfo } from 'models/user'
-import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react'
-import { useAppSelector } from 'states/hooks'
+import { useCallback, useEffect, useRef } from 'react'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { searchActions } from '../searchSlice'
 import { useStyle } from '../searchStyles'
 
 interface IProps {
-    setListResult: Dispatch<SetStateAction<any[]>>
-    listResult: any[]
 }
 
-function SearchInput({ setListResult,listResult }: IProps) {
+function SearchInput(props: IProps) {
     const style = useStyle()
     const searchInput = useRef<null | HTMLInputElement>(null)
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
     const user = useAppSelector((state) => state.user.current)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string>()
+    const { loading, error } = useAppSelector(state => state.search)
+    const dispatch = useAppDispatch()
     
-    const updateRole = useCallback((newInfo:IPublicInfo) => {
-        const filterData = filterSearch(listResult, newInfo)
-        setListResult(filterData)
-    }, [])
-    useUserSocket(user._id,updateRole)
+
+    const updateRole = useCallback(
+        (newInfo: IPublicInfo) => {
+            dispatch(searchActions.updateDependOnUser(newInfo))
+        },
+        [dispatch]
+    )
+    useUserSocket(user._id, updateRole)
 
     const findUser = useCallback(async () => {
         if (!searchInput.current) return
@@ -35,25 +40,17 @@ function SearchInput({ setListResult,listResult }: IProps) {
 
         if (timeout.current) clearTimeout(timeout.current)
         timeout.current = setTimeout(async () => {
-            try {
-                setError('')
-                setLoading(true)
-                if (!searchInput.current?.value) return
-
-                const searchTarget = searchInput.current?.value.trim() as string || ''
-                const listUser = await friendAPI.findByName(searchTarget)
-                const filterData = filterSearch(listUser.data, user)
-                setListResult(filterData)
-            }
-            catch (e) {
-                setError('Gặp lỗi trong quá trình tìm kiếm')
-            }
-            finally {
-                setLoading(false)
-            }
+            if (!searchInput.current?.value) return
+            const searchTarget =
+                (searchInput.current?.value.trim() as string) || ''
+            await dispatch(searchActions.getResult(searchTarget))
         }, 300)
-    }, [searchInput])
+    }, [searchInput, user])
 
+    //focus vào ô input 
+    useEffect(() => {
+        searchInput.current?.focus()
+    }, [])
 
     return (
         <>
@@ -74,7 +71,11 @@ function SearchInput({ setListResult,listResult }: IProps) {
                     )
                 }
             />
-            {error && <Typography color='error' textAlign='center'>{error}</Typography>}
+            {error && (
+                <Typography color="error" textAlign="center">
+                    {error}
+                </Typography>
+            )}
         </>
     )
 }

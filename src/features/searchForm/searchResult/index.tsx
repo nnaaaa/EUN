@@ -1,19 +1,23 @@
 import { Avatar, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Link } from 'react-router-dom'
-import { IFriendPublicInfo } from 'states/slices/friendSlice'
-import UserRole from '../../../../components/userRole'
+import { useAppSelector } from 'states/hooks'
+import UserRole from 'components/userRole'
 
 interface IProps {
-    list: IFriendPublicInfo[]
 }
 
 function ListResult(props: IProps) {
+    const { current, loading,error } = useAppSelector(state => state.search)
+    
+    if (loading || error)
+        return <></>
+
     return (
         <>
-            {props.list.map((user, index) => (
+            {current.map((user, index) => (
                 <Box
-                    mb={index === props.list.length - 1 ? 0 : 1}
+                    mb={index === current.length - 1 ? 0 : 1}
                     p={1}
                     display="flex"
                     key={'searchResult'+index}

@@ -1,16 +1,16 @@
-import { ID } from './Common'
-import { IUser } from './user'
+import { IPublicInfo } from 'models/user';
+import { ID } from './Common';
 
 export interface IPost {
     _id: ID
-    owner: IUser | ID
+    owner: IPublicInfo
     content: string
     images: string[]
     react?: {
-        likes: ID[] | IUser[]
-        hearts: ID[] | IUser[]
+        likes: IPublicInfo[]
+        hearts: IPublicInfo[]
     }
-    comment?: ID[] | IUser[]
+    comment?: IPublicInfo[]
     createAt?: Date
     mode: 'private' | 'public' | 'friend'
 }

@@ -8,11 +8,14 @@ import chatReducer from 'states/slices/chatSlice'
 import authReducer from 'states/slices/authSlice'
 import userReducer from 'states/slices/userSlice'
 import friendReducer from 'states/slices/friendSlice'
+import searchReducer from 'features/searchForm/searchSlice'
+
 const rootReducer = combineReducers({
     auth: authReducer,
     user: userReducer,
     chat: chatReducer,
     friend: friendReducer,
+    search: searchReducer
 })
 
 export const store = configureStore({

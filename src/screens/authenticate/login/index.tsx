@@ -43,8 +43,8 @@ export default function Login({ switchForm }: Props) {
                 variant="outlined"
                 fullWidth
                 sx={{ mb: 2 }}
-                error={touched.account && Boolean(errors.account)}
-                helperText={touched.account && errors.account}
+                // error={touched.account && Boolean(errors.account)}
+                // helperText={touched.account && errors.account}
                 onChange={handleChange}
                 value={values.account}
             />
@@ -55,8 +55,8 @@ export default function Login({ switchForm }: Props) {
                 fullWidth
                 type="password"
                 sx={{ mb: 2 }}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
+                // error={touched.password && Boolean(errors.password)}
+                // helperText={touched.password && errors.password}
                 onChange={handleChange}
                 value={values.password}
             />

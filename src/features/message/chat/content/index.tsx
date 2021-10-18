@@ -20,7 +20,7 @@ function Content({ room }: IProps) {
     const user = useAppSelector((state) => state.user.current)
     const heightOfChatWrapper = useRef<null | HTMLDivElement>(null)
 
-    // //scroll xuống khi vừa mở khung chat hoặc có tin nhắn mới
+    //scroll xuống khi vừa mở khung chat hoặc có tin nhắn mới
     useEffect(() => {
         const chatRef = heightOfChatWrapper.current
         const scrolling = (e: React.UIEvent<HTMLElement>) => {
@@ -46,7 +46,7 @@ function Content({ room }: IProps) {
     return (
         <WrapperMessage ref={heightOfChatWrapper}>
             {messages.map((msg) => {
-                let time = moment(msg.createAt.getSeconds()).calendar()
+                let time = moment(msg.createAt.toString()).calendar()
                 if ((msg.owner as IUser)._id !== user?._id) {
                     return (
                         <Tooltip title={time} placement="left" key={msg._id}>
