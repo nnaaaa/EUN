@@ -6,11 +6,9 @@ import {
     InputBase,
     Typography
 } from '@mui/material'
-import { useUserSocket } from 'api/socket/user'
-import { IPublicInfo } from 'models/user'
-import { useCallback, useEffect, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { searchActions } from '../searchSlice'
+import { useEffect, useRef } from 'react'
+import { useAppSelector } from 'states/hooks'
+import { useFindUser, useSearchSocket } from '../searchHook'
 import { useStyle } from '../searchStyles'
 
 interface IProps {
@@ -19,33 +17,14 @@ interface IProps {
 function SearchInput(props: IProps) {
     const style = useStyle()
     const searchInput = useRef<null | HTMLInputElement>(null)
-    const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
-    const user = useAppSelector((state) => state.user.current)
     const { loading, error } = useAppSelector(state => state.search)
-    const dispatch = useAppDispatch()
     
 
-    const updateRole = useCallback(
-        (newInfo: IPublicInfo) => {
-            dispatch(searchActions.updateDependOnUser(newInfo))
-        },
-        [dispatch]
-    )
-    useUserSocket(user._id, updateRole)
+    //lắng nghe khi user thay đổi 
+    useSearchSocket()
 
-    const findUser = useCallback(async () => {
-        if (!searchInput.current) return
-
-        if (!searchInput.current?.value) return
-
-        if (timeout.current) clearTimeout(timeout.current)
-        timeout.current = setTimeout(async () => {
-            if (!searchInput.current?.value) return
-            const searchTarget =
-                (searchInput.current?.value.trim() as string) || ''
-            await dispatch(searchActions.getResult(searchTarget))
-        }, 300)
-    }, [searchInput, user])
+    //tìm kiếm debounce
+    const findUser = useFindUser(searchInput)
 
     //focus vào ô input 
     useEffect(() => {

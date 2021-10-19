@@ -1,91 +1,27 @@
 import {
     faFileImage,
     faPaperPlane,
-    faPlusCircle,
+    faPlusCircle
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress } from '@mui/material'
 import { Box } from '@mui/system'
-import { chatAPI } from 'api/rest'
 import { IChatRoom } from 'models/chatRoom'
-import { IMessage } from 'models/message'
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { IconBox } from '../chatStyles'
+import { useBlockingSpam } from './footerHook'
 import { MessageInput } from './footerStyles'
 
-interface IBlockingSpam{
-    checkerTime: number
-    limitMessagePerCheckerTime: number
-    blockingTime: number
-}
 
 interface IProps{
     room:IChatRoom
 }
 
-function Footer({room}:IProps) {
-    const time = 5000
-    const blockingSpam = useMemo<IBlockingSpam>(() => ({
-        blockingTime:5000,
-        limitMessagePerCheckerTime: 30,
-        checkerTime:10000
-    }),[])
-    const countCurSpam = useRef<number>(0)
-
+function Footer({ room }: IProps) {
     const inputMessage = useRef<null | HTMLInputElement>(null)
-    const [timeToAllowChat, setTimeToAllowChat] = useState<number>(0)
-    const [isAllowChat, setAllowChat] = useState<boolean>(true)
-    const [content,setContent] = useState<string>('')
-    useEffect(() => {
-        setInterval(() => {
-            if (countCurSpam.current < blockingSpam.limitMessagePerCheckerTime) countCurSpam.current = 0
-            else {
-                if (!isAllowChat) return
-                setAllowChat(false)
-                let percentTimeout = setInterval(() => {
-                    setTimeToAllowChat((pre) => pre + 1)
-                }, time / 100)
-                setTimeout(() => {
-                    clearTimeout(percentTimeout)
-                    setAllowChat(true)
-                    setTimeToAllowChat(0)
-                    countCurSpam.current = 0
-                }, time)
-            }
-        }, blockingSpam.checkerTime)
-    }, [])
-    const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
-        try {
-            e.preventDefault()
-
-            if (!isAllowChat) return
-
-            countCurSpam.current++
-
-            if (!content) return
-
-            const message: Partial<IMessage> = {
-                content
-            }
-            await chatAPI.sendMessage(message,room._id)
-        } catch {
-            countCurSpam.current = blockingSpam.limitMessagePerCheckerTime
-        }
-
-        //gửi lời nhắn
-        // await updateDocument('rooms', id, {
-        //     messages: firebase.firestore.FieldValue.arrayUnion({
-        //         uid,
-        //         content,
-        //         createAt: firebase.firestore.Timestamp.now(),
-        //     }),
-        //     composing: firebase.firestore.FieldValue.arrayRemove(myUid),
-        // })
-
-        // //set input về giá trị trống và trỏ vào
-        setContent('')
-        inputMessage.current?.focus()
-    }
+    const { isAllowChat, timeToAllowChat, content, setContent, sendMessage } = useBlockingSpam(room, inputMessage)
+    
+    
 
     const focus = async () => {
         // await updateDocument('rooms', id, {
@@ -121,7 +57,7 @@ function Footer({room}:IProps) {
                 />
             </form>
 
-            <IconBox color="primary" disabled={!isAllowChat}>
+            <IconBox color="primary" disabled={!isAllowChat} onClick={sendMessage}>
                 {isAllowChat ? (
                     <FontAwesomeIcon icon={faPaperPlane} />
                 ) : (

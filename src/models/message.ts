@@ -1,10 +1,9 @@
-import { IPublicInfo } from 'models/user';
 import { ID } from './Common';
 
 export interface IMessage {
     _id: ID
     chatRoom: ID
-    owner: IPublicInfo
+    owner: ID
     content: string
     images: string[]
     createAt: Date

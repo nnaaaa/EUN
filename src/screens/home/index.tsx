@@ -25,12 +25,11 @@ export default function Home() {
     const dispatch = useAppDispatch()
     const status = useAppSelector((state) => state.auth.state)
 
-    const dispatcher = useCallback((newInfo: IPublicInfo) => {
+    const dispatcher = useCallback((newInfo: Partial<IPublicInfo>) => {
         dispatch(userActions.updateStore(newInfo))
     },[dispatch])
     useUserSocket(user._id, dispatcher)
     
-    console.log("render home")
 
     if (loading)
         return (

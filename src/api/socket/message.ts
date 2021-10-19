@@ -4,25 +4,25 @@ import { IMessage } from 'models/message';
 import { useContext, useEffect } from 'react';
 import { SocketContext } from 'states/context/socket';
 
-export const useChatRoomSocket = (
+export const useMessageSocket = (
     targetId: ID | undefined,
-    dispatcher: (message: IMessage) => void
+    dispatcher: (user: IMessage) => void
 ) => {
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
         if (!targetId) return
-        const listener = async (newMessage: IMessage) => {
+        const listener = async (newData: IMessage) => {
             // const user = await userAPI.getProfile() 
-            dispatcher(newMessage)
+            dispatcher(newData)
         }
         socket.on(
-            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.chatRooms}/${targetId}`,
+            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.messages}/${targetId}`,
             listener
         )
         return () => {
             socket.off(
-                `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.chatRooms}/${targetId}`,
+                `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.messages}/${targetId}`,
                 listener
             )
         }

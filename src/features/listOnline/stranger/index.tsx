@@ -8,41 +8,22 @@ import {
     Button,
     CircularProgress,
     Stack,
-    Typography,
+    Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { filterSearch } from 'algorithms/filterSearch'
-import { userAPI } from 'api/rest'
 import UserRole from 'components/userRole'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
-import { useEffect, useState } from 'react'
-import { useAppSelector } from 'states/hooks'
-import { IFriendPublicInfo } from 'states/slices/friendSlice'
+import { useState } from 'react'
+import { useStrangerSocket } from './strangerHook'
 
 export default function StrangerOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string>()
-    const [strangerList, setStrangerList] = useState<IFriendPublicInfo[]>([])
-    const user = useAppSelector((state) => state.user.current)
-    useEffect(() => {
-        const getListUser = async () => {
-            try {
-                setLoading(true)
-                const res = await userAPI.getListUser()
-                const filterUser = filterSearch(res.data, user)
-                setStrangerList(filterUser.filter(u => u.role === 'stranger'))
-            } catch {
-                setError('...')
-            } finally {
-                setLoading(false)
-            }
-        }
-        getListUser().then(() => {})
-    }, [user])
+    
+    //lắng nghe users thay đổi 
+    const { list, loading, error } = useStrangerSocket()
 
-    if (!strangerList || strangerList.length <= 0 || error) {
+    if (!list || list.length <= 0 || error) {
         return <></>
     }
 
@@ -61,12 +42,11 @@ export default function StrangerOnline() {
                 {loading && <CircularProgress size={20} />}
             </AccordionSummary>
             <AccordionDetails className={style.accorDetail}>
-                {strangerList.map((friend, index) => (
+                {list.map((friend, index) => (
                     <Button
                         className={style.wrapper}
                         color="inherit"
-                        key={'listOnline' + index}
-                        // onClick={() => toggleChat(name, uid, avatar)}
+                        key={'listStranger' + index}
                     >
                         <Stack direction="row" alignItems="center">
                             <Avatar src={friend.avatar} />

@@ -3,8 +3,6 @@ import FriendOnline from './friend'
 import StrangerOnline from './stranger'
 
 export default function ListOnline() {
-    
-
     return (
         <Stack>
             <FriendOnline />

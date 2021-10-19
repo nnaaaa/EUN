@@ -3,6 +3,7 @@ import { arrayIsContain } from 'algorithms/array';
 import { chatAPI } from 'api/rest';
 import { IChatRoom } from 'models/chatRoom';
 import { ID } from 'models/Common';
+import { IMessage } from 'models/message';
 import { RootState } from 'states/store';
 
 interface IinitalState{
@@ -29,15 +30,26 @@ const chatSlice = createSlice({
     initialState,
     reducers: {
         closeChat(state, action: PayloadAction<ID[] | ID>) {
+            //tắt bằng id phòng
             if (typeof action.payload === 'string')
                 state.current = state.current.filter((room) => room._id !== action.payload)
             
+            //tắt bằng thành viên trong phòng
             else if (typeof action.payload === 'object')
                 state.current = state.current.filter(room => {
                     const listId = room.members.map(u => u._id)
                     return !arrayIsContain(listId,...action.payload)
                 })
         },
+        insertMessage(state, action: PayloadAction<{ message:IMessage,roomId:ID }>) {
+            state.current = state.current.map(room => {
+                if (room._id === action.payload.roomId) {
+                    const newMessages: IMessage[] = [...room.messages, action.payload.message]
+                    return { ...room, messages: newMessages } 
+                }
+                return room 
+            })    
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(addChat.pending, (state) => {

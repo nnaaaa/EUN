@@ -1,5 +1,4 @@
 import { ID } from './Common'
-import { IPost } from './post'
 export interface SignInType {
     account: string
     password: string
@@ -24,7 +23,6 @@ export interface IUser {
         pending: IPublicInfo[]
     }
 
-    posts: IPost[]
 
     isOnline: boolean
     token: string

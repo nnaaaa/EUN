@@ -1,11 +1,12 @@
 import {
-    createSlice
+    createSlice, PayloadAction
 } from '@reduxjs/toolkit'
 import { IPublicInfo } from 'models/user'
 
 export type IFriendRole = 'accepted' | 'invited' | 'pending' | 'stranger'
 
 export type IFriendPublicInfo = IPublicInfo & { role: IFriendRole }
+
 
 interface IinitialState {
     loading: boolean
@@ -30,11 +31,10 @@ const initialState: IinitialState = {
 const friendSlice = createSlice({
     name: 'friend',
     initialState,
-    reducers: { 
-    },
-    extraReducers: (builder) => {
-        // builder
-        
+    reducers: {
+        updateStore: (state, action: PayloadAction<typeof initialState.current>) => {
+            Object.assign(state.current,action.payload)
+        }
     },
 })
 

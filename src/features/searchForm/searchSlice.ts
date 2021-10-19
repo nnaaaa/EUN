@@ -31,10 +31,10 @@ const getResult = createAsyncThunk('search/getResult', async (searchTarget: stri
 })
 
 const friendSlice = createSlice({
-    name: 'friend',
+    name: 'search',
     initialState,
     reducers: {
-        updateDependOnUser: (state, action:PayloadAction<IPublicInfo>) => {
+        updateStore: (state, action:PayloadAction<Partial<IPublicInfo>>) => {
             const userInfo = action.payload
             state.current = filterSearch(state.current,userInfo)
         }

@@ -8,15 +8,13 @@ import {
     Button,
     CircularProgress,
     Stack,
-    Typography,
+    Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { arrayIsContain } from 'algorithms/array'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
-import { ID } from 'models/Common'
 import { useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { chatActions } from 'states/slices/chatSlice'
+import { useAppSelector } from 'states/hooks'
+import { useToggleChat } from './friendHook'
 
 export default function FriendOnline() {
     const style = useStyle()
@@ -24,26 +22,10 @@ export default function FriendOnline() {
     const friendOnlineList = useAppSelector((state) => {
         return state.user.current.friends?.accepted.filter((f) => f.isOnline)
     })
-    const dispatch = useAppDispatch()
     const { current: listChat, loading } = useAppSelector((state) => state.chat)
-    const user = useAppSelector(state=>state.user.current)
 
     // //ẩn hoặc hiện khung chat khi nhấn vào các người online
-    const toggleChat = async (friendId: ID) => {
-        if (loading) return
-
-        if (!user._id) return
-        
-        if (listChat.find((room) => {
-            const listId = room.members.map(u => u._id)
-            return arrayIsContain(listId,user._id,friendId)
-        }))
-        {
-            dispatch(chatActions.closeChat([user._id,friendId]));
-            return;
-        }
-        await dispatch(chatActions.addChat(friendId))
-    }
+    const toggleChat = useToggleChat()
 
     if (!friendOnlineList || friendOnlineList.length <= 0) {
         return <></>

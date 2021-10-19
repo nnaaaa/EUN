@@ -6,20 +6,20 @@ import {
     Typography,
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { friendActions } from 'states/slices/friendSlice'
+// import { friendActions } from 'states/slices/friendSlice'
 import { css } from './noticeStyles'
 
 const Notifications = () => {
     const style = css()
-    const { loading, error, current } = useAppSelector((state) => state.friend)
+    // const { loading, error, current } = useAppSelector((state) => state.friend)
     const dispatch = useAppDispatch()
 
-    if (loading)
-        return (
-            <Box display="flex" alignItems="center" width="280px">
-                <CircularProgress />
-            </Box>
-        )
+    // if (loading)
+    //     return (
+    //         <Box display="flex" alignItems="center" width="280px">
+    //             <CircularProgress />
+    //         </Box>
+    //     )
 
     return (
         <Box
