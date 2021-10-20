@@ -29,7 +29,7 @@ const chatSlice = createSlice({
     name: 'chat',
     initialState,
     reducers: {
-        closeChat(state, action: PayloadAction<ID[] | ID>) {
+        closeWindowChat(state, action: PayloadAction<ID[] | ID>) {
             //tắt bằng id phòng
             if (typeof action.payload === 'string')
                 state.current = state.current.filter((room) => room._id !== action.payload)

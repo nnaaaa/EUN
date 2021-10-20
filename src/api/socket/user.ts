@@ -1,4 +1,3 @@
-import { friendAPI } from './../rest/list/friend';
 import { FACEBOOK_DB } from 'config/keys';
 import { ID } from 'models/Common';
 import { IPublicInfo } from 'models/user';

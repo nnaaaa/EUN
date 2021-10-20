@@ -29,7 +29,7 @@ function Header({ room, setExpand }: IProps) {
         ) as IUser
     }, [room.members,user?._id])
 
-    const closeChat = () => dispatch(chatActions.closeChat(room._id))
+    const closeChat = () => dispatch(chatActions.closeWindowChat(room._id))
 
     return (
         <Box p={1} display="flex" justifyContent="space-between" height="60px">

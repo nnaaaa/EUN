@@ -1,63 +1,72 @@
 import {
     faFileImage,
     faPaperPlane,
-    faPlusCircle
+    faPlusCircle,
+    faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress } from '@mui/material'
-import { Box } from '@mui/system'
+import { Stack } from '@mui/material'
+import InputImage from 'components/inputImage'
 import { IChatRoom } from 'models/chatRoom'
-import { useRef } from 'react'
+import { FormEvent, useMemo, useRef } from 'react'
 import { IconBox } from '../chatStyles'
-import { useBlockingSpam } from './footerHook'
+import { useBlockingSpam, useSendMessage } from './footerHook'
 import { MessageInput } from './footerStyles'
+import PreviewImage from './previewImage'
 
-
-interface IProps{
-    room:IChatRoom
+interface IProps {
+    room: IChatRoom
 }
 
 function Footer({ room }: IProps) {
-    const inputMessage = useRef<null | HTMLInputElement>(null)
-    const { isAllowChat, timeToAllowChat, content, setContent, sendMessage } = useBlockingSpam(room, inputMessage)
-    
-    
+    const inputMessageRef = useRef<null | HTMLInputElement>(null)
+    const { previewImages, content, sendMessage, setContent, inputImages,clearImages } = useSendMessage(room, inputMessageRef)
+    const { isAllowChat, timeToAllowChat, setCountCurSpam } = useBlockingSpam()
 
-    const focus = async () => {
-        // await updateDocument('rooms', id, {
-        //     composing: firebase.firestore.FieldValue.arrayUnion(myUid),
-        // })
+    const sendMessageWithBlockingSpam = async (
+        e: FormEvent<HTMLFormElement>
+    ) => {
+        if (!isAllowChat) return
+        setCountCurSpam()
+        await sendMessage(e)
     }
-    const blur = async () => {
-        // await updateDocument('rooms', id, {
-        //     composing: firebase.firestore.FieldValue.arrayRemove(myUid),
-        // })
-    }
+
     return (
-        <Box
+        <Stack
             p={1}
-            display="flex"
             justifyContent="space-between"
             alignItems="center"
+            direction="row"
+            position="relative"
         >
             <IconBox>
                 <FontAwesomeIcon icon={faPlusCircle} />
             </IconBox>
+
             <IconBox>
-                <FontAwesomeIcon icon={faFileImage} />
+                <label htmlFor="chat-images">
+                    <InputImage onChange={inputImages} id="chat-images" />
+                    <FontAwesomeIcon icon={faFileImage} />
+                </label>
             </IconBox>
-            <form onSubmit={sendMessage}>
+
+            <form onSubmit={sendMessageWithBlockingSpam}>
                 <MessageInput
-                    ref={inputMessage}
+                    ref={inputMessageRef}
                     value={content}
-                    onChange={(e)=>setContent(e.target.value)}
+                    onChange={(e) => setContent(e.target.value)}
                     type="text"
-                    onFocus={focus}
-                    onBlur={blur}
+                    // onFocus={focus}
+                    // onBlur={blur}
                 />
             </form>
 
-            <IconBox color="primary" disabled={!isAllowChat} onClick={sendMessage}>
+            <IconBox
+                color="primary"
+                disabled={!isAllowChat}
+                onClick={sendMessageWithBlockingSpam}
+            >
                 {isAllowChat ? (
                     <FontAwesomeIcon icon={faPaperPlane} />
                 ) : (
@@ -68,7 +77,14 @@ function Footer({ room }: IProps) {
                     />
                 )}
             </IconBox>
-        </Box>
+
+            {previewImages && (<Stack position='absolute' left={0} bottom='100%' right={0} bgcolor='white' alignItems='center'>
+                <IconBox onClick={clearImages} sx={{ position: 'absolute', top: 0, right: '5px' }}>
+                    <FontAwesomeIcon icon={faTimes} />
+                </IconBox>
+                <PreviewImage images={previewImages} />
+            </Stack>)}
+        </Stack>
     )
 }
 

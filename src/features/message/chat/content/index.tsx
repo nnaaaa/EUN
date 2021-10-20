@@ -1,7 +1,7 @@
 import { Tooltip } from '@mui/material'
 import { IChatRoom } from 'models/chatRoom'
 import moment from 'moment'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAppSelector } from 'states/hooks'
 import {
     FriendComposing,
@@ -21,11 +21,10 @@ function Content({ room }: IProps) {
 
     //scroll xuống khi vừa mở khung chat hoặc có tin nhắn mới
     useEffect(() => {
-        const chatRef = heightOfChatWrapper.current
-        if (!chatRef) return
+        if (!heightOfChatWrapper.current) return
         //vừa mở khung chat hoặc vừa cập nhật messages -> scroll
-        chatRef.scroll({
-            top: chatRef?.scrollHeight,
+        heightOfChatWrapper.current.scroll({
+            top: heightOfChatWrapper.current.scrollHeight,
             behavior: 'smooth',
         })
     }, [room])

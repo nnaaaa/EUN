@@ -16,7 +16,7 @@ export const useToggleChat = () => {
             const listId = room.members.map(u => u._id)
             return arrayIsContain(listId, user._id, friendId)
         })) {
-            dispatch(chatActions.closeChat([user._id, friendId]))
+            dispatch(chatActions.closeWindowChat([user._id, friendId]))
             return;
         }
         await dispatch(chatActions.addChat(friendId))
