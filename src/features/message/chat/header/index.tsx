@@ -24,7 +24,7 @@ function Header({ room, setExpand }: IProps) {
     const user = useAppSelector((state) => state.user.current)
     const dispatch = useAppDispatch()
     const friend = useMemo<IUser>(() => {
-        return (room.members as IUser[]).find(
+        return room.members.find(
             (member) => member._id !== user?._id
         ) as IUser
     }, [room.members,user?._id])

@@ -10,15 +10,12 @@ export const WrapperMessage = styled.div`
     justify-content: flex-start;
 `
 
-const Message = styled.p`
-    display: block;
-    word-break: break-word;
+
+const Message = styled.span`
     max-width: 80%;
-    font-size: 14px;
     border-radius: 10px;
     margin-top: 0;
     margin-bottom: 5px;
-    padding: 0.5rem 0.6rem;
 `
 export const FriendMessage = styledMUI(Message)(({ theme }) => ({
     background: '#D8DADF',
@@ -30,6 +27,16 @@ export const MyMessage = styledMUI(Message)(({ theme }) => ({
     color: '#fff',
     marginLeft: 'auto',
 }))
+
+export const TextContent = styled.p`
+    display:block;
+    margin:0;
+    word-break: break-word;
+    font-size: 14px;
+    padding: 0.5rem 0.6rem;
+`
+
+
 
 const Composing = styled.div`
     width: 2.5rem;

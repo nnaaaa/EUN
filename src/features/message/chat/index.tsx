@@ -23,7 +23,6 @@ function Chat(props: IChatRoom) {
     )
     useChatRoomSocket(props._id, dispatcher)
 
-
     return (
         <Box
             bgcolor="white"

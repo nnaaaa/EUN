@@ -41,7 +41,6 @@ function ThirdPartyLogin() {
                 className={style.signBtn}
                 startIcon={<GitHubIcon />}
                 disabled={isLoading}
-                color="success"
             >
                 Đăng nhập với Github
             </Button>
@@ -51,3 +50,27 @@ function ThirdPartyLogin() {
 }
 
 export default ThirdPartyLogin
+
+// interface IAuthLoginButton{
+//     title: string
+//     disabled: boolean
+//     color: any
+//     icon: IconDefinition
+// }
+
+// function AuthLoginButton({ title, disabled, color, icon }: IAuthLoginButton) {
+//     const style = useStyle()
+    
+//     return (
+//         <Button
+//             variant="outlined"
+//             className={style.signBtn}
+//             startIcon={<FontAwesomeIcon icon={icon}/>}
+//             disabled={disabled}
+//             color={color}
+//             sx={{ mb: 1 }}
+//         >
+//             {title}
+//         </Button>
+//     )
+// }

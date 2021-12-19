@@ -1,10 +1,9 @@
+import Axios from 'api/rest/axios';
 import { ID } from 'models/Common';
-import { SERVER_EXPRESS } from 'config/keys'
-import { IPublicInfo } from 'models/user'
-import Axios from 'api/rest/axios'
+import { IPublicInfo } from 'models/user';
 
 class FriendAPI {
-    url = `${SERVER_EXPRESS}/friend`
+    url = `friend`
 
     async findById(userId: string) {
         return Axios.get<IPublicInfo>(`${this.url}/findUser/${userId}`)

@@ -6,7 +6,9 @@ export const SERVER_SOCKET =
 interface IDB {
     name: string
     coll: {
-        [key: string]: string
+        users: string,
+        chatRooms: string,
+        messages:string
     }
 }
 

@@ -1,10 +1,9 @@
-import { SERVER_EXPRESS } from 'config/keys'
+import Axios from 'api/rest/axios'
 import { IQueryPost } from 'models/Common'
 import { IPost } from 'models/post'
-import Axios from 'api/rest/axios'
 
 class PostAPI {
-    url = `${SERVER_EXPRESS}/post`
+    url = `post`
 
     async create(postInfo: IPost) {
         return Axios.post<IPost>(`${this.url}/create`, postInfo)

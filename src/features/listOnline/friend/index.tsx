@@ -22,7 +22,7 @@ export default function FriendOnline() {
     const friendOnlineList = useAppSelector((state) => {
         return state.user.current.friends?.accepted.filter((f) => f.isOnline)
     })
-    const { current: listChat, loading } = useAppSelector((state) => state.chat)
+    const { loading } = useAppSelector((state) => state.chat)
 
     // //ẩn hoặc hiện khung chat khi nhấn vào các người online
     const toggleChat = useToggleChat()

@@ -5,6 +5,6 @@ export interface IMessage {
     chatRoom: ID
     owner: ID
     content: string
-    images: string[]
+    images: FileList | string[]
     createAt: Date
 }

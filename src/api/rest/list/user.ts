@@ -1,10 +1,9 @@
-import { SERVER_EXPRESS } from 'config/keys'
+import Axios from 'api/rest/axios'
 import { IPublicInfo, IUser } from 'models/user'
 
-import Axios from 'api/rest/axios'
 
 class UserAPI {
-    url = `${SERVER_EXPRESS}/user`
+    url = `user`
 
     async getProfile() {
         return Axios.get<IPublicInfo>(`${this.url}/getProfile`)
