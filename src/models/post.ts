@@ -1,6 +1,8 @@
 import { IPublicInfo } from 'models/user';
 import { ID } from './Common';
 
+
+export type IModePost = 'private' | 'public' | 'friend'
 export interface IPost {
     _id: ID
     owner: IPublicInfo
@@ -10,7 +12,7 @@ export interface IPost {
         likes: IPublicInfo[]
         hearts: IPublicInfo[]
     }
-    comment?: IPublicInfo[]
+    comments?: IPublicInfo[]
     createAt?: Date
-    mode: 'private' | 'public' | 'friend'
+    mode: IModePost
 }

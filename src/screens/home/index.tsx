@@ -69,18 +69,23 @@ export default function Home() {
         <>
             <Header />
             <Grid container className={style.wrapper}>
-                <Hidden lgDown>
-                    <Grid item md={3} className={style.pLeft}>
-                        <Gutter />
-                    </Grid>
-                </Hidden>
-                <Grid item md={6} xs={12} className={style.pCenter}>
+                <Grid item md={3} className={style.pLeft}
+                    sx={{
+                        display: {
+                            xs: 'none',
+                            lg: 'initial'
+                        }
+                    }}
+                >
+                    <Gutter />
+                </Grid>
+                <Grid item xs={12} md={8} lg={6} className={style.pCenter}>
                     <Box
                         sx={{
-                            p: {
-                                md: 0,
-                                lg: 2,
-                            },
+                            px: {
+                                xs: 1,
+                                lg: 0,
+                            }
                         }}
                     >
                         <Switch>
@@ -88,12 +93,17 @@ export default function Home() {
                         </Switch>
                     </Box>
                 </Grid>
-                <Hidden lgDown>
-                    <Grid item md={3} className={style.pRight}>
-                        <ListOnline />
-                        {/* <ListGame /> */}
-                    </Grid>
-                </Hidden>
+                <Grid item md={4} lg={3} className={style.pRight}
+                    sx={{
+                        display: {
+                            xs: 'none',
+                            md: 'initial'
+                        }
+                    }}
+                >
+                    <ListOnline />
+                    {/* <ListGame /> */}
+                </Grid>
 
                 <ListChat />
             </Grid>

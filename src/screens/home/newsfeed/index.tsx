@@ -1,13 +1,13 @@
-import React from 'react'
-// import Status from 'features/status/status'
-// import ListBlog from 'features/listBlog/listBlog'
+import { Grid } from '@mui/material'
+import Status from 'features/status'
+import ListPost from 'features/blog/listPost'
 
 const Newsfeed = () => {
     return (
-        <>
-            {/* <Status />
-            <ListBlog type="all" /> */}
-        </>
+        <Grid item>
+            <Status />
+            <ListPost type="all" />
+        </Grid>
     )
 }
 

@@ -1,4 +1,4 @@
-import Axios from 'api/rest/axios'
+import Axios, { imagesConditon } from 'api/rest/axios'
 import { IChatRoom } from 'models/chatRoom'
 import { ID } from 'models/Common'
 import { IMessage } from 'models/message'
@@ -22,16 +22,7 @@ class ChatAPI {
                 form.append("images", image)
         }
 
-        return Axios.post(
-            `${this.url}/addMessage/${roomId}`,
-            form,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        )
-
+        return Axios.post(`${this.url}/addMessage/${roomId}`,form,imagesConditon)
     }
 }
 

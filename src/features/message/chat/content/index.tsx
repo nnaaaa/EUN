@@ -1,4 +1,5 @@
 import { Tooltip } from '@mui/material'
+import DisplayGridImages from 'components/images/output2'
 import { IChatRoom } from 'models/chatRoom'
 import moment from 'moment'
 import { useEffect, useRef } from 'react'
@@ -10,7 +11,6 @@ import {
     TextContent,
     WrapperMessage
 } from './contentStyles'
-import { IMuiFbPhotoGridImage, MuiFbPhotoGrid } from 'mui-fb-photo-grid';
 
 interface IProps {
     room: IChatRoom
@@ -37,31 +37,28 @@ function Content({ room }: IProps) {
         <WrapperMessage ref={heightOfChatWrapper}>
             {messages.map((msg) => {
                 let time = moment(msg.createAt.toString()).calendar()
-                
-                const images: IMuiFbPhotoGridImage[] = (msg.images as string[]).map(image => ({
-                    title: msg.content,
-                    img: image,
-                    imgThumbnail:image
-                }))
-
                 if (msg.owner === user?._id) {
                     return (
-                        <>
-                            <Tooltip title={time} placement="left" key={msg._id}>
-                                <MyMessage>
-                                    <TextContent>{msg.content}</TextContent>
-                                    {images.length ? <MuiFbPhotoGrid
-                                        images={images}
-                                        reactModalStyle={{ overlay: { zIndex: 2000 } }}
-                                    /> : <></>}
-                                </MyMessage>
-                            </Tooltip>
-                        </>
+                        <Tooltip title={time} placement="left" key={msg._id}>
+                            <MyMessage>
+                                <TextContent>{msg.content}</TextContent>
+                                <DisplayGridImages
+                                    images={msg.images as string[]}
+                                    title={msg.content}
+                                />
+                            </MyMessage>
+                        </Tooltip>
                     )
                 }
                 return (
                     <Tooltip title={time} placement="right" key={msg._id}>
-                        <FriendMessage>{msg.content}</FriendMessage>
+                        <FriendMessage>
+                            <TextContent>{msg.content}</TextContent>
+                            <DisplayGridImages
+                                images={msg.images as string[]}
+                                title={msg.content}
+                            />
+                        </FriendMessage>
                     </Tooltip>
                 )
             })}

@@ -6,13 +6,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress, InputLabel, Stack } from '@mui/material'
-import InputImage from 'features/images/input'
+import { chatAPI } from 'api/rest'
+import InputImage from 'components/images/input'
+import { useContent } from 'hooks/useContent'
 import { IChatRoom } from 'models/chatRoom'
-import { FormEvent, useRef } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import { IconBox } from '../chatStyles'
-import { useBlockingSpam, useSendMessage } from './footerHook'
+import { useBlockingSpam } from '../../messageHooks'
 import { MessageInput } from './footerStyles'
-import PreviewImage from './previewImage'
+import PreviewImage from 'components/images/output'
+import { IMessage } from 'models/message'
 
 interface IProps {
     room: IChatRoom
@@ -23,20 +26,31 @@ function Footer({ room }: IProps) {
     const {
         previewImages,
         content,
-        isSending,
-        sendMessage,
+        getContentAndImages,
         setContent,
         inputImages,
         clearImages,
-    } = useSendMessage(room, inputMessageRef)
+    } = useContent<IMessage>(inputMessageRef)
     const { isAllowChat, timeToAllowChat, setCountCurSpam } = useBlockingSpam(10000,20)
+    const [isSending,setIsSending] = useState<boolean>(false)
+
 
     const sendMessageWithBlockingSpam = async (
         e: FormEvent<HTMLFormElement>
     ) => {
-        if (!isAllowChat || isSending) return
-        setCountCurSpam()
-        await sendMessage(e)
+        try {   
+            e.preventDefault()
+            if (!isAllowChat || isSending) return
+            setCountCurSpam()
+            setIsSending(true)
+            const message = await getContentAndImages()
+            if (message) 
+                await chatAPI.sendMessage(message, room._id)
+            setIsSending(false)
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 
     return (
@@ -90,7 +104,7 @@ function Footer({ room }: IProps) {
                     left={0}
                     bottom="100%"
                     right={0}
-                    bgcolor="white"
+                    bgcolor="#b4b4b47f"
                     alignItems="center"
                 >
                     <IconBox
@@ -99,7 +113,7 @@ function Footer({ room }: IProps) {
                     >
                         <FontAwesomeIcon icon={faTimes} />
                     </IconBox>
-                    <PreviewImage images={previewImages} />
+                    <PreviewImage images={previewImages} width='80%' height='100%'/>
                 </Stack>
             )}
         </Stack>

@@ -38,7 +38,7 @@ const chatSlice = createSlice({
             else if (typeof action.payload === 'object')
                 state.current = state.current.filter(room => {
                     const listId = room.members.map(u => u._id)
-                    return !arrayIsContain(listId,...action.payload)
+                    return !arrayIsContain(listId, ...action.payload)
                 })
         },
         insertMessage(state, action: PayloadAction<{ message:IMessage,roomId:ID }>) {

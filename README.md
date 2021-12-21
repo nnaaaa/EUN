@@ -2,7 +2,7 @@
 ## Some error
 
 - socket can't send any data after mongo updated
-
+- client can't save token
 
 ## Solved Problem
 

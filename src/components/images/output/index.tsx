@@ -1,7 +1,7 @@
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { makeStyles } from '@mui/styles'
-import Slider from 'react-slick'
+import Slider,{Settings} from 'react-slick'
 import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 import styled from 'styled-components'
@@ -20,15 +20,9 @@ const Icon = styled(FontAwesomeIcon)`
 
 const css = makeStyles({
     wrapper: {
-        height: 'min-content',
-        width: '80%',
-    },
-    paging: {
-        width: '100%',
-        height: 0,
-        paddingTop: '100%',
-        objectFit: 'cover',
-    },
+        height:(props:any)=> props.height ? props.height : '65%',
+        width: (props:any)=> props.width ? props.width : '90%',
+    }
 })
 var settings = {
     dots: false,
@@ -38,14 +32,21 @@ var settings = {
     slidesToScroll: 3,
 }
 
-export default function PreviewImages({ images }: { images: string[] | undefined}) {
-    const style = css()
+interface IPreviewImagesProps{
+    images: string[] | undefined
+    width?: string | number
+    height?: string | number
+}
 
+export default function PreviewImages(props:IPreviewImagesProps & Settings ) {
+    const { images, width, height } = props
+    const style = css({ width, height })
     if (!images) return <></>
 
     return (
         <Slider
             {...settings}
+            {...props}
             className={style.wrapper}
             prevArrow={<button><Icon icon={faAngleLeft}/></button>}
             nextArrow={<button><Icon icon={faAngleRight}/></button>}

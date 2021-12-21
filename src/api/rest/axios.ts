@@ -2,11 +2,20 @@ import { SERVER_EXPRESS } from 'config/keys'
 import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
 import Cookie from 'js-cookie'
-const axiosClient = axios.create({
-    baseURL: SERVER_EXPRESS,
+
+export const normalCondition = {
     headers: {
         'content-type': 'application/json',
     },
+}
+export const imagesConditon = {
+    headers: {
+        "Content-Type": "multipart/form-data",
+    },
+}
+const axiosClient = axios.create({
+    baseURL: SERVER_EXPRESS,
+    ...normalCondition,
     paramsSerializer: (params) => queryString.stringify(params),
 })
 axiosClient.interceptors.request.use(async (config: AxiosRequestConfig) => {
@@ -32,4 +41,5 @@ axiosClient.interceptors.response.use(
         throw error
     }
 )
+
 export default axiosClient

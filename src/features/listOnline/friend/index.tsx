@@ -24,7 +24,7 @@ export default function FriendOnline() {
     })
     const { loading } = useAppSelector((state) => state.chat)
 
-    // //ẩn hoặc hiện khung chat khi nhấn vào các người online
+    // ẩn hoặc hiện khung chat khi nhấn vào các người online
     const toggleChat = useToggleChat()
 
     if (!friendOnlineList || friendOnlineList.length <= 0) {

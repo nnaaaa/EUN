@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles'
 import styled from 'styled-components'
 export const useStyle = makeStyles({
     wrapper: {
-        paddingTop: 85,
+        paddingTop: 80,
     },
     pLeft: {
         paddingLeft: 16,
