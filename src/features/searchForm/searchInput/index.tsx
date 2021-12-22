@@ -1,32 +1,25 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    CircularProgress,
-    IconButton,
-    InputBase,
-    Typography
-} from '@mui/material'
+import { CircularProgress, IconButton, InputBase, Typography } from '@mui/material'
 import { useEffect, useRef } from 'react'
 import { useAppSelector } from 'states/hooks'
 import { useFindUser, useSearchSocket } from '../searchHook'
 import { useStyle } from '../searchStyles'
 
-interface IProps {
-}
+interface IProps {}
 
 function SearchInput(props: IProps) {
     const style = useStyle()
     const searchInput = useRef<null | HTMLInputElement>(null)
-    const { loading, error } = useAppSelector(state => state.search)
-    
+    const { loading, error } = useAppSelector((state) => state.search)
 
-    //lắng nghe khi user thay đổi 
+    //lắng nghe khi user thay đổi
     useSearchSocket()
 
     //tìm kiếm debounce
     const findUser = useFindUser(searchInput)
 
-    //focus vào ô input 
+    //focus vào ô input
     useEffect(() => {
         searchInput.current?.focus()
     }, [])

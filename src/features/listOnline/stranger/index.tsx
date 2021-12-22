@@ -8,7 +8,7 @@ import {
     Button,
     CircularProgress,
     Stack,
-    Typography
+    Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
 import UserRole from 'components/userRole'
@@ -19,8 +19,8 @@ import { useStrangerSocket } from './strangerHook'
 export default function StrangerOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
-    
-    //lắng nghe users thay đổi 
+
+    //lắng nghe users thay đổi
     const { list, loading, error } = useStrangerSocket()
 
     if (!list || list.length <= 0 || error) {

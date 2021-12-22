@@ -1,11 +1,10 @@
-import { useUserSocket } from 'api/socket/user';
-import { IPublicInfo } from 'models/user';
-import { RefObject, useCallback, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from 'states/hooks';
-import { searchActions } from './searchSlice';
+import { useUserSocket } from 'api/socket/user'
+import { IPublicInfo } from 'models/user'
+import { RefObject, useCallback, useRef } from 'react'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { searchActions } from './searchSlice'
 
-
-export const useFindUser = (searchInput:RefObject<HTMLInputElement>) => {
+export const useFindUser = (searchInput: RefObject<HTMLInputElement>) => {
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
     const dispatch = useAppDispatch()
     return useCallback(async () => {
@@ -16,8 +15,7 @@ export const useFindUser = (searchInput:RefObject<HTMLInputElement>) => {
         if (timeout.current) clearTimeout(timeout.current)
         timeout.current = setTimeout(async () => {
             if (!searchInput.current?.value) return
-            const searchTarget =
-                (searchInput.current?.value.trim() as string) || ''
+            const searchTarget = (searchInput.current?.value.trim() as string) || ''
             await dispatch(searchActions.getResult(searchTarget))
         }, 300)
     }, [searchInput])

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import Select from 'react-select'
 import { makeStyles } from '@mui/styles'
 import { IModePost } from 'models/post'
@@ -14,8 +14,12 @@ export interface IPostModeSelect {
     value: IModePost
     label: string
 }
+export const useInitMode = () => useState<IPostModeSelect>({
+    value: 'public',
+    label: '🌏 public',
+})
 
-const options: IPostModeSelect[] = [
+export const modeOptions: IPostModeSelect[] = [
     { value: 'public', label: '🌏 public (Anyone)' },
     { value: 'friend', label: '👨‍👧‍👧 friend (Your friend and you)' },
     { value: 'private', label: '🔒 private (Only you)' },
@@ -34,7 +38,7 @@ export default function SelectMode({ mode, setMode }: ISelectMode) {
             className={style.wrapper}
             value={mode}
             onChange={(value) => setMode(value as IPostModeSelect)}
-            options={options}
+            options={modeOptions}
         />
     )
 }

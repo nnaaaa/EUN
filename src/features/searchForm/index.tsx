@@ -24,10 +24,10 @@ export default function SearchForm() {
                         Facebook
                     </Typography>
 
-                    <SearchInput/>
+                    <SearchInput />
 
                     <Box mt={2}>
-                        <ListResult/>
+                        <ListResult />
                     </Box>
                 </Box>
             </Popup>

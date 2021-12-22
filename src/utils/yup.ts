@@ -1,20 +1,14 @@
 import * as yup from 'yup'
 
 export const loginValidate = yup.object().shape({
-    account: yup
-        .string()
-        .required('Bạn chưa nhập tài khoản')
-        .email('Email không hợp lệ'),
+    account: yup.string().required('Bạn chưa nhập tài khoản').email('Email không hợp lệ'),
     password: yup.string().required('Bạn chưa nhập mật khẩu'),
 })
 
 export const registerValidate = yup.object().shape({
     firstName: yup.string().required('Bạn chưa nhập họ').trim(),
     fullName: yup.string().required('Bạn chưa nhập tên').trim(),
-    account: yup
-        .string()
-        .required('Bạn chưa nhập tài khoản')
-        .email('Email không hợp lệ'),
+    account: yup.string().required('Bạn chưa nhập tài khoản').email('Email không hợp lệ'),
     password: yup
         .string()
         .required('Bạn chưa nhập mật khẩu')

@@ -6,7 +6,7 @@ export default function ListOnline() {
     return (
         <Stack>
             <FriendOnline />
-            <StrangerOnline/>
+            <StrangerOnline />
         </Stack>
     )
 }

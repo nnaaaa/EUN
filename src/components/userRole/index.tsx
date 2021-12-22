@@ -36,7 +36,7 @@ function UserRole({ user }: IProps) {
         }
     }
 
-    if (loading) return <CircularProgress size={20}/>
+    if (loading) return <CircularProgress size={20} />
 
     if (error) return <ErrorIcon color="error" />
 

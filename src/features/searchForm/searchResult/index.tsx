@@ -4,14 +4,12 @@ import { Link } from 'react-router-dom'
 import { useAppSelector } from 'states/hooks'
 import UserRole from 'components/userRole'
 
-interface IProps {
-}
+interface IProps {}
 
 function ListResult(props: IProps) {
-    const { current, loading,error } = useAppSelector(state => state.search)
-    
-    if (loading || error)
-        return <></>
+    const { current, loading, error } = useAppSelector((state) => state.search)
+
+    if (loading || error) return <></>
 
     return (
         <>
@@ -20,7 +18,7 @@ function ListResult(props: IProps) {
                     mb={index === current.length - 1 ? 0 : 1}
                     p={1}
                     display="flex"
-                    key={'searchResult'+index}
+                    key={'searchResult' + index}
                     alignItems="center"
                     width="100%"
                     justifyContent="space-between"

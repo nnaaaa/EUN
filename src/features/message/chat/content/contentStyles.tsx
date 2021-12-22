@@ -10,7 +10,6 @@ export const WrapperMessage = styled.div`
     justify-content: flex-start;
 `
 
-
 const Message = styled.span`
     max-width: 80%;
     border-radius: 10px;
@@ -29,14 +28,12 @@ export const MyMessage = styledMUI(Message)(({ theme }) => ({
 }))
 
 export const TextContent = styled.p`
-    display:block;
-    margin:0;
+    display: block;
+    margin: 0;
     word-break: break-word;
     font-size: 14px;
     padding: 0.5rem 0.6rem;
 `
-
-
 
 const Composing = styled.div`
     width: 2.5rem;

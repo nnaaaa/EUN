@@ -1,7 +1,6 @@
 import Axios from 'api/rest/axios'
 import { IPublicInfo, IUser } from 'models/user'
 
-
 class UserAPI {
     url = `user`
 

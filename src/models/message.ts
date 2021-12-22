@@ -1,5 +1,5 @@
-import { IPublicInfo } from 'models/user';
-import { ID } from './Common';
+import { IPublicInfo } from 'models/user'
+import { ID } from './common'
 
 export interface IMessage {
     _id: ID

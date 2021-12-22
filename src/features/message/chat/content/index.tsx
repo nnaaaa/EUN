@@ -9,7 +9,7 @@ import {
     FriendMessage,
     MyMessage,
     TextContent,
-    WrapperMessage
+    WrapperMessage,
 } from './contentStyles'
 
 interface IProps {
@@ -30,8 +30,6 @@ function Content({ room }: IProps) {
             behavior: 'smooth',
         })
     }, [room])
-
-
 
     return (
         <WrapperMessage ref={heightOfChatWrapper}>

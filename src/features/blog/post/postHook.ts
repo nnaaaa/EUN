@@ -1,6 +1,5 @@
-import { FormEvent, useMemo, useRef, useState } from "react"
-import { useAppDispatch, useAppSelector } from "states/hooks"
-
+import { FormEvent, useMemo, useRef, useState } from 'react'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
 
 export const useInteraction = () => {
     //     const {owner, content, react, _id, mode, comments, images, createAt} = info
@@ -10,7 +9,9 @@ export const useInteraction = () => {
     const [toggleOption, setToggleOption] = useState(false)
     const [err, setErr] = useState(false)
     const [isLoading, setLoading] = useState(false)
-    const reacted = useMemo(()=>{return false},[])
+    const isReacted = useMemo(() => {
+        return false
+    }, [])
     const [isJoin, setIsJoin] = useState(false)
     const [listReact, setListReact] = useState([])
     //   const [owner, setOwner] = useState({})
@@ -20,7 +21,7 @@ export const useInteraction = () => {
 
     //   useWatchDoc('posts', id, dispatch, Actions.updatePostComment)
 
-    const sendComment = async (e:FormEvent<HTMLFormElement>) => {
+    const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         // e.preventDefault()
         // const content = inputComment.current.value
         // inputComment.current.value = ''
@@ -43,7 +44,7 @@ export const useInteraction = () => {
         // setListReact(user)
     }
     //update on my react
-    const setReact = async (type:any) => {
+    const setReact = async (type: any) => {
         // if (reacts[type].includes(myUid)) {
         //     await updateDocument('posts', id, {
         //         reacts: {
@@ -60,9 +61,7 @@ export const useInteraction = () => {
         //     })
         // }
     }
-    const setJoin = async () => {
-        
-    }
-    return { isJoin, setJoin, setReact,reacted }
-    
+    const setJoin = () => setIsJoin((pre) => !pre)
+
+    return { isJoin, setJoin, setReact, isReacted }
 }

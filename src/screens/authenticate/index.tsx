@@ -15,12 +15,7 @@ export default function Form() {
 
     return (
         <Wrapper>
-            <Typography
-                variant="h2"
-                component="h1"
-                color="primary"
-                gutterBottom
-            >
+            <Typography variant="h2" component="h1" color="primary" gutterBottom>
                 Facebook
             </Typography>
             {isLogin && <Login switchForm={switchForm} />}

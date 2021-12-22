@@ -1,28 +1,26 @@
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { makeStyles } from '@mui/styles'
-import Slider,{Settings} from 'react-slick'
+import Slider, { Settings } from 'react-slick'
 import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 import styled from 'styled-components'
 
-
-const Image = styled.img`
-`
+const Image = styled.img``
 const Icon = styled(FontAwesomeIcon)`
-    width:100% !important;
-    height:100%;
+    width: 80% !important;
+    height: 80%;
     position: absolute;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     color: #a5a7aa;
 `
 
 const css = makeStyles({
     wrapper: {
-        height:(props:any)=> props.height ? props.height : '65%',
-        width: (props:any)=> props.width ? props.width : '90%',
-    }
+        height: (props: any) => (props.height ? props.height : '65%'),
+        width: (props: any) => (props.width ? props.width : '90%'),
+    },
 })
 var settings = {
     dots: false,
@@ -32,13 +30,13 @@ var settings = {
     slidesToScroll: 3,
 }
 
-interface IPreviewImagesProps{
+interface IPreviewImagesProps {
     images: string[] | undefined
     width?: string | number
     height?: string | number
 }
 
-export default function PreviewImages(props:IPreviewImagesProps & Settings ) {
+export default function PreviewImages(props: IPreviewImagesProps & Settings) {
     const { images, width, height } = props
     const style = css({ width, height })
     if (!images) return <></>
@@ -48,8 +46,16 @@ export default function PreviewImages(props:IPreviewImagesProps & Settings ) {
             {...settings}
             {...props}
             className={style.wrapper}
-            prevArrow={<button><Icon icon={faAngleLeft}/></button>}
-            nextArrow={<button><Icon icon={faAngleRight}/></button>}
+            prevArrow={
+                <button>
+                    <Icon icon={faAngleLeft} />
+                </button>
+            }
+            nextArrow={
+                <button>
+                    <Icon icon={faAngleRight} />
+                </button>
+            }
             // beforeChange={setIndex ? (oldIdx, newIdx) => setIndex(newIdx) : () => {}}
         >
             {images.map((image, i) => (

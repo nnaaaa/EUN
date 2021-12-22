@@ -4,7 +4,7 @@ export const useStyle = makeStyles((theme) => ({
     accordion: {
         borderRadius: 5,
         overflow: 'hidden',
-        boxShadow:'1px 2px 5px 0px rgb(0 0 0 / 10%)'
+        boxShadow: '1px 2px 5px 0px rgb(0 0 0 / 10%)',
     },
     accorDetail: {
         padding: 0,
@@ -12,7 +12,7 @@ export const useStyle = makeStyles((theme) => ({
     wrapper: {
         padding: 10,
         paddingLeft: 16,
-        paddingRight:16,
+        paddingRight: 16,
         width: '100%',
         justifyContent: 'space-between',
     },

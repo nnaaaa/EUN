@@ -16,24 +16,19 @@ function Chat(props: IChatRoom) {
     const dispatch = useAppDispatch()
     const dispatcher = useCallback(
         (newMessage: IMessage) => {
-            dispatch(chatActions.insertMessage({ message: newMessage, roomId: props._id }))
-            
+            dispatch(
+                chatActions.insertMessage({ message: newMessage, roomId: props._id })
+            )
         },
         [dispatch]
     )
     useChatRoomSocket(props._id, dispatcher)
 
     return (
-        <Box
-            bgcolor="white"
-            boxShadow={2}
-            mr={1}
-            borderRadius={2}
-            width="20rem"
-        >
+        <Box bgcolor="white" boxShadow={2} mr={1} borderRadius={2} width="20rem">
             <Header room={props} setExpand={setExpand} />
             {expand && <Content room={props} />}
-            {expand && <Footer room={props}/>}
+            {expand && <Footer room={props} />}
         </Box>
     )
 }

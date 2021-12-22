@@ -10,7 +10,7 @@ export const normalCondition = {
 }
 export const imagesConditon = {
     headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
     },
 }
 const axiosClient = axios.create({

@@ -16,7 +16,7 @@ interface Props {
 
 export default function Login({ switchForm }: Props) {
     const style = useStyle()
-    const { loading:isLoading,error:authError } = useAppSelector((state) => state.auth)
+    const { loading: isLoading, error: authError } = useAppSelector((state) => state.auth)
     const dispatch = useAppDispatch()
 
     const { errors, values, touched, handleSubmit, handleChange } = useFormik({

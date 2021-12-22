@@ -7,26 +7,25 @@ import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { postActions } from 'states/slices/postSlice'
 
-interface IListPostProps{
+interface IListPostProps {
     type: 'all' | 'friend'
-    friendAccount?:string
+    friendAccount?: string
 }
-
 
 export default function ListPost({ type = 'all', friendAccount }: IListPostProps) {
     const dispatch = useAppDispatch()
-    const user = useAppSelector(state=>state.user.current)
+    const user = useAppSelector((state) => state.user.current)
     // const listPost = useSelector((state) => state.listPost)
     // const [lastVisible, setLastVisible] = useState(null)
     // const [postFromWho, setPostFromWho] = useState(null)
 
     const [reload, setReload] = useState(false)
-    const { current, loading, error } = useAppSelector(state => state.post)
-    
+    const { current, loading, error } = useAppSelector((state) => state.post)
+
     // const [loading, setLoading] = useState(true)
     // const [isLoadingMore, setIsLoadingMore] = useState(false)
     // const [errorLoadMore, setErrorLoadMore] = useState(false)
-    const timeoutLoadMore:{ current: NodeJS.Timeout | null } = useRef(null)
+    const timeoutLoadMore: { current: NodeJS.Timeout | null } = useRef(null)
     const limit = 5
 
     // const checkDuplicate = useCallback(
@@ -47,8 +46,8 @@ export default function ListPost({ type = 'all', friendAccount }: IListPostProps
         const loadPost = async () => {
             await dispatch(postActions.getTheFirstTime(user._id))
         }
-        loadPost().then(()=>{})
-    },[])
+        loadPost().then(() => {})
+    }, [])
 
     //load data when scroll to bottom
     // useEffect(() => {
@@ -59,7 +58,7 @@ export default function ListPost({ type = 'all', friendAccount }: IListPostProps
     //                 window.innerHeight + window.pageYOffset >=
     //                 document.body.offsetHeight
     //             ) {
-                    
+
     //             }
     //         }, 100)
     //     }

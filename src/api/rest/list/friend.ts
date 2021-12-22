@@ -1,6 +1,6 @@
-import Axios from 'api/rest/axios';
-import { ID } from 'models/Common';
-import { IPublicInfo } from 'models/user';
+import Axios from 'api/rest/axios'
+import { ID } from 'models/common'
+import { IPublicInfo } from 'models/user'
 
 class FriendAPI {
     url = `friend`

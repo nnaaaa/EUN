@@ -1,9 +1,9 @@
-import { FACEBOOK_DB } from 'config/keys';
-import { ID } from 'models/Common';
-import { IPublicInfo } from 'models/user';
-import { useContext, useEffect } from 'react';
-import { SocketContext } from 'states/context/socket';
-import { userAPI } from './../rest/list/user';
+import { FACEBOOK_DB } from 'config/keys'
+import { ID } from 'models/common'
+import { IPublicInfo } from 'models/user'
+import { useContext, useEffect } from 'react'
+import { SocketContext } from 'states/context/socket'
+import { userAPI } from './../rest/list/user'
 
 export const useUserSocket = (
     targetId: ID | undefined,
@@ -15,10 +15,9 @@ export const useUserSocket = (
         if (!targetId) return
         const updateListener = async (newData: IPublicInfo) => {
             try {
-                const user = await userAPI.getProfile() 
+                const user = await userAPI.getProfile()
                 dispatcher(user.data)
-            }
-            catch {
+            } catch {
                 dispatcher({})
             }
         }
@@ -36,31 +35,21 @@ export const useUserSocket = (
     }, [socket, targetId])
 }
 
-export const useListUserSocket = (
-    dispatcher: (user: IPublicInfo[]) => void
-) => {
+export const useListUserSocket = (dispatcher: (user: IPublicInfo[]) => void) => {
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
         const updateListener = async (newData: IPublicInfo) => {
             try {
-                const user = await userAPI.getListUser() 
+                const user = await userAPI.getListUser()
                 dispatcher(user.data)
-            }
-            catch {
+            } catch {
                 dispatcher([])
             }
         }
-        socket.on(
-            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}`,
-            updateListener
-        )
+        socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}`, updateListener)
         return () => {
-            socket.off(
-                `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}`,
-                updateListener
-            )
+            socket.off(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}`, updateListener)
         }
     }, [socket])
 }
-

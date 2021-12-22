@@ -1,15 +1,14 @@
-
 ## Some error
 
-- socket can't send any data after mongo updated
-- client can't save token
+-   socket can't send any data after mongo updated
+-   client can't save token
 
 ## Solved Problem
 
 > Send image file:<br>
 
+-   Input
 
-- Input
 ```jsx
 <input
     accept="image/*"
@@ -22,8 +21,8 @@
 />
 ```
 
-- Client Handle: `e.target.files` or `e.target.file`
+-   Client Handle: `e.target.files` or `e.target.file`
 
-- Send by `axios`. Create `new FormData()` and append all of images with the same `field name` .
-- Server Handle: receive by `multer`. The `field name` of `upload.array("field name")` must be alike of client's
-- Read file from `path` -> store by `cloudinary` -> get `url` and remove file from `this path` -> send `url` back to client to display
+-   Send by `axios`. Create `new FormData()` and append all of images with the same `field name` .
+-   Server Handle: receive by `multer`. The `field name` of `upload.array("field name")` must be alike of client's
+-   Read file from `path` -> store by `cloudinary` -> get `url` and remove file from `this path` -> send `url` back to client to display

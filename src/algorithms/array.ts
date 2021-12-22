@@ -1,4 +1,3 @@
-
 export const arrayIsContain = <T = string>(array: T[], ...rest: T[]) => {
     for (const eleRest of rest) {
         let key = false
@@ -8,8 +7,7 @@ export const arrayIsContain = <T = string>(array: T[], ...rest: T[]) => {
                 break
             }
         }
-        if (key === false)
-            return false
+        if (key === false) return false
     }
     return true
 }

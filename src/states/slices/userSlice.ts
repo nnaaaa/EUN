@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userAPI } from 'api/rest/list/user';
-import { IPublicInfo } from 'models/user';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { userAPI } from 'api/rest/list/user'
+import { IPublicInfo } from 'models/user'
 
 interface IinitState {
     loading: boolean
@@ -45,9 +45,6 @@ const userSlice = createSlice({
             })
     },
 })
-
-
-
 
 const { reducer, actions } = userSlice
 export const userActions = Object.assign(actions, {

@@ -8,20 +8,18 @@ interface IDisplayGridImages {
 
 export default function DisplayGridImages(props: IDisplayGridImages) {
     const images = useMemo<IMuiFbPhotoGridImage[]>(
-        () => (props.images as string[]).map((image) => ({
-            title: props.title,
-            img: image,
-            imgThumbnail: image,
-        })),
+        () =>
+            (props.images as string[]).map((image) => ({
+                title: props.title,
+                img: image,
+                imgThumbnail: image,
+            })),
         [props.title]
     )
 
-    return (
-        images.length ? (
-            <MuiFbPhotoGrid
-                images={images}
-                reactModalStyle={{ overlay: { zIndex: 2000 } }}
-            />
-        ) : <></>
+    return images.length ? (
+        <MuiFbPhotoGrid images={images} reactModalStyle={{ overlay: { zIndex: 2000 } }} />
+    ) : (
+        <></>
     )
 }

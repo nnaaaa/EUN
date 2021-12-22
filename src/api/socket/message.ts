@@ -1,8 +1,8 @@
-import { FACEBOOK_DB } from 'config/keys';
-import { ID } from 'models/Common';
-import { IMessage } from 'models/message';
-import { useContext, useEffect } from 'react';
-import { SocketContext } from 'states/context/socket';
+import { FACEBOOK_DB } from 'config/keys'
+import { ID } from 'models/common'
+import { IMessage } from 'models/message'
+import { useContext, useEffect } from 'react'
+import { SocketContext } from 'states/context/socket'
 
 export const useMessageSocket = (
     targetId: ID | undefined,
@@ -13,7 +13,7 @@ export const useMessageSocket = (
     useEffect(() => {
         if (!targetId) return
         const listener = async (newData: IMessage) => {
-            // const user = await userAPI.getProfile() 
+            // const user = await userAPI.getProfile()
             dispatcher(newData)
         }
         socket.on(
@@ -28,5 +28,3 @@ export const useMessageSocket = (
         }
     }, [socket, targetId])
 }
-
-

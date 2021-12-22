@@ -2,7 +2,7 @@ import {
     faFileImage,
     faPaperPlane,
     faPlusCircle,
-    faTimes
+    faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress, InputLabel, Stack } from '@mui/material'
@@ -12,7 +12,7 @@ import { useContent } from 'hooks/useContent'
 import { IChatRoom } from 'models/chatRoom'
 import { FormEvent, useRef, useState } from 'react'
 import { IconBox } from '../chatStyles'
-import { useBlockingSpam } from '../../messageHooks'
+import { useBlockingSpam } from 'hooks/useBlockingSpam'
 import { MessageInput } from './footerStyles'
 import PreviewImage from 'components/images/output'
 import { IMessage } from 'models/message'
@@ -31,24 +31,19 @@ function Footer({ room }: IProps) {
         inputImages,
         clearImages,
     } = useContent<IMessage>(inputMessageRef)
-    const { isAllowChat, timeToAllowChat, setCountCurSpam } = useBlockingSpam(10000,20)
-    const [isSending,setIsSending] = useState<boolean>(false)
+    const { isAllow, timeToAllow, setCountCurSpam } = useBlockingSpam(10000, 20)
+    const [isSending, setIsSending] = useState<boolean>(false)
 
-
-    const sendMessageWithBlockingSpam = async (
-        e: FormEvent<HTMLFormElement>
-    ) => {
-        try {   
+    const sendMessageWithBlockingSpam = async (e: FormEvent<HTMLFormElement>) => {
+        try {
             e.preventDefault()
-            if (!isAllowChat || isSending) return
+            if (!isAllow || isSending) return
             setCountCurSpam()
             setIsSending(true)
-            const message = await getContentAndImages()
-            if (message) 
-                await chatAPI.sendMessage(message, room._id)
+            const message = getContentAndImages()
+            if (message) await chatAPI.sendMessage(message, room._id)
             setIsSending(false)
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
@@ -65,10 +60,9 @@ function Footer({ room }: IProps) {
                 <FontAwesomeIcon icon={faPlusCircle} />
             </IconBox>
 
-            <InputLabel htmlFor="chat-images" sx={{color:'primary.main',cursor:'pointer'}}>
-                <InputImage onChange={inputImages} id="chat-images" />
+            <InputImage onChange={inputImages}>
                 <FontAwesomeIcon icon={faFileImage} />
-            </InputLabel>
+            </InputImage>
 
             <form onSubmit={sendMessageWithBlockingSpam}>
                 <MessageInput
@@ -81,17 +75,16 @@ function Footer({ room }: IProps) {
                 />
             </form>
 
-            
             <IconBox
                 color="primary"
-                disabled={!isAllowChat || isSending}
+                disabled={!isAllow || isSending}
                 onClick={sendMessageWithBlockingSpam}
             >
-                {isAllowChat && !isSending ? (
+                {isAllow && !isSending ? (
                     <FontAwesomeIcon icon={faPaperPlane} />
                 ) : (
                     <CircularProgress
-                        value={timeToAllowChat}
+                        value={timeToAllow}
                         variant="determinate"
                         size={20}
                     />
@@ -113,7 +106,7 @@ function Footer({ room }: IProps) {
                     >
                         <FontAwesomeIcon icon={faTimes} />
                     </IconBox>
-                    <PreviewImage images={previewImages} width='80%' height='100%'/>
+                    <PreviewImage images={previewImages} width="80%" height="100%" />
                 </Stack>
             )}
         </Stack>

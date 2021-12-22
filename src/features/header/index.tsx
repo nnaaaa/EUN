@@ -1,7 +1,4 @@
-import {
-    faFacebook,
-    faFacebookMessenger,
-} from '@fortawesome/free-brands-svg-icons'
+import { faFacebook, faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
 import {
     faBars,
     faBell,
@@ -71,19 +68,12 @@ export default function Header() {
                             alignItems="center"
                             justifyContent="space-around"
                         >
-                            <FontAwesomeIcon
-                                icon={faFacebook}
-                                className={style.logo}
-                            />
+                            <FontAwesomeIcon icon={faFacebook} className={style.logo} />
                             <SearchForm />
                         </Grid>
                     </Hidden>
                     <Grid item container md={6} xs={10}>
-                        <Button
-                            className={style.button}
-                            component={Link}
-                            to={url}
-                        >
+                        <Button className={style.button} component={Link} to={url}>
                             <FontAwesomeIcon icon={faHome} />
                         </Button>
                         <Button className={style.button} disabled>
@@ -92,11 +82,7 @@ export default function Header() {
                         <Button className={style.button} disabled>
                             <FontAwesomeIcon icon={faUsers} />
                         </Button>
-                        <Button
-                            className={style.button}
-                            component={Link}
-                            to={`/games`}
-                        >
+                        <Button className={style.button} component={Link} to={`/games`}>
                             <FontAwesomeIcon icon={faGamepad} />
                         </Button>
                     </Grid>

@@ -1,63 +1,71 @@
-import { Typography, Button, Box, Divider } from '@mui/material'
+import { faFileImage } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Avatar, Box, IconButton, Stack } from '@mui/material'
+import { postAPI } from 'api/rest'
+import InputImage from 'components/images/input'
+import PreviewImages from 'components/images/output'
+import { useBlockingSpam } from 'hooks/useBlockingSpam'
+import { useContent } from 'hooks/useContent'
+import { IPost } from 'models/post'
+import { FormEvent, useRef, useState } from 'react'
+import { useAppSelector } from 'states/hooks'
+import { StatusInput, useStyle } from './styles'
 
-import {faShare, faComment, faThumbsUp} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { useStyle } from './styles'
-
-import { useInteraction } from '../postHook'
-
-interface IInputComment{
-
+interface IInputCommentProps {
+    post: IPost
 }
 
-export default function InputComment(props:IInputComment) {
-  const style = useStyle()
-  const { isJoin, setJoin, setReact,reacted } = useInteraction()
-  const colorReact = reacted ? '#3f51b5' : '#a19c9c'
-  const colorComment = isJoin ? '#3f51b5' : '#a19c9c'
-  return (
-    <>
-      <Divider />
-      <Box display="flex" mt={1}>
-        <Button
-          className={style.button}
-          startIcon={<FontAwesomeIcon icon={faThumbsUp} color={colorReact} />}
-          onClick={() => setReact('like')}
-        >
-          <Typography
-            variant="subtitle2"
-            className={style.textBtn}
-            style={{color: colorReact}}
-          >
-            {reacted ? 'Unlike' : 'Like'}
-          </Typography>
-        </Button>
-        <Button
-          className={style.button}
-          startIcon={<FontAwesomeIcon icon={faComment} color={colorComment} />}
-          onClick={setJoin}
-        >
-          <Typography
-            variant="subtitle2"
-            className={style.textBtn}
-            sx={{color: colorComment}}
-          >
-            {isJoin ? 'Hide' : 'Comment'}
-          </Typography>
-        </Button>
-        <Button
-          className={style.button}
-          startIcon={<FontAwesomeIcon icon={faShare} color="#a19c9c" />}
-        >
-          <Typography
-            variant="subtitle2"
-            className={style.textBtn}
-            style={{color: '#a19c9c'}}
-          >
-            Share
-          </Typography>
-        </Button>
-      </Box>
-    </>
-  )
+function InputComment(props: IInputCommentProps) {
+    const style = useStyle()
+    const inputContent = useRef<null | HTMLInputElement>(null)
+    const { avatar } = useAppSelector((state) => state.user.current)
+    const [isSending, setIsSending] = useState<boolean>(false)
+    const { inputImages, previewImages, setContent, content, getContentAndImages } =
+        useContent(inputContent)
+    const {isAllow,setCountCurSpam,timeToAllow} = useBlockingSpam(5000,10)
+    const sendComment = async (e: FormEvent<HTMLFormElement>) => {
+        try {
+            e.preventDefault()
+            if (isSending || !isAllow) return 
+            setCountCurSpam()
+            setIsSending(true)
+            if (isSending) return
+            const comment = getContentAndImages()
+            if (comment) await postAPI.addComment(comment, props.post._id)
+            setIsSending(false)
+        }
+        catch(e){
+            console.log(e)
+        }
+    }
+    return (
+        <Stack mb={2} mt={1} direction="row">
+            <Avatar src={avatar} />
+            <Stack flex={1} ml={1} alignItems="center">
+                <form onSubmit={sendComment} className={style.form}>
+                    <StatusInput
+                        value={content}
+                        onChange={(e)=> setContent(e.target.value)}
+                        placeholder="Nhập bình luận"
+                        ref={inputContent}
+                    />
+                    <IconButton size="small" className={style.tool}>
+                        <InputImage onChange={inputImages}>
+                            <FontAwesomeIcon icon={faFileImage} />
+                        </InputImage>
+                    </IconButton>
+                </form>
+
+                <PreviewImages
+                    images={
+                        previewImages && previewImages.length <= 3 ? previewImages : []
+                    }
+                    width="80%"
+                    infinite
+                />
+            </Stack>
+        </Stack>
+    )
 }
+
+export default InputComment

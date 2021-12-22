@@ -1,10 +1,4 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    CircularProgress,
-    Typography,
-} from '@mui/material'
+import { Avatar, Box, Button, CircularProgress, Typography } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 // import { friendActions } from 'states/slices/friendSlice'
 import { css } from './noticeStyles'
@@ -22,13 +16,7 @@ const Notifications = () => {
     //     )
 
     return (
-        <Box
-            p={2}
-            boxShadow={2}
-            bgcolor="white"
-            maxHeight="300px"
-            overflow="auto"
-        >
+        <Box p={2} boxShadow={2} bgcolor="white" maxHeight="300px" overflow="auto">
             {/* {current.length ? (
                 current?.map((user) => (
                     <Box

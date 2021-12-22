@@ -16,9 +16,7 @@ function ThirdPartyLogin() {
             <Button
                 variant="outlined"
                 className={style.signBtn}
-                startIcon={
-                    <FontAwesomeIcon icon={faFacebook} color="#2c88dd" />
-                }
+                startIcon={<FontAwesomeIcon icon={faFacebook} color="#2c88dd" />}
                 disabled={isLoading}
                 color="info"
                 sx={{ mb: 1 }}
@@ -60,7 +58,7 @@ export default ThirdPartyLogin
 
 // function AuthLoginButton({ title, disabled, color, icon }: IAuthLoginButton) {
 //     const style = useStyle()
-    
+
 //     return (
 //         <Button
 //             variant="outlined"

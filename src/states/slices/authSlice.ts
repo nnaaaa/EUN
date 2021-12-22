@@ -1,4 +1,4 @@
-import { userAPI } from 'api/rest/list/user';
+import { userAPI } from 'api/rest/list/user'
 import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit'
 import { authAPI } from 'api/rest'
 import Cookie from 'js-cookie'
@@ -18,17 +18,14 @@ const initialState: IinitState = {
     state: 'stranger',
 }
 
-const loginAsync = createAsyncThunk(
-    'auth/login',
-    async (credential: SignInType) => {
-        const res = await authAPI.postLogin(credential)
-        if (res.data.token) {
-            Cookie.set('token', res.data.token)
-        } else {
-            throw new Error()
-        }
+const loginAsync = createAsyncThunk('auth/login', async (credential: SignInType) => {
+    const res = await authAPI.postLogin(credential)
+    if (res.data.token) {
+        Cookie.set('token', res.data.token)
+    } else {
+        throw new Error()
     }
-)
+})
 
 const registerAsync = createAsyncThunk(
     'auth/register',

@@ -1,8 +1,8 @@
-import { FACEBOOK_DB } from 'config/keys';
-import { ID } from 'models/Common';
-import { IMessage } from 'models/message';
-import { useContext, useEffect } from 'react';
-import { SocketContext } from 'states/context/socket';
+import { FACEBOOK_DB } from 'config/keys'
+import { ID } from 'models/common'
+import { IMessage } from 'models/message'
+import { useContext, useEffect } from 'react'
+import { SocketContext } from 'states/context/socket'
 
 export const useChatRoomSocket = (
     targetId: ID | undefined,
@@ -13,7 +13,7 @@ export const useChatRoomSocket = (
     useEffect(() => {
         if (!targetId) return
         const listener = async (newMessage: IMessage) => {
-            // const user = await userAPI.getProfile() 
+            // const user = await userAPI.getProfile()
             // console.log(newMessage)
             dispatcher(newMessage)
         }
@@ -29,5 +29,3 @@ export const useChatRoomSocket = (
         }
     }, [socket, targetId])
 }
-
-

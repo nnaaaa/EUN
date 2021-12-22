@@ -1,4 +1,4 @@
-import { ID } from './Common'
+import { ID } from './common'
 export interface SignInType {
     account: string
     password: string
@@ -22,7 +22,6 @@ export interface IUser {
         invited: IPublicInfo[]
         pending: IPublicInfo[]
     }
-
 
     isOnline: boolean
     token: string

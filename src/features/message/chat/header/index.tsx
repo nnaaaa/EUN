@@ -2,7 +2,7 @@ import {
     faMinusCircle,
     faPhone,
     faTimes,
-    faVideo
+    faVideo,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar } from '@mui/material'
@@ -24,10 +24,8 @@ function Header({ room, setExpand }: IProps) {
     const user = useAppSelector((state) => state.user.current)
     const dispatch = useAppDispatch()
     const friend = useMemo<IUser>(() => {
-        return room.members.find(
-            (member) => member._id !== user?._id
-        ) as IUser
-    }, [room.members,user?._id])
+        return room.members.find((member) => member._id !== user?._id) as IUser
+    }, [room.members, user?._id])
 
     const closeChat = () => dispatch(chatActions.closeWindowChat(room._id))
 
@@ -44,7 +42,7 @@ function Header({ room, setExpand }: IProps) {
                 <IconBox>
                     <FontAwesomeIcon icon={faPhone} />
                 </IconBox>
-                <IconBox onClick={() => setExpand(pre=>!pre)}>
+                <IconBox onClick={() => setExpand((pre) => !pre)}>
                     <FontAwesomeIcon icon={faMinusCircle} />
                 </IconBox>
                 <IconBox onClick={closeChat}>

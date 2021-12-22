@@ -1,8 +1,4 @@
-import {
-    Box, CircularProgress,
-    Grid,
-    Hidden, Stack
-} from '@mui/material'
+import { Box, CircularProgress, Grid, Hidden, Stack } from '@mui/material'
 import { useUserSocket } from 'api/socket/user'
 import Gutter from 'features/gutter'
 import Header from 'features/header'
@@ -17,7 +13,6 @@ import { useStyle } from './homeStyles'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
 
-
 export default function Home() {
     const style = useStyle()
     const { path } = useRouteMatch()
@@ -25,15 +20,25 @@ export default function Home() {
     const dispatch = useAppDispatch()
     const status = useAppSelector((state) => state.auth.state)
 
-    const dispatcher = useCallback((newInfo: Partial<IPublicInfo>) => {
-        dispatch(userActions.updateStore(newInfo))
-    },[dispatch])
+    const dispatcher = useCallback(
+        (newInfo: Partial<IPublicInfo>) => {
+            dispatch(userActions.updateStore(newInfo))
+        },
+        [dispatch]
+    )
     useUserSocket(user._id, dispatcher)
-    
 
     if (loading)
         return (
-            <Stack sx={{ width: '100vw', height: '100vh',justifyContent:'center',alignItems:'center' }} direction='row'>
+            <Stack
+                sx={{
+                    width: '100vw',
+                    height: '100vh',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                direction="row"
+            >
                 <CircularProgress />
             </Stack>
         )
@@ -69,12 +74,15 @@ export default function Home() {
         <>
             <Header />
             <Grid container className={style.wrapper}>
-                <Grid item md={3} className={style.pLeft}
+                <Grid
+                    item
+                    md={3}
+                    className={style.pLeft}
                     sx={{
                         display: {
                             xs: 'none',
-                            lg: 'initial'
-                        }
+                            lg: 'initial',
+                        },
                     }}
                 >
                     <Gutter />
@@ -85,7 +93,7 @@ export default function Home() {
                             px: {
                                 xs: 1,
                                 lg: 0,
-                            }
+                            },
                         }}
                     >
                         <Switch>
@@ -93,12 +101,16 @@ export default function Home() {
                         </Switch>
                     </Box>
                 </Grid>
-                <Grid item md={4} lg={3} className={style.pRight}
+                <Grid
+                    item
+                    md={4}
+                    lg={3}
+                    className={style.pRight}
                     sx={{
                         display: {
                             xs: 'none',
-                            md: 'initial'
-                        }
+                            md: 'initial',
+                        },
                     }}
                 >
                     <ListOnline />

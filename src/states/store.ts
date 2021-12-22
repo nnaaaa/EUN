@@ -1,9 +1,4 @@
-import {
-    Action,
-    combineReducers,
-    configureStore,
-    ThunkAction,
-} from '@reduxjs/toolkit'
+import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import chatReducer from 'states/slices/chatSlice'
 import authReducer from 'states/slices/authSlice'
 import userReducer from 'states/slices/userSlice'
@@ -16,7 +11,7 @@ const rootReducer = combineReducers({
     chat: chatReducer,
     friend: friendReducer,
     search: searchReducer,
-    post: postReducer
+    post: postReducer,
 })
 
 export const store = configureStore({

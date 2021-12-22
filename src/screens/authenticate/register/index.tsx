@@ -35,9 +35,7 @@ export default function Register({ switchForm }: Props) {
                     })
                 )
                 switchForm()
-            } catch {
-
-            }
+            } catch {}
         },
     })
 
