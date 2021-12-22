@@ -16,7 +16,6 @@ export const useCommentSocket = (
             // const user = await userAPI.getProfile()
             dispatcher(newData)
         }
-        console.log(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${targetId}`)
         socket.on(
             `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${targetId}`,
             listener

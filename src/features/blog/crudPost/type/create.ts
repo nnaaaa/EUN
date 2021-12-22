@@ -16,7 +16,7 @@ class Create extends CRUDType{
             if (contentAndImages) {
                 const post: Partial<IPost> = {
                     ...contentAndImages,
-                    mode,
+                    mode:mode.value,
                 }
                 await postAPI.create(post)
             }

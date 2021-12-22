@@ -17,16 +17,21 @@ class Edit extends CRUDType{
         const [mode, setMode] = this._modeTool
         setMode(modeOptions.find(option=>option.value === this._post?.mode) || mode)
     }
+
     public async complete(){
         try {
             const contentAndImages = this._tool.getContentAndImages()
             const [mode] = this._modeTool
             if (contentAndImages) {
+                if (!this._tool.imageFiles)
+                    contentAndImages.images = this._post?.images
                 const post: Partial<IPost> = {
+                    ...this._post,
                     ...contentAndImages,
-                    mode,
-                }
-                await postAPI.create(post)
+                    mode:mode.value,
+                } 
+                console.log(post)
+                await postAPI.update(post)
             }
         } catch (e) {
             console.log(e)

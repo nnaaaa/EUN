@@ -34,11 +34,16 @@ export default function CRUDModel(props: IModelProps) {
     const [isSending, setIsSending] = useState<boolean>(false)
     const [mode, setMode] = useInitMode()
 
+    //khi giá trị useContent thay đổi thì type instance cũng thay đổi
     useEffect(() => {
         type.setTool(tool)
         type.setModeTool([mode, setMode])
-        type.init()
-    },[tool,type])
+    },[type,tool])
+
+    //khởi tạo lại post cũ
+    useEffect(() => {
+        type.init() 
+    },[type])
 
     const upPost = async () => {
         try {

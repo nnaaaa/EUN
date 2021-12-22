@@ -17,7 +17,6 @@ const Options = (props:IOptionProps) => {
   const [isPopup, setPopup] = useState(false)
   const editType = useMemo<CRUDType>(() => (
     new EditType(props.post)
-
   ),[props.post])
   const removePost = async () => {
     

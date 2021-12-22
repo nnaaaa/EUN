@@ -1,7 +1,7 @@
 import { IComment } from './../../../models/comment';
 import Axios, { imagesConditon } from 'api/rest/axios'
 import { IQueryPost } from 'models/common'
-import { IPost } from 'models/post'
+import { IModePost, IPost } from 'models/post'
 
 class PostAPI {
     url = `post`
@@ -15,6 +15,16 @@ class PostAPI {
         }
 
         return Axios.post(`${this.url}/create`, form, imagesConditon)
+    }
+    async update(postInfo: Partial<IPost>) {
+        let form = new FormData()
+        form.append('content', postInfo.content as string)
+        form.append('mode', postInfo.mode as IModePost)
+        if (postInfo.images) {
+            for (const image of postInfo.images) form.append('images', image)
+        }
+
+        return Axios.put(`${this.url}/update/${postInfo._id}`, form, imagesConditon)
     }
 
     async addComment(commentInfo: Partial<IComment>, postId: string) {
