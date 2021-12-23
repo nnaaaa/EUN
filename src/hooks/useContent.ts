@@ -33,10 +33,9 @@ export const useContent = <T = DefaultReturnType>(
     const inputImages = async (e: ChangeEvent<HTMLInputElement>) => {
         try {
             if (!e.target.files) return
-            
+
             let listUrl: string[] = []
             for (const file of e.target.files) listUrl.push(URL.createObjectURL(file))
-            console.log(listUrl)
             setImageFiles(e.target.files)
             setPreviewImages(listUrl)
         } catch (e) {
@@ -51,6 +50,6 @@ export const useContent = <T = DefaultReturnType>(
         previewImages,
         clearImages,
         setPreviewImages,
-        imageFiles
+        imageFiles,
     }
 }

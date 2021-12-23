@@ -14,10 +14,11 @@ export interface IPostModeSelect {
     value: IModePost
     label: string
 }
-export const useInitMode = () => useState<IPostModeSelect>({
-    value: 'public',
-    label: '🌏 public',
-})
+export const useInitMode = () =>
+    useState<IPostModeSelect>({
+        value: 'public',
+        label: '🌏 public',
+    })
 
 export const modeOptions: IPostModeSelect[] = [
     { value: 'public', label: '🌏 public (Anyone)' },

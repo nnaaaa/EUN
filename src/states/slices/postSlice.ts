@@ -1,4 +1,4 @@
-import { IComment } from './../../models/comment';
+import { IComment } from './../../models/comment'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { postAPI } from 'api/rest'
 import { ID } from 'models/common'
@@ -26,18 +26,33 @@ const postSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
-        insertComment(state, action: PayloadAction<{ comment:IComment, postId: ID }>) {
+        insertComment(state, action: PayloadAction<{ comment: IComment; postId: ID }>) {
             state.current = state.current.map((post) => {
                 if (post._id === action.payload.postId) {
                     const newComments: IComment[] = [
                         action.payload.comment,
-                        ...post.comments as IComment[],
+                        ...(post.comments as IComment[]),
                     ]
                     return { ...post, comments: newComments }
                 }
                 return post
             })
         },
+        insertPost(state, action: PayloadAction<IPost>) {
+            state.current.unshift(action.payload)
+        },
+        updatePost(state, action: PayloadAction<IPost>) {
+            state.current = state.current.map((post) => {
+                if (post._id === action.payload._id) 
+                    return {
+                        ...post,
+                        content: action.payload.content,
+                        images: action.payload.images,
+                        mode: action.payload.mode
+                    }
+                return post
+            })
+        }
     },
     extraReducers: (builder) => {
         builder

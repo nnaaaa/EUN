@@ -6,15 +6,14 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { useStyle } from './styles'
 
-export default function Comment(props:IComment) {
+export default function Comment(props: IComment) {
     const style = useStyle()
-    const { content, createAt, owner,images } = props
-    const { username,avatar } = owner as IPublicInfo
+    const { content, createAt, owner, images } = props
+    const { username, avatar } = owner as IPublicInfo
 
     const timeDetail = moment(createAt).fromNow()
     return (
         <Box display="flex" mb={1}>
-        
             <Avatar src={avatar} />
             <Box ml={1}>
                 <Box p={1} bgcolor="#F0F2F5" borderRadius={2}>
@@ -22,7 +21,12 @@ export default function Comment(props:IComment) {
                     <Tooltip title={timeDetail} placement="right">
                         <Typography className={style.content}>{content}</Typography>
                     </Tooltip>
-                    <DisplayGridImages images={images} title={username}/>
+                    {images.length ? (
+                        <Box mt={1}>
+                            <DisplayGridImages images={images} title={username} />
+                        </Box>
+                    ) : <></>}
+                    
                 </Box>
                 {/* <Box p={1} pt={0} display="flex">
                     <Typography className={style.button}>Like</Typography>

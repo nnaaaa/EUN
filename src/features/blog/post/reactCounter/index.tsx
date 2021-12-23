@@ -1,34 +1,29 @@
-import { Box, Avatar, Typography, Tooltip, AvatarGroup } from '@mui/material'
+import { faHeart, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faHeart } from '@fortawesome/free-solid-svg-icons'
-import { makeStyles } from '@mui/styles'
+import { Avatar, AvatarGroup, Box, Tooltip, Typography } from '@mui/material'
+import { IEmotionList } from 'models/post'
 import { IPublicInfo } from 'models/user'
-const css = makeStyles({
-    group: {
-        marginRight: 10,
-    },
-    like: {
-        width: 30,
-        height: 30,
-        background: '#1198F6',
-        fontSize: 16,
-    },
-    heart: {
-        width: 30,
-        height: 30,
-        background: '#F55470',
-        fontSize: 16,
-    },
-})
+import { useStyle } from './styles'
+
 
 interface IReactsProps {
-    heart: IPublicInfo[]
-    like: IPublicInfo[]
+    react: Record<IEmotionList,Partial<IPublicInfo>[]> | undefined
 }
 
-export default function Reacts(props: IReactsProps) {
-    const { heart, like } = props
-    const style = css()
+export default function ReactCounter(props: IReactsProps) {
+    const { react } = props
+    const style = useStyle()
+
+    const countAmount = () => {
+        if (!react)
+            return 0
+        let count = 0
+        for (const emotion of Object.values(react)) {
+            for (const user of emotion)
+                count++
+        }
+        return count
+    }
 
     return (
         <Tooltip
@@ -46,8 +41,9 @@ export default function Reacts(props: IReactsProps) {
                         <FontAwesomeIcon icon={faHeart} />
                     </Avatar>
                 </AvatarGroup>
+                {/* <PokemonCounter/> */}
                 <Typography color="textSecondary" variant="subtitle2">
-                    {heart.length + like.length}
+                    {countAmount()}
                 </Typography>
             </Box>
         </Tooltip>

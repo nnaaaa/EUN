@@ -10,10 +10,7 @@ interface IProps {
 function InputImage({ onChange, children }: IProps) {
     const id = uid()
     return (
-        <InputLabel
-            htmlFor={id}
-            sx={{ color: 'primary.main', cursor: 'pointer' }}
-        >
+        <InputLabel htmlFor={id} sx={{ color: 'primary.main', cursor: 'pointer' }}>
             <input
                 accept="image/*"
                 multiple
@@ -25,7 +22,6 @@ function InputImage({ onChange, children }: IProps) {
             />
             {children}
         </InputLabel>
-        
     )
 }
 

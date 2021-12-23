@@ -1,7 +1,17 @@
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-    Avatar, Box, Button, CardHeader, CardMedia, Divider, IconButton, Popover, Skeleton, Tooltip, Typography
+    Avatar,
+    Box,
+    Button,
+    CardHeader,
+    CardMedia,
+    Divider,
+    IconButton,
+    Popover,
+    Skeleton,
+    Tooltip,
+    Typography,
 } from '@mui/material'
 import { friendAPI } from 'api/rest'
 import { useCommentSocket } from 'api/socket/comment'
@@ -19,15 +29,16 @@ import Options from './crudOption'
 import InputComment from './inputComment'
 import InteractTool from './interactTools'
 import Mode from './mode'
-import { useInteraction } from './postHook'
-import Reacts from './reacts'
+import { useInteraction } from './interactHook'
+import ReactCounter from './reactCounter'
 import { CardContent, CardMargin } from './styles'
+
 
 
 export default function Post(info: IPost) {
     const { owner, content, images, react, _id, mode, comments, createAt } = info
-    const { isJoin, setJoin, isReacted } = useInteraction()
-    const user = useAppSelector(state => state.user.current)
+    const interactTool = useInteraction(info)
+    const user = useAppSelector((state) => state.user.current)
 
     const optionRef = useRef(null)
     const [toggleOption, setToggleOption] = useState(false)
@@ -40,9 +51,7 @@ export default function Post(info: IPost) {
         (newComment: IComment) => {
             friendAPI.findById(newComment.owner as ID).then((owner) => {
                 newComment.owner = owner.data
-                dispatch(
-                    postActions.insertComment({ comment: newComment, postId: _id })
-                )
+                dispatch(postActions.insertComment({ comment: newComment, postId: _id }))
             })
         },
         [dispatch]
@@ -95,11 +104,12 @@ export default function Post(info: IPost) {
                         >
                             <FontAwesomeIcon icon={faEllipsisH} />
                         </IconButton>
-                    ) : <></>
+                    ) : (
+                        <></>
+                    )
                 }
             />
 
-            
             <Popover
                 open={toggleOption}
                 anchorEl={optionRef.current}
@@ -113,7 +123,7 @@ export default function Post(info: IPost) {
                     horizontal: 'right',
                 }}
             >
-                <Options post={info}/>
+                <Options post={info} />
             </Popover>
 
             {content && <CardContent>{content}</CardContent>}
@@ -123,20 +133,21 @@ export default function Post(info: IPost) {
             </CardMedia>
 
             <Box p={2} pb={1}>
-                <Reacts
-                    like={react ? react.likes : []}
-                    heart={react ? react.hearts : []}
-                />
-                <InteractTool isJoin={isJoin} setJoin={setJoin} isReacted={isReacted} />
+                <ReactCounter react={react}/>
+                <InteractTool tool={interactTool}/>
             </Box>
-            {isJoin && (
+            {interactTool.isJoin && (
                 <Box px={2} pt={0} pb={1}>
                     <Divider />
-                    <InputComment post={info}/>
-                    {comments ? comments.map((comment, index) => (
-                        <Comment key={index} {...comment} />
-                    )) : <></>}
-                    <Button sx={{textTransform:'capitalize'}} size='small'>
+                    <InputComment post={info} />
+                    {comments ? (
+                        comments.map((comment, index) => (
+                            <Comment key={index} {...comment} />
+                        ))
+                    ) : (
+                        <></>
+                    )}
+                    <Button sx={{ textTransform: 'capitalize' }} size="small">
                         View more comments
                     </Button>
                 </Box>

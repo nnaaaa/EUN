@@ -17,7 +17,7 @@ export const FACEBOOK_DB: IDB = {
         users: 'users',
         chatRooms: 'chatrooms',
         messages: 'messages',
-        posts:'posts',
+        posts: 'posts',
     },
 }
 export const BATTLESHIP_DB = 'BattleShip'

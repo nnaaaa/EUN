@@ -1,9 +1,16 @@
-import { FormEvent, useMemo, useRef, useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { postAPI } from 'api/rest';
+import { IEmotionList, IPost } from 'models/post';
+import { FormEvent, useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'states/hooks';
 
-export const useInteraction = () => {
+export interface IUpdateEmotionType{
+    type: IEmotionList
+    isReacted:boolean
+}
+
+export const useInteraction = (postInfo: IPost) => {
     //     const {owner, content, react, _id, mode, comments, images, createAt} = info
-    //   const { avatar, username, _id: myId } = useAppSelector(state => state.user.current)
+    const user = useAppSelector(state => state.user.current)
     //   const inputComment = useRef(null)
     //   const optionRef = useRef(null)
     const [toggleOption, setToggleOption] = useState(false)
@@ -44,24 +51,23 @@ export const useInteraction = () => {
         // setListReact(user)
     }
     //update on my react
-    const setReact = async (type: any) => {
-        // if (reacts[type].includes(myUid)) {
-        //     await updateDocument('posts', id, {
-        //         reacts: {
-        //             like: reacts.like.filter((uid) => uid !== myUid),
-        //             heart: reacts.heart,
-        //         },
-        //     })
-        // } else {
-        //     await updateDocument('posts', id, {
-        //         reacts: {
-        //             like: [...reacts.like, myUid],
-        //             heart: reacts.heart,
-        //         },
-        //     })
-        // }
+    const sendReact = async (selected: IEmotionList) => {
+        if (!postInfo.react)
+            return 
+        await postAPI.updateEmotion(postInfo._id,selected)
+    }
+    const getMyEmotion = () => {
+        console.log(postInfo)
+        if (!postInfo.react)
+            return 
+        for (const emotion of Object.keys(postInfo.react) as IEmotionList[]) {
+            for (const u of postInfo.react[emotion]) {
+                if (u._id == user._id)
+                    return emotion
+            }
+        }
     }
     const setJoin = () => setIsJoin((pre) => !pre)
 
-    return { isJoin, setJoin, setReact, isReacted }
+    return { isJoin, setJoin, sendReact, getMyEmotion }
 }

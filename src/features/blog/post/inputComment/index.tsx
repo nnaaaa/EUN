@@ -22,19 +22,18 @@ function InputComment(props: IInputCommentProps) {
     const [isSending, setIsSending] = useState<boolean>(false)
     const { inputImages, previewImages, setContent, content, getContentAndImages } =
         useContent(inputContent)
-    const {isAllow,setCountCurSpam,timeToAllow} = useBlockingSpam(5000,10)
+    const { isAllow, setCountCurSpam, timeToAllow } = useBlockingSpam(5000, 10)
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault()
-            if (isSending || !isAllow) return 
+            if (isSending || !isAllow) return
             setCountCurSpam()
             setIsSending(true)
             if (isSending) return
             const comment = getContentAndImages()
             if (comment) await postAPI.addComment(comment, props.post._id)
             setIsSending(false)
-        }
-        catch(e){
+        } catch (e) {
             console.log(e)
         }
     }
@@ -45,7 +44,7 @@ function InputComment(props: IInputCommentProps) {
                 <form onSubmit={sendComment} className={style.form}>
                     <StatusInput
                         value={content}
-                        onChange={(e)=> setContent(e.target.value)}
+                        onChange={(e) => setContent(e.target.value)}
                         placeholder="Nhập bình luận"
                         ref={inputContent}
                     />

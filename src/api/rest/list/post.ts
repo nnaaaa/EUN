@@ -1,7 +1,7 @@
-import { IComment } from './../../../models/comment';
-import Axios, { imagesConditon } from 'api/rest/axios'
-import { IQueryPost } from 'models/common'
-import { IModePost, IPost } from 'models/post'
+import Axios, { imagesConditon } from 'api/rest/axios';
+import { ID, IQueryPost } from 'models/common';
+import { IEmotionList, IModePost, IPost } from 'models/post';
+import { IComment } from 'models/comment';
 
 class PostAPI {
     url = `post`
@@ -25,6 +25,10 @@ class PostAPI {
         }
 
         return Axios.put(`${this.url}/update/${postInfo._id}`, form, imagesConditon)
+    }
+
+    async updateEmotion(postId: ID,updateType:IEmotionList) {
+        return Axios.put<IEmotionList>(`${this.url}/updateEmotion/${postId}/${updateType}`)
     }
 
     async addComment(commentInfo: Partial<IComment>, postId: string) {

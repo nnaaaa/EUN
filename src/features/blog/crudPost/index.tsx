@@ -7,7 +7,7 @@ import Popup from 'components/popup'
 import { useContent } from 'hooks/useContent'
 import { IPost } from 'models/post'
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
-import { useAppSelector } from 'states/hooks'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
 import Select, { useInitMode } from './selectMode/index'
 import { StatusInput, useStyle } from './styles'
 import { CRUDType } from './type'
@@ -15,22 +15,17 @@ import { CRUDType } from './type'
 interface IModelProps {
     isPopup: boolean
     setPopup: Dispatch<SetStateAction<boolean>>
-    type: CRUDType 
+    type: CRUDType
 }
 
 export default function CRUDModel(props: IModelProps) {
     const style = useStyle()
+    const dispatch = useAppDispatch()
     const inputContentRef = useRef<null | HTMLInputElement>(null)
-    const { isPopup, setPopup,type } = props
-    const user = useAppSelector(state=>state.user.current)
+    const { isPopup, setPopup, type } = props
+    const user = useAppSelector((state) => state.user.current)
     const tool = useContent<IPost>(inputContentRef)
-    const {
-        previewImages,
-        content,
-        setContent,
-        inputImages,
-        clearImages,
-    } = tool
+    const { previewImages, content, setContent, inputImages, clearImages } = tool
     const [isSending, setIsSending] = useState<boolean>(false)
     const [mode, setMode] = useInitMode()
 
@@ -38,12 +33,13 @@ export default function CRUDModel(props: IModelProps) {
     useEffect(() => {
         type.setTool(tool)
         type.setModeTool([mode, setMode])
-    },[type,tool])
+        type.setRedux(dispatch)
+    }, [type, tool, dispatch])
 
     //khởi tạo lại post cũ
     useEffect(() => {
-        type.init() 
-    },[type])
+        type.init()
+    }, [type])
 
     const upPost = async () => {
         try {
@@ -92,7 +88,7 @@ export default function CRUDModel(props: IModelProps) {
                         dots
                     />
                 </Box>
-                <Stack p={1} height="20%" justifyContent='space-between'>
+                <Stack p={1} height="20%" justifyContent="space-between">
                     <Box className={style.toolBar}>
                         <Typography>Add to your post</Typography>
                         <Box>

@@ -15,13 +15,11 @@ export default function Status() {
 
     const user = useAppSelector((state) => state.user.current)
     const [isPopup, setPopup] = useState<boolean>(false)
-    const createType = useMemo<CRUDType>(() => (
-        new CreateType()
-    ),[])
+    const createType = useMemo<CRUDType>(() => new CreateType(), [])
 
     return (
         <Box mb={2} p={2} borderRadius={2} boxShadow={1} bgcolor="white" width="100%">
-            <CreatePost isPopup={isPopup} setPopup={setPopup} type={createType}/>
+            <CreatePost isPopup={isPopup} setPopup={setPopup} type={createType} />
 
             <Grid container>
                 <Grid item container wrap="nowrap" xs={12} style={{ paddingBottom: 10 }}>
