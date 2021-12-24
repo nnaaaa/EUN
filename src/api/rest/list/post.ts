@@ -1,7 +1,8 @@
 import Axios, { imagesConditon } from 'api/rest/axios';
 import { ID, IQueryPost } from 'models/common';
-import { IEmotionList, IModePost, IPost } from 'models/post';
+import { IModePost, IPost } from 'models/post';
 import { IComment } from 'models/comment';
+import { IEmotionList, IReact } from 'models/react';
 
 class PostAPI {
     url = `post`
@@ -27,8 +28,8 @@ class PostAPI {
         return Axios.put(`${this.url}/update/${postInfo._id}`, form, imagesConditon)
     }
 
-    async updateEmotion(postId: ID,updateType:IEmotionList) {
-        return Axios.put<IEmotionList>(`${this.url}/updateEmotion/${postId}/${updateType}`)
+    async updateEmotion(reactId: ID, updateType: IEmotionList) {
+        return Axios.put<IEmotionList>(`react/update/${reactId}/${updateType}`)
     }
 
     async addComment(commentInfo: Partial<IComment>, postId: string) {
@@ -46,6 +47,9 @@ class PostAPI {
     }
     async getFromOneUser(query?: IQueryPost) {
         return Axios.get<IPost[]>(`${this.url}/getOneUser`)
+    }
+    async getReact(reactId: ID) {
+        return Axios.get<IReact>(`react/get/${reactId}`)
     }
     async acceptInvite(friendId: string) {
         return Axios.post(`${this.url}/acceptInvite`, { friendId })

@@ -1,13 +1,13 @@
 import { faHeart, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, AvatarGroup, Box, Tooltip, Typography } from '@mui/material'
-import { IEmotionList } from 'models/post'
+import { IReact } from 'models/react'
 import { IPublicInfo } from 'models/user'
 import { useStyle } from './styles'
 
 
 interface IReactsProps {
-    react: Record<IEmotionList,Partial<IPublicInfo>[]> | undefined
+    react: IReact
 }
 
 export default function ReactCounter(props: IReactsProps) {
@@ -19,6 +19,8 @@ export default function ReactCounter(props: IReactsProps) {
             return 0
         let count = 0
         for (const emotion of Object.values(react)) {
+            if (typeof emotion != 'object')
+                continue
             for (const user of emotion)
                 count++
         }

@@ -1,6 +1,6 @@
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Box, IconButton, Stack } from '@mui/material'
+import { Avatar, IconButton, Stack } from '@mui/material'
 import { postAPI } from 'api/rest'
 import InputImage from 'components/images/input'
 import PreviewImages from 'components/images/output'
@@ -8,7 +8,8 @@ import { useBlockingSpam } from 'hooks/useBlockingSpam'
 import { useContent } from 'hooks/useContent'
 import { IPost } from 'models/post'
 import { FormEvent, useRef, useState } from 'react'
-import { useAppSelector } from 'states/hooks'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { postActions } from 'states/slices/postSlice'
 import { StatusInput, useStyle } from './styles'
 
 interface IInputCommentProps {
@@ -23,6 +24,7 @@ function InputComment(props: IInputCommentProps) {
     const { inputImages, previewImages, setContent, content, getContentAndImages } =
         useContent(inputContent)
     const { isAllow, setCountCurSpam, timeToAllow } = useBlockingSpam(5000, 10)
+    const dispatch = useAppDispatch()
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault()

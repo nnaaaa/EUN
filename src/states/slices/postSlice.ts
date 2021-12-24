@@ -1,4 +1,5 @@
-import { IComment } from './../../models/comment'
+import { IReact } from 'models/react';
+import { IComment } from 'models/comment'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { postAPI } from 'api/rest'
 import { ID } from 'models/common'
@@ -34,6 +35,14 @@ const postSlice = createSlice({
                         ...(post.comments as IComment[]),
                     ]
                     return { ...post, comments: newComments }
+                }
+                return post
+            })
+        },
+        updateReact(state, action: PayloadAction<{react:IReact,postId:ID}>) {
+            state.current = state.current.map((post) => {
+                if (post._id === action.payload.postId) {
+                    return { ...post, react:action.payload.react }
                 }
                 return post
             })

@@ -8,28 +8,22 @@ import {
     CardMedia,
     Divider,
     IconButton,
-    Popover,
-    Skeleton,
-    Tooltip,
-    Typography,
+    Popover, Tooltip,
+    Typography
 } from '@mui/material'
-import { friendAPI } from 'api/rest'
 import { useCommentSocket } from 'api/socket/comment'
 import DisplayGridImages from 'components/images/output2'
-import { IComment } from 'models/comment'
-import { ID } from 'models/common'
 import { IPost } from 'models/post'
 import moment from 'moment'
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { postActions } from 'states/slices/postSlice'
+import { useAppSelector } from 'states/hooks'
 import Comment from './comment'
 import Options from './crudOption'
 import InputComment from './inputComment'
 import InteractTool from './interactTools'
+import { useInteraction } from './interactTools/interactHook'
 import Mode from './mode'
-import { useInteraction } from './interactHook'
 import ReactCounter from './reactCounter'
 import { CardContent, CardMargin } from './styles'
 
@@ -45,18 +39,8 @@ export default function Post(info: IPost) {
 
     const time = moment(createAt).fromNow(true)
     const detailTime = moment(createAt).format('dddd, h:mm:ss a, MMMM YYYY')
-    const dispatch = useAppDispatch()
 
-    const dispatcher = useCallback(
-        (newComment: IComment) => {
-            friendAPI.findById(newComment.owner as ID).then((owner) => {
-                newComment.owner = owner.data
-                dispatch(postActions.insertComment({ comment: newComment, postId: _id }))
-            })
-        },
-        [dispatch]
-    )
-    useCommentSocket(_id, dispatcher)
+    useCommentSocket(_id)
 
     return (
         <CardMargin>
@@ -136,7 +120,7 @@ export default function Post(info: IPost) {
                 <ReactCounter react={react}/>
                 <InteractTool tool={interactTool}/>
             </Box>
-            {interactTool.isJoin && (
+            {interactTool.isJoinComment && (
                 <Box px={2} pt={0} pb={1}>
                     <Divider />
                     <InputComment post={info} />

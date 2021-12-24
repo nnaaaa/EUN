@@ -8,10 +8,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useStyle } from './styles'
-import { useInteraction } from '../interactHook'
+import { useInteraction } from './interactHook'
 import { FacebookCounter,ReactionBarSelector  } from '@charkour/react-reactions';
 import { useCallback, useRef, useState } from 'react'
-import { IEmotionList } from 'models/post'
+import { IEmotionList } from 'models/react'
+import { useReactSocket } from 'api/socket/react'
 
 interface IInteractTools {
     tool: ReturnType<typeof useInteraction>
@@ -22,9 +23,10 @@ export interface IEmotionSelect{
     node: React.ReactNode
 }
 
+
 export default function InteractTool(props: IInteractTools) {
     const style = useStyle()
-    const { isJoin, setJoin, getMyEmotion,sendReact } = props.tool
+    const { isJoinComment, setJoin, getMyEmotion,sendReact,isReacted } = props.tool
     const likeButton = useRef(null)
     const [toggleEmotion, setToggleEmotion] = useState<boolean>(false)
     const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
@@ -36,9 +38,8 @@ export default function InteractTool(props: IInteractTools) {
         }, 1000)
     },[toggleEmotion,timeoutRef])
 
-    // const colorReact = isReacted ? '#3f51b5' : '#a19c9c'
-    const colorComment = isJoin ? '#3f51b5' : '#a19c9c'
-
+    const colorReact = isReacted ? '#3f51b5' : '#a19c9c'
+    const colorComment = isJoinComment ? '#3f51b5' : '#a19c9c'
 
 
     return (
@@ -47,7 +48,8 @@ export default function InteractTool(props: IInteractTools) {
             <Box display="flex" mt={1}>
                 <Button
                     className={style.button}
-                    startIcon={<FontAwesomeIcon icon={faThumbsUp}/>}
+                    startIcon={<FontAwesomeIcon icon={faThumbsUp} color={colorReact} />}
+                    sx={{ color: colorReact }}
                     onClick={() => {
                         timeoutToggle(false)
                         sendReact('like')
@@ -61,7 +63,7 @@ export default function InteractTool(props: IInteractTools) {
                         className={style.textBtn}
                         // style={{ color: colorReact }}
                     >
-                        {getMyEmotion() || 'Like' }
+                        {getMyEmotion()}
                     </Typography>
                 </Button>
                 <Popover
@@ -89,7 +91,7 @@ export default function InteractTool(props: IInteractTools) {
                     className={style.button}
                     startIcon={
                         <FontAwesomeIcon
-                            icon={isJoin ? faCommentDots : faComment}
+                            icon={isJoinComment ? faCommentDots : faComment}
                             color={colorComment}
                         />
                     }
@@ -100,7 +102,7 @@ export default function InteractTool(props: IInteractTools) {
                         className={style.textBtn}
                         sx={{ color: colorComment }}
                     >
-                        {isJoin ? 'Hide' : 'Comment'}
+                        {isJoinComment ? 'Hide' : 'Comment'}
                     </Typography>
                 </Button>
                 <Button

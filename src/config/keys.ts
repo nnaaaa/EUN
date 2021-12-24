@@ -8,6 +8,7 @@ interface IDB {
         chatRooms: string
         messages: string
         posts: string
+        reacts: string
     }
 }
 
@@ -18,6 +19,7 @@ export const FACEBOOK_DB: IDB = {
         chatRooms: 'chatrooms',
         messages: 'messages',
         posts: 'posts',
+        reacts: 'reacts'
     },
 }
 export const BATTLESHIP_DB = 'BattleShip'
