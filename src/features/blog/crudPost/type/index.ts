@@ -1,4 +1,4 @@
-import { useAppDispatch } from 'states/hooks';
+import { useAppDispatch } from 'states/hooks'
 import { useContent } from 'hooks/useContent'
 import { IPost } from 'models/post'
 import { useInitMode } from '../selectMode'
@@ -29,7 +29,7 @@ export abstract class CRUDType {
     public setModeTool(modeTool: IModeToolType): void {
         this._modeTool = modeTool
     }
-    public setRedux(dispatch:IDispatch) {
+    public setRedux(dispatch: IDispatch) {
         this._dispatch = dispatch
     }
     public init(): void {}

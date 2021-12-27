@@ -1,8 +1,8 @@
-import Axios, { imagesConditon } from 'api/rest/axios';
-import { ID, IQueryPost } from 'models/common';
-import { IModePost, IPost } from 'models/post';
-import { IComment } from 'models/comment';
-import { IEmotionList, IReact } from 'models/react';
+import Axios, { imagesConditon } from 'api/rest/axios'
+import { ID, IQueryPost } from 'models/common'
+import { IModePost, IPost } from 'models/post'
+import { IComment } from 'models/comment'
+import { IEmotionList, IReact } from 'models/react'
 
 class PostAPI {
     url = `post`

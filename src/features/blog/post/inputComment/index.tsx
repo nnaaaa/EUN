@@ -9,7 +9,6 @@ import { useContent } from 'hooks/useContent'
 import { IPost } from 'models/post'
 import { FormEvent, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { postActions } from 'states/slices/postSlice'
 import { StatusInput, useStyle } from './styles'
 
 interface IInputCommentProps {
@@ -24,7 +23,6 @@ function InputComment(props: IInputCommentProps) {
     const { inputImages, previewImages, setContent, content, getContentAndImages } =
         useContent(inputContent)
     const { isAllow, setCountCurSpam, timeToAllow } = useBlockingSpam(5000, 10)
-    const dispatch = useAppDispatch()
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault()

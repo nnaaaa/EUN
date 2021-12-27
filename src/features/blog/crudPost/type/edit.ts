@@ -1,4 +1,4 @@
-import { postActions } from 'states/slices/postSlice';
+import { postActions } from 'states/slices/postSlice'
 import { postAPI } from 'api/rest'
 import { IPost } from 'models/post'
 import { CRUDType } from '.'

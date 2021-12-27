@@ -1,4 +1,4 @@
-import { IReact } from 'models/react';
+import { IReact } from 'models/react'
 import { IComment } from 'models/comment'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { postAPI } from 'api/rest'
@@ -39,10 +39,10 @@ const postSlice = createSlice({
                 return post
             })
         },
-        updateReact(state, action: PayloadAction<{react:IReact,postId:ID}>) {
+        updateReact(state, action: PayloadAction<{ react: IReact; postId: ID }>) {
             state.current = state.current.map((post) => {
                 if (post._id === action.payload.postId) {
-                    return { ...post, react:action.payload.react }
+                    return { ...post, react: action.payload.react }
                 }
                 return post
             })
@@ -52,16 +52,16 @@ const postSlice = createSlice({
         },
         updatePost(state, action: PayloadAction<IPost>) {
             state.current = state.current.map((post) => {
-                if (post._id === action.payload._id) 
+                if (post._id === action.payload._id)
                     return {
                         ...post,
                         content: action.payload.content,
                         images: action.payload.images,
-                        mode: action.payload.mode
+                        mode: action.payload.mode,
                     }
                 return post
             })
-        }
+        },
     },
     extraReducers: (builder) => {
         builder

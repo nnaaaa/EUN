@@ -7,9 +7,7 @@ import { SocketContext } from 'states/context/socket'
 import { useAppDispatch } from 'states/hooks'
 import { postActions } from 'states/slices/postSlice'
 
-export const useCommentSocket = (
-    postId: ID | undefined
-) => {
+export const useCommentSocket = (postId: ID | undefined) => {
     const { socket } = useContext(SocketContext)
     const dispatch = useAppDispatch()
 

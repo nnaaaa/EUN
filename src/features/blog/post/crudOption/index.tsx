@@ -5,11 +5,12 @@ import EditPost from 'features/blog/crudPost'
 import { CRUDType } from 'features/blog/crudPost/type'
 import EditType from 'features/blog/crudPost/type/edit'
 import { IPost } from 'models/post'
-import { useMemo, useState } from 'react'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { useStyle } from './styles'
 
 interface IOptionProps {
     post: IPost
+    setOpenOption: Dispatch<SetStateAction<boolean>>
 }
 
 const Options = (props: IOptionProps) => {
@@ -37,7 +38,13 @@ const Options = (props: IOptionProps) => {
                 <Typography variant="subtitle1">Delete</Typography>
             </Button>
 
-            <EditPost isPopup={isPopup} setPopup={setPopup} type={editType} />
+            <EditPost isPopup={isPopup}
+                setPopup={(isOpen) => {
+                    setPopup(isOpen)
+                    props.setOpenOption(isOpen)
+                }}
+                type={editType}
+            />
         </Box>
     )
 }

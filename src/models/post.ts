@@ -3,7 +3,6 @@ import { IComment } from './comment'
 import { ID } from './common'
 import { IReact } from './react'
 
-
 export type IModePost = 'private' | 'public' | 'friend'
 
 export interface IPost {
@@ -16,4 +15,3 @@ export interface IPost {
     createAt: Date
     mode: IModePost
 }
-

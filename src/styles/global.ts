@@ -42,10 +42,10 @@ const globalStyles = createGlobalStyle`
 export const theme = createTheme({
     palette: {
         primary: {
-            main: pink[300],
+            main: '#1198F6',
         },
         secondary: {
-            main: blue[300],
+            main: pink[300],
         },
     },
 })

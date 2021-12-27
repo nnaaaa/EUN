@@ -8,10 +8,12 @@ import {
     CardMedia,
     Divider,
     IconButton,
-    Popover, Tooltip,
-    Typography
+    Popover,
+    Tooltip,
+    Typography,
 } from '@mui/material'
 import { useCommentSocket } from 'api/socket/comment'
+import { useReactSocket } from 'api/socket/react'
 import DisplayGridImages from 'components/images/output2'
 import { IPost } from 'models/post'
 import moment from 'moment'
@@ -27,8 +29,6 @@ import Mode from './mode'
 import ReactCounter from './reactCounter'
 import { CardContent, CardMargin } from './styles'
 
-
-
 export default function Post(info: IPost) {
     const { owner, content, images, react, _id, mode, comments, createAt } = info
     const interactTool = useInteraction(info)
@@ -38,9 +38,10 @@ export default function Post(info: IPost) {
     const [toggleOption, setToggleOption] = useState(false)
 
     const time = moment(createAt).fromNow(true)
-    const detailTime = moment(createAt).format('dddd, h:mm:ss a, MMMM YYYY')
+    const detailTime = moment(createAt).format('h:mm:ss a, DD MMMM YYYY')
 
     useCommentSocket(_id)
+    useReactSocket(info._id, info.react._id)
 
     return (
         <CardMargin>
@@ -107,7 +108,7 @@ export default function Post(info: IPost) {
                     horizontal: 'right',
                 }}
             >
-                <Options post={info} />
+                <Options post={info} setOpenOption={setToggleOption}/>
             </Popover>
 
             {content && <CardContent>{content}</CardContent>}
@@ -117,8 +118,8 @@ export default function Post(info: IPost) {
             </CardMedia>
 
             <Box p={2} pb={1}>
-                <ReactCounter react={react}/>
-                <InteractTool tool={interactTool}/>
+                <ReactCounter react={react} />
+                <InteractTool tool={interactTool} />
             </Box>
             {interactTool.isJoinComment && (
                 <Box px={2} pt={0} pb={1}>

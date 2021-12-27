@@ -25,8 +25,9 @@ export default function Comment(props: IComment) {
                         <Box mt={1}>
                             <DisplayGridImages images={images} title={username} />
                         </Box>
-                    ) : <></>}
-                    
+                    ) : (
+                        <></>
+                    )}
                 </Box>
                 {/* <Box p={1} pt={0} display="flex">
                     <Typography className={style.button}>Like</Typography>

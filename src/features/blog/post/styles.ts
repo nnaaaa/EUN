@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const CardMargin = styled(Card)`
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 `
 export const CardContent = styled(Typography)`
     padding: 15px;
