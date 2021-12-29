@@ -10,20 +10,19 @@ import Photos from './browse/photos'
 import ListFriend from './detail/listFriend'
 import ListPhoto from './detail/listPhoto'
 
-
 interface IProfileProps {
-    user:IPublicInfo
+    user: IPublicInfo
 }
 
-interface IProfileStates{
-    index:number
+interface IProfileStates {
+    index: number
 }
 
-abstract class Profile extends Component<IProfileProps,IProfileStates>{
+abstract class Profile extends Component<IProfileProps, IProfileStates> {
     constructor(props: any) {
         super(props)
         this.state = {
-            index: 0
+            index: 0,
         }
     }
 
@@ -57,7 +56,7 @@ abstract class Profile extends Component<IProfileProps,IProfileStates>{
     )
     // public abstract ListPost(): React.ReactElement
 
-    private BoxStyled = ({children}:{children:React.ReactElement}) => (
+    private BoxStyled = ({ children }: { children: React.ReactElement }) => (
         <Box
             py={2}
             sx={{
@@ -72,8 +71,9 @@ abstract class Profile extends Component<IProfileProps,IProfileStates>{
         </Box>
     )
 
-    protected setIndexTabView = (index: number) => { this.setState({ index }) }
-    
+    protected setIndexTabView = (index: number) => {
+        this.setState({ index })
+    }
 
     render() {
         return (
@@ -87,16 +87,18 @@ abstract class Profile extends Component<IProfileProps,IProfileStates>{
                 <SwipeableViews
                     axis={'x'}
                     index={this.state.index}
-                    onChangeIndex={(newIdx,lastedIndex) => this.setIndexTabView(newIdx)}
+                    onChangeIndex={(newIdx, lastedIndex) => this.setIndexTabView(newIdx)}
                 >
                     <this.BoxStyled>
                         <Grid container spacing={2}>
-                            <Grid item md={5}
+                            <Grid
+                                item
+                                md={5}
                                 sx={{
                                     display: {
                                         xs: 'none',
-                                        md: 'initial'
-                                    }
+                                        md: 'initial',
+                                    },
                                 }}
                             >
                                 <Intro user={this.props.user} />
@@ -107,7 +109,7 @@ abstract class Profile extends Component<IProfileProps,IProfileStates>{
                                 />
                             </Grid>
                             <Grid item md={7} xs={12}>
-                                <ListPost type="all"/>
+                                <ListPost type="all" />
                             </Grid>
                         </Grid>
                     </this.BoxStyled>
@@ -126,8 +128,7 @@ abstract class Profile extends Component<IProfileProps,IProfileStates>{
     }
 }
 
-export class OwnerProfile extends Profile {
-}
+export class OwnerProfile extends Profile {}
 
 export class FriendProfile extends Profile {
     render() {

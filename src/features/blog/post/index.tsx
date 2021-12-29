@@ -108,7 +108,7 @@ export default function Post(info: IPost) {
                     horizontal: 'right',
                 }}
             >
-                <Options post={info} setOpenOption={setToggleOption}/>
+                <Options post={info} setOpenOption={setToggleOption} />
             </Popover>
 
             {content && <CardContent>{content}</CardContent>}

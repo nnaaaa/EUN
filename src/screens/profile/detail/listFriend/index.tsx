@@ -1,4 +1,4 @@
-import {Box, Grid, Typography, Avatar} from '@mui/material'
+import { Box, Grid, Typography, Avatar } from '@mui/material'
 import React from 'react'
 import { useStyle } from './styles'
 import { useState, useEffect } from 'react'
@@ -6,23 +6,22 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { IPublicInfo } from 'models/user'
 
-interface IListFriendProps{
-  setIndex: (i: number) => void
-  user:IPublicInfo
+interface IListFriendProps {
+    setIndex: (i: number) => void
+    user: IPublicInfo
 }
 
-export default function ListFriend({setIndex, user}:IListFriendProps) {
-  const style = useStyle()
-  const [friendList, setFriendList] = useState([])
+export default function ListFriend({ setIndex, user }: IListFriendProps) {
+    const style = useStyle()
+    const [friendList, setFriendList] = useState([])
 
-  return (
-    <Box p={2} borderRadius={1} boxShadow={1} bgcolor="white">
-      <Box mb={2} display="flex" justifyContent="space-between">
-        <Typography className={style.title}>Friends</Typography>
-      </Box>
-      
-    </Box>
-  )
+    return (
+        <Box p={2} borderRadius={1} boxShadow={1} bgcolor="white">
+            <Box mb={2} display="flex" justifyContent="space-between">
+                <Typography className={style.title}>Friends</Typography>
+            </Box>
+        </Box>
+    )
 }
 
 // {/* <Grid container spacing={1}>
@@ -41,5 +40,5 @@ export default function ListFriend({setIndex, user}:IListFriendProps) {
 //             <Typography>{u.username}</Typography>
 //             {/* </Link> */}
 //           </Grid>
-//         ))}  
+//         ))}
 //       </Grid> */}

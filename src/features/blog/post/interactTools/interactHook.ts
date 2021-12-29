@@ -14,43 +14,43 @@ export interface IUpdateEmotionType {
     isReacted: boolean
 }
 
-interface IDisplayReactType{
+interface IDisplayReactType {
     text: IEmotionList
     image: IconDefinition
     color: any
 }
 
-const displayReact: Record<IEmotionList,IDisplayReactType> = {
+const displayReact: Record<IEmotionList, IDisplayReactType> = {
     like: {
         text: 'like',
         image: faThumbsUp,
-        color: blue[500]
+        color: blue[500],
     },
     love: {
         text: 'love',
         image: faHeart,
-        color: '#F55470'
+        color: '#F55470',
     },
     haha: {
         text: 'love',
         image: faHeart,
-        color: blue[500]
+        color: blue[500],
     },
     wow: {
         text: 'love',
         image: faHeart,
-        color: blue[500]
+        color: blue[500],
     },
     sad: {
         text: 'love',
         image: faHeart,
-        color: blue[500]
+        color: blue[500],
     },
     angry: {
         text: 'love',
         image: faHeart,
-        color: blue[500]
-    }
+        color: blue[500],
+    },
 }
 
 export const useInteraction = (postInfo: IPost) => {
@@ -74,7 +74,7 @@ export const useInteraction = (postInfo: IPost) => {
         }
         setIsReacted(false)
         return displayReact['like']
-    },[postInfo.react,setIsReacted])
+    }, [postInfo.react, setIsReacted])
 
     //update on my react
     const sendReact = async (selected: IEmotionList) => {
@@ -108,5 +108,5 @@ export const useInteraction = (postInfo: IPost) => {
 
     const setJoin = () => setIsJoinCommtent((pre) => !pre)
 
-    return { isJoinComment, setJoin, sendReact, isReacted,myReact }
+    return { isJoinComment, setJoin, sendReact, isReacted, myReact }
 }

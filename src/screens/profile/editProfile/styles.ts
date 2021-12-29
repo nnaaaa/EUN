@@ -3,23 +3,23 @@ import styled from 'styled-components'
 import { makeStyles } from '@mui/styles'
 
 export const useStyle = makeStyles({
-  avatarInside: {
-    width: 150,
-    height: 150,
-    objectFit: 'cover',
-    margin: '10px auto',
-  },
+    avatarInside: {
+        width: 150,
+        height: 150,
+        objectFit: 'cover',
+        margin: '10px auto',
+    },
 })
 
 export const Hobbies = styled(Accordion)`
-  box-shadow: none;
-  &::before {
-    display: none;
-  }
+    box-shadow: none;
+    &::before {
+        display: none;
+    }
 `
 
 export const Title = styled(Typography)`
-  font-size: 20px;
-  font-weight: bold;
-  text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
 `

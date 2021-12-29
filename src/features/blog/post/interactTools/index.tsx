@@ -1,14 +1,11 @@
 import { ReactionBarSelector } from '@charkour/react-reactions'
-import {
-    faComment, faCommentDots, faShare
-} from '@fortawesome/free-solid-svg-icons'
+import { faComment, faCommentDots, faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Box, Button, Divider, Popover, Typography } from '@mui/material'
 import { IEmotionList } from 'models/react'
 import { useCallback, useRef, useState } from 'react'
 import { useInteraction } from './interactHook'
 import { useStyle } from './styles'
-
 
 interface IInteractTools {
     tool: ReturnType<typeof useInteraction>
@@ -21,7 +18,7 @@ export interface IEmotionSelect {
 
 export default function InteractTool(props: IInteractTools) {
     const style = useStyle()
-    const { isJoinComment, setJoin, sendReact, isReacted,myReact } = props.tool
+    const { isJoinComment, setJoin, sendReact, isReacted, myReact } = props.tool
     const likeButton = useRef(null)
     const [toggleEmotion, setToggleEmotion] = useState<boolean>(false)
     const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
@@ -45,8 +42,15 @@ export default function InteractTool(props: IInteractTools) {
                 <Button
                     className={style.button}
                     startIcon={
-                        <Avatar sx={{width:'30px',height:'30px',background:colorReact,fontSize:'15px'}}>
-                            <FontAwesomeIcon icon={myReact.image} size='sm'/>
+                        <Avatar
+                            sx={{
+                                width: '30px',
+                                height: '30px',
+                                background: colorReact,
+                                fontSize: '15px',
+                            }}
+                        >
+                            <FontAwesomeIcon icon={myReact.image} size="sm" />
                         </Avatar>
                     }
                     sx={{ color: colorReact }}
@@ -55,13 +59,10 @@ export default function InteractTool(props: IInteractTools) {
                         sendReact(myReact.text)
                     }}
                     onMouseOver={() => timeoutToggle(true)}
-                    onMouseLeave={()=>timeoutToggle(false)}
+                    onMouseLeave={() => timeoutToggle(false)}
                     ref={likeButton}
                 >
-                    <Typography
-                        variant="subtitle2"
-                        className={style.textBtn}
-                    >
+                    <Typography variant="subtitle2" className={style.textBtn}>
                         {myReact.text}
                     </Typography>
                 </Button>

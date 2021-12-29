@@ -24,7 +24,7 @@ function App() {
                     <Route component={FriendProfile} path="/friend/:account" />
                     <Route component={NotFound} path="/:err" /> */}
                     <Route component={Authentication} path="/auth" />
-                    <Route component={NotFound} path='/:error'/>
+                    <Route component={NotFound} path="/:error" />
                     {/* <Redirect to="/home" /> */}
                 </Switch>
             </HashRouter>

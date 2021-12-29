@@ -38,7 +38,8 @@ const Options = (props: IOptionProps) => {
                 <Typography variant="subtitle1">Delete</Typography>
             </Button>
 
-            <EditPost isPopup={isPopup}
+            <EditPost
+                isPopup={isPopup}
                 setPopup={(isOpen) => {
                     setPopup(isOpen)
                     props.setOpenOption(isOpen)

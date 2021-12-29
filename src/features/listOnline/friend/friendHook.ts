@@ -9,23 +9,21 @@ export const useToggleChat = () => {
     const user = useAppSelector((state) => state.user.current)
     return async (friendId: ID) => {
         try {
-            
             if (loading) return
-            
+
             if (!user._id) return
-            
+
             if (
                 listChat.find((room) => {
                     const listId = room.members.map((u) => u._id)
                     return arrayIsContain(listId, user._id, friendId)
                 })
-                ) {
-                    dispatch(chatActions.closeWindowChat([user._id, friendId]))
+            ) {
+                dispatch(chatActions.closeWindowChat([user._id, friendId]))
                 return
             }
             await dispatch(chatActions.addChat(friendId))
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
