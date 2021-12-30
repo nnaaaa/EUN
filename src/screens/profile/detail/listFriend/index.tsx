@@ -20,25 +20,29 @@ export default function ListFriend({ setIndex, user }: IListFriendProps) {
             <Box mb={2} display="flex" justifyContent="space-between">
                 <Typography className={style.title}>Friends</Typography>
             </Box>
+            <Grid container spacing={1}>
+                {user.friends.accepted?.slice(0, 9)?.map((u, index) => (
+                    <Grid
+                        item
+                        xs={6}
+                        container
+                        alignItems="center"
+                        key={index}
+                        justifyContent="flex-start"
+                        className={style.frame}
+
+                    >
+                        <Avatar
+                            variant="square"
+                            src={u.avatar}
+                            className={style.avatar}
+                        />
+                        {/* <Link to={`/friend/${user.uid}`} className={style.name}> */}
+                        <Typography>{u.username}</Typography>
+                        {/* </Link> */}
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
     )
 }
-
-// {/* <Grid container spacing={1}>
-//         {user.friends.accepted?.slice(0, 9)?.map((u, index) => (
-//           <Grid
-//             item
-//             xs={6}
-//             container
-//             alignItems="center"
-//             key={index}
-//             justifyContent="flex-start"
-//             className={style.frame}
-//           >
-//             <Avatar variant="square" src={u.avatar} className={style.avatar} />
-//             {/* <Link to={`/friend/${user.uid}`} className={style.name}> */}
-//             <Typography>{u.username}</Typography>
-//             {/* </Link> */}
-//           </Grid>
-//         ))}
-//       </Grid> */}
