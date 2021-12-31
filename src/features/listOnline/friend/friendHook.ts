@@ -11,7 +11,7 @@ export const useToggleChat = () => {
         try {
             if (loading) return
 
-            if (!user._id) return
+            if (!user || !user._id) return
 
             if (
                 listChat.find((room) => {

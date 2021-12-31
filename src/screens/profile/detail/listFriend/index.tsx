@@ -1,10 +1,11 @@
-import { Box, Grid, Typography, Avatar } from '@mui/material'
+import { Box, Grid, Typography, Avatar, Paper, Stack } from '@mui/material'
 import React from 'react'
 import { useStyle } from './styles'
 import { useState, useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
 import { IPublicInfo } from 'models/user'
+import AutoAvatar from 'components/autoAvatar'
 
 interface IListFriendProps {
     setIndex: (i: number) => void
@@ -29,17 +30,28 @@ export default function ListFriend({ setIndex, user }: IListFriendProps) {
                         alignItems="center"
                         key={index}
                         justifyContent="flex-start"
-                        className={style.frame}
-
                     >
-                        <Avatar
-                            variant="square"
-                            src={u.avatar}
-                            className={style.avatar}
-                        />
-                        {/* <Link to={`/friend/${user.uid}`} className={style.name}> */}
-                        <Typography>{u.username}</Typography>
-                        {/* </Link> */}
+                        <Grid
+                            item
+                            container
+                            boxShadow={1}
+                            borderRadius={1}
+                            p={2}
+                            alignItems="center"
+                        >
+                            <Grid xs={3} item>
+                                <AutoAvatar src={u.avatar}/>
+                            </Grid>
+                            <Grid xs={9} item>
+                                <Typography
+                                    component={Link}
+                                    to="/"
+                                    className={style.name}
+                                >
+                                    {u.username}
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 ))}
             </Grid>

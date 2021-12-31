@@ -13,12 +13,6 @@ export const useStyle = makeStyles((theme: any) => ({
         backgroundColor: 'white',
         borderRadius: '50%',
     },
-    nav: {
-        borderBottom: '1px solid #dad6d6',
-        textAlign: 'center',
-        display: 'flex',
-        justifyContent: 'space-between',
-    },
     appbar: {
         boxShadow: 'none',
         backgroundColor: 'transparent',

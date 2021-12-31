@@ -9,6 +9,7 @@ import { useAppSelector } from 'states/hooks'
 import CreatePost from '../blog/crudPost/index'
 import CreateType from 'features/blog/crudPost/type/create'
 import { css } from './statusStyles'
+import Loading from 'screens/loading'
 
 export default function Status() {
     const style = css()
@@ -17,6 +18,10 @@ export default function Status() {
     const [isPopup, setPopup] = useState<boolean>(false)
     const createType = useMemo<CRUDType>(() => new CreateType(), [])
 
+    if (!user)
+        return <Loading/>
+
+    
     return (
         <Box mb={2} p={2} borderRadius={2} boxShadow={1} bgcolor="white" width="100%">
             <CreatePost isPopup={isPopup} setPopup={setPopup} type={createType} />

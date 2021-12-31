@@ -7,7 +7,7 @@ import { userAPI } from './../rest/list/user'
 
 export const useUserSocket = (
     targetId: ID | undefined,
-    dispatcher: (user: Partial<IPublicInfo>) => void
+    dispatcher: (user: IPublicInfo) => void
 ) => {
     const { socket } = useContext(SocketContext)
 
@@ -18,7 +18,7 @@ export const useUserSocket = (
                 const user = await userAPI.getProfile()
                 dispatcher(user.data)
             } catch {
-                dispatcher({})
+                console.log('Fail to update user role')
             }
         }
 

@@ -5,12 +5,12 @@ import { IPublicInfo } from 'models/user'
 interface IinitState {
     loading: boolean
     error?: string
-    current: Partial<IPublicInfo>
+    current: IPublicInfo | undefined
 }
 
 const initialState: IinitState = {
     loading: false,
-    current: {},
+    current: undefined,
 }
 
 const getProfile = createAsyncThunk('user/getProfile', async () => {
@@ -24,9 +24,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         clearUser: (state) => {
-            state.current = {}
+            state.current = undefined
         },
-        updateStore: (state, action: PayloadAction<Partial<IPublicInfo>>) => {
+        updateStore: (state, action: PayloadAction<IPublicInfo>) => {
             state.current = action.payload
         },
     },

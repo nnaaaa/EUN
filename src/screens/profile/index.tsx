@@ -1,8 +1,8 @@
 import { Box, Grid, Skeleton, Typography } from '@mui/material'
-import ListPost from 'features/blog/listPost'
 import { IPublicInfo } from 'models/user'
 import { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'
+import Loading from 'screens/loading'
 import Friends from './browse/friends'
 import Header from './browse/header'
 import Intro from './browse/intro'
@@ -10,16 +10,17 @@ import Photos from './browse/photos'
 import ListFriend from './detail/listFriend'
 import ListPhoto from './detail/listPhoto'
 
+
 interface IProfileProps {
-    user: IPublicInfo
+    user: IPublicInfo | undefined
 }
 
 interface IProfileStates {
     index: number
 }
 
-abstract class Profile extends Component<IProfileProps, IProfileStates> {
-    constructor(props: any) {
+export default abstract class Profile extends Component<IProfileProps, IProfileStates> {
+    constructor(props: IProfileProps) {
         super(props)
         this.state = {
             index: 0,
@@ -54,7 +55,7 @@ abstract class Profile extends Component<IProfileProps, IProfileStates> {
             </Box>
         </Box>
     )
-    // public abstract ListPost(): React.ReactElement
+    protected abstract ListPost(): React.ReactElement
 
     private BoxStyled = ({ children }: { children: React.ReactElement }) => (
         <Box
@@ -76,17 +77,23 @@ abstract class Profile extends Component<IProfileProps, IProfileStates> {
     }
 
     render() {
+        const { user } = this.props
+        const { index } = this.state
+
+        if (!user)
+            return <Loading/>
+
         return (
             <Box bgcolor="white" width="100%">
                 <Header
                     setIndex={this.setIndexTabView}
-                    index={this.state.index}
-                    user={this.props.user}
+                    index={index}
+                    user={user}
                 />
 
                 <SwipeableViews
                     axis={'x'}
-                    index={this.state.index}
+                    index={index}
                     onChangeIndex={(newIdx, lastedIndex) => this.setIndexTabView(newIdx)}
                 >
                     <this.BoxStyled>
@@ -101,24 +108,24 @@ abstract class Profile extends Component<IProfileProps, IProfileStates> {
                                     },
                                 }}
                             >
-                                <Intro user={this.props.user} />
+                                <Intro user={user} />
                                 <Photos setIndex={this.setIndexTabView} />
                                 <Friends
                                     setIndex={this.setIndexTabView}
-                                    user={this.props.user}
+                                    user={user}
                                 />
                             </Grid>
                             <Grid item md={7} xs={12}>
-                                <ListPost type="all" />
+                                <this.ListPost/>
                             </Grid>
                         </Grid>
                     </this.BoxStyled>
                     <this.BoxStyled>
-                        <ListPhoto user={this.props.user} />
+                        <ListPhoto user={user} />
                     </this.BoxStyled>
                     <this.BoxStyled>
                         <ListFriend
-                            user={this.props.user}
+                            user={user}
                             setIndex={this.setIndexTabView}
                         />
                     </this.BoxStyled>
@@ -128,10 +135,6 @@ abstract class Profile extends Component<IProfileProps, IProfileStates> {
     }
 }
 
-export class OwnerProfile extends Profile {}
 
-export class FriendProfile extends Profile {
-    render() {
-        return <Typography>Hello B</Typography>
-    }
-}
+
+

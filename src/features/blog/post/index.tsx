@@ -19,6 +19,7 @@ import { IPost } from 'models/post'
 import moment from 'moment'
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Loading from 'screens/loading'
 import { useAppSelector } from 'states/hooks'
 import Comment from './comment'
 import Options from './crudOption'
@@ -42,6 +43,9 @@ export default function Post(info: IPost) {
 
     useCommentSocket(_id)
     useReactSocket(info._id, info.react._id)
+
+    if (!user)
+        return <Loading/>
 
     return (
         <CardMargin>

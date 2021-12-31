@@ -1,16 +1,19 @@
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import { useOfflineUser, useOnlineUser } from 'api/socket/hooks'
-import React from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Authentication from 'screens/authenticate'
 import Home from 'screens/home'
 import NotFound from 'screens/notFound'
+import OwnerProfile from 'screens/profile/ownerScreen'
+import { useAppSelector } from 'states/hooks'
 import GlobalStyles, { theme } from 'styles/global'
 
 function App() {
     useOnlineUser()
     useOfflineUser()
+    const user = useAppSelector(state => state.user.current)
+    
 
     return (
         <ThemeProvider theme={theme}>
@@ -19,8 +22,8 @@ function App() {
             <HashRouter>
                 <Switch>
                     <Route component={Home} exact path="/" />
+                    <Route children={<OwnerProfile user={user} />} path="/profile" />
                     {/*<Route component={Authentication} path="/login" />
-                    <Route component={UserProfile} path="/profile" />
                     <Route component={FriendProfile} path="/friend/:account" />
                     <Route component={NotFound} path="/:err" /> */}
                     <Route component={Authentication} path="/auth" />

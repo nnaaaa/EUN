@@ -10,6 +10,7 @@ import { IPost } from 'models/post'
 import { FormEvent, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { StatusInput, useStyle } from './styles'
+import Loading from 'screens/loading'
 
 interface IInputCommentProps {
     post: IPost
@@ -18,7 +19,7 @@ interface IInputCommentProps {
 function InputComment(props: IInputCommentProps) {
     const style = useStyle()
     const inputContent = useRef<null | HTMLInputElement>(null)
-    const { avatar } = useAppSelector((state) => state.user.current)
+    const user = useAppSelector((state) => state.user.current)
     const [isSending, setIsSending] = useState<boolean>(false)
     const { inputImages, previewImages, setContent, content, getContentAndImages } =
         useContent(inputContent)
@@ -37,9 +38,12 @@ function InputComment(props: IInputCommentProps) {
             console.log(e)
         }
     }
+    if (!user)
+        return <Loading/>
+
     return (
         <Stack mb={2} mt={1} direction="row">
-            <Avatar src={avatar} />
+            <Avatar src={user.avatar} />
             <Stack flex={1} ml={1} alignItems="center">
                 <form onSubmit={sendComment} className={style.form}>
                     <StatusInput

@@ -108,6 +108,12 @@ export default function EditProfile({ setToggle }: IEditProfileProps) {
     //   dispatch(Actions.addMyNewPost(post))
     // }
 
+    if (!user) {
+        setToggle(false)
+        return <></>
+    }
+
+    
     return (
         <Box width="800px" p={1}>
             <Typography style={{ fontSize: 20, padding: 10 }} align="center">

@@ -55,6 +55,7 @@ const displayReact: Record<IEmotionList, IDisplayReactType> = {
 
 export const useInteraction = (postInfo: IPost) => {
     const user = useAppSelector((state) => state.user.current)
+
     const [toggleOption, setToggleOption] = useState(false)
     const [err, setErr] = useState(false)
     const [isLoading, setLoading] = useState(false)
@@ -62,6 +63,8 @@ export const useInteraction = (postInfo: IPost) => {
     const [isJoinComment, setIsJoinCommtent] = useState(false)
     const dispatch = useAppDispatch()
     const myReact = useMemo<IDisplayReactType>(() => {
+        if (!user)
+            return displayReact['like']
         if (!postInfo.react) return displayReact['like']
         for (const emotion of Object.keys(postInfo.react)) {
             if (emotion == '_id') continue
@@ -78,7 +81,7 @@ export const useInteraction = (postInfo: IPost) => {
 
     //update on my react
     const sendReact = async (selected: IEmotionList) => {
-        if (!postInfo.react) return
+        if (!postInfo.react || !user) return
 
         let react = { ...postInfo.react }
 

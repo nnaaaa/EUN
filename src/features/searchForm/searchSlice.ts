@@ -33,7 +33,7 @@ const friendSlice = createSlice({
     name: 'search',
     initialState,
     reducers: {
-        updateStore: (state, action: PayloadAction<Partial<IPublicInfo>>) => {
+        updateStore: (state, action: PayloadAction<IPublicInfo>) => {
             const userInfo = action.payload
             state.current = filterSearch(state.current, userInfo)
         },

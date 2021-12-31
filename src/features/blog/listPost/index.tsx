@@ -44,7 +44,7 @@ export default function ListPost({ type = 'all', friendAccount }: IListPostProps
     //load data at first time
     useEffect(() => {
         const loadPost = async () => {
-            await dispatch(postActions.getTheFirstTime(user._id))
+            await dispatch(postActions.getTheFirstTime(user?._id))
         }
         loadPost().then(() => {})
     }, [])

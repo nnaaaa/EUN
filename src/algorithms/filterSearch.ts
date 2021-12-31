@@ -5,8 +5,8 @@ const findMax = (a: number, b: number, c: number) => {
     return a > b ? (a > c ? a : c) : b > c ? b : c
 }
 
-export const filterSearch = (data: IPublicInfo[], user: Partial<IPublicInfo>) => {
-    if (!user.friends) return []
+export const filterSearch = (data: IPublicInfo[], user: IPublicInfo | undefined) => {
+    if (!user || !user.friends) return []
 
     const { accepted, invited, pending } = user.friends
     const maxLength = findMax(accepted.length, invited.length, pending.length)

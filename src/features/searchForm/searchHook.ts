@@ -26,11 +26,12 @@ export const useSearchSocket = () => {
     const user = useAppSelector((state) => state.user.current)
 
     const updateRole = useCallback(
-        (newInfo: Partial<IPublicInfo>) => {
+        (newInfo: IPublicInfo) => {
             console.log(newInfo)
             dispatch(searchActions.updateStore(newInfo))
         },
         [dispatch]
     )
-    useUserSocket(user._id, updateRole)
+    
+    useUserSocket(user ? user._id : undefined, updateRole)
 }

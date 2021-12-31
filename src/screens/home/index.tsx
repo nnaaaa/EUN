@@ -21,12 +21,12 @@ export default function Home() {
     const status = useAppSelector((state) => state.auth.state)
 
     const dispatcher = useCallback(
-        (newInfo: Partial<IPublicInfo>) => {
+        (newInfo: IPublicInfo) => {
             dispatch(userActions.updateStore(newInfo))
         },
         [dispatch]
     )
-    useUserSocket(user._id, dispatcher)
+    useUserSocket(user ? user._id : undefined, dispatcher)
 
     if (loading)
         return (

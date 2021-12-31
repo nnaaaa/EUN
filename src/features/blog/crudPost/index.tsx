@@ -57,6 +57,11 @@ export default function CRUDModel(props: IModelProps) {
         setContent('')
     }
 
+    if (!user) {
+        closePopup()
+        return <></>
+    }
+
     return (
         <Popup open={isPopup} onClose={closePopup}>
             <Box className={style.wrapper}>

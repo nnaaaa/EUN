@@ -20,7 +20,7 @@ export default function FriendOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
     const friendOnlineList = useAppSelector((state) => {
-        return state.user.current.friends?.accepted.filter((f) => f.isOnline)
+        return state.user.current ? state.user.current.friends?.accepted.filter((f) => f.isOnline) : []
     })
     const { loading } = useAppSelector((state) => state.chat)
 

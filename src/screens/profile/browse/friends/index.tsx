@@ -2,6 +2,7 @@ import { Button, Grid, Typography, Box, Avatar } from '@mui/material'
 import { useStyle } from './styles'
 import Tilty from 'react-parallax-tilt'
 import { IPublicInfo } from 'models/user'
+import AutoAvatar from 'components/autoAvatar'
 
 interface IFriendsProps {
     user: IPublicInfo
@@ -28,16 +29,7 @@ export default function Friends({ setIndex, user }: IFriendsProps) {
             <Grid container spacing={1}>
                 {user.friends.accepted.slice(0, 9)?.map((user, index) => (
                     <Grid item xs={4} key={index}>
-                        <Box className={style.wrappedImage}>
-                            <Box className={style.insideWrappedImage}>
-                                <Avatar
-                                    src={user.avatar}
-                                    className={style.avatar}
-                                    variant="rounded"
-                                    alt={user.username + index}
-                                />
-                            </Box>
-                        </Box>
+                        <AutoAvatar src={user.avatar}/>
                         <Typography className={style.name}>{user.username}</Typography>
                     </Grid>
                 ))}
