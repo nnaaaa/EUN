@@ -55,7 +55,7 @@ export default function Post(info: IPost) {
                     <Typography
                         variant="h6"
                         component={Link}
-                        to={`/friend/${_id}`}
+                        to={`/${owner._id}`}
                         color="black"
                     >
                         {owner.username}

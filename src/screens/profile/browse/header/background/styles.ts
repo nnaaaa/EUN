@@ -13,10 +13,6 @@ export const useStyle = makeStyles((theme: any) => ({
         backgroundColor: 'white',
         borderRadius: '50%',
     },
-    appbar: {
-        boxShadow: 'none',
-        backgroundColor: 'transparent',
-    },
     coverPhoto: {
         // backgroundImage: `url(https://localhost)`,
         backgroundColor: 'gray',
@@ -37,9 +33,5 @@ export const useStyle = makeStyles((theme: any) => ({
         width: 150,
         height: 150,
         objectFit: 'cover',
-    },
-    item: {
-        fontSize: 14,
-        fontWeight: 'bold',
     },
 }))

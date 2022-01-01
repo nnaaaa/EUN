@@ -17,10 +17,11 @@ export default function Comment(props: IComment) {
             <Avatar src={avatar} />
             <Box ml={1}>
                 <Box p={1} bgcolor="#F0F2F5" borderRadius={2}>
-                    <Typography className={style.name}>{username}</Typography>
+                    <Typography className={style.name} component={Link} to={`/${(owner as IPublicInfo)._id}`}>{username}</Typography>
                     <Tooltip title={timeDetail} placement="right">
                         <Typography className={style.content}>{content}</Typography>
                     </Tooltip>
+
                     {images.length ? (
                         <Box mt={1}>
                             <DisplayGridImages images={images} title={username} />

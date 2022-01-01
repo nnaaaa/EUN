@@ -9,6 +9,10 @@ export const useStyle = makeStyles({
         objectFit: 'cover',
         margin: '10px auto',
     },
+    item: {
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
 })
 
 export const Hobbies = styled(Accordion)`

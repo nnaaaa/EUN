@@ -1,72 +1,56 @@
-import { faCheckCircle, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ErrorIcon from '@mui/icons-material/ErrorOutline'
-import { Button, CircularProgress, IconButton, Typography } from '@mui/material'
-import { friendAPI } from 'api/rest'
-import { useState } from 'react'
-import { IFriendPublicInfo } from 'states/slices/friendSlice'
+import { Component } from "react";
+import { IFriendPublicInfo } from "states/slices/friendSlice";
+import Accepted from "./roles/accepted";
+import Role from "./roles";
+import Invited from "./roles/invited";
+import Stranger from "./roles/stranger";
+import Pending from "./roles/pending";
 
-interface IProps {
-    user: IFriendPublicInfo
+interface IUserRoleProps{
+    friend: IFriendPublicInfo
 }
 
-function UserRole({ user }: IProps) {
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string>()
+interface IUserRoleStates{
+    Role:typeof Role
+}
 
-    const acceptInvite = async () => {
-        try {
-            setLoading(true)
-            await friendAPI.acceptInvite(user._id)
-        } catch {
-            setError("Can't accept this user")
-        } finally {
-            setLoading(false)
+
+
+class UserRole extends Component<IUserRoleProps,IUserRoleStates>{
+    constructor(props:IUserRoleProps) {
+        super(props)
+        this.state = {
+            Role: Stranger
+        }
+    }
+    componentDidMount() {
+        switch (this.props.friend.role){
+            case 'accepted':
+                this.setState({ Role: Accepted })
+                break
+            case 'invited':
+                this.setState({ Role: Invited })
+                break
+            case 'pending':
+                this.setState({ Role: Pending })
+                break
+            default:
+                this.setState({ Role: Stranger })
         }
     }
 
-    const addFriend = async () => {
-        try {
-            setLoading(true)
-            await friendAPI.addFriend(user._id)
-        } catch {
-            setError("Can't add this user")
-        } finally {
-            setLoading(false)
-        }
+    componentWillUnmount() {
+        this.setState({ Role: Stranger })
+    }
+    
+    protected changeState = (NewState: typeof Role) => {
+        this.setState({ Role: NewState })
     }
 
-    if (loading) return <CircularProgress size={20} />
 
-    if (error) return <ErrorIcon color="error" />
-
-    if (user.role === 'accepted')
-        return <FontAwesomeIcon icon={faCheckCircle} size="sm" color="green" />
-
-    if (user.role === 'pending')
-        return (
-            <Typography color="secondary" sx={{ textTransform: 'none' }}>
-                Inviting
-            </Typography>
-        )
-
-    if (user.role === 'invited')
-        return (
-            <Button
-                variant="outlined"
-                onClick={acceptInvite}
-                color="primary"
-                size="small"
-            >
-                accept
-            </Button>
-        )
-
-    return (
-        <IconButton size="small" onClick={addFriend}>
-            <FontAwesomeIcon icon={faPlus} size="xs" />
-        </IconButton>
-    )
+    render() {
+        return <this.state.Role changeState={this.changeState} friend={this.props.friend}/>
+    }
 }
 
 export default UserRole

@@ -1,10 +1,10 @@
-import { Box, Grid, Skeleton, Typography } from '@mui/material'
+import { Box, Grid, Skeleton } from '@mui/material'
 import { IPublicInfo } from 'models/user'
 import { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'
 import Loading from 'screens/loading'
 import Friends from './browse/friends'
-import Header from './browse/header'
+// import Header from './browse/header/ownerHeader'
 import Intro from './browse/intro'
 import Photos from './browse/photos'
 import ListFriend from './detail/listFriend'
@@ -56,6 +56,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
         </Box>
     )
     protected abstract ListPost(): React.ReactElement
+    protected abstract Header(): React.ReactElement
 
     private BoxStyled = ({ children }: { children: React.ReactElement }) => (
         <Box
@@ -85,11 +86,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
 
         return (
             <Box bgcolor="white" width="100%">
-                <Header
-                    setIndex={this.setIndexTabView}
-                    index={index}
-                    user={user}
-                />
+                <this.Header/>
 
                 <SwipeableViews
                     axis={'x'}

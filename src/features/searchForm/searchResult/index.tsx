@@ -3,17 +3,20 @@ import { Box } from '@mui/system'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'states/hooks'
 import UserRole from 'components/userRole'
+import { atachRelationship } from 'algorithms/filterSearch'
+import Loading from 'screens/loading'
 
 interface IProps {}
 
 function ListResult(props: IProps) {
     const { current, loading, error } = useAppSelector((state) => state.search)
+    const user = useAppSelector(state=>state.user.current)
 
-    if (loading || error) return <></>
+    if (loading || error || !user) return <></>
 
     return (
         <>
-            {current.map((user, index) => (
+            {current.map((stranger, index) => (
                 <Box
                     mb={index === current.length - 1 ? 0 : 1}
                     p={1}
@@ -24,19 +27,20 @@ function ListResult(props: IProps) {
                     justifyContent="space-between"
                 >
                     <Stack direction="row" alignItems="center">
-                        <Link to={`/friend/${user.account}`} color="inherit">
-                            <Avatar src={user.avatar} />
+                        <Link to={`/${stranger.account}`} color="inherit">
+                            <Avatar src={stranger.avatar} />
                         </Link>
                         <Typography
                             color="textPrimary"
                             component={Link}
                             sx={{ ml: 1 }}
-                            to={`/friend/${user.account}`}
+                            to={`/${stranger.account}`}
                         >
-                            {user.username}
+                            {stranger.username}
                         </Typography>
                     </Stack>
-                    <UserRole user={user} />
+                    <UserRole friend={atachRelationship(stranger, user)}/>
+
                 </Box>
             ))}
         </>

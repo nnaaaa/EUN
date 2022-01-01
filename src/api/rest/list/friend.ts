@@ -5,17 +5,26 @@ import { IPublicInfo } from 'models/user'
 class FriendAPI {
     url = `friend`
 
-    async findById(userId: string) {
+    async findById(userId: ID) {
         return Axios.get<IPublicInfo>(`${this.url}/findUser/${userId}`)
     }
     async findByName(name: string) {
         return Axios.get<IPublicInfo[]>(`${this.url}/findListUser/${name}`)
     }
-    async addFriend(friendId: ID) {
-        return Axios.post(`${this.url}/addRequest`, { friendId })
+    async addInvite(friendId: ID) {
+        return Axios.put(`${this.url}/addInvite`, { friendId })
     }
-    async acceptInvite(friendId: string) {
-        return Axios.post(`${this.url}/acceptInvite`, { friendId })
+    async cancelInvite(friendId: ID) {
+        return Axios.put(`${this.url}/cancelInvite`, { friendId })
+    }
+    async refuseInvite(friendId: ID) {
+        return Axios.put(`${this.url}/refuseInvite`, { friendId })
+    }
+    async acceptInvite(friendId: ID) {
+        return Axios.put(`${this.url}/acceptInvite`, { friendId })
+    }
+    async removeFriend(friendId: ID) {
+        return Axios.put(`${this.url}/removeFriend`, { friendId })
     }
 }
 

@@ -1,5 +1,6 @@
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Sd } from '@mui/icons-material'
 import {
     Accordion,
     AccordionDetails,
@@ -11,14 +12,17 @@ import {
     Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
+import { atachRelationship } from 'algorithms/filterSearch'
 import UserRole from 'components/userRole'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
+import { useAppSelector } from 'states/hooks'
 import { useStrangerSocket } from './strangerHook'
 
 export default function StrangerOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
+    const user = useAppSelector(state=>state.user.current)
 
     //lắng nghe users thay đổi
     const { list, loading, error } = useStrangerSocket()
@@ -56,7 +60,7 @@ export default function StrangerOnline() {
                                 </Typography>
                             </Box>
                         </Stack>
-                        <UserRole user={friend} />
+                        {/* <UserRole friend={atachRelationship(friend,user)} /> */}
                     </Button>
                 ))}
             </AccordionDetails>
