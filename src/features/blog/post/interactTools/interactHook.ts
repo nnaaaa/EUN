@@ -63,8 +63,7 @@ export const useInteraction = (postInfo: IPost) => {
     const [isJoinComment, setIsJoinCommtent] = useState(false)
     const dispatch = useAppDispatch()
     const myReact = useMemo<IDisplayReactType>(() => {
-        if (!user)
-            return displayReact['like']
+        if (!user) return displayReact['like']
         if (!postInfo.react) return displayReact['like']
         for (const emotion of Object.keys(postInfo.react)) {
             if (emotion == '_id') continue

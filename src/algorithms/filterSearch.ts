@@ -9,7 +9,9 @@ export const filterSearch = (data: IPublicInfo[], user: IPublicInfo | undefined)
     if (!user || !user.friends) return []
 
     const exceptMe = data.filter((u) => u.username !== user.username)
-    const checkedList: IFriendPublicInfo[] = exceptMe.map((f) => atachRelationship(f, user))
+    const checkedList: IFriendPublicInfo[] = exceptMe.map((f) =>
+        atachRelationship(f, user)
+    )
     return checkedList
 }
 

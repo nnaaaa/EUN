@@ -8,17 +8,15 @@ import { IFriendPublicInfo } from 'states/slices/friendSlice'
 
 const Relationship = (props: { user: IPublicInfo }) => {
     const { user: stranger } = props
-    const user = useAppSelector(state => state.user.current)
+    const user = useAppSelector((state) => state.user.current)
     const friend = useMemo<IFriendPublicInfo | undefined>(() => {
-        if (!user)
-            return undefined
+        if (!user) return undefined
         return atachRelationship(stranger, user)
-    }, [stranger,user])
+    }, [stranger, user])
 
-    if (!friend)
-        return <Loading/>
+    if (!friend) return <Loading />
 
-    return <UserRole friend={friend}/>
+    return <UserRole friend={friend} />
 }
 
 export default Relationship

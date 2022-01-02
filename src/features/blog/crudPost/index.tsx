@@ -24,8 +24,9 @@ export default function CRUDModel(props: IModelProps) {
     const inputContentRef = useRef<null | HTMLInputElement>(null)
     const { isPopup, setPopup, type } = props
     const user = useAppSelector((state) => state.user.current)
-    const tool = useContent<IPost>(inputContentRef)
-    const { previewImages, content, setContent, inputImages, clearImages } = tool
+    const tool = useContent(inputContentRef)
+    const { previewImages, content, setContent, inputImages, clearImages, clearAll } =
+        tool
     const [isSending, setIsSending] = useState<boolean>(false)
     const [mode, setMode] = useInitMode()
 
@@ -53,8 +54,7 @@ export default function CRUDModel(props: IModelProps) {
     }
     const closePopup = () => {
         setPopup(false)
-        clearImages()
-        setContent('')
+        clearAll()
     }
 
     if (!user) {

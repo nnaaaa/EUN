@@ -10,11 +10,10 @@ export const useStyle = makeStyles((theme: any) => ({
         padding: 0,
         marginRight: 5,
         color: theme.palette.primary.main,
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
         borderRadius: '50%',
     },
     coverPhoto: {
-        // backgroundImage: `url(https://localhost)`,
         backgroundColor: 'gray',
         backgroundPosition: 'center center',
         position: 'relative',

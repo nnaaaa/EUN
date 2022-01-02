@@ -38,8 +38,7 @@ function InputComment(props: IInputCommentProps) {
             console.log(e)
         }
     }
-    if (!user)
-        return <Loading/>
+    if (!user) return <Loading />
 
     return (
         <Stack mb={2} mt={1} direction="row">

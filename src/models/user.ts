@@ -1,4 +1,5 @@
 import { ID } from './common'
+import { IPost } from './post'
 export interface SignInType {
     account: string
     password: string
@@ -22,6 +23,11 @@ export interface IUser {
         invited: IPublicInfo[]
         pending: IPublicInfo[]
     }
+
+    education: string
+    hobbies: string[]
+
+    posts: ID[] | IPost[]
 
     isOnline: boolean
     token: string

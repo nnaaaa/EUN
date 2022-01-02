@@ -12,4 +12,8 @@ export const useStyle = makeStyles({
         marginRight: 10,
         marginBottom: 10,
     },
+    education: {
+        textTransform: 'none',
+        width: '100%',
+    },
 })

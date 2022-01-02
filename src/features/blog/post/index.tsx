@@ -44,8 +44,7 @@ export default function Post(info: IPost) {
     useCommentSocket(_id)
     useReactSocket(info._id, info.react._id)
 
-    if (!user)
-        return <Loading/>
+    if (!user) return <Loading />
 
     return (
         <CardMargin>

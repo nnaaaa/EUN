@@ -10,7 +10,7 @@ interface IProps {}
 
 function ListResult(props: IProps) {
     const { current, loading, error } = useAppSelector((state) => state.search)
-    const user = useAppSelector(state=>state.user.current)
+    const user = useAppSelector((state) => state.user.current)
 
     if (loading || error || !user) return <></>
 
@@ -39,8 +39,7 @@ function ListResult(props: IProps) {
                             {stranger.username}
                         </Typography>
                     </Stack>
-                    <UserRole friend={atachRelationship(stranger, user)}/>
-
+                    <UserRole friend={atachRelationship(stranger, user)} />
                 </Box>
             ))}
         </>

@@ -1,9 +1,7 @@
-import { CircularProgress } from "@mui/material"
+import { CircularProgress } from '@mui/material'
 
 function Loading() {
-    return (
-        <CircularProgress/>
-    )
+    return <CircularProgress />
 }
 
 export default Loading

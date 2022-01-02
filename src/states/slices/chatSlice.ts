@@ -20,7 +20,7 @@ const initialState: IinitalState = {
 const addChat = createAsyncThunk('chat/addOne', async (friendId: ID, thunkAPI) => {
     const user = (thunkAPI.getState() as RootState).user.current
     if (!user) throw new Error()
-    const userId = user._id 
+    const userId = user._id
     if (!userId) throw new Error()
     const room = await chatAPI.getRoom([userId, friendId])
     return room.data

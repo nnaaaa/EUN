@@ -1,30 +1,28 @@
-import { Component } from "react";
-import { IFriendPublicInfo } from "states/slices/friendSlice";
-import Accepted from "./roles/accepted";
-import Role from "./roles";
-import Invited from "./roles/invited";
-import Stranger from "./roles/stranger";
-import Pending from "./roles/pending";
+import { Component } from 'react'
+import { IFriendPublicInfo } from 'states/slices/friendSlice'
+import Accepted from './roles/accepted'
+import Role from './roles'
+import Invited from './roles/invited'
+import Stranger from './roles/stranger'
+import Pending from './roles/pending'
 
-interface IUserRoleProps{
+interface IUserRoleProps {
     friend: IFriendPublicInfo
 }
 
-interface IUserRoleStates{
-    Role:typeof Role
+interface IUserRoleStates {
+    Role: typeof Role
 }
 
-
-
-class UserRole extends Component<IUserRoleProps,IUserRoleStates>{
-    constructor(props:IUserRoleProps) {
+class UserRole extends Component<IUserRoleProps, IUserRoleStates> {
+    constructor(props: IUserRoleProps) {
         super(props)
         this.state = {
-            Role: Stranger
+            Role: Stranger,
         }
     }
     componentDidMount() {
-        switch (this.props.friend.role){
+        switch (this.props.friend.role) {
             case 'accepted':
                 this.setState({ Role: Accepted })
                 break
@@ -42,14 +40,15 @@ class UserRole extends Component<IUserRoleProps,IUserRoleStates>{
     componentWillUnmount() {
         this.setState({ Role: Stranger })
     }
-    
+
     protected changeState = (NewState: typeof Role) => {
         this.setState({ Role: NewState })
     }
 
-
     render() {
-        return <this.state.Role changeState={this.changeState} friend={this.props.friend}/>
+        return (
+            <this.state.Role changeState={this.changeState} friend={this.props.friend} />
+        )
     }
 }
 

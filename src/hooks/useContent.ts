@@ -20,14 +20,17 @@ export const useContent = <T = DefaultReturnType>(
         const message: any = { content, images: imageFiles }
 
         //set input về giá trị trống và trỏ vào
-        setContent('')
-        clearImages()
+        clearAll()
         inputMessage.current?.focus()
         return message
     }
     const clearImages = () => {
         setImageFiles(undefined)
         setPreviewImages(undefined)
+    }
+    const clearAll = () => {
+        clearImages()
+        setContent('')
     }
 
     const inputImages = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,5 +54,6 @@ export const useContent = <T = DefaultReturnType>(
         clearImages,
         setPreviewImages,
         imageFiles,
+        clearAll,
     }
 }

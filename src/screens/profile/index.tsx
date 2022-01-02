@@ -10,7 +10,6 @@ import Photos from './browse/photos'
 import ListFriend from './detail/listFriend'
 import ListPhoto from './detail/listPhoto'
 
-
 interface IProfileProps {
     user: IPublicInfo | undefined
 }
@@ -81,12 +80,11 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
         const { user } = this.props
         const { index } = this.state
 
-        if (!user)
-            return <Loading/>
+        if (!user) return <Loading />
 
         return (
             <Box bgcolor="white" width="100%">
-                <this.Header/>
+                <this.Header />
 
                 <SwipeableViews
                     axis={'x'}
@@ -107,13 +105,10 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
                             >
                                 <Intro user={user} />
                                 <Photos setIndex={this.setIndexTabView} />
-                                <Friends
-                                    setIndex={this.setIndexTabView}
-                                    user={user}
-                                />
+                                <Friends setIndex={this.setIndexTabView} user={user} />
                             </Grid>
                             <Grid item md={7} xs={12}>
-                                <this.ListPost/>
+                                <this.ListPost />
                             </Grid>
                         </Grid>
                     </this.BoxStyled>
@@ -121,17 +116,10 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
                         <ListPhoto user={user} />
                     </this.BoxStyled>
                     <this.BoxStyled>
-                        <ListFriend
-                            user={user}
-                            setIndex={this.setIndexTabView}
-                        />
+                        <ListFriend user={user} setIndex={this.setIndexTabView} />
                     </this.BoxStyled>
                 </SwipeableViews>
             </Box>
         )
     }
 }
-
-
-
-

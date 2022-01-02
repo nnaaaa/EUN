@@ -18,10 +18,8 @@ export default function Status() {
     const [isPopup, setPopup] = useState<boolean>(false)
     const createType = useMemo<CRUDType>(() => new CreateType(), [])
 
-    if (!user)
-        return <Loading/>
+    if (!user) return <Loading />
 
-    
     return (
         <Box mb={2} p={2} borderRadius={2} boxShadow={1} bgcolor="white" width="100%">
             <CreatePost isPopup={isPopup} setPopup={setPopup} type={createType} />

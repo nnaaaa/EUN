@@ -40,7 +40,7 @@ export default function ListFriend({ setIndex, user }: IListFriendProps) {
                             alignItems="center"
                         >
                             <Grid xs={3} item>
-                                <AutoAvatar src={u.avatar}/>
+                                <AutoAvatar src={u.avatar} />
                             </Grid>
                             <Grid xs={9} item>
                                 <Typography

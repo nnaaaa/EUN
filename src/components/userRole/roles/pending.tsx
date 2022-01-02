@@ -7,15 +7,13 @@ import Stranger from './stranger'
 
 export default class Pending extends Role {
     protected mainButtonClick = async () => {
-        try { 
+        try {
             this.loadingStart()
             await friendAPI.cancelInvite(this.props.friend._id)
             this.props.changeState(Stranger)
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
-        }
-        finally {
+        } finally {
             this.loadingEnd()
         }
     }

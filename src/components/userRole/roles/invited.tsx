@@ -16,11 +16,9 @@ export default class Invited extends Role {
             this.loadingStart()
             await friendAPI.acceptInvite(this.props.friend._id)
             this.props.changeState(Accepted)
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
-        }
-        finally {
+        } finally {
             this.loadingEnd()
         }
     }
@@ -34,7 +32,9 @@ export default class Invited extends Role {
                     onClick={this.mainButtonClick}
                     disabled={this.state.isLoading}
                 >
-                    <Typography fontSize={14} fontWeight='bold'>+ Accept</Typography>
+                    <Typography fontSize={14} fontWeight="bold">
+                        + Accept
+                    </Typography>
                 </Button>
                 <Button
                     startIcon={<FontAwesomeIcon icon={faTimes} size="xs" />}
@@ -44,7 +44,9 @@ export default class Invited extends Role {
                     disabled={this.state.isLoading}
                     sx={{ ml: 2 }}
                 >
-                    <Typography fontSize={14} fontWeight='bold'>Refuse</Typography>
+                    <Typography fontSize={14} fontWeight="bold">
+                        Refuse
+                    </Typography>
                 </Button>
             </>
         )

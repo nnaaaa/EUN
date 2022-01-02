@@ -3,107 +3,64 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     AccordionDetails,
     AccordionSummary,
+    Avatar,
     Box,
     Button,
     Checkbox,
     Divider,
     FormControlLabel,
-    IconButton,
     TextField,
-    Typography
+    Typography,
 } from '@mui/material'
+import { userAPI } from 'api/rest'
+import InputSingleImage from 'components/images/singleInput'
 import Popup from 'components/popup'
-import { useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { useAppSelector } from 'states/hooks'
+import { hobbieOptions, useEditProfile } from './editProfileHook'
 import { Hobbies, Title, useStyle } from './styles'
-
-const options = [
-    { value: 'code', label: '💻 Code' },
-    { value: 'game', label: '🎮 Play game' },
-    { value: 'coffee', label: '🥤 Drink Coffee' },
-]
 
 export default function EditProfile() {
     const style = useStyle()
-    const dispatch = useDispatch()
+    const {
+        getContent,
+        previewImage,
+        inputAvatar,
+        nameValue,
+        setName,
+        hobbies,
+        educationValue,
+        setEducation,
+        changeHobbies,
+        setPreviewImage,
+        clearAll,
+    } = useEditProfile()
+    const [isLoading, setIsLoading] = useState(false)
+
     const [isToggle, setIsToggle] = useState(false)
-    const [loading, setLoading] = useState(false)
     const user = useAppSelector((state) => state.user.current)
 
-    const [previewAvatar, setPreviewAvatar] = useState(null)
-    const [avatarFile, setAvatarFile] = useState(null)
-    const [hobbies, setHobbies] = useState([])
-    const educationInput = useRef(null)
-    const nameInput = useRef(null)
+    useEffect(() => {
+        if (!user) return
+        setName(user.username)
+        setEducation(user.education)
+        setPreviewImage(user.avatar)
+    }, [user])
 
-    // const addHobbies = (e) => {
-    //   const newHobbies = [...hobbies, e.target.value]
-    //   if (e.target.checked) setHobbies(newHobbies)
-    //   else setHobbies(newHobbies.filter((hobby) => hobby !== e.target.value))
-    // }
-    // useEffect(() => {
-    //   setHobbies(info?.hobbies ? info.hobbies : [])
-    // }, [info])
-
-    // const uploadAvatar = (e) => {
-    //   setAvatarFile(e.target.files[0])
-    //   setPreviewAvatar(URL.createObjectURL(e.target.files[0]))
-    // }
-
-    // const saveProfile = async () => {
-    //   setLoading(true)
-    //   if (avatarFile) {
-    //     const ref = avatarStoreRef.child(uid)
-    //     await ref.put(avatarFile)
-    //     const url = await ref.getDownloadURL()
-    //     await updateDocument('users', uid, {avatar: url})
-    //     await upPost(url)
-    //   }
-
-    //   const info = {
-    //     education: educationInput.current.value?.trim() || '',
-    //     hobbies,
-    //   }
-    //   const updateData = {}
-    //   updateData.info = info
-    //   if (nameInput.current.value) updateData.name = nameInput.current.value
-
-    //   await updateDocument('users', uid, updateData)
-    //   setAvatarFile(null)
-    //   setPreviewAvatar(null)
-    //   setHobbies([])
-    //   setToggle(false)
-    //   setLoading(false)
-    // }
-
-    // const upPost = async (url) => {
-    //   const postId = generate()
-    //   const post = await addDocument(
-    //     'posts',
-    //     {
-    //       avatar: url,
-    //       composing: '',
-    //       name,
-    //       uid,
-    //       content: 'Update avatar',
-    //       reacts: {
-    //         like: [],
-    //         heart: [],
-    //       },
-    //       comments: [],
-    //       images: [url],
-    //       mode: 'public',
-    //       createAt: firebase.firestore.Timestamp.now(),
-    //     },
-    //     postId
-    //   )
-    //   //update post in redux store
-    //   dispatch(Actions.addMyNewPost(post))
-    // }
+    const saveProfile = async () => {
+        setIsLoading(true)
+        const content = getContent()
+        await userAPI.updateProfile(content)
+        setIsLoading(false)
+        closePopup()
+    }
+    const closePopup = () => {
+        setIsToggle(false)
+        clearAll()
+    }
 
     if (!user) {
-        setIsToggle(false)
+        closePopup()
         return <></>
     }
 
@@ -116,8 +73,8 @@ export default function EditProfile() {
             >
                 <Typography className={style.item}>Edit Profile</Typography>
             </Button>
-            <Popup open={isToggle} onClose={() => setIsToggle(false)}>
-                <Box width="800px" p={1}>
+            <Popup open={isToggle} onClose={closePopup}>
+                <Box width="800px" p={2}>
                     <Typography style={{ fontSize: 20, padding: 10 }} align="center">
                         Edit Profile
                     </Typography>
@@ -129,25 +86,13 @@ export default function EditProfile() {
                             alignItems="center"
                         >
                             <Title>Avatar</Title>
-                            <input
-                                accept="image/*"
-                                type="file"
-                                alt="image"
-                                style={{ display: 'none' }}
-                                id="input-image2"
-                                // onChange={uploadAvatar}
-                            />
-                            <label htmlFor="input-image2">
-                                <IconButton component="span">
-                                    <FontAwesomeIcon icon={faCamera} />
-                                </IconButton>
-                            </label>
+                            <InputSingleImage onChange={inputAvatar}>
+                                <FontAwesomeIcon icon={faCamera} size="lg" />
+                            </InputSingleImage>
                         </Box>
-                        {/* <Avatar
-                            src={user.avatar}
-                            className={style.avatarInside}
-                            a3={name}
-                        /> */}
+                        <InputSingleImage onChange={inputAvatar}>
+                            <Avatar src={previewImage} className={style.avatarInside} />
+                        </InputSingleImage>
                     </Box>
                     <Box
                         display="flex"
@@ -156,7 +101,11 @@ export default function EditProfile() {
                         mb={2}
                     >
                         <Title>Name</Title>
-                        <TextField inputRef={nameInput} placeholder={user.username} />
+                        <TextField
+                            variant="standard"
+                            value={nameValue}
+                            onChange={(e) => setName(e.target.value)}
+                        />
                     </Box>
                     <Box
                         display="flex"
@@ -165,7 +114,11 @@ export default function EditProfile() {
                         mb={2}
                     >
                         <Title>Education</Title>
-                        <TextField inputRef={educationInput} />
+                        <TextField
+                            variant="standard"
+                            value={educationValue}
+                            onChange={(e) => setEducation(e.target.value)}
+                        />
                     </Box>
                     <Box mb={2}>
                         <Title>Hobbies</Title>
@@ -177,15 +130,17 @@ export default function EditProfile() {
                             >
                                 <Typography>Add more hobbies</Typography>
                             </AccordionSummary>
-                            <AccordionDetails>
-                                {options.map((option, index) => (
+                            <AccordionDetails
+                                sx={{ display: 'flex', justifyContent: 'flex-start' }}
+                            >
+                                {hobbieOptions.map((option, index) => (
                                     <FormControlLabel
                                         key={index}
                                         control={
                                             <Checkbox
                                                 color="primary"
                                                 checked={
-                                                    hobbies?.find(
+                                                    hobbies.find(
                                                         (hobby) => hobby === option.value
                                                     )
                                                         ? true
@@ -195,17 +150,19 @@ export default function EditProfile() {
                                         }
                                         label={option.label}
                                         value={option.value}
-                                        // onChange={addHobbies}
+                                        onChange={(e, checked) =>
+                                            changeHobbies(option.value, checked)
+                                        }
                                     />
                                 ))}
                             </AccordionDetails>
                         </Hobbies>
                     </Box>
                     <Button
-                        // onClick={saveProfile}
+                        onClick={saveProfile}
                         color="primary"
                         variant="contained"
-                        disabled={loading}
+                        disabled={isLoading}
                     >
                         Save
                     </Button>
@@ -214,3 +171,53 @@ export default function EditProfile() {
         </Box>
     )
 }
+
+// useEffect(() => {
+//   setHobbies(info?.hobbies ? info.hobbies : [])
+// }, [info])
+
+// const uploadAvatar = (e) => {
+//   setAvatarFile(e.target.files[0])
+//   setPreviewAvatar(URL.createObjectURL(e.target.files[0]))
+// }
+
+//   const info = {
+//     education: educationInput.current.value?.trim() || '',
+//     hobbies,
+//   }
+//   const updateData = {}
+//   updateData.info = info
+//   if (nameInput.current.value) updateData.name = nameInput.current.value
+
+//   await updateDocument('users', uid, updateData)
+//   setAvatarFile(null)
+//   setPreviewAvatar(null)
+//   setHobbies([])
+//   setToggle(false)
+//   setLoading(false)
+// }
+
+// const upPost = async (url) => {
+//   const postId = generate()
+//   const post = await addDocument(
+//     'posts',
+//     {
+//       avatar: url,
+//       composing: '',
+//       name,
+//       uid,
+//       content: 'Update avatar',
+//       reacts: {
+//         like: [],
+//         heart: [],
+//       },
+//       comments: [],
+//       images: [url],
+//       mode: 'public',
+//       createAt: firebase.firestore.Timestamp.now(),
+//     },
+//     postId
+//   )
+//   //update post in redux store
+//   dispatch(Actions.addMyNewPost(post))
+// }

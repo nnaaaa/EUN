@@ -11,11 +11,9 @@ export default class Accepted extends Role {
             this.loadingStart()
             await friendAPI.removeFriend(this.props.friend._id)
             this.props.changeState(Stranger)
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
-        }
-        finally {
+        } finally {
             this.loadingEnd()
         }
     }
@@ -28,7 +26,9 @@ export default class Accepted extends Role {
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}
             >
-                <Typography fontSize={14} fontWeight='bold'>Unfriend</Typography>
+                <Typography fontSize={14} fontWeight="bold">
+                    Unfriend
+                </Typography>
             </Button>
         )
     }

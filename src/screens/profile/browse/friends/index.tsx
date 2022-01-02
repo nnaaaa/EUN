@@ -29,7 +29,7 @@ export default function Friends({ setIndex, user }: IFriendsProps) {
             <Grid container spacing={1}>
                 {user.friends.accepted.slice(0, 9)?.map((user, index) => (
                     <Grid item xs={4} key={index}>
-                        <AutoAvatar src={user.avatar}/>
+                        <AutoAvatar src={user.avatar} />
                         <Typography className={style.name}>{user.username}</Typography>
                     </Grid>
                 ))}

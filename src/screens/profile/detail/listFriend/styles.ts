@@ -6,8 +6,8 @@ export const useStyle = makeStyles({
         fontWeight: 'bold',
     },
     name: {
-        paddingLeft:5,
-        display:'block',
+        paddingLeft: 5,
+        display: 'block',
         fontSize: 14,
         fontWeight: 'bold',
         color: 'black',

@@ -1,18 +1,18 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { InputLabel } from '@mui/material'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, ReactNode } from 'react'
 import { uid } from 'uid'
 interface IProps {
     children: React.ReactChild
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-function InputImage({ onChange, children }: IProps) {
+function InputSingleImage({ onChange, children }: IProps) {
     const id = uid()
     return (
         <InputLabel htmlFor={id} sx={{ color: 'primary.main', cursor: 'pointer' }}>
             <input
                 accept="image/*"
-                multiple
                 type="file"
                 alt="image"
                 style={{ display: 'none' }}
@@ -24,4 +24,4 @@ function InputImage({ onChange, children }: IProps) {
     )
 }
 
-export default InputImage
+export default InputSingleImage

@@ -32,6 +32,6 @@ export const useSearchSocket = () => {
         },
         [dispatch]
     )
-    
+
     useUserSocket(user ? user._id : undefined, updateRole)
 }

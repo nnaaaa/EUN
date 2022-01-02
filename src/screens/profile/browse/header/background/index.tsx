@@ -1,9 +1,6 @@
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    Avatar,
-    Box, IconButton
-} from '@mui/material'
+import { Avatar, Box, IconButton } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useStyle } from './styles'
 

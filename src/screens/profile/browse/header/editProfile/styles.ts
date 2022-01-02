@@ -9,6 +9,10 @@ export const useStyle = makeStyles({
         objectFit: 'cover',
         margin: '10px auto',
     },
+    hobbies: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+    },
     item: {
         fontSize: 14,
         fontWeight: 'bold',

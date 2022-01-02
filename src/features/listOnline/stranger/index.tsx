@@ -22,12 +22,12 @@ import { useStrangerSocket } from './strangerHook'
 export default function StrangerOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
-    const user = useAppSelector(state=>state.user.current)
+    const user = useAppSelector((state) => state.user.current)
 
     //lắng nghe users thay đổi
     const { list, loading, error } = useStrangerSocket()
 
-    if (!list || list.length <= 0 || error) {
+    if (!list || list.length <= 0 || error || !user) {
         return <></>
     }
 
@@ -60,7 +60,7 @@ export default function StrangerOnline() {
                                 </Typography>
                             </Box>
                         </Stack>
-                        {/* <UserRole friend={atachRelationship(friend,user)} /> */}
+                        <UserRole friend={atachRelationship(friend, user)} />
                     </Button>
                 ))}
             </AccordionDetails>
