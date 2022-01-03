@@ -10,17 +10,22 @@ import {
     Divider,
     FormControlLabel,
     TextField,
-    Typography,
+    Typography
 } from '@mui/material'
 import { userAPI } from 'api/rest'
 import InputSingleImage from 'components/images/singleInput'
 import Popup from 'components/popup'
+import { IPublicInfo } from 'models/user'
 import { useEffect, useState } from 'react'
-import { useAppSelector } from 'states/hooks'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { userActions } from 'states/slices/userSlice'
 import { hobbieOptions, useEditProfile } from './editProfileHook'
 import { Hobbies, Title, useStyle } from './styles'
 
+
+
 export default function EditProfile() {
+    const dispatch = useAppDispatch()
     const style = useStyle()
     const {
         getContent,
@@ -45,14 +50,23 @@ export default function EditProfile() {
         setName(user.username)
         setEducation(user.education)
         setPreviewImage(user.avatar)
-    }, [user])
+    }, [user,isToggle])
 
     const saveProfile = async () => {
-        setIsLoading(true)
-        const content = getContent()
-        await userAPI.updateProfile(content)
-        setIsLoading(false)
-        closePopup()
+        try {
+            
+            setIsLoading(true)
+            const content = getContent()
+            const user = await userAPI.updateProfile(content)
+            dispatch(userActions.updateStore(user.data as any))
+        }
+        catch (e) {
+            console.log(e)
+        }
+        finally {
+            setIsLoading(false)
+            closePopup()
+        }
     }
     const closePopup = () => {
         setIsToggle(false)

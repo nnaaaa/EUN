@@ -1,4 +1,5 @@
 import { Box, Grid, Skeleton } from '@mui/material'
+import ListPost from 'features/blog/listPost'
 import { IPublicInfo } from 'models/user'
 import { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'
@@ -54,7 +55,6 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
             </Box>
         </Box>
     )
-    protected abstract ListPost(): React.ReactElement
     protected abstract Header(): React.ReactElement
 
     private BoxStyled = ({ children }: { children: React.ReactElement }) => (
@@ -108,7 +108,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
                                 <Friends setIndex={this.setIndexTabView} user={user} />
                             </Grid>
                             <Grid item md={7} xs={12}>
-                                <this.ListPost />
+                                <ListPost posts={user.posts} />
                             </Grid>
                         </Grid>
                     </this.BoxStyled>

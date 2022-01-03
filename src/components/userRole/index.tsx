@@ -22,6 +22,7 @@ class UserRole extends Component<IUserRoleProps, IUserRoleStates> {
         }
     }
     componentDidMount() {
+        console.log("component mounted")
         switch (this.props.friend.role) {
             case 'accepted':
                 this.setState({ Role: Accepted })
@@ -34,6 +35,23 @@ class UserRole extends Component<IUserRoleProps, IUserRoleStates> {
                 break
             default:
                 this.setState({ Role: Stranger })
+        }
+    }
+    componentDidUpdate(previousProps:IUserRoleProps, previousState:IUserRoleStates) {
+        if (previousProps.friend !== this.props.friend) {
+            switch (this.props.friend.role) {
+                case 'accepted':
+                    this.setState({ Role: Accepted })
+                    break
+                case 'invited':
+                    this.setState({ Role: Invited })
+                    break
+                case 'pending':
+                    this.setState({ Role: Pending })
+                    break
+                default:
+                    this.setState({ Role: Stranger })
+            }
         }
     }
 

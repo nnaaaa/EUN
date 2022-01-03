@@ -30,7 +30,6 @@ export default function StrangerOnline() {
     if (!list || list.length <= 0 || error || !user) {
         return <></>
     }
-
     return (
         <Accordion
             className={style.accordion}
@@ -47,9 +46,8 @@ export default function StrangerOnline() {
             </AccordionSummary>
             <AccordionDetails className={style.accorDetail}>
                 {list.map((friend, index) => (
-                    <Button
+                    <Box
                         className={style.wrapper}
-                        color="inherit"
                         key={'listStranger' + index}
                     >
                         <Stack direction="row" alignItems="center">
@@ -60,8 +58,9 @@ export default function StrangerOnline() {
                                 </Typography>
                             </Box>
                         </Stack>
-                        <UserRole friend={atachRelationship(friend, user)} />
-                    </Button>
+                        <UserRole friend={friend} />
+                        
+                    </Box>
                 ))}
             </AccordionDetails>
         </Accordion>

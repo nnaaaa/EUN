@@ -14,6 +14,6 @@ export const useStyle = makeStyles({
     },
     education: {
         textTransform: 'none',
-        width: '100%',
+        maxWidth: '100%',
     },
 })

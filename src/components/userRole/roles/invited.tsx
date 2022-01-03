@@ -1,21 +1,29 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, Typography } from '@mui/material'
 import { friendAPI } from 'api/rest'
 import Role from '.'
 import Accepted from './accepted'
+import Stranger from './stranger'
 export default class Invited extends Role {
     protected mainButtonClick = async () => {
-        this.loadingStart()
-        await friendAPI.acceptInvite(this.props.friend._id)
-        this.props.changeState(Accepted)
-        this.loadingEnd()
-    }
-    protected subButtonClick = async () => {
         try {
             this.loadingStart()
             await friendAPI.acceptInvite(this.props.friend._id)
             this.props.changeState(Accepted)
+        }
+        catch (e) {
+            console.log(e)
+        }
+        finally {
+            this.loadingEnd()
+        }
+    }
+    protected subButtonClick = async () => {
+        try {
+            this.loadingStart()
+            await friendAPI.refuseInvite(this.props.friend._id)
+            this.props.changeState(Stranger)
         } catch (e) {
             console.log(e)
         } finally {
@@ -30,10 +38,14 @@ export default class Invited extends Role {
                     variant="contained"
                     color="primary"
                     onClick={this.mainButtonClick}
+                    startIcon={<FontAwesomeIcon icon={faPlus} size='xs'/>}
+
                     disabled={this.state.isLoading}
+                    sx={{ textTransform:'none' }}
+                    size='small'
                 >
-                    <Typography fontSize={14} fontWeight="bold">
-                        + Accept
+                    <Typography fontSize={13} fontWeight="bold" noWrap>
+                        Accept
                     </Typography>
                 </Button>
                 <Button
@@ -42,9 +54,10 @@ export default class Invited extends Role {
                     color="error"
                     onClick={this.subButtonClick}
                     disabled={this.state.isLoading}
-                    sx={{ ml: 2 }}
+                    sx={{ ml: 2,textTransform:'none' }}
+                    size='small'
                 >
-                    <Typography fontSize={14} fontWeight="bold">
+                    <Typography fontSize={13} fontWeight="bold" noWrap>
                         Refuse
                     </Typography>
                 </Button>

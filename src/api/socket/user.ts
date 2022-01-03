@@ -42,6 +42,7 @@ export const useListUserSocket = (dispatcher: (user: IPublicInfo[]) => void) => 
         const updateListener = async (newData: IPublicInfo) => {
             try {
                 const user = await userAPI.getListUser()
+                console.log("update",user)
                 dispatcher(user.data)
             } catch {
                 dispatcher([])

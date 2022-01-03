@@ -14,7 +14,9 @@ export const useStyle = makeStyles((theme) => ({
         paddingLeft: 16,
         paddingRight: 16,
         width: '100%',
+        display:'flex',
         justifyContent: 'space-between',
+        alignItems:'center'
     },
     name: {
         margin: 0,

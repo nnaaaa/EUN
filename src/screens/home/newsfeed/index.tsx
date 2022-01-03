@@ -6,7 +6,7 @@ const Newsfeed = () => {
     return (
         <Grid item>
             <Status />
-            <ListPost type="all" />
+            <ListPost/>
         </Grid>
     )
 }

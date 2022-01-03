@@ -8,10 +8,11 @@ const findMax = (a: number, b: number, c: number) => {
 export const filterSearch = (data: IPublicInfo[], user: IPublicInfo | undefined) => {
     if (!user || !user.friends) return []
 
-    const exceptMe = data.filter((u) => u.username !== user.username)
+    const exceptMe = data.filter((u) => u._id !== user._id)
     const checkedList: IFriendPublicInfo[] = exceptMe.map((f) =>
         atachRelationship(f, user)
     )
+    console.log("filter:",checkedList)
     return checkedList
 }
 

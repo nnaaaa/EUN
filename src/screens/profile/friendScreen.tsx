@@ -8,9 +8,6 @@ import FriendHeader from './browse/header/friendHeader'
 import Profile from './index'
 
 export default class FriendProfile extends Profile {
-    ListPost = () => {
-        return <ListPost type="all" />
-    }
     Header = () => {
         const { user } = this.props
         const { index } = this.state
@@ -27,6 +24,7 @@ export const FriendProfileHandler = () => {
         const fetchUser = async () => {
             const _id = location.pathname.substring(1)
             const response = await friendAPI.findById(_id)
+            
             return response.data
         }
         fetchUser().then((data) => setUser(data))

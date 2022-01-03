@@ -13,18 +13,24 @@ export const useStrangerSocket = () => {
     const user = useAppSelector((state) => state.user.current)
 
     const dispatcher = useCallback((newList: IPublicInfo[]) => {
-        const filterUser = filterSearch(newList, user)
-        setStrangerList(filterUser)
+        userAPI.getProfile().then((user) => {
+            console.log("dispatcher")
+            const filterUser = filterSearch(newList, user.data)
+            setStrangerList(filterUser)
+        })
     }, [])
     useListUserSocket(dispatcher)
+
+    console.log("render",strangerList)
 
     useEffect(() => {
         const getListUser = async () => {
             try {
                 setLoading(true)
                 const res = await userAPI.getListUser()
+                console.log("useEffect")
                 const filterUser = filterSearch(res.data, user)
-                setStrangerList(filterUser.filter((u) => u.role === 'stranger'))
+                setStrangerList(filterUser)
             } catch {
                 setError('...')
             } finally {
@@ -33,6 +39,5 @@ export const useStrangerSocket = () => {
         }
         getListUser().then(() => {})
     }, [user])
-
     return { loading, error, list: strangerList }
 }

@@ -6,27 +6,28 @@ import { Box, Button, CircularProgress } from '@mui/material'
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { postActions } from 'states/slices/postSlice'
+import { IPublicInfo } from 'models/user'
+import { IPost } from 'models/post'
 
 interface IListPostProps {
-    type: 'all' | 'friend'
-    friendAccount?: string
+    posts?: IPost[]
 }
 
-export default function ListPost({ type = 'all', friendAccount }: IListPostProps) {
+export default function ListPost({ posts }: IListPostProps) {
     const dispatch = useAppDispatch()
-    const user = useAppSelector((state) => state.user.current)
+    // const user = useAppSelector((state) => state.user.current)
     // const listPost = useSelector((state) => state.listPost)
     // const [lastVisible, setLastVisible] = useState(null)
     // const [postFromWho, setPostFromWho] = useState(null)
 
-    const [reload, setReload] = useState(false)
+    // const [reload, setReload] = useState(false)
     const { current, loading, error } = useAppSelector((state) => state.post)
-
+    const user = useAppSelector(state=>state.user.current)
     // const [loading, setLoading] = useState(true)
     // const [isLoadingMore, setIsLoadingMore] = useState(false)
     // const [errorLoadMore, setErrorLoadMore] = useState(false)
-    const timeoutLoadMore: { current: NodeJS.Timeout | null } = useRef(null)
-    const limit = 5
+    // const timeoutLoadMore: { current: NodeJS.Timeout | null } = useRef(null)
+    // const limit = 5
 
     // const checkDuplicate = useCallback(
     //     (newData) => {
@@ -43,11 +44,21 @@ export default function ListPost({ type = 'all', friendAccount }: IListPostProps
 
     //load data at first time
     useEffect(() => {
-        const loadPost = async () => {
-            await dispatch(postActions.getTheFirstTime(user?._id))
-        }
-        loadPost().then(() => {})
-    }, [])
+        (async () => {
+            //nếu không truyền posts từ ngoài vào thì sẽ call api lấy tất cả post
+            if (!posts && user)
+                await dispatch(postActions.getTheFirstTime(user._id))
+            else if (posts){}
+            else
+                throw new Error()
+            
+        })()
+            .then(() => { })
+            .catch((e) => { 
+                console.log(e)
+            })
+            .finally(() => { })
+    }, [posts])
 
     //load data when scroll to bottom
     // useEffect(() => {
@@ -73,6 +84,16 @@ export default function ListPost({ type = 'all', friendAccount }: IListPostProps
             <Box width="100%" display="flex" justifyContent="center">
                 <CircularProgress />
             </Box>
+        )
+
+
+    if (posts)
+        return (
+            <>
+                {posts.map((post) => (
+                    <Post key={post._id} {...post} />
+                ))}
+            </>
         )
 
     return (

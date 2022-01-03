@@ -27,7 +27,7 @@ export interface IUser {
     education: string
     hobbies: string[]
 
-    posts: ID[] | IPost[]
+    posts: IPost[]
 
     isOnline: boolean
     token: string

@@ -25,8 +25,10 @@ export default class Accepted extends Role {
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}
+                sx={{ textTransform:'none' }}
+                size='small'
             >
-                <Typography fontSize={14} fontWeight="bold">
+                <Typography fontSize={13} fontWeight="bold" noWrap>
                     Unfriend
                 </Typography>
             </Button>

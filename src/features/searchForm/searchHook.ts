@@ -27,7 +27,6 @@ export const useSearchSocket = () => {
 
     const updateRole = useCallback(
         (newInfo: IPublicInfo) => {
-            console.log(newInfo)
             dispatch(searchActions.updateStore(newInfo))
         },
         [dispatch]

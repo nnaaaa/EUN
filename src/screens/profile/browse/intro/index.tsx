@@ -1,7 +1,7 @@
 import { Box, Button, Chip, Typography } from '@mui/material'
-import { useStyle } from './styles'
 import { IPublicInfo } from 'models/user'
 import { hobbieOptions } from '../header/editProfile/editProfileHook'
+import { useStyle } from './styles'
 
 interface IIntroProps {
     user: IPublicInfo
@@ -17,7 +17,7 @@ export default function Intro({ user }: IIntroProps) {
             <Box mb={2} display="flex" justifyContent="space-between">
                 <Typography className={style.title}>Intro</Typography>
             </Box>
-            <Box display="flex">
+            <Box display="flex" flexWrap='wrap'>
                 {user.hobbies?.map((item, index) => (
                     <Chip
                         color="default"
