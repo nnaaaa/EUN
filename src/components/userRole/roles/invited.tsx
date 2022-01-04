@@ -8,26 +8,26 @@ import Stranger from './stranger'
 export default class Invited extends Role {
     protected mainButtonClick = async () => {
         try {
+            if (this.state.isLoading) throw new Error()
             this.loadingStart()
             await friendAPI.acceptInvite(this.props.friend._id)
-            this.props.changeState(Accepted)
-        }
-        catch (e) {
-            console.log(e)
-        }
-        finally {
             this.loadingEnd()
+            this.props.changeState(Accepted)
+        } catch (e) {
+            console.log(e)
+        } finally {
         }
     }
     protected subButtonClick = async () => {
         try {
+            if (this.state.isLoading) throw new Error()
             this.loadingStart()
             await friendAPI.refuseInvite(this.props.friend._id)
+            this.loadingEnd()
             this.props.changeState(Stranger)
         } catch (e) {
             console.log(e)
         } finally {
-            this.loadingEnd()
         }
     }
 
@@ -38,11 +38,10 @@ export default class Invited extends Role {
                     variant="contained"
                     color="primary"
                     onClick={this.mainButtonClick}
-                    startIcon={<FontAwesomeIcon icon={faPlus} size='xs'/>}
-
+                    startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
                     disabled={this.state.isLoading}
-                    sx={{ textTransform:'none' }}
-                    size='small'
+                    sx={{ textTransform: 'none' }}
+                    size="small"
                 >
                     <Typography fontSize={13} fontWeight="bold" noWrap>
                         Accept
@@ -54,8 +53,8 @@ export default class Invited extends Role {
                     color="error"
                     onClick={this.subButtonClick}
                     disabled={this.state.isLoading}
-                    sx={{ ml: 2,textTransform:'none' }}
-                    size='small'
+                    sx={{ ml: 2, textTransform: 'none' }}
+                    size="small"
                 >
                     <Typography fontSize={13} fontWeight="bold" noWrap>
                         Refuse

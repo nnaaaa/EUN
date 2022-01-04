@@ -22,13 +22,14 @@ export const FriendProfileHandler = () => {
     const myInfo = useAppSelector((state) => state.user.current)
     useEffect(() => {
         const fetchUser = async () => {
-            const _id = location.pathname.substring(1)
+            const _id = location.pathname.substring(6)
+            if (_id === myInfo?._id) return myInfo
             const response = await friendAPI.findById(_id)
-            
+
             return response.data
         }
         fetchUser().then((data) => setUser(data))
-    }, [])
+    }, [location])
 
     if (user && myInfo && user._id === myInfo._id) return <Redirect to="/profile" />
 

@@ -12,13 +12,22 @@ class UserAPI {
     }
     async updateProfile(userInfo: Partial<IUser>) {
         let form = new FormData()
+        // for (const key in userInfo) {
+        //     const value = userInfo[key as keyof IPublicInfo]
+        //     if (value)
+        //         form.append(key,value.toString())
+        // }
         if (userInfo.username) form.append('username', userInfo.username)
         if (userInfo.education) form.append('education', userInfo.education)
 
-        if (userInfo.avatar) form.append('image', userInfo.avatar)
+        if (userInfo.isOnline || userInfo.isOnline === false)
+            form.append('isOnline', userInfo.isOnline.toString())
+
+        if (userInfo.avatar) form.append('avatar', userInfo.avatar)
         if (userInfo.hobbies) {
             for (const hobbie of userInfo.hobbies) form.append('hobbies', hobbie)
         }
+
         return Axios.put(`${this.url}/updateProfile`, form, imagesConditon)
     }
     async getRelevantImage(userId: string) {

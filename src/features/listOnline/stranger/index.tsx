@@ -1,33 +1,27 @@
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Sd } from '@mui/icons-material'
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
     Avatar,
-    Button,
-    CircularProgress,
     Stack,
     Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { atachRelationship } from 'algorithms/filterSearch'
 import UserRole from 'components/userRole'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
-import { useAppSelector } from 'states/hooks'
 import { useStrangerSocket } from './strangerHook'
 
 export default function StrangerOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
-    const user = useAppSelector((state) => state.user.current)
 
     //lắng nghe users thay đổi
-    const { list, loading, error } = useStrangerSocket()
+    const { current, loading, error } = useStrangerSocket()
 
-    if (!list || list.length <= 0 || error || !user) {
+    if (!current || current.length <= 0 || error) {
         return <></>
     }
     return (
@@ -42,14 +36,11 @@ export default function StrangerOnline() {
                 <Typography className={style.name} gutterBottom>
                     🎄 Có thể bạn biết
                 </Typography>
-                {loading && <CircularProgress size={20} />}
+                {/* {loading && <CircularProgress size={20} />} */}
             </AccordionSummary>
             <AccordionDetails className={style.accorDetail}>
-                {list.map((friend, index) => (
-                    <Box
-                        className={style.wrapper}
-                        key={'listStranger' + index}
-                    >
+                {current.map((friend, index) => (
+                    <Box className={style.wrapper} key={'listStranger' + index}>
                         <Stack direction="row" alignItems="center">
                             <Avatar src={friend.avatar} />
                             <Box ml={1} overflow="hidden">
@@ -59,7 +50,6 @@ export default function StrangerOnline() {
                             </Box>
                         </Stack>
                         <UserRole friend={friend} />
-                        
                     </Box>
                 ))}
             </AccordionDetails>

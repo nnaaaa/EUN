@@ -47,14 +47,17 @@ export default function Post(info: IPost) {
     if (!user) return <Loading />
 
     return (
-        <CardMargin>
+        <CardMargin
+            onFocus={() => console.log('focus')}
+            onBlur={() => console.log('blur')}
+        >
             <CardHeader
                 avatar={<Avatar src={owner.avatar} />}
                 title={
                     <Typography
                         variant="h6"
                         component={Link}
-                        to={`/${owner._id}`}
+                        to={`/user/${owner._id}`}
                         color="black"
                     >
                         {owner.username}

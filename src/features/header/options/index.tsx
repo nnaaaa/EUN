@@ -1,7 +1,7 @@
 import { Avatar, Button, Divider, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { authActions } from 'states/slices/authSlice'
+import { authActions } from 'screens/authenticate/authSlice'
 
 const Options = () => {
     const dispatch = useAppDispatch()

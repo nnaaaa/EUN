@@ -20,7 +20,7 @@ export default function Comment(props: IComment) {
                     <Typography
                         className={style.name}
                         component={Link}
-                        to={`/${(owner as IPublicInfo)._id}`}
+                        to={`/user/${(owner as IPublicInfo)._id}`}
                     >
                         {username}
                     </Typography>

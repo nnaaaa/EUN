@@ -9,14 +9,17 @@ import {
     FriendMessage,
     MyMessage,
     TextContent,
+    useStyle,
     WrapperMessage,
 } from './contentStyles'
+import { LinkPreview } from '@dhaiwat10/react-link-preview'
 
 interface IProps {
     room: IChatRoom
 }
 
 function Content({ room }: IProps) {
+    const style = useStyle()
     const { messages, composing } = room
     const user = useAppSelector((state) => state.user.current)
     const heightOfChatWrapper = useRef<null | HTMLDivElement>(null)
@@ -34,12 +37,25 @@ function Content({ room }: IProps) {
     return (
         <WrapperMessage ref={heightOfChatWrapper}>
             {messages.map((msg) => {
-                let time = moment(msg.createAt.toString()).calendar()
+                const time = moment(msg.createAt.toString()).calendar()
+                const isUrl = new RegExp(
+                    /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
+                ).test(msg.content)
+                let content = <TextContent>{msg.content}</TextContent>
+                if (isUrl)
+                    content = (
+                        <LinkPreview
+                            imageHeight={100}
+                            url={msg.content}
+                            descriptionLength={20}
+                            fallback={<TextContent>{msg.content}</TextContent>}
+                        />
+                    )
                 if (msg.owner === user?._id) {
                     return (
                         <Tooltip title={time} placement="left" key={msg._id}>
                             <MyMessage>
-                                <TextContent>{msg.content}</TextContent>
+                                {content}
                                 <DisplayGridImages
                                     images={msg.images as string[]}
                                     title={msg.content}
@@ -51,7 +67,7 @@ function Content({ room }: IProps) {
                 return (
                     <Tooltip title={time} placement="right" key={msg._id}>
                         <FriendMessage>
-                            <TextContent>{msg.content}</TextContent>
+                            {content}
                             <DisplayGridImages
                                 images={msg.images as string[]}
                                 title={msg.content}

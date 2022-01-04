@@ -1,6 +1,6 @@
 import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import chatReducer from 'states/slices/chatSlice'
-import authReducer from 'states/slices/authSlice'
+import authReducer from 'screens/authenticate/authSlice'
 import userReducer from 'states/slices/userSlice'
 import friendReducer from 'states/slices/friendSlice'
 import searchReducer from 'features/searchForm/searchSlice'

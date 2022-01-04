@@ -40,7 +40,7 @@ export default function CRUDModel(props: IModelProps) {
     //khởi tạo lại post cũ
     useEffect(() => {
         type.init()
-    }, [type,isPopup])
+    }, [type, isPopup])
 
     const upPost = async () => {
         try {

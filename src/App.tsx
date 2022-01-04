@@ -26,7 +26,7 @@ function App() {
                     {/*<Route component={Authentication} path="/login" />
                     <Route component={NotFound} path="/:err" /> */}
                     <Route component={Authentication} path="/auth" />
-                    <Route component={FriendProfileHandler} path="/:account" />
+                    <Route component={FriendProfileHandler} path="/user/:account" />
                     <Route component={NotFound} path="/:error" />
                     {/* <Redirect to="/home" /> */}
                 </Switch>

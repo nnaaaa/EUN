@@ -3,7 +3,7 @@ import { ID } from 'models/common'
 import { IPublicInfo } from 'models/user'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'
-import { userAPI } from './../rest/list/user'
+import { userAPI } from 'api/rest/list/user'
 
 export const useUserSocket = (
     targetId: ID | undefined,
@@ -35,17 +35,16 @@ export const useUserSocket = (
     }, [socket, targetId])
 }
 
-export const useListUserSocket = (dispatcher: (user: IPublicInfo[]) => void) => {
+export const useListUserSocket = (dispatcher: () => void) => {
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
         const updateListener = async (newData: IPublicInfo) => {
             try {
-                const user = await userAPI.getListUser()
-                console.log("update",user)
-                dispatcher(user.data)
+                // const user = await userAPI.getListUser()
             } catch {
-                dispatcher([])
+            } finally {
+                dispatcher()
             }
         }
         socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}`, updateListener)

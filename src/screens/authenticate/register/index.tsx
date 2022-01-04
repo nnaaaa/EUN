@@ -2,7 +2,7 @@ import { LoadingButton } from '@mui/lab'
 import { Button, Divider, Grid, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { authActions } from 'states/slices/authSlice'
+import { authActions } from 'screens/authenticate/authSlice'
 import { registerValidate } from 'utils/yup'
 import { useStyle } from '../styles'
 

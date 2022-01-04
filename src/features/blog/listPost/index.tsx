@@ -22,7 +22,7 @@ export default function ListPost({ posts }: IListPostProps) {
 
     // const [reload, setReload] = useState(false)
     const { current, loading, error } = useAppSelector((state) => state.post)
-    const user = useAppSelector(state=>state.user.current)
+    const user = useAppSelector((state) => state.user.current)
     // const [loading, setLoading] = useState(true)
     // const [isLoadingMore, setIsLoadingMore] = useState(false)
     // const [errorLoadMore, setErrorLoadMore] = useState(false)
@@ -44,20 +44,17 @@ export default function ListPost({ posts }: IListPostProps) {
 
     //load data at first time
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             //nếu không truyền posts từ ngoài vào thì sẽ call api lấy tất cả post
-            if (!posts && user)
-                await dispatch(postActions.getTheFirstTime(user._id))
-            else if (posts){}
-            else
-                throw new Error()
-            
+            if (!posts && user) await dispatch(postActions.getTheFirstTime(user._id))
+            else if (posts) {
+            } else throw new Error()
         })()
-            .then(() => { })
-            .catch((e) => { 
+            .then(() => {})
+            .catch((e) => {
                 console.log(e)
             })
-            .finally(() => { })
+            .finally(() => {})
     }, [posts])
 
     //load data when scroll to bottom
@@ -85,7 +82,6 @@ export default function ListPost({ posts }: IListPostProps) {
                 <CircularProgress />
             </Box>
         )
-
 
     if (posts)
         return (

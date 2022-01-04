@@ -22,6 +22,7 @@ const loginAsync = createAsyncThunk('auth/login', async (credential: SignInType)
     const res = await authAPI.postLogin(credential)
     if (res.data.token) {
         Cookie.set('token', res.data.token)
+        await userAPI.updateProfile({ isOnline: true })
     } else {
         throw new Error()
     }
@@ -81,6 +82,7 @@ const authSlice = createSlice({
 
 const loginWithToken = (): AppThunk => async (dispatch, getState) => {
     try {
+        await userAPI.updateProfile({ isOnline: true })
         unwrapResult(await dispatch(userActions.getProfile()))
         dispatch(actions.login())
     } catch {

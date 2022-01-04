@@ -1,8 +1,8 @@
-import { Button, Grid, Typography, Box, Avatar } from '@mui/material'
-import { useStyle } from './styles'
-import Tilty from 'react-parallax-tilt'
-import { IPublicInfo } from 'models/user'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import AutoAvatar from 'components/autoAvatar'
+import { IPublicInfo } from 'models/user'
+import { Link } from 'react-router-dom'
+import { useStyle } from './styles'
 
 interface IFriendsProps {
     user: IPublicInfo
@@ -30,7 +30,13 @@ export default function Friends({ setIndex, user }: IFriendsProps) {
                 {user.friends.accepted.slice(0, 9)?.map((user, index) => (
                     <Grid item xs={4} key={index}>
                         <AutoAvatar src={user.avatar} />
-                        <Typography className={style.name}>{user.username}</Typography>
+                        <Typography
+                            className={style.name}
+                            component={Link}
+                            to={`/user/${user._id}`}
+                        >
+                            {user.username}
+                        </Typography>
                     </Grid>
                 ))}
             </Grid>

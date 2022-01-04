@@ -1,5 +1,16 @@
+import { makeStyles } from '@mui/styles'
 import { styled as styledMUI } from '@mui/system'
 import styled, { keyframes } from 'styled-components'
+
+export const useStyle = makeStyles({
+    previewUrl: {
+        color: 'red',
+        '&.LowerContainer.Title': {
+            fontSize: 16,
+            color: 'blue',
+        },
+    },
+})
 
 export const WrapperMessage = styled.div`
     padding: 0.5rem 0.5rem;

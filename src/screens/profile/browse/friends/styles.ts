@@ -17,5 +17,6 @@ export const useStyle = makeStyles({
     name: {
         fontSize: 14,
         fontWeight: 'bold',
+        color: 'black',
     },
 })

@@ -79,13 +79,14 @@ export default function InteractTool(props: IInteractTools) {
                         horizontal: 'left',
                     }}
                     PaperProps={{
-                        sx: { borderRadius: '50px', overflow: 'visible', width: '300px' },
+                        sx: { borderRadius: '50px', overflow: 'visible' },
                         onMouseOver: () => timeoutToggle(true),
                         onMouseLeave: () => timeoutToggle(false),
                     }}
                 >
                     <ReactionBarSelector
                         onSelect={(s: string) => sendReact(s as IEmotionList)}
+                        iconSize={25}
                     />
                 </Popover>
                 <Button

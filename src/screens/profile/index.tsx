@@ -17,13 +17,17 @@ interface IProfileProps {
 
 interface IProfileStates {
     index: number
+    user: IPublicInfo | undefined
+    reload: boolean
 }
 
 export default abstract class Profile extends Component<IProfileProps, IProfileStates> {
     constructor(props: IProfileProps) {
         super(props)
         this.state = {
+            reload: false,
             index: 0,
+            user: props.user,
         }
     }
 

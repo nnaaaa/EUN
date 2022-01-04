@@ -22,7 +22,6 @@ class UserRole extends Component<IUserRoleProps, IUserRoleStates> {
         }
     }
     componentDidMount() {
-        console.log("component mounted")
         switch (this.props.friend.role) {
             case 'accepted':
                 this.setState({ Role: Accepted })
@@ -37,7 +36,7 @@ class UserRole extends Component<IUserRoleProps, IUserRoleStates> {
                 this.setState({ Role: Stranger })
         }
     }
-    componentDidUpdate(previousProps:IUserRoleProps, previousState:IUserRoleStates) {
+    componentDidUpdate(previousProps: IUserRoleProps, previousState: IUserRoleStates) {
         if (previousProps.friend !== this.props.friend) {
             switch (this.props.friend.role) {
                 case 'accepted':
@@ -53,10 +52,6 @@ class UserRole extends Component<IUserRoleProps, IUserRoleStates> {
                     this.setState({ Role: Stranger })
             }
         }
-    }
-
-    componentWillUnmount() {
-        this.setState({ Role: Stranger })
     }
 
     protected changeState = (NewState: typeof Role) => {

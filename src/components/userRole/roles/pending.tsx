@@ -8,13 +8,14 @@ import Stranger from './stranger'
 export default class Pending extends Role {
     protected mainButtonClick = async () => {
         try {
+            if (this.state.isLoading) throw new Error()
             this.loadingStart()
             await friendAPI.cancelInvite(this.props.friend._id)
+            this.loadingEnd()
             this.props.changeState(Stranger)
         } catch (e) {
             console.log(e)
         } finally {
-            this.loadingEnd()
         }
     }
 
@@ -25,8 +26,8 @@ export default class Pending extends Role {
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}
-                size='small'
-                sx={{textTransform:'none'}}
+                size="small"
+                sx={{ textTransform: 'none' }}
             >
                 <Typography fontSize={13} fontWeight="bold" noWrap>
                     Cancle invite

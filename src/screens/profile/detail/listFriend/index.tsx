@@ -1,11 +1,10 @@
-import { Box, Grid, Typography, Avatar, Paper, Stack } from '@mui/material'
-import React from 'react'
-import { useStyle } from './styles'
-import { useState, useEffect } from 'react'
-
-import { Link } from 'react-router-dom'
-import { IPublicInfo } from 'models/user'
+import { Box, Grid, Typography } from '@mui/material'
 import AutoAvatar from 'components/autoAvatar'
+import { IPublicInfo } from 'models/user'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { useStyle } from './styles'
+
 
 interface IListFriendProps {
     setIndex: (i: number) => void
@@ -14,7 +13,6 @@ interface IListFriendProps {
 
 export default function ListFriend({ setIndex, user }: IListFriendProps) {
     const style = useStyle()
-    const [friendList, setFriendList] = useState([])
 
     return (
         <Box p={2} borderRadius={1} boxShadow={1} bgcolor="white">
@@ -45,7 +43,7 @@ export default function ListFriend({ setIndex, user }: IListFriendProps) {
                             <Grid xs={9} item>
                                 <Typography
                                     component={Link}
-                                    to="/"
+                                    to={`/user/${u._id}`}
                                     className={style.name}
                                 >
                                     {u.username}

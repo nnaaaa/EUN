@@ -1,43 +1,36 @@
-import { useListUserSocket } from 'api/socket/user'
-import { useAppSelector } from 'states/hooks'
-import { userAPI } from 'api/rest/list/user'
 import { filterSearch } from 'algorithms/filterSearch'
+import { userAPI } from 'api/rest/list/user'
+import { useListUserSocket } from 'api/socket/user'
+import { useCallback, useEffect, useState } from 'react'
 import { IFriendPublicInfo } from 'states/slices/friendSlice'
-import { useEffect, useState, useCallback } from 'react'
-import { IPublicInfo } from 'models/user'
 
 export const useStrangerSocket = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string>()
     const [strangerList, setStrangerList] = useState<IFriendPublicInfo[]>([])
-    const user = useAppSelector((state) => state.user.current)
 
-    const dispatcher = useCallback((newList: IPublicInfo[]) => {
+    const dispatcher = useCallback(() => {
         userAPI.getProfile().then((user) => {
-            console.log("dispatcher")
-            const filterUser = filterSearch(newList, user.data)
-            setStrangerList(filterUser)
+            const getListUser = async () => {
+                try {
+                    setLoading(true)
+                    const res = await userAPI.getListUser()
+                    const filterUser = filterSearch(res.data, user.data)
+                    setStrangerList(filterUser.filter((u) => u.role !== 'accepted'))
+                } catch {
+                    setError('...')
+                } finally {
+                    setLoading(false)
+                }
+            }
+            getListUser().then(() => {})
         })
     }, [])
+
     useListUserSocket(dispatcher)
 
-    console.log("render",strangerList)
-
     useEffect(() => {
-        const getListUser = async () => {
-            try {
-                setLoading(true)
-                const res = await userAPI.getListUser()
-                console.log("useEffect")
-                const filterUser = filterSearch(res.data, user)
-                setStrangerList(filterUser)
-            } catch {
-                setError('...')
-            } finally {
-                setLoading(false)
-            }
-        }
-        getListUser().then(() => {})
-    }, [user])
-    return { loading, error, list: strangerList }
+        dispatcher()
+    }, [])
+    return { loading, error, current: strangerList }
 }

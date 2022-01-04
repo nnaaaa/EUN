@@ -17,7 +17,7 @@ export default function Intro({ user }: IIntroProps) {
             <Box mb={2} display="flex" justifyContent="space-between">
                 <Typography className={style.title}>Intro</Typography>
             </Box>
-            <Box display="flex" flexWrap='wrap'>
+            <Box display="flex" flexWrap="wrap">
                 {user.hobbies?.map((item, index) => (
                     <Chip
                         color="default"
