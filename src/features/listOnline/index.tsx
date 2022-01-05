@@ -4,7 +4,7 @@ import StrangerOnline from './stranger'
 
 export default function ListOnline() {
     return (
-        <Stack>
+        <Stack mb={2}>
             <FriendOnline />
             <StrangerOnline />
         </Stack>

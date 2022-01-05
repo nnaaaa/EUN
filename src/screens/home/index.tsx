@@ -3,6 +3,7 @@ import { useUserSocket } from 'api/socket/user'
 import Gutter from 'features/gutter'
 import Header from 'features/header'
 import ListOnline from 'features/listOnline'
+import ListGame from 'features/listGame'
 import ListChat from 'features/message/listChat'
 import { IPublicInfo } from 'models/user'
 import { useCallback } from 'react'
@@ -114,7 +115,7 @@ export default function Home() {
                     }}
                 >
                     <ListOnline />
-                    {/* <ListGame /> */}
+                    <ListGame />
                 </Grid>
 
                 <ListChat />
