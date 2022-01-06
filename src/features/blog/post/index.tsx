@@ -52,7 +52,13 @@ export default function Post(info: IPost) {
             onBlur={() => console.log('blur')}
         >
             <CardHeader
-                avatar={<Avatar src={owner.avatar} />}
+                avatar={
+                    <Avatar
+                        src={owner.avatar}
+                        component={Link}
+                        to={`/user/${owner._id}`}
+                    />
+                }
                 title={
                     <Typography
                         variant="h6"

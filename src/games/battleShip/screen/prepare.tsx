@@ -1,6 +1,5 @@
 import Screen from './'
 
-class Prepare extends Screen{
-}
+class Prepare extends Screen {}
 
 export default Prepare

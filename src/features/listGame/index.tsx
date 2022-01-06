@@ -14,7 +14,7 @@ const ListGame = () => {
     const stopPlaying = () => setPlaying(<></>)
     return (
         <Box mb={2} borderRadius={1} boxShadow={1} bgcolor="white">
-            <Typography fontWeight='bold' fontSize={14} p={2}>
+            <Typography fontWeight="bold" fontSize={14} p={2}>
                 🎮 Games
             </Typography>
             <BattleShipSmallCard

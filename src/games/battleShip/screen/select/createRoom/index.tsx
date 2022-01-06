@@ -9,12 +9,12 @@ import {
     RadioGroup,
     Typography,
 } from '@mui/material'
-//   import ShipMap from 'games/battleShip/components/map/shipMap'
-//   import {initShips} from 'games/battleShip/logics/init'
-//   import {MapContext} from 'games/battleShip/states/mapProvider'
-import { Dispatch, SetStateAction, useContext, useMemo, useState } from 'react'
-import Waiting from '../../waiting'
+import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
+import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
+import BattleShipGameService from 'games/battleShip/services'
+import { useMemo, useState } from 'react'
 import Screen from '../../'
+import Waiting from '../../waiting'
 import { useStyle } from './styles'
 
 interface ICreateRoomProps {
@@ -26,129 +26,67 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
     // const {id: userId, avatar, name} = useSelector((state) => state.user)
     // const {setMapId, socket} = useContext(MapContext)
     const [loading, setLoading] = useState(false)
-    const [size, setSize] = useState('10')
-    const [limits, setLimits] = useState('6')
-    const [color, setColor] = useState('lightblue')
+    const [size, setSize] = useState<IAtlatSize>(15)
+    const [limits, setLimits] = useState<ILimitShip>(3)
     const [shipsPos, setShipsPos] = useState('random')
-    const [gameMode, setGameMode] = useState('human')
 
-    // const randShips = useMemo(() => initShips(+limits, +size), [size, limits])
+    const randShips = useMemo(
+        () => BattleShipGameService.initShips(limits, size),
+        [size, limits]
+    )
 
     const createRoom = async () => {
         setLoading(true)
-        //   const roomId = uid()
-        //   const gameInfo = {
-        //     id: roomId,
-        //     size: +size,
-        //     limits: +limits,
-        //     mode: gameMode,
-        //     shipsPos,
-        //     isStarting: false,
-        //     player1: {
-        //       id: userId,
-        //       avatar,
-        //       name,
-        //     },
-        //     player2: {},
-        //     ships1: [],
-        //     ships2: [],
-        //     sensors1: [],
-        //     sensors2: [],
-        //     userReady: [],
-        //     arranged: [],
-        //     spectators: [],
-        //     message: {},
-        //   }
-        //   setMapId(roomId)
-        //   socket.emit('add-room', gameInfo)
-        changeScreen(Waiting)
         setLoading(false)
+        changeScreen(Waiting)
     }
 
     return (
-        <Grid container justifyContent="space-evenly">
+        <Grid container justifyContent="center">
             <Grid item xs={12}>
                 <Typography className={style.title}>Select your rule</Typography>
             </Grid>
-            <Grid item>
+            <Grid item xs={3} container direction="column">
                 <FormControl component="fieldset">
                     <FormLabel component="legend">Map Size</FormLabel>
                     <RadioGroup
-                        aria-label="gender"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                        // onChange={(e) => setSize(e.target.value)}
-                        
-                        // value={size}
+                        onChange={(e) => setSize(+e.target.value as IAtlatSize)}
+                        defaultValue="15"
                     >
-                        <FormControlLabel
-                            value="10x"
-                            control={<Radio />}
-                            label="10xx"
-                        />
-                        <FormControlLabel
-                            value="15x"
-                            control={<Radio />}
-                            label="15xx"
-                        />
-                        {/* <FormControlLabel value='18' control={<Radio color='primary'/>} label="18" color='primary'/> */}
+                        <FormControlLabel value="15" control={<Radio />} label="15" />
                     </RadioGroup>
                 </FormControl>
-                {/* <FormControl className={style.control} component="fieldset" >
-                      <FormLabel className={style.label} component="legend">Map style</FormLabel>
-                      <RadioGroup onChange={e => setColor(e.target.value)}
-                          className={style.group} value={color}>
-                          <FormControlLabel value='lightblue' control={<Radio color='primary'/>} label="ocean"/>
-                          <FormControlLabel value='pink' control={<Radio color='primary'/>} label="pink"/>
-                      </RadioGroup>
-                  </FormControl> */}
-                <FormControl className={style.control} component="fieldset">
-                    <FormLabel className={style.label} component="legend">Limits</FormLabel>
+                <FormControl component="fieldset">
+                    <FormLabel component="legend">Limits</FormLabel>
                     <RadioGroup
-                        onChange={(e) => setLimits(e.target.value)}
-                        className={style.group}
-                        value={limits}
+                        onChange={(e) => setLimits(+e.target.value as ILimitShip)}
+                        defaultValue="3"
                     >
                         <FormControlLabel
                             value="3"
                             control={<Radio color="primary" />}
                             label="3 ship"
                         />
-                        <FormControlLabel
-                            value="6"
-                            control={<Radio color="primary" />}
-                            label="6 ship"
-                        />
-                        {/* <FormControlLabel value='8' control={<Radio color='primary'/>} label="8 ship"/> */}
                     </RadioGroup>
                 </FormControl>
-                <FormControl className={style.control} component="fieldset">
-                    <FormLabel className={style.label} component="legend">Ships</FormLabel>
+                <FormControl component="fieldset">
+                    <FormLabel component="legend">Arrange</FormLabel>
                     <RadioGroup
                         onChange={(e) => setShipsPos(e.target.value)}
-                        className={style.group}
-                        value={shipsPos}
+                        defaultValue="random"
                     >
                         <FormControlLabel
                             value="random"
                             control={<Radio color="primary" />}
                             label="random"
                         />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             value="select"
                             control={<Radio color="primary" />}
                             label="select"
-                        />
+                        /> */}
                     </RadioGroup>
                 </FormControl>
-                {/* <FormControl className={style.control} component="fieldset" >
-                      <FormLabel className={style.label} component="legend">Mode</FormLabel>
-                      <RadioGroup onChange={e => setGameMode(e.target.value)}
-                          className={style.group} value={gameMode}>
-                          <FormControlLabel value='human' control={<Radio color='primary'/>} label="Human"/>
-                          <FormControlLabel value='comp' control={<Radio color='primary'/>} label="Comp"/>
-                      </RadioGroup>
-                  </FormControl> */}
                 <Box width="100%" display="flex" justifyContent="flex-end">
                     <Button
                         variant="contained"
@@ -162,7 +100,9 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
                     </Button>
                 </Box>
             </Grid>
-            <Grid item>{/* <ShipMap ships={randShips} size={+size} /> */}</Grid>
+            <Grid item xs={3}>
+                <ShipAtlas ships={randShips} size={size} />
+            </Grid>
         </Grid>
     )
 }

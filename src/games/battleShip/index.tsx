@@ -6,7 +6,7 @@ import Popup from 'components/popup'
 import { Component, ReactNode, useContext, useState } from 'react'
 import Screen from './screen'
 import Select from './screen/select'
-import { MapContext, MapProvider } from './states/mapProvider'
+import { RoomContext, RoomProvider } from './states/roomProvider'
 // import SwipeableViews from 'react-swipeable-views'
 // import HomeButton from './components/homeButton/homeButton'
 // import ArrangeShip from './screen/arrangeShip/arrangeShip'
@@ -28,9 +28,9 @@ interface IBattleShipStates {
 
 const BattleShipWrapper = ({ stopPlaying }: IBattleShipProps) => {
     return (
-        <MapProvider>
+        <RoomProvider>
             <BattleShip stopPlaying={stopPlaying} />
-        </MapProvider>
+        </RoomProvider>
     )
 }
 export default BattleShipWrapper
@@ -41,7 +41,7 @@ export default BattleShipWrapper
 // }
 
 class BattleShip extends Component<IBattleShipProps, IBattleShipStates> {
-    static contextType = MapContext
+    static contextType = RoomContext
     constructor(props: IBattleShipProps) {
         super(props)
         this.state = {

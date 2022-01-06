@@ -13,7 +13,6 @@ interface IHomeButtonProps {
     setIndex: Dispatch<SetStateAction<number>>
 }
 
-
 const HomeButton = ({ setIndex }: IHomeButtonProps) => {
     const style = useStyle()
 
@@ -46,6 +45,7 @@ const HomeButton = ({ setIndex }: IHomeButtonProps) => {
                 <Grid item>
                     <Button
                         className={style.button}
+                        color="inherit"
                         variant="contained"
                         size="large"
                         onClick={() => setIndex(2)}

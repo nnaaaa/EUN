@@ -5,7 +5,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useStyle } from './styles'
 
-
 interface IListFriendProps {
     setIndex: (i: number) => void
     user: IPublicInfo

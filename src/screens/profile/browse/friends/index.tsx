@@ -28,15 +28,15 @@ export default function Friends({ setIndex, user }: IFriendsProps) {
             </Box>
             <Grid container spacing={1}>
                 {user.friends.accepted.slice(0, 9)?.map((user, index) => (
-                    <Grid item xs={4} key={index}>
+                    <Grid
+                        item
+                        xs={4}
+                        key={index}
+                        component={Link}
+                        to={`/user/${user._id}`}
+                    >
                         <AutoAvatar src={user.avatar} />
-                        <Typography
-                            className={style.name}
-                            component={Link}
-                            to={`/user/${user._id}`}
-                        >
-                            {user.username}
-                        </Typography>
+                        <Typography className={style.name}>{user.username}</Typography>
                     </Grid>
                 ))}
             </Grid>

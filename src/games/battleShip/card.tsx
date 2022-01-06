@@ -21,11 +21,11 @@ const useStyle = makeStyles({
     },
 })
 
-interface ICardProps{
-    onClick:()=>void
+interface ICardProps {
+    onClick: () => void
 }
 
-export const BattleShipCard = ({ onClick }:ICardProps) => {
+export const BattleShipCard = ({ onClick }: ICardProps) => {
     const style = useStyle()
     return (
         <Card>

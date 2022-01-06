@@ -11,7 +11,7 @@ import BattleShip from 'games/battleShip'
 const Games = () => {
     const [playing, setPlaying] = useState<JSX.Element | undefined>()
 
-    const stopePlaying = ()=>setPlaying(<></>)
+    const stopePlaying = () => setPlaying(<></>)
 
     return (
         <>
@@ -26,7 +26,11 @@ const Games = () => {
                 >
                     <Grid container spacing={2}>
                         <Grid item md={6} xs={12}>
-                            <BattleShipSmallCard onClick={() => setPlaying(<BattleShip stopPlaying={stopePlaying}/>)} />
+                            <BattleShipSmallCard
+                                onClick={() =>
+                                    setPlaying(<BattleShip stopPlaying={stopePlaying} />)
+                                }
+                            />
                         </Grid>
                     </Grid>
                 </Box>

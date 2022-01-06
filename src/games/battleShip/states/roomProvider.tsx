@@ -1,38 +1,71 @@
-import { createContext, Dispatch, ReactChild, SetStateAction, useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import io from 'socket.io-client'
+import {
+    createContext,
+    Dispatch,
+    ReactChild,
+    SetStateAction,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react'
+import io, { Socket } from 'socket.io-client'
+import { IRoom } from '../modals/room'
 
 const socket = io('http://localhost:9000')
 
 type PlayerRole = 'spectator' | 'player1' | 'player2' | undefined
 
-interface IMapContextValue{
-    role:PlayerRole
+interface IRoomContextValue {
+    socket: Socket
+    room: IRoom | undefined
+    setRoom?: Dispatch<SetStateAction<IRoom | undefined>>
+    role: PlayerRole
     setRole?: Dispatch<SetStateAction<PlayerRole>>
+    listPlayingRoom: any[]
+    setListPlayingRoom?: Dispatch<SetStateAction<any[]>>
+    listPrepareRoom: any[]
+    setListPrepareRoom?: Dispatch<SetStateAction<any[]>>
 }
 const initContextValue = {
+    room: undefined,
     role: undefined,
+    listPlayingRoom: [],
+    listPrepareRoom: [],
+    socket: io('http://localhost:9000'),
 }
-export const MapContext = createContext<IMapContextValue>(initContextValue)
+export const RoomContext = createContext<IRoomContextValue>(initContextValue)
 
-export const MapProvider = ({ children }: { children: ReactChild }) => {
-
-    const [mapId, setMapId] = useState()
+export const RoomProvider = ({ children }: { children: ReactChild }) => {
+    const socket = useMemo(() => io('http://localhost:9000'), [])
+    const [room, setRoom] = useState<IRoom>()
+    const [listPlayingRoom, setListPlayingRoom] = useState<any[]>([])
+    const [listPrepareRoom, setListPrepareRoom] = useState<any[]>([])
     const [role, setRole] = useState<PlayerRole>()
     // const { id, name, avatar } = useSelector((state) => state.user)
     // const map = useWatchMap(socket, 'room', mapId)
 
     socket.connect()
     return (
-        <MapContext.Provider value={{role,setRole,}}>
+        <RoomContext.Provider
+            value={{
+                socket,
+                room,
+                setRoom,
+                role,
+                setRole,
+                listPlayingRoom,
+                listPrepareRoom,
+                setListPlayingRoom,
+                setListPrepareRoom,
+            }}
+        >
             {children}
-        </MapContext.Provider>
+        </RoomContext.Provider>
     )
-    // useEffect(() => {
-    //     return () => {
-    //         socket.disconnect()
-    //     }
-    // },[])
+    useEffect(() => {
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
 
     //   const joinRoom = async (room) => {
     //     const player = {id, name, avatar}
