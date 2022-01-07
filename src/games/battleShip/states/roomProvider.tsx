@@ -44,6 +44,13 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
     // const map = useWatchMap(socket, 'room', mapId)
 
     socket.connect()
+    useEffect(() => {
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
+
+    
     return (
         <RoomContext.Provider
             value={{
@@ -61,11 +68,7 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
             {children}
         </RoomContext.Provider>
     )
-    useEffect(() => {
-        return () => {
-            socket.disconnect()
-        }
-    }, [])
+    
 
     //   const joinRoom = async (room) => {
     //     const player = {id, name, avatar}

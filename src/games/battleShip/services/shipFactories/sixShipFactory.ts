@@ -4,7 +4,7 @@ import { CarrierShip } from '../shipCategories/carrier'
 import { ThreeShipFactory } from './threeShipFactory'
 
 export class SixShipFactory extends ThreeShipFactory {
-    protected build() {
+    protected createShips() {
         const cruiserCtg = new CruiserShip().build()
         const cruiserShip = this.createShipByRand(cruiserCtg)
         this._ships.push(cruiserShip)

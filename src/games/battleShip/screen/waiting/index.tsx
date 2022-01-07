@@ -6,7 +6,7 @@ import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
 import { IShip } from 'games/battleShip/modals/ship'
 import BattleShipGameService from 'games/battleShip/services'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useAppSelector } from 'states/hooks'
 import Screen from '../'
 import CountDown from '../countDown'
@@ -39,14 +39,14 @@ const WaitingFunc = ({ state }: { state: Select }) => {
         if (room.userReady.length !== 2) return
         const setPlayGame = async () => {
             if (room.mode === 'random') {
-                if (user._id === room.player1?.id) {
+                if (user._id === room.player1?._id) {
                     // socket.emit('update-room', map.id, {
                     //     isStarting: true,
                     //     turn: id,
                     //     ships1: initShips(map.limits, map.size),
                     //     sensors1: initSensors(map.size),
                     // })
-                } else if (user._id === room.player2?.id) {
+                } else if (user._id === room.player2?._id) {
                     // socket.emit('update-room', map.id, {
                     //     ships2: initShips(map.limits, map.size),
                     //     sensors2: initSensors(map.size),
@@ -76,11 +76,11 @@ const WaitingFunc = ({ state }: { state: Select }) => {
 
             <Box width="15%">{/* <Spectators joinable /> */}</Box>
 
-            {room.player1 ? (
+            {/* {room.player1 ? (
                 <FilledSlot player={room.player1} userReady={room.userReady} />
             ) : (
                 <EmptySlot player="player1" />
-            )}
+            )} */}
 
             <Box
                 display="flex"
@@ -108,13 +108,13 @@ const WaitingFunc = ({ state }: { state: Select }) => {
                         <Button
                             variant="contained"
                             color={
-                                room.userReady.find((u) => u.id === user._id)
+                                room.userReady.find((u) => u._id === user._id)
                                     ? 'primary'
                                     : 'secondary'
                             }
                             // onClick={readyToPlay}
                         >
-                            {room.userReady.find((u) => u.id === user._id)
+                            {room.userReady.find((u) => u._id === user._id)
                                 ? 'Cancel'
                                 : 'Ready'}
                         </Button>
@@ -132,11 +132,11 @@ const WaitingFunc = ({ state }: { state: Select }) => {
                 )}
             </Box>
 
-            {room.player2 ? (
+            {/* {room.player2 ? (
                 <FilledSlot player={room.player2} userReady={room.userReady} />
             ) : (
                 <EmptySlot player="player2" />
-            )}
+            )} */}
         </Box>
     ) : (
         <Box

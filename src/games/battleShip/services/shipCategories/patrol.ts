@@ -8,7 +8,6 @@ export class PatrolShip extends ShipCategories {
         const category: IShipCategories = {
             name,
             size: this._3x1,
-            image: Constants.getShipImage(name),
         }
         return category
     }

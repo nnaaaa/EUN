@@ -4,7 +4,7 @@ import { LightnightShip } from '../shipCategories/lightnight'
 import { SubmarineShip } from '../shipCategories/submarine'
 
 export class ThreeShipFactory extends ShipFactory {
-    protected build() {
+    protected createShips() {
         const destroyerCtg = new DestroyerShip().build()
         const destroyerShip = this.createShipByRand(destroyerCtg)
         this._ships.push(destroyerShip)

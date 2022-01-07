@@ -1,8 +1,9 @@
-import { SensorTiles } from './map'
-import { IShip } from './ship'
-import { IAtlatSize, ILimitShip } from './state'
+import { IPublicInfo } from 'models/user';
+import { SensorTiles } from './map';
+import { IShip } from './ship';
+import { IAtlatSize, ILimitShip } from './state';
 
-type IMode = 'random' | 'select'
+export type IMode = 'random' | 'select'
 
 export type IRole = 'player1' | 'player2' | 'spectator'
 
@@ -23,14 +24,14 @@ export interface IRoom {
     limitShip: ILimitShip
     mode: IMode
     isStarting: false
-    player1?: IPlayer
-    player2?: IPlayer
+    player1?: IPublicInfo
+    player2?: IPublicInfo
     ships1: IShip[]
     ships2: IShip[]
     sensors1: SensorTiles
     sensors2: SensorTiles
-    userReady: IPlayer[]
-    arranged: IPlayer[]
-    spectators: IPlayer[]
+    userReady: IPublicInfo[]
+    arranged: IPublicInfo[]
+    spectators: IPublicInfo[]
     message: IMessage
 }

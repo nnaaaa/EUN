@@ -8,7 +8,6 @@ export class LightnightShip extends ShipCategories {
         const category: IShipCategories = {
             name,
             size: this._2x1,
-            image: Constants.getShipImage(name),
         }
         return category
     }

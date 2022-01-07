@@ -35,7 +35,7 @@ export const Image = ({ ship }: { ship: IShip }) => {
                         position: 'absolute',
                         width: verticalSize.width * Constants.boardSize,
                         height: verticalSize.height * Constants.boardSize,
-                        background: `url(${ship.image}) center center / 
+                        background: `url(${Constants.getShipImage(ship.name)}) center center / 
                                 ${verticalSize.width * Constants.boardSize}px 
                                 ${verticalSize.height * Constants.boardSize}px no-repeat`,
                     }}

@@ -10,9 +10,12 @@ import {
     Typography,
 } from '@mui/material'
 import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
+import { IMode, IRoom } from 'games/battleShip/modals/room'
 import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
 import BattleShipGameService from 'games/battleShip/services'
-import { useMemo, useState } from 'react'
+import { RoomContext } from 'games/battleShip/states/roomProvider'
+import { useContext, useMemo, useState } from 'react'
+import { useAppSelector } from 'states/hooks'
 import Screen from '../../'
 import Waiting from '../../waiting'
 import { useStyle } from './styles'
@@ -23,12 +26,13 @@ interface ICreateRoomProps {
 
 const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
     const style = useStyle()
-    // const {id: userId, avatar, name} = useSelector((state) => state.user)
-    // const {setMapId, socket} = useContext(MapContext)
+    const user = useAppSelector(state=>state.user.current)
+    const { socket } = useContext(RoomContext)
+    
     const [loading, setLoading] = useState(false)
     const [size, setSize] = useState<IAtlatSize>(15)
     const [limits, setLimits] = useState<ILimitShip>(3)
-    const [shipsPos, setShipsPos] = useState('random')
+    const [mode, setMode] = useState<IMode>('random')
 
     const randShips = useMemo(
         () => BattleShipGameService.initShips(limits, size),
@@ -36,7 +40,17 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
     )
 
     const createRoom = async () => {
+        if (!user)
+            return
         setLoading(true)
+        const room: Partial<IRoom> = {
+            limitShip: limits,
+            atlasSize: size,
+            mode,
+            ships1: randShips,
+            player1: user
+        }
+        socket.emit('add-room',room)
         setLoading(false)
         changeScreen(Waiting)
     }
@@ -72,7 +86,7 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
                 <FormControl component="fieldset">
                     <FormLabel component="legend">Arrange</FormLabel>
                     <RadioGroup
-                        onChange={(e) => setShipsPos(e.target.value)}
+                        onChange={(e) => setMode(e.target.value as IMode)}
                         defaultValue="random"
                     >
                         <FormControlLabel

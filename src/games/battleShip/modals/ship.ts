@@ -26,5 +26,4 @@ export interface IShip extends IShipCategories {
 export interface IShipCategories {
     name: ListShipName
     size: IShipSize
-    image: string
 }
