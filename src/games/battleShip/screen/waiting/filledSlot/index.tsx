@@ -1,11 +1,10 @@
 import { Avatar, Box, Button, Typography } from '@mui/material'
-import { IPlayer } from 'games/battleShip/modals/room'
-import { ID } from 'models/common'
+import { IPublicInfo } from 'models/user'
 import { useStyle } from './styles'
 
 interface IFilledSlot {
-    userReady: IPlayer[]
-    player: IPlayer
+    userReady: IPublicInfo[]
+    player: IPublicInfo
 }
 
 function FilledSlot({ userReady, player }: IFilledSlot) {
@@ -22,14 +21,16 @@ function FilledSlot({ userReady, player }: IFilledSlot) {
             <Box borderRadius={8} display="flex" justifyContent="center">
                 <Avatar variant="square" src={player.avatar} className={style.avatar} />
             </Box>
-            <Typography className={style.name}>{player.name}</Typography>
+            <Typography className={style.name}>{player.username}</Typography>
             <Button
                 className={style.state}
                 variant="contained"
                 disableElevation
-                color={userReady.find((u) => u.id === player.id) ? 'primary' : 'inherit'}
+                color={
+                    userReady.find((u) => u._id === player._id) ? 'primary' : 'inherit'
+                }
             >
-                {userReady.find((u) => u.id === player.id) ? 'Ready' : 'Prepare'}
+                {userReady.find((u) => u._id === player._id) ? 'Ready' : 'Prepare'}
             </Button>
         </Box>
     )

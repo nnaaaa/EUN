@@ -11,7 +11,7 @@ export const useReactSocket = (postId: ID | undefined, reactId: ID | undefined) 
     const { socket } = useContext(SocketContext)
     const dispatch = useAppDispatch()
     useEffect(() => {
-        if (!postId || !reactId) return
+        if (!postId || !reactId || !socket) return
         const listener = async (newReact: IReact) => {
             const react = await postAPI.getReact(reactId)
             if (!react) return

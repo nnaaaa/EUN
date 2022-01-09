@@ -1,7 +1,7 @@
 {
     "name": "facebook2",
     "version": "0.1.0",
-    "private": true,
+    "private": false,
     "dependencies": {
         "@charkour/react-reactions": "^0.6.1",
         "@dhaiwat10/react-link-preview": "^1.12.2",

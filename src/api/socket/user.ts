@@ -12,7 +12,7 @@ export const useUserSocket = (
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        if (!targetId) return
+        if (!targetId || !socket) return
         const updateListener = async (newData: IPublicInfo) => {
             try {
                 const user = await userAPI.getProfile()
@@ -39,6 +39,7 @@ export const useListUserSocket = (dispatcher: () => void) => {
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
+        if (!socket) return
         const updateListener = async (newData: IPublicInfo) => {
             try {
                 // const user = await userAPI.getListUser()

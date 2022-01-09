@@ -1,9 +1,10 @@
-import { Box, Button, ButtonGroup, CircularProgress, Typography } from '@mui/material'
+import { Box, Button, ButtonGroup, Typography } from '@mui/material'
 import className from 'games/battleShip/battleShipStyles.module.css'
-import EmptySlot from 'games/battleShip/components/emptySlot'
+import ListSpectator from 'games/battleShip/components/listSpectator'
 import Loading from 'games/battleShip/components/loading'
 import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
 import { IShip } from 'games/battleShip/modals/ship'
+import EmptySlot from 'games/battleShip/screen/waiting/emptySlot'
 import BattleShipGameService from 'games/battleShip/services'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { useContext, useEffect, useMemo, useState } from 'react'
@@ -27,7 +28,6 @@ const WaitingFunc = ({ state }: { state: Select }) => {
     const style = useStyle()
     const { room, role } = useContext(RoomContext)
     const user = useAppSelector((state) => state.user.current)
-    const [ships, setShips] = useState([])
 
     const randShips = useMemo<IShip[]>(() => {
         if (!room) return []
@@ -62,7 +62,7 @@ const WaitingFunc = ({ state }: { state: Select }) => {
 
     if (!room || !user) return <Loading />
 
-    return room ? (
+    return (
         <Box
             p={2}
             width="100%"
@@ -74,13 +74,15 @@ const WaitingFunc = ({ state }: { state: Select }) => {
         >
             <p className={className.smallHero}>Battle Ship</p>
 
-            <Box width="15%">{/* <Spectators joinable /> */}</Box>
+            <Box width="15%">
+                <ListSpectator joinable />
+            </Box>
 
-            {/* {room.player1 ? (
+            {room.player1 ? (
                 <FilledSlot player={room.player1} userReady={room.userReady} />
             ) : (
                 <EmptySlot player="player1" />
-            )} */}
+            )}
 
             <Box
                 display="flex"
@@ -132,22 +134,11 @@ const WaitingFunc = ({ state }: { state: Select }) => {
                 )}
             </Box>
 
-            {/* {room.player2 ? (
+            {room.player2 ? (
                 <FilledSlot player={room.player2} userReady={room.userReady} />
             ) : (
                 <EmptySlot player="player2" />
-            )} */}
-        </Box>
-    ) : (
-        <Box
-            width="100%"
-            height="100%"
-            display="flex"
-            bgcolor="#F2F5F6"
-            justifyContent="center"
-            alignItems="center"
-        >
-            <CircularProgress />
+            )}
         </Box>
     )
 }

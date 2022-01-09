@@ -11,7 +11,7 @@ export const useMessageSocket = (
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        if (!targetId) return
+        if (!targetId || !socket) return
         const listener = async (newData: IMessage) => {
             // const user = await userAPI.getProfile()
             dispatcher(newData)

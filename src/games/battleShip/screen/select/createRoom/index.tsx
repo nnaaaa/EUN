@@ -9,13 +9,17 @@ import {
     RadioGroup,
     Typography,
 } from '@mui/material'
+import url from 'games/battleShip/api'
+import roomAPI from 'games/battleShip/api/rest/room'
 import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
 import { IMode, IRoom } from 'games/battleShip/modals/room'
 import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
 import BattleShipGameService from 'games/battleShip/services'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { useContext, useMemo, useState } from 'react'
+import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'
+import { uid } from 'uid'
 import Screen from '../../'
 import Waiting from '../../waiting'
 import { useStyle } from './styles'
@@ -26,11 +30,11 @@ interface ICreateRoomProps {
 
 const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
     const style = useStyle()
-    const user = useAppSelector(state=>state.user.current)
-    const { socket } = useContext(RoomContext)
-    
+    const user = useAppSelector((state) => state.user.current)
+    const { socket } = useContext(SocketContext)
+
     const [loading, setLoading] = useState(false)
-    const [size, setSize] = useState<IAtlatSize>(15)
+    const [size, setSize] = useState<IAtlatSize>(10)
     const [limits, setLimits] = useState<ILimitShip>(3)
     const [mode, setMode] = useState<IMode>('random')
 
@@ -38,21 +42,22 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
         () => BattleShipGameService.initShips(limits, size),
         [size, limits]
     )
-
     const createRoom = async () => {
-        if (!user)
-            return
-        setLoading(true)
-        const room: Partial<IRoom> = {
-            limitShip: limits,
-            atlasSize: size,
-            mode,
-            ships1: randShips,
-            player1: user
+        try {
+            if (!user || !socket) return
+            setLoading(true)
+            const room: Partial<IRoom> = {
+                limitShip: limits,
+                atlasSize: size,
+                mode,
+                player1: user,
+            }
+            socket.emit(`${url}/createRoom`, room, user._id)
+            setLoading(false)
+            changeScreen(Waiting)
+        } catch (e) {
+            console.log(e)
         }
-        socket.emit('add-room',room)
-        setLoading(false)
-        changeScreen(Waiting)
     }
 
     return (

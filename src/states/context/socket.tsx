@@ -3,11 +3,11 @@ import { createContext, ReactNode, useMemo } from 'react'
 import { io, Socket } from 'socket.io-client'
 
 interface ISocketContext {
-    socket: Socket
+    socket: Socket | null
 }
 
 export const SocketContext = createContext<ISocketContext>({
-    socket: {} as Socket,
+    socket: null,
 })
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {

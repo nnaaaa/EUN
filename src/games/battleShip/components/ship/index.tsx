@@ -91,7 +91,9 @@ class Ship extends Component<IShipProps, IShipStates> {
                         height: ship.size.height * Constants.boardSize,
                         top: '50%',
                         left: '50%',
-                        background: `url(${Constants.getShipImage(ship.name)}) center center / 
+                        background: `url(${Constants.getShipImage(
+                            ship.name
+                        )}) center center / 
                     ${ship.size.width * Constants.boardSize}px 
                     ${ship.size.height * Constants.boardSize}px no-repeat`,
                         transform:

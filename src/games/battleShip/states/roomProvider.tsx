@@ -4,18 +4,16 @@ import {
     ReactChild,
     SetStateAction,
     useEffect,
-    useMemo,
     useState,
 } from 'react'
-import io, { Socket } from 'socket.io-client'
+import { useListener } from '../api/listener'
 import { IRoom } from '../modals/room'
 
-const socket = io('http://localhost:9000')
-
-type PlayerRole = 'spectator' | 'player1' | 'player2' | undefined
+export type PlayerRole = 'spectator' | 'player1' | 'player2' | undefined
 
 interface IRoomContextValue {
-    socket: Socket
+    roomId: string | undefined
+    setRoomId?: Dispatch<SetStateAction<string | undefined>>
     room: IRoom | undefined
     setRoom?: Dispatch<SetStateAction<IRoom | undefined>>
     role: PlayerRole
@@ -26,35 +24,33 @@ interface IRoomContextValue {
     setListPrepareRoom?: Dispatch<SetStateAction<any[]>>
 }
 const initContextValue = {
+    roomId: undefined,
     room: undefined,
     role: undefined,
     listPlayingRoom: [],
     listPrepareRoom: [],
-    socket: io('http://localhost:9000'),
 }
 export const RoomContext = createContext<IRoomContextValue>(initContextValue)
 
 export const RoomProvider = ({ children }: { children: ReactChild }) => {
-    const socket = useMemo(() => io('http://localhost:9000'), [])
+    const [roomId, setRoomId] = useState<string>()
     const [room, setRoom] = useState<IRoom>()
     const [listPlayingRoom, setListPlayingRoom] = useState<any[]>([])
     const [listPrepareRoom, setListPrepareRoom] = useState<any[]>([])
     const [role, setRole] = useState<PlayerRole>()
-    // const { id, name, avatar } = useSelector((state) => state.user)
-    // const map = useWatchMap(socket, 'room', mapId)
 
-    socket.connect()
+    useListener(roomId, setRoom, setRoomId)
+
     useEffect(() => {
-        return () => {
-            socket.disconnect()
-        }
-    }, [])
+        if (!room) return
+        setRoomId(room._id)
+    }, [room])
 
-    
     return (
         <RoomContext.Provider
             value={{
-                socket,
+                roomId,
+                setRoomId,
                 room,
                 setRoom,
                 role,
@@ -68,7 +64,6 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
             {children}
         </RoomContext.Provider>
     )
-    
 
     //   const joinRoom = async (room) => {
     //     const player = {id, name, avatar}
@@ -119,27 +114,6 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
     //     setRole()
     //   }, [map, id, mapId])
 
-    //   const joinSpectate = async () => {
-    //     if (map.player1?.id === id) {
-    //       setRole('spectator')
-    //       const spectators = [...map.spectators, map.player1]
-    //       const userReady = map.userReady.filter((userId) => userId !== id)
-    //       socket.emit('update-room', map.id, {
-    //         spectators,
-    //         player1: {},
-    //         userReady,
-    //       })
-    //     } else if (map.player2?.id === id) {
-    //       setRole('spectator')
-    //       const spectators = [...map.spectators, map.player2]
-    //       const userReady = map.userReady.filter((userId) => userId !== id)
-    //       socket.emit('update-room', map.id, {
-    //         spectators,
-    //         player2: {},
-    //         userReady,
-    //       })
-    //     }
-    //   }
     //   const joinPlay = async (playerSt) => {
     //     const player = {id, name, avatar}
     //     if (playerSt === 1) {

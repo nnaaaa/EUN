@@ -12,7 +12,7 @@ export const useCommentSocket = (postId: ID | undefined) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (!postId) return
+        if (!postId || !socket) return
         const listener = async (newData: IComment) => {
             // const user = await userAPI.getProfile()
             const owner = await friendAPI.findById(newData.owner as ID)

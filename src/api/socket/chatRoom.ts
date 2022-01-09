@@ -11,7 +11,7 @@ export const useChatRoomSocket = (
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        if (!targetId) return
+        if (!targetId || !socket) return
         const listener = async (newMessage: IMessage) => {
             // const user = await userAPI.getProfile()
             dispatcher(newMessage)

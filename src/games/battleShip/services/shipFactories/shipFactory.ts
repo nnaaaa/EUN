@@ -19,7 +19,12 @@ export abstract class ShipFactory {
         while (true) {
             const x = this.rand(0, this._atlasSize - newShipSize.width)
             const y = this.rand(0, this._atlasSize - newShipSize.height)
-            const _body: IBody[] = this.createBody(x, y, newShipSize.width, newShipSize.height)
+            const _body: IBody[] = this.createBody(
+                x,
+                y,
+                newShipSize.width,
+                newShipSize.height
+            )
             if (!this.isJostle(_body)) {
                 const _ship: IShip = {
                     body: _body,
@@ -48,11 +53,12 @@ export abstract class ShipFactory {
     }
     protected isJostle = (newBody: IBody[]) => {
         const oldShipsBody = this._ships.map((oldShip) => oldShip.body)
-        const oldBodyFlat: IBody[] = []
-        for (const body of oldShipsBody) oldBodyFlat.concat(body)
-        for (const oS of oldBodyFlat) {
-            for (const nS of newBody) if (oS.x == nS.x && oS.y == nS.y) return true
+        for (const oldBody of oldShipsBody) {
+            for (const oS of oldBody) {
+                for (const nS of newBody) if (oS.x == nS.x && oS.y == nS.y) return true
+            }
         }
+
         return false
     }
     protected abstract createShips(): void

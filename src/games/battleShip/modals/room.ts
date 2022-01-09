@@ -1,7 +1,7 @@
-import { IPublicInfo } from 'models/user';
-import { SensorTiles } from './map';
-import { IShip } from './ship';
-import { IAtlatSize, ILimitShip } from './state';
+import { IPublicInfo } from 'models/user'
+import { SensorTiles } from './map'
+import { IShip } from './ship'
+import { IAtlatSize, ILimitShip } from './state'
 
 export type IMode = 'random' | 'select'
 
@@ -19,13 +19,14 @@ interface IMessage {
 }
 
 export interface IRoom {
-    id: string
+    _id: string
+    unique_id: string
     atlasSize: IAtlatSize
     limitShip: ILimitShip
     mode: IMode
     isStarting: false
-    player1?: IPublicInfo
-    player2?: IPublicInfo
+    player1: IPublicInfo | undefined
+    player2: IPublicInfo | undefined
     ships1: IShip[]
     ships2: IShip[]
     sensors1: SensorTiles
@@ -33,5 +34,5 @@ export interface IRoom {
     userReady: IPublicInfo[]
     arranged: IPublicInfo[]
     spectators: IPublicInfo[]
-    message: IMessage
+    message?: IMessage
 }

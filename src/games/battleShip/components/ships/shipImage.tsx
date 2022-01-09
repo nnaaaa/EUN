@@ -18,6 +18,7 @@ export const Image = ({ ship }: { ship: IShip }) => {
                     : 'translate(-50%,-50%) scale(0.9) rotate(-90deg)',
                 top: isVertical ? '0' : '50%',
                 left: isVertical ? '0' : '50%',
+                zIndex: 10000,
             }}
         >
             <Tilty
@@ -35,7 +36,9 @@ export const Image = ({ ship }: { ship: IShip }) => {
                         position: 'absolute',
                         width: verticalSize.width * Constants.boardSize,
                         height: verticalSize.height * Constants.boardSize,
-                        background: `url(${Constants.getShipImage(ship.name)}) center center / 
+                        background: `url(${Constants.getShipImage(
+                            ship.name
+                        )}) center center / 
                                 ${verticalSize.width * Constants.boardSize}px 
                                 ${verticalSize.height * Constants.boardSize}px no-repeat`,
                     }}
