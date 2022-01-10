@@ -7,19 +7,16 @@ import {
     Grid,
     Radio,
     RadioGroup,
-    Typography,
+    Typography
 } from '@mui/material'
 import url from 'games/battleShip/api'
-import roomAPI from 'games/battleShip/api/rest/room'
 import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
 import { IMode, IRoom } from 'games/battleShip/modals/room'
 import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
 import BattleShipGameService from 'games/battleShip/services'
-import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { useContext, useMemo, useState } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'
-import { uid } from 'uid'
 import Screen from '../../'
 import Waiting from '../../waiting'
 import { useStyle } from './styles'

@@ -1,13 +1,13 @@
 import { IShip } from 'games/battleShip/modals/ship'
-import { BorderTiles, SensorTiles } from 'games/battleShip/modals/map'
+import { IBorderTiles, ISensorTiles } from 'games/battleShip/modals/map'
 import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
 import { ShipFactory } from './shipFactories/shipFactory'
 import { SixShipFactory } from './shipFactories/sixShipFactory'
 import { ThreeShipFactory } from './shipFactories/threeShipFactory'
 
 interface IBattleShipGameService {
-    initBorderTiles: (size: IAtlatSize) => BorderTiles
-    initSensorTiles: (size: IAtlatSize) => SensorTiles
+    initBorderTiles: (size: IAtlatSize) => IBorderTiles
+    initSensorTiles: (size: IAtlatSize) => ISensorTiles
     initShips: (limitShip: ILimitShip, atlasSize: IAtlatSize) => IShip[]
     isDestroyFullShip: (ship: IShip) => boolean
     isEndGame: (ships: IShip[]) => boolean
@@ -20,7 +20,7 @@ class BattleShipGameService implements IBattleShipGameService {
         return tiles
     }
     initSensorTiles = (atlasSize: IAtlatSize) => {
-        const tiles: SensorTiles = []
+        const tiles: ISensorTiles = []
         for (let i = 0; i < atlasSize; ++i) {
             for (let j = 0; j < atlasSize; ++j)
                 tiles.push({

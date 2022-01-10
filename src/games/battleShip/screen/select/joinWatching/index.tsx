@@ -8,13 +8,13 @@ import {
     Grid,
     Hidden,
     Pagination,
-    Typography,
+    Typography
 } from '@mui/material'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
-import React, { ChangeEvent, useContext, useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
 import Screen from '../..'
 import Playing from '../../playing'
-import { useStyle } from './styles'
+import { Empty, useStyle } from './styles'
 
 const roomPerPage = 8
 
@@ -48,7 +48,7 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                         .slice(curPage * roomPerPage, (curPage + 1) * roomPerPage)
                         .map((room) => (
                             <Grid
-                                key={room.id}
+                                key={`btship_room ${room._id}`}
                                 item
                                 md={3}
                                 xs={6}
@@ -69,18 +69,22 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                         width="100%"
                                         justifyContent="space-between"
                                     >
-                                        <Box width="20%">
-                                            <Box borderRadius={8}>
-                                                <Avatar
-                                                    variant="square"
-                                                    src={room.player1.avatar}
-                                                    className={style.avatar}
-                                                />
+                                        {room.player1 ? (
+                                            <Box width="20%">
+                                                <Box borderRadius={8}>
+                                                    <Avatar
+                                                        variant="square"
+                                                        src={room.player1.avatar}
+                                                        className={style.avatar}
+                                                    />
+                                                </Box>
+                                                <Typography className={style.name} noWrap>
+                                                    {room.player1.username}
+                                                </Typography>
                                             </Box>
-                                            <Typography className={style.name}>
-                                                {room.player1.name}
-                                            </Typography>
-                                        </Box>
+                                        ) : (
+                                            <Empty />
+                                        )}
                                         <Hidden smDown>
                                             <Box
                                                 display="flex"
@@ -91,7 +95,7 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                             >
                                                 <Box className={style.listInfo}>
                                                     <Chip
-                                                        label={`Size: ${room.size}x${room.size}`}
+                                                        label={`Size: ${room.atlasSize}`}
                                                         clickable
                                                         size="small"
                                                         color="secondary"
@@ -100,7 +104,7 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                                         onDelete={() => {}}
                                                     />
                                                     <Chip
-                                                        label={`Limits: ${room.limits}`}
+                                                        label={`Limits: ${room.limitShip}`}
                                                         clickable
                                                         size="small"
                                                         // deleteIcon={<DoneIcon />}
@@ -109,7 +113,7 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                                         variant="outlined"
                                                     />
                                                     <Chip
-                                                        label={room.shipsPos}
+                                                        label={room.mode}
                                                         clickable
                                                         size="small"
                                                         // deleteIcon={<DoneIcon />}
@@ -120,18 +124,22 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                                 </Box>
                                             </Box>
                                         </Hidden>
-                                        <Box overflow="hidden" width="20%">
-                                            <Box borderRadius={8}>
-                                                <Avatar
-                                                    variant="square"
-                                                    src={room.player2.avatar}
-                                                    className={style.avatar}
-                                                />
+                                        {room.player2 ? (
+                                            <Box overflow="hidden" width="20%">
+                                                <Box borderRadius={8}>
+                                                    <Avatar
+                                                        variant="square"
+                                                        src={room.player2.avatar}
+                                                        className={style.avatar}
+                                                    />
+                                                </Box>
+                                                <Typography className={style.name} noWrap>
+                                                    {room.player2.username}
+                                                </Typography>
                                             </Box>
-                                            <Typography className={style.name}>
-                                                {room.player2.name}
-                                            </Typography>
-                                        </Box>
+                                        ) : (
+                                            <Empty />
+                                        )}
                                     </Box>
                                 </Button>
                                 <Button

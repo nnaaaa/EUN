@@ -1,8 +1,7 @@
-import { BorderTiles } from 'games/battleShip/modals/map'
+import { IBorderTiles } from 'games/battleShip/modals/map'
 import Constants from 'games/battleShip/services/constants'
-import { cleanValue } from 'react-select/dist/declarations/src/utils'
 
-const NormalMap = ({ map }: { map: BorderTiles }) => {
+const NormalMap = ({ map }: { map: IBorderTiles }) => {
     return (
         <>
             {map?.map((id) => {

@@ -1,9 +1,9 @@
-export type BorderTiles = number[]
+export type IBorderTiles = number[]
 
-export interface Sensor {
+export interface ISensor {
     x: number
     y: number
     type: 'pure' | 'hit' | 'miss'
 }
 
-export type SensorTiles = Sensor[]
+export type ISensorTiles = ISensor[]

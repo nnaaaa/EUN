@@ -1,18 +1,16 @@
-import { Avatar, Box, Button, Typography } from '@mui/material'
-import { useContext } from 'react'
-import { useStyle } from './styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
-import { RoomContext } from 'games/battleShip/states/roomProvider'
-import { useAppSelector } from 'states/hooks'
-import roomAPI from 'games/battleShip/api/rest/room'
-import Loading from '../loading'
-import { SocketContext } from 'states/context/socket'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Avatar, Box, Button, Typography } from '@mui/material'
 import url from 'games/battleShip/api'
-import { IPublicInfo } from 'models/user'
+import { RoomContext } from 'games/battleShip/states/roomProvider'
+import { useContext } from 'react'
+import { SocketContext } from 'states/context/socket'
+import { useAppSelector } from 'states/hooks'
+import Loading from '../loading'
+import { useStyle } from './styles'
 
 interface IListSpectatorProps {
-    joinable: boolean
+    joinable?: boolean
 }
 
 const ListSpectator = ({ joinable }: IListSpectatorProps) => {

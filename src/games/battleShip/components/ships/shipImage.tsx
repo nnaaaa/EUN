@@ -14,8 +14,8 @@ export const Image = ({ ship }: { ship: IShip }) => {
                 height: verticalSize.height * Constants.boardSize,
 
                 transform: isVertical
-                    ? 'initial'
-                    : 'translate(-50%,-50%) scale(0.9) rotate(-90deg)',
+                    ? 'scale(0.9)'
+                    : 'translate(-50%,-50%) scale(0.9) rotate(-90deg) scale(0.9)',
                 top: isVertical ? '0' : '50%',
                 left: isVertical ? '0' : '50%',
                 zIndex: 10000,

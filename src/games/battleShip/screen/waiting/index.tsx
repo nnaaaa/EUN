@@ -1,13 +1,16 @@
 import { Box, Button, ButtonGroup, Typography } from '@mui/material'
+import url from 'games/battleShip/api'
 import className from 'games/battleShip/battleShipStyles.module.css'
 import ListSpectator from 'games/battleShip/components/listSpectator'
 import Loading from 'games/battleShip/components/loading'
 import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
+import { IRoom } from 'games/battleShip/modals/room'
 import { IShip } from 'games/battleShip/modals/ship'
 import EmptySlot from 'games/battleShip/screen/waiting/emptySlot'
 import BattleShipGameService from 'games/battleShip/services'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { useContext, useEffect, useMemo, useState } from 'react'
+import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'
 import Screen from '../'
 import CountDown from '../countDown'
@@ -15,6 +18,7 @@ import Prepare from '../prepare'
 import Select from '../select'
 import FilledSlot from './filledSlot'
 import { useStyle } from './styles'
+import BattleShipService from 'games/battleShip/services'
 
 class Waiting extends Screen {
     render() {
@@ -27,6 +31,7 @@ export default Waiting
 const WaitingFunc = ({ state }: { state: Select }) => {
     const style = useStyle()
     const { room, role } = useContext(RoomContext)
+    const {socket} = useContext(SocketContext)
     const user = useAppSelector((state) => state.user.current)
 
     const randShips = useMemo<IShip[]>(() => {
@@ -34,23 +39,46 @@ const WaitingFunc = ({ state }: { state: Select }) => {
         return BattleShipGameService.initShips(room.limitShip, room.atlasSize)
     }, [room])
 
+    const readyToPlay = () => {
+        if (!room || !user || !socket) return
+        if (room.userReady.find((u) => u._id === user._id)) {
+            const userReady = room.userReady.filter((u) => u._id !== user._id)
+            const updateRoom: Partial<IRoom> = {
+                _id:room._id,
+                userReady
+            }
+            socket.emit(`${url}/updateRoom`,updateRoom)
+        } else {
+            const userReady = [...room.userReady, user]
+            const updateRoom: Partial<IRoom> = {
+                _id:room._id,
+                userReady
+            }
+            socket.emit(`${url}/updateRoom`,updateRoom)
+        }
+    }
+
     useEffect(() => {
-        if (!room || !user) return
+        if (!room || !user || !socket) return
         if (room.userReady.length !== 2) return
         const setPlayGame = async () => {
             if (room.mode === 'random') {
                 if (user._id === room.player1?._id) {
-                    // socket.emit('update-room', map.id, {
-                    //     isStarting: true,
-                    //     turn: id,
-                    //     ships1: initShips(map.limits, map.size),
-                    //     sensors1: initSensors(map.size),
-                    // })
+                    const roomUpdate: Partial<IRoom> = {
+                        _id:room._id,
+                        isStarting: true,
+                        turn: user._id,
+                        ships1: BattleShipService.initShips(room.limitShip, room.atlasSize),
+                        sensors1: BattleShipService.initSensorTiles(room.atlasSize)
+                    }
+                    socket.emit(`${url}/updateRoom`,roomUpdate)
                 } else if (user._id === room.player2?._id) {
-                    // socket.emit('update-room', map.id, {
-                    //     ships2: initShips(map.limits, map.size),
-                    //     sensors2: initSensors(map.size),
-                    // })
+                    const roomUpdate: Partial<IRoom> = {
+                        _id:room._id,
+                        ships2: BattleShipService.initShips(room.limitShip, room.atlasSize),
+                        sensors2: BattleShipService.initSensorTiles(room.atlasSize)
+                    }
+                    socket.emit(`${url}/updateRoom`,roomUpdate)
                 }
                 state.props.changeScreen(CountDown)
             } else {
@@ -114,7 +142,7 @@ const WaitingFunc = ({ state }: { state: Select }) => {
                                     ? 'primary'
                                     : 'secondary'
                             }
-                            // onClick={readyToPlay}
+                            onClick={readyToPlay}
                         >
                             {room.userReady.find((u) => u._id === user._id)
                                 ? 'Cancel'

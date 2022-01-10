@@ -3,11 +3,19 @@ import {
     Dispatch,
     ReactChild,
     SetStateAction,
+    useContext,
     useEffect,
     useState,
 } from 'react'
-import { useListener } from '../api/listener'
-import { IRoom } from '../modals/room'
+import { SocketContext } from 'states/context/socket'
+import { useAppSelector } from 'states/hooks'
+import url from '../api'
+import { useCreateAndUpdateRoom } from '../api/useCreateAndUpdateRoom'
+import { useListRoom } from '../api/useListRoom'
+import { ISensor, ISensorTiles } from '../modals/map'
+import { IMessage, IRoom } from '../modals/room'
+import { IBody, IShip } from '../modals/ship'
+import BattleShipService from 'games/battleShip/services'
 
 export type PlayerRole = 'spectator' | 'player1' | 'player2' | undefined
 
@@ -18,10 +26,12 @@ interface IRoomContextValue {
     setRoom?: Dispatch<SetStateAction<IRoom | undefined>>
     role: PlayerRole
     setRole?: Dispatch<SetStateAction<PlayerRole>>
-    listPlayingRoom: any[]
-    setListPlayingRoom?: Dispatch<SetStateAction<any[]>>
-    listPrepareRoom: any[]
-    setListPrepareRoom?: Dispatch<SetStateAction<any[]>>
+    listPlayingRoom: IRoom[]
+    setListPlayingRoom?: Dispatch<SetStateAction<IRoom[]>>
+    listPrepareRoom: IRoom[]
+    setListPrepareRoom?: Dispatch<SetStateAction<IRoom[]>>
+    outRoom?: () => void
+    attack?: (tile: ISensor) => void
 }
 const initContextValue = {
     roomId: undefined,
@@ -33,13 +43,137 @@ const initContextValue = {
 export const RoomContext = createContext<IRoomContextValue>(initContextValue)
 
 export const RoomProvider = ({ children }: { children: ReactChild }) => {
+    const user = useAppSelector((state) => state.user.current)
+    const { socket } = useContext(SocketContext)
     const [roomId, setRoomId] = useState<string>()
     const [room, setRoom] = useState<IRoom>()
-    const [listPlayingRoom, setListPlayingRoom] = useState<any[]>([])
-    const [listPrepareRoom, setListPrepareRoom] = useState<any[]>([])
+    const [listPlayingRoom, setListPlayingRoom] = useState<IRoom[]>([])
+    const [listPrepareRoom, setListPrepareRoom] = useState<IRoom[]>([])
     const [role, setRole] = useState<PlayerRole>()
 
-    useListener(roomId, setRoom, setRoomId)
+    useCreateAndUpdateRoom(roomId, setRoom, setRoomId)
+    useListRoom(setListPlayingRoom, setListPrepareRoom)
+
+    const outRoom = () => {
+        if (!user || !room || !socket) return
+        if (user._id === room.player1?._id) {
+            if (!room.player2 && room.spectators.length === 0)
+                socket.emit(`${url}/deleteRoom`, room._id)
+            else {
+                const userReady = room.userReady.filter((u) => u._id !== user._id)
+                const updateRoom: Partial<IRoom> = {
+                    _id: room._id,
+                    userReady,
+                }
+                socket.emit(`${url}/player1_out`, updateRoom)
+            }
+        } else if (user._id === room.player2?._id) {
+            if (!room.player1 && room.spectators.length === 0)
+                socket.emit(`${url}/deleteRoom`, room._id)
+            else {
+                const userReady = room.userReady.filter((u) => u._id !== user._id)
+                const updateRoom: Partial<IRoom> = {
+                    _id: room._id,
+                    userReady,
+                }
+                socket.emit(`${url}/player2_out`, updateRoom)
+            }
+        } else {
+            if (!room.player1 && !room.player2 && room.spectators.length === 1)
+                socket.emit(`${url}/deleteRoom`, room._id)
+            else {
+                const spectators = room.spectators.filter((u) => u._id !== user._id)
+                const updateRoom: Partial<IRoom> = {
+                    _id: room._id,
+                    spectators,
+                }
+                socket.emit(`${url}/updateRoom`, updateRoom)
+            }
+        }
+    }
+
+    const attack = (tile: ISensor) => {
+        if (!user || !room || !socket) return
+        if (!room.player1 || !room.player2) return
+        if (user._id !== room.turn) return
+
+        if (tile.type !== 'pure') return
+
+        let arrayName = user.username.split(' ')
+        const firstName = arrayName[arrayName.length - 1].slice(0, 10) + ' '
+        let message: IMessage = {
+            owner: { ...user, username: firstName },
+            content: '',
+        }
+        const considerAttack = (shipOrder: 'ships1' | 'ships2', sensorOrder: 'sensors1' | 'sensors2',playerOrder:'player1' | 'player2') => {
+            if (!room[playerOrder]) return
+            let isHit = false
+
+            for (let ship of room[shipOrder]) {
+                for (let body of ship.body) {
+                    if (body.x === tile.x && body.y === tile.y) {
+                        isHit = true
+                        let foundShip: IShip
+                        const newShips: IShip[] = room[shipOrder].map((s) =>
+                            s.body === ship.body
+                                ? (() => {
+                                    foundShip = {
+                                        ...s,
+                                        body: s.body.map((b) =>
+                                            b.x === tile.x && b.y === tile.y
+                                                ? { ...b, type: 'hit' }
+                                                : b
+                                        ),
+                                    }
+                                    return foundShip
+                                })()
+                                : s
+                        )
+                        const newSensors:ISensorTiles = room[sensorOrder].map((sensor) =>
+                            sensor.x === tile.x && sensor.y === tile.y ? { ...tile, type: 'hit' } : sensor
+                        )
+
+                        if (
+                            BattleShipService.isDestroyFullShip(
+                                newShips.find(s => s === foundShip) as IShip
+                            )
+                        )
+                            message.content = 'was completely sunk ' + ship.name
+                        else message.content = 'hit'
+
+                        if (BattleShipService.isEndGame(newShips)) message.content = 'is winner'
+
+                        socket.emit(`${url}/updateRoom`, {
+                            _id:room._id,
+                            [sensorOrder]: newSensors,
+                            [shipOrder]: newShips,
+                            turn: room[playerOrder]?._id,
+                            message,
+                        })
+                        break
+                    }
+                }
+            }
+            if (!isHit) {
+                message.content = 'missed, no ship was shot'
+                const newSensors = room[sensorOrder].map((sensor) =>
+                    sensor.x === tile.x && sensor.y === tile.y ? { ...tile, type: 'miss' } : sensor
+                )
+                socket.emit(`${url}/updateRoom`, {
+                    _id:room._id,
+                    [sensorOrder]: newSensors,
+                    turn: room[playerOrder]?._id,
+                    message,
+                })
+            }
+        }
+
+        if (user._id === room.player1._id) 
+            considerAttack('ships2','sensors2','player2')
+        else if (user._id === room.player2._id)
+            considerAttack('ships1','sensors1','player1')
+
+    }
 
     useEffect(() => {
         if (!room) return
@@ -59,6 +193,8 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
                 listPrepareRoom,
                 setListPlayingRoom,
                 setListPrepareRoom,
+                outRoom,
+                attack,
             }}
         >
             {children}
@@ -83,7 +219,7 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
     //   const outRoom = useCallback(async () => {
     //     if (id === map.player1?.id) {
     //       if (!map.player2?.id && map.spectators?.length === 0)
-    //         socket.emit('delete-room', map.id)
+    //         socket.emit(`${url}/deleteRoom`, map.id)
     //       else {
     //         const userReady = map.userReady.filter((user) => user.id !== id)
     //         socket.emit('update-room', map.id, {
@@ -93,7 +229,7 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
     //       }
     //     } else if (id === map.player2?.id) {
     //       if (!map.player1?.id && map.spectators?.length === 0)
-    //         socket.emit('delete-room', map.id)
+    //         socket.emit(`${url}/deleteRoom`, map.id)
     //       else {
     //         const userReady = map.userReady.filter((user) => user.id !== id)
     //         socket.emit('update-room', map.id, {
@@ -103,7 +239,7 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
     //       }
     //     } else {
     //       if (!map.player1?.id && !map.player2?.id && map.spectators?.length === 1)
-    //         socket.emit('delete-room', map.id)
+    //         socket.emit(`${url}/deleteRoom`, map.id)
     //       else {
     //         const spectators = map.spectators.filter((user) => user.id !== id)
     //         socket.emit('update-room', map.id, {

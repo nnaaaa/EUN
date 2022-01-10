@@ -1,21 +1,24 @@
 import { faEye, faGamepad } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import DoneIcon from '@mui/icons-material/Done'
 import {
     Avatar,
     Box,
     Button,
     Chip,
     Grid,
-    Hidden,
-    Typography,
-    Pagination,
+    Hidden, Pagination, Typography
 } from '@mui/material'
+import url from 'games/battleShip/api'
+import { IRoom } from 'games/battleShip/modals/room'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
-// import DoneIcon from '@material-ui/icons/Done'
-import { ChangeEvent, useContext, useState } from 'react'
+import { ID } from 'models/common'
+import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { SocketContext } from 'states/context/socket'
+import { useAppSelector } from 'states/hooks'
 import Screen from '../..'
 import Waiting from '../../waiting'
-import { useStyle, Empty } from './styles'
+import { Empty, useStyle } from './styles'
 
 const roomPerPage = 8
 interface IJoinPlayingProps {
@@ -23,16 +26,40 @@ interface IJoinPlayingProps {
 }
 const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
     const style = useStyle()
-    const { listPrepareRoom } = useContext(RoomContext)
+    const { listPrepareRoom,setRole,setRoomId,setRoom } = useContext(RoomContext)
+    const user = useAppSelector(state=>state.user.current)
+    const { socket } = useContext(SocketContext)
+    
     const [curPage, setCurPage] = useState(0)
     // const listPrepareRoom = useWatchCollection(socket, 'listPrepareRoom-not-start')
 
     const changePage = (e: ChangeEvent<unknown>, page: number) => setCurPage(page - 1)
 
-    const join = () => {
-        // joinRoom(room)
+    const joinRoomToPlay = (room: IRoom) => {
+        if (!setRole || !user || !socket || !setRoomId || !setRoom)
+            return
+
+        if (!room.player1) {
+            setRole('player1')
+            socket.emit(`${url}/updateRoom`, { _id: room._id, player1: user })
+        } else if (!room.player2) {
+            setRole('player2')
+            socket.emit(`${url}/updateRoom`, { _id: room._id, player2: user })
+        } else {
+            setRole('spectator')
+            const newSpectator = [...room.spectators, user]
+            socket.emit(`${url}/updateRoom`, { _id: room._id, spectators: newSpectator })
+        }
+        setRoom(room)
+        setRoomId(room._id)
         changeScreen(Waiting)
     }
+
+    useEffect(() => {
+        if (!socket || !user) return
+
+        socket.emit(`${url}/getListRoom`,user._id)
+    },[])
 
     return (
         <Grid container className={style.wrapper}>
@@ -44,10 +71,10 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                     {listPrepareRoom
                         .slice(curPage * roomPerPage, (curPage + 1) * roomPerPage)
                         .map((room) => {
-                            const isFull = room.player1.id && room.player2.id
+                            const isFull = room.player1 && room.player2
                             return (
                                 <Grid
-                                    key={room.id}
+                                    key={`btship_room ${room._id}`}
                                     item
                                     md={3}
                                     xs={6}
@@ -59,7 +86,7 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                         color="secondary"
                                         variant="outlined"
                                         className={style.room}
-                                        onClick={join}
+                                        onClick={()=>joinRoomToPlay(room)}
                                     >
                                         <Box
                                             p={2}
@@ -68,7 +95,7 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                             width="100%"
                                             justifyContent="space-between"
                                         >
-                                            {room.player1.id ? (
+                                            {room.player1 ? (
                                                 <Box width="20%">
                                                     <Box borderRadius={8}>
                                                         <Avatar
@@ -77,8 +104,8 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                                             className={style.avatar}
                                                         />
                                                     </Box>
-                                                    <Typography className={style.name}>
-                                                        {room.player1.name}
+                                                    <Typography className={style.name} noWrap>
+                                                        {room.player1.username}
                                                     </Typography>
                                                 </Box>
                                             ) : (
@@ -95,28 +122,28 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                                 >
                                                     <Box className={style.listInfo}>
                                                         <Chip
-                                                            label={`Size: ${room.size}x${room.size}`}
+                                                            label={`Size: ${room.atlasSize}`}
                                                             clickable
                                                             size="small"
                                                             color="secondary"
                                                             variant="outlined"
-                                                            // deleteIcon={<DoneIcon />}
+                                                            deleteIcon={<DoneIcon />}
                                                             onDelete={() => {}}
                                                         />
                                                         <Chip
-                                                            label={`Limits: ${room.limits}`}
+                                                            label={`Limits: ${room.limitShip}`}
                                                             clickable
                                                             size="small"
-                                                            // deleteIcon={<DoneIcon />}
+                                                            deleteIcon={<DoneIcon />}
                                                             onDelete={() => {}}
                                                             color="secondary"
                                                             variant="outlined"
                                                         />
                                                         <Chip
-                                                            label={room.shipsPos}
+                                                            label={room.mode}
                                                             clickable
                                                             size="small"
-                                                            // deleteIcon={<DoneIcon />}
+                                                            deleteIcon={<DoneIcon />}
                                                             onDelete={() => {}}
                                                             color="secondary"
                                                             variant="outlined"
@@ -125,7 +152,7 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                                 </Box>
                                             </Hidden>
 
-                                            {room.player2.id ? (
+                                            {room.player2 ? (
                                                 <Box overflow="hidden" width="20%">
                                                     <Box borderRadius={8}>
                                                         <Avatar
@@ -134,8 +161,8 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                                             className={style.avatar}
                                                         />
                                                     </Box>
-                                                    <Typography className={style.name}>
-                                                        {room.player2.name}
+                                                    <Typography className={style.name} noWrap>
+                                                        {room.player2.username}
                                                     </Typography>
                                                 </Box>
                                             ) : (
@@ -153,7 +180,7 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                         className={style.stateBtn}
                                         size="small"
                                         variant="contained"
-                                        onClick={join}
+                                        onClick={()=>joinRoomToPlay(room)}
                                     >
                                         {isFull ? 'Spectate' : 'Join to play'}
                                     </Button>
@@ -161,7 +188,7 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                             )
                         })}
                     <Pagination
-                        // count={Math.ceil(listPrepareRoom.length / roomPerPage)}
+                        count={Math.ceil(listPrepareRoom.length / roomPerPage)}
                         className={style.pagination}
                         onChange={changePage}
                         color="secondary"

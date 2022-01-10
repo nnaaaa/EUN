@@ -4,7 +4,7 @@ import { IAtlatSize } from 'games/battleShip/modals/state'
 import { IShip } from 'games/battleShip/modals/ship'
 import Ships from '../ships'
 import { useMemo } from 'react'
-import BattleShip from 'games/battleShip/services'
+import BattleShipService from 'games/battleShip/services'
 
 interface IShipAtlasProps {
     size: IAtlatSize
@@ -12,8 +12,8 @@ interface IShipAtlasProps {
 }
 
 const ShipAtlas = ({ size, ships }: IShipAtlasProps) => {
-    const borderTiles = useMemo(() => BattleShip.initBorderTiles(size), [])
-    const _ships = useMemo(() => (ships ? ships : BattleShip.initShips(3, size)), [])
+    const borderTiles = useMemo(() => BattleShipService.initBorderTiles(size), [size])
+    const _ships = useMemo(() => (ships ? ships : BattleShipService.initShips(3, size)), [size])
     return (
         <Water size={size}>
             <NormalTiles map={borderTiles} />

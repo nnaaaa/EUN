@@ -50,7 +50,7 @@ class BattleShip extends Component<IBattleShipProps, IBattleShipStates> {
     }
 
     onClose = () => {
-        // outRoom().then(() => {})
+        this.context.outRoom()
         // socket.disconnect()
         this.props.stopPlaying()
     }

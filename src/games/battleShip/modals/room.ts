@@ -1,5 +1,6 @@
+import { ID } from 'models/common';
 import { IPublicInfo } from 'models/user'
-import { SensorTiles } from './map'
+import { ISensorTiles } from './map'
 import { IShip } from './ship'
 import { IAtlatSize, ILimitShip } from './state'
 
@@ -13,26 +14,26 @@ export interface IPlayer {
     name: string
 }
 
-interface IMessage {
-    owner: IPlayer
+export interface IMessage {
+    owner: IPublicInfo
     content: string
 }
 
 export interface IRoom {
-    _id: string
-    unique_id: string
+    _id: ID
     atlasSize: IAtlatSize
     limitShip: ILimitShip
     mode: IMode
-    isStarting: false
+    isStarting: boolean
     player1: IPublicInfo | undefined
     player2: IPublicInfo | undefined
     ships1: IShip[]
     ships2: IShip[]
-    sensors1: SensorTiles
-    sensors2: SensorTiles
+    sensors1: ISensorTiles
+    sensors2: ISensorTiles
     userReady: IPublicInfo[]
     arranged: IPublicInfo[]
     spectators: IPublicInfo[]
+    turn: ID
     message?: IMessage
 }

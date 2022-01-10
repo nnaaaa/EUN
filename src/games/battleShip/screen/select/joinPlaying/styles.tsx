@@ -34,8 +34,6 @@ export const useStyle = makeStyles((theme: any) => ({
         fontSize: 12,
         marginTop: 5,
         textAlign: 'center',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
         color: 'gray',
     },
     stateBtn: {
