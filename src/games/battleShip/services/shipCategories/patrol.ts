@@ -1,5 +1,5 @@
 import { IShipCategories } from 'games/battleShip/modals/ship'
-import { ShipCategories } from './ship'
+import { ShipCategories,ShipSize } from './ship'
 import Constants from '../constants'
 
 export class PatrolShip extends ShipCategories {
@@ -7,7 +7,7 @@ export class PatrolShip extends ShipCategories {
         const name = 'Patrol'
         const category: IShipCategories = {
             name,
-            size: this._3x1,
+            size: new ShipSize(3,1),
         }
         return category
     }

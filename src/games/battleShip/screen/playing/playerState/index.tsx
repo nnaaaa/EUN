@@ -59,7 +59,7 @@ const PlayerState = ({ player,room }: { player: IPublicInfo | undefined,room:IRo
                     {firstName}'s turn
                 </Button>
 
-                <Button className={style.state} variant="contained" disableElevation>
+                <Button className={style.state} variant="contained" disableElevation color='inherit'>
                     Waiting
                 </Button>
             </Box>

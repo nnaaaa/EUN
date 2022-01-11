@@ -28,25 +28,28 @@ const PlayingFunc = ({ state }: { state: Screen }) => {
     const user = useAppSelector((state) => state.user.current)
     useEffect(() => {
         if (!room || !socket) return
-        if (!room.isStarting) state.props.changeScreen(Waiting)
+        if (!room.isStarting) {
+            state.props.changeScreen(Waiting)
+            return
+        }
         if (room.message && room.message.content.search('winner') >= 0) {
-            // console.log("have winner",room.message)
-            // const setEndGame = async () => {
-            //     setTimeout(async () => {
-            //
-            //     }, 3000)
-            // }
-            // setEndGame().then(() => {})
-            socket.emit(`${url}/updateRoomAndDeleteMessage`, {
-                _id: room._id,
-                ships1: [],
-                ships2: [],
-                sensors1: [],
-                sensors2: [],
-                userReady: [],
-                arranged: [],
-                isStarting: false,
-            })
+            console.log("have winner",room.message)
+            const setEndGame = async () => {
+                setTimeout(async () => {
+                    socket.emit(`${url}/updateRoomAndDeleteMessage`, {
+                        _id: room._id,
+                        ships1: [],
+                        ships2: [],
+                        sensors1: [],
+                        sensors2: [],
+                        userReady: [],
+                        arranged: [],
+                        isStarting: false,
+                    })
+                }, 3000)
+            }
+            setEndGame().then(() => {})
+            
         } else if (!room.player1) {
             console.log('player 1 out')
 

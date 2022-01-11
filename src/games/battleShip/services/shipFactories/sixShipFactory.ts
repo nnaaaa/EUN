@@ -1,20 +1,22 @@
-import { CruiserShip } from '../shipCategories/cruiser'
-import { PatrolShip } from '../shipCategories/patrol'
-import { CarrierShip } from '../shipCategories/carrier'
-import { ThreeShipFactory } from './threeShipFactory'
+import { DestroyerShip } from '../shipCategories/destroyer'
+import { LightnightShip } from '../shipCategories/lightnight'
+import { SubmarineShip } from '../shipCategories/submarine'
+import ThreeShipFactory from './threeShipFactory'
 
-export class SixShipFactory extends ThreeShipFactory {
-    protected createShips() {
-        const cruiserCtg = new CruiserShip().build()
-        const cruiserShip = this.createShipByRand(cruiserCtg)
-        this._ships.push(cruiserShip)
+export default class SixShipFactory extends ThreeShipFactory {
+    constructor(atlasSize:number) {
+        super(atlasSize)
+    
+        DestroyerShip.createManager('Destroyer',1)
+        LightnightShip.createManager('Lightnight',1)
+        SubmarineShip.createManager('Submarine',1)
 
-        const patrolCtg = new PatrolShip().build()
-        const patrolShip = this.createShipByRand(patrolCtg)
-        this._ships.push(patrolShip)
+        this._shipCategoryManagerList.push(DestroyerShip.manager)
+        this._shipCategoryManagerList.push(LightnightShip.manager)
+        this._shipCategoryManagerList.push(SubmarineShip.manager)
 
-        const carrierCtg = new CarrierShip().build()
-        const carrierShip = this.createShipByRand(carrierCtg)
-        this._ships.push(carrierShip)
+        this._shipCategoryList.push(new DestroyerShip().build())
+        this._shipCategoryList.push(new LightnightShip().build())
+        this._shipCategoryList.push(new SubmarineShip().build())
     }
 }

@@ -1,13 +1,45 @@
-import { IBody, IShip, IShipCategories } from 'games/battleShip/modals/ship'
+import { IBody, IShip, IShipCategories, ListShipName, IShipDirection } from 'games/battleShip/modals/ship';
+import { ShipCategoryManager } from '../shipCategories/ship';
 
-export abstract class ShipFactory {
+
+// class ShipCategoryManagerList{
+//     public list: IShipCategoryManager[]
+//     constructor() {
+//         this.list = []
+//     }
+// }
+
+
+export default abstract class ShipFactory {
     protected _ships: IShip[]
+    public _shipCategoryList: IShipCategories[]
+    public _shipCategoryListBuilt: IShipCategories[]
+    public _shipCategoryManagerList: ShipCategoryManager[]
     protected _atlasSize: number
     constructor(atlatSize: number) {
-        this._ships = []
         this._atlasSize = atlatSize
+        this._ships = []
+        this._shipCategoryList = []
+        this._shipCategoryListBuilt = []
+        this._shipCategoryManagerList = []
     }
-    protected createShipByRand = (shipCategory: IShipCategories) => {
+    public deleteShip(index: number) {
+        const ship = this._ships.find((s, idx) => idx === index)
+        if (!ship) return
+        const category = this._shipCategoryListBuilt.find(ctg=>ctg.name === ship.name)
+        if (!category) return
+        this._ships = this._ships.filter((s, idx) => idx !== index)
+        this._shipCategoryListBuilt = this._shipCategoryListBuilt.filter(ctg => ctg !== category)
+        this._shipCategoryList.push(category)
+    }
+    public createShipsByRand() {
+        for (const category of this._shipCategoryList) 
+            this.createShipByRand(category.name)
+    }
+    public createShipByRand = (shipName: ListShipName) => {
+        if (this.isEqualLimit(shipName)) return 
+        const shipCategory = this._shipCategoryList.find(ctg => ctg.name === shipName)
+        if (!shipCategory) return
         const isHorizontal = this.rand(0, 2)
         let newShipSize = isHorizontal
             ? shipCategory.size
@@ -15,6 +47,10 @@ export abstract class ShipFactory {
                   width: shipCategory.size.height,
                   height: shipCategory.size.width,
               }
+
+        this._shipCategoryList = this._shipCategoryList.filter(ctg => ctg !== shipCategory)
+        this._shipCategoryListBuilt.push(shipCategory)
+        this._shipCategoryManagerList.forEach(mng => mng.name === shipCategory.name && mng.current++)
 
         while (true) {
             const x = this.rand(0, this._atlasSize - newShipSize.width)
@@ -31,9 +67,35 @@ export abstract class ShipFactory {
                     direction: isHorizontal ? 'left' : 'top',
                     ...shipCategory,
                 }
-                return _ship
+                this._ships.push(_ship)
+                break
             }
         }
+    }
+    public createRepresentShip = (shipName: ListShipName,direction:IShipDirection) => {
+        const shipCategory = this._shipCategoryList.find(ctg=>ctg.name === shipName)
+        if (!shipCategory) return
+
+        let newShipSize = direction === 'left' || direction === 'right'
+            ? shipCategory.size
+            : {
+                  width: shipCategory.size.height,
+                  height: shipCategory.size.width,
+              }
+
+        const ship: IShip = {
+            body: this.createBody(0,0,newShipSize.width,newShipSize.height),
+            direction,
+            ...shipCategory,  
+        }
+
+        return ship
+    }
+    public clearShips() {
+        this._ships = []
+        this._shipCategoryList = this._shipCategoryList.concat(this._shipCategoryListBuilt)
+        this._shipCategoryListBuilt = []
+        this._shipCategoryManagerList.forEach(mng=> mng.current = 0)
     }
     protected rand = (min: number, max: number) =>
         Math.floor(Math.random() * (max - min) + min)
@@ -61,9 +123,21 @@ export abstract class ShipFactory {
 
         return false
     }
-    protected abstract createShips(): void
+    protected isEqualLimit(shipName: ListShipName) {
+        for (const manager of this._shipCategoryManagerList) {
+            if (manager.name === shipName) {
+                return manager.isEqualLimitShipCategory()
+            }
+        }
+        return false
+    }
+    
+    
     manufacture() {
-        this.createShips()
+        this.createShipsByRand()
+        return this._ships
+    }
+    public getShips(){
         return this._ships
     }
 }

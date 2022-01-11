@@ -18,7 +18,7 @@ const Message = ({ message }: { message: IMessage | undefined }) => {
                 color={
                     message ? 
                     (message?.content?.search('winner') >= 0 ? 'warning' : (message?.content?.search('hit') >= 0
-                        ? 'secondary' :'primary')) : 'inherit'
+                        ? 'success' :'primary')) : 'inherit'
                         
                 }
                 style={{ textTransform: 'none' }}

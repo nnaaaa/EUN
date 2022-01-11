@@ -1,21 +1,32 @@
-import { IShipCategories, IShipSize } from 'games/battleShip/modals/ship'
+import { IShipCategories, IShipCategoryManager, IShipSize,ListShipName } from 'games/battleShip/modals/ship'
 
-class ShipSize implements IShipSize {
-    constructor(public width: number, public height: number) {}
+export class ShipSize implements IShipSize {
+    public width: number
+    public height:number
+    constructor(width: number,height: number) {
+        this.width = width
+        this.height = height
+        if (this.width < this.height) {
+            this.width = height
+            this.height = width
+        }    
+    }
+}
+
+export class ShipCategoryManager implements IShipCategoryManager{
+    public current: number
+    constructor(public name:ListShipName,public limit:number) {
+        this.current = 0
+    }
+    public isEqualLimitShipCategory() {
+        return this.current < this.limit ? false : true
+    }
 }
 
 export abstract class ShipCategories {
-    protected _6x2: IShipSize
-    protected _5x1: IShipSize
-    protected _4x1: IShipSize
-    protected _3x1: IShipSize
-    protected _2x1: IShipSize
-    constructor() {
-        this._6x2 = new ShipSize(6, 2)
-        this._5x1 = new ShipSize(5, 1)
-        this._4x1 = new ShipSize(4, 1)
-        this._3x1 = new ShipSize(3, 1)
-        this._2x1 = new ShipSize(2, 1)
+    public static manager: ShipCategoryManager
+    public static createManager(name:ListShipName,limitShip:number) {
+        this.manager = new ShipCategoryManager(name,limitShip)
     }
     abstract build(): IShipCategories
 }

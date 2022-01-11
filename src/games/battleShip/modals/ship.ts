@@ -17,13 +17,20 @@ export interface IShipSize {
     width: number
     height: number
 }
+export interface IShipCategories {
+    name: ListShipName
+    size: IShipSize
+}
 
 export interface IShip extends IShipCategories {
     body: IBody[]
     direction: IShipDirection
 }
 
-export interface IShipCategories {
+
+
+export interface IShipCategoryManager{
     name: ListShipName
-    size: IShipSize
+    current: number
+    limit:number
 }

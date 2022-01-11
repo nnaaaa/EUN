@@ -1,9 +1,9 @@
 import { IShip } from 'games/battleShip/modals/ship'
 import { IBorderTiles, ISensorTiles } from 'games/battleShip/modals/map'
 import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
-import { ShipFactory } from './shipFactories/shipFactory'
-import { SixShipFactory } from './shipFactories/sixShipFactory'
-import { ThreeShipFactory } from './shipFactories/threeShipFactory'
+import ShipFactory from './shipFactories/shipFactory'
+import SixShipFactory from './shipFactories/sixShipFactory'
+import ThreeShipFactory from './shipFactories/threeShipFactory'
 
 interface IBattleShipGameService {
     initBorderTiles: (size: IAtlatSize) => IBorderTiles

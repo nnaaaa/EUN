@@ -1,14 +1,16 @@
-import { IShipCategories } from 'games/battleShip/modals/ship'
-import { ShipCategories } from './ship'
-import Constants from '../constants'
+import { IShipCategories, IShipCategoryManager } from 'games/battleShip/modals/ship'
+import { ShipCategories, ShipCategoryManager, ShipSize } from './ship'
 
 export class CarrierShip extends ShipCategories {
+
+    
     build() {
         const name = 'Carrier'
         const category: IShipCategories = {
             name,
-            size: this._6x2,
+            size: new ShipSize(6,2),
         }
         return category
     }
 }
+

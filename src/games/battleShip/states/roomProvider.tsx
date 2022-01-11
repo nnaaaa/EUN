@@ -53,7 +53,6 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
 
     useCreateAndUpdateRoom(roomId, setRoom, setRoomId)
     useListRoom(setListPlayingRoom, setListPrepareRoom)
-
     const outRoom = () => {
         if (!user || !room || !socket) return
         if (user._id === room.player1?._id) {
@@ -178,7 +177,7 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
     useEffect(() => {
         if (!room) return
         setRoomId(room._id)
-    }, [room])
+    }, [room?._id])
 
     return (
         <RoomContext.Provider

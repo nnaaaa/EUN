@@ -25,7 +25,7 @@ const ListSpectator = ({ joinable }: IListSpectatorProps) => {
         if (room.player1?._id === user._id) {
             setRole('spectator')
             const spectators = [...room.spectators, room.player1]
-            const userReady = room.userReady.filter((user) => user._id !== user._id)
+            const userReady = room.userReady.filter((u) => u._id !== user._id)
             socket.emit(`${url}/player1_switch_spectator`, {
                 _id: room._id,
                 spectators,
@@ -34,7 +34,7 @@ const ListSpectator = ({ joinable }: IListSpectatorProps) => {
         } else if (room.player2?._id === user._id) {
             setRole('spectator')
             const spectators = [...room.spectators, room.player2]
-            const userReady = room.userReady.filter((user) => user._id !== user._id)
+            const userReady = room.userReady.filter((u) => u._id !== user._id)
             socket.emit(`${url}/player2_switch_spectator`, {
                 _id: room._id,
                 spectators,
@@ -47,7 +47,7 @@ const ListSpectator = ({ joinable }: IListSpectatorProps) => {
 
     return (
         <>
-            <Box className={style.spectators} bgcolor="secondary.main">
+            <Box className={style.spectators} bgcolor="primary.main">
                 <Box p={1}>
                     <Typography className={style.title}>
                         <FontAwesomeIcon icon={faEye} />

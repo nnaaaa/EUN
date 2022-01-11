@@ -1,3 +1,4 @@
+import { SettingsRemoteOutlined } from '@mui/icons-material'
 import {
     Box,
     Button,
@@ -14,6 +15,7 @@ import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
 import { IMode, IRoom } from 'games/battleShip/modals/room'
 import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
 import BattleShipGameService from 'games/battleShip/services'
+import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { useContext, useMemo, useState } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'
@@ -28,6 +30,7 @@ interface ICreateRoomProps {
 const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
     const style = useStyle()
     const user = useAppSelector((state) => state.user.current)
+    const { setRole } = useContext(RoomContext)
     const { socket } = useContext(SocketContext)
 
     const [loading, setLoading] = useState(false)
@@ -41,7 +44,7 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
     )
     const createRoom = async () => {
         try {
-            if (!user || !socket) return
+            if (!user || !socket || !setRole) return
             setLoading(true)
             const room: Partial<IRoom> = {
                 limitShip: limits,
@@ -50,6 +53,7 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
                 player1: user,
             }
             socket.emit(`${url}/createRoom`, room, user._id)
+            setRole('player1')
             setLoading(false)
             changeScreen(Waiting)
         } catch (e) {
@@ -96,11 +100,11 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
                             control={<Radio color="primary" />}
                             label="random"
                         />
-                        {/* <FormControlLabel
+                        <FormControlLabel
                             value="select"
                             control={<Radio color="primary" />}
                             label="select"
-                        /> */}
+                        />
                     </RadioGroup>
                 </FormControl>
                 <Box width="100%" display="flex" justifyContent="flex-end">

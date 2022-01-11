@@ -13,7 +13,8 @@ interface IShipAtlasProps {
 
 const ShipAtlas = ({ size, ships }: IShipAtlasProps) => {
     const borderTiles = useMemo(() => BattleShipService.initBorderTiles(size), [size])
-    const _ships = useMemo(() => (ships ? ships : BattleShipService.initShips(3, size)), [size])
+    const _ships = useMemo(() => (ships ? ships : BattleShipService.initShips(3, size)), [size,ships])
+    console.log(_ships)
     return (
         <Water size={size}>
             <NormalTiles map={borderTiles} />

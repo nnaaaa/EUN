@@ -4,9 +4,10 @@ import { Box } from '@mui/material'
 import { IShip, IShipDirection } from 'games/battleShip/modals/ship'
 import Constants from 'games/battleShip/services/constants'
 import { Component } from 'react'
+import { useStyle } from './styles'
 
 interface IShipProps {
-    ship: IShip
+    representShip: IShip
 }
 
 interface IShipStates {}
@@ -31,17 +32,17 @@ class Ship extends Component<IShipProps, IShipStates> {
         }
     }
     render() {
-        const { ship } = this.props
-
+        const { representShip } = this.props
+        console.log(representShip)
         return (
             <Box
                 position="absolute"
                 // className={hovered ? style.hovered : style.unhover}
                 zIndex={19998}
-                width={ship.size.width * Constants.boardSize}
-                height={ship.size.height * Constants.boardSize}
-                top={ship.body[0].y * Constants.boardSize}
-                left={ship.body[0].x * Constants.boardSize}
+                width={representShip.size.height * Constants.boardSize}
+                height={representShip.size.width * Constants.boardSize}
+                top={0}
+                left={0}
                 // draggable={drag}
                 // onMouseOver={
                 //     drag === 'false'
@@ -61,21 +62,21 @@ class Ship extends Component<IShipProps, IShipStates> {
                 //         : () => {}
                 // }
             >
-                {ship.body.map((b, idx) => (
+                {representShip.body.map((b, idx) => (
                     <Box
                         key={'dragShip' + b.x + b.y}
                         width={Constants.boardSize}
                         height={Constants.boardSize}
                         position="absolute"
                         zIndex={20000}
-                        left={(b.x - ship.body[0].x) * Constants.boardSize}
-                        top={(b.y - ship.body[0].y) * Constants.boardSize}
+                        left={(b.x - representShip.body[0].x) * Constants.boardSize}
+                        top={(b.y - representShip.body[0].y) * Constants.boardSize}
                         bgcolor="transparent"
                         // onMouseDown={
                         //     drag === 'true'
                         //         ? () => {
                         //               setSelectedShip({
-                        //                   ...ship,
+                        //                   ...representShip,
                         //                   id: idx,
                         //               })
                         //           }
@@ -87,18 +88,18 @@ class Ship extends Component<IShipProps, IShipStates> {
                     style={{
                         position: 'absolute',
                         zIndex: 19999,
-                        width: ship.size.width * Constants.boardSize,
-                        height: ship.size.height * Constants.boardSize,
+                        width: representShip.size.height * Constants.boardSize,
+                        height: representShip.size.width * Constants.boardSize,
                         top: '50%',
                         left: '50%',
                         background: `url(${Constants.getShipImage(
-                            ship.name
+                            representShip.name
                         )}) center center / 
-                    ${ship.size.width * Constants.boardSize}px 
-                    ${ship.size.height * Constants.boardSize}px no-repeat`,
+                    ${representShip.size.height * Constants.boardSize}px 
+                    ${representShip.size.width * Constants.boardSize}px no-repeat`,
                         transform:
                             'translate(-50%,-50%) scale(0.9) ' +
-                            this.rotate(ship.direction),
+                            this.rotate(representShip.direction),
                         imageRendering: 'pixelated',
                     }}
                 />

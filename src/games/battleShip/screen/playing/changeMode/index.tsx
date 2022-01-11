@@ -18,7 +18,7 @@ interface IChangeModeProps{
 const ChangeMode = ({ setIsSeeOneAtlas, isSeeOneAtlas }:IChangeModeProps) => {
   const style = useStyle()
   return (
-    <Box bgcolor="secondary.main" p={1} borderRadius={1}>
+    <Box bgcolor="primary.main" p={1} borderRadius={1}>
       <FormControl>
         <FormControlLabel
           control={
