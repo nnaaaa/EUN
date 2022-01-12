@@ -8,7 +8,7 @@ import {
     Grid,
     Radio,
     RadioGroup,
-    Typography
+    Typography,
 } from '@mui/material'
 import url from 'games/battleShip/api'
 import ShipAtlas from 'games/battleShip/components/map/shipAtlas'

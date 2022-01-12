@@ -4,13 +4,12 @@ import ShipFactory from 'games/battleShip/services/shipFactories/shipFactory'
 import { Dispatch, SetStateAction } from 'react'
 import { IShip } from 'games/battleShip/modals/ship'
 
-interface IGenerateShips{
-    ShipFactory: ShipFactory 
+interface IGenerateShips {
+    ShipFactory: ShipFactory
     setShips: Dispatch<SetStateAction<IShip[]>>
 }
 
-function GenerateShips({ ShipFactory,setShips }: IGenerateShips) {
-
+function GenerateShips({ ShipFactory, setShips }: IGenerateShips) {
     return (
         <Box display="flex" justifyContent="center" flexDirection="column">
             <p className={className.title}>Random</p>
@@ -18,7 +17,12 @@ function GenerateShips({ ShipFactory,setShips }: IGenerateShips) {
                 color="primary"
                 variant="contained"
                 size="small"
-                onClick={() => setShips(ShipFactory.manufacture())}
+                onClick={() => {
+                    if (ShipFactory.getCategoryList().length === 0)
+                        ShipFactory.clearShips()
+
+                    setShips(ShipFactory.manufacture())
+                }}
             >
                 generate
             </Button>

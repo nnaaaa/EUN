@@ -5,7 +5,7 @@ import { IRoom } from 'games/battleShip/modals/room'
 import { IPublicInfo } from 'models/user'
 import PlayerState from '../playerState'
 
-function TwoAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
+function TwoAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
     const isPlayer1 = user._id === room.player1?._id
     const isPlayer2 = user._id === room.player2?._id
 
@@ -20,7 +20,7 @@ function TwoAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
                 alignItems="center"
                 direction="column"
             >
-                <PlayerState player={room.player1} room={room}/>
+                <PlayerState player={room.player1} room={room} />
                 {isPlayer1 && (
                     <SensorAtlas
                         sensors={room.sensors1}
@@ -29,10 +29,7 @@ function TwoAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
                     />
                 )}
                 {isPlayer2 && (
-                    <HiddenAtlas
-                        sensors={room.sensors1}
-                        size={room.atlasSize}
-                    />
+                    <HiddenAtlas sensors={room.sensors1} size={room.atlasSize} />
                 )}
             </Grid>
             <Grid
@@ -44,7 +41,7 @@ function TwoAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
                 alignItems="center"
                 direction="column"
             >
-                <PlayerState player={room.player2} room={room}/>
+                <PlayerState player={room.player2} room={room} />
                 {isPlayer2 && (
                     <SensorAtlas
                         sensors={room.sensors2}
@@ -53,10 +50,7 @@ function TwoAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
                     />
                 )}
                 {isPlayer1 && (
-                    <HiddenAtlas
-                        sensors={room.sensors2}
-                        size={room.atlasSize}
-                    />
+                    <HiddenAtlas sensors={room.sensors2} size={room.atlasSize} />
                 )}
             </Grid>
         </>

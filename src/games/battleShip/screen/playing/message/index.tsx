@@ -16,10 +16,13 @@ const Message = ({ message }: { message: IMessage | undefined }) => {
                 disableElevation
                 variant="contained"
                 color={
-                    message ? 
-                    (message?.content?.search('winner') >= 0 ? 'warning' : (message?.content?.search('hit') >= 0
-                        ? 'success' :'primary')) : 'inherit'
-                        
+                    message
+                        ? message?.content?.search('winner') >= 0
+                            ? 'warning'
+                            : message?.content?.search('hit') >= 0
+                            ? 'success'
+                            : 'primary'
+                        : 'inherit'
                 }
                 style={{ textTransform: 'none' }}
             >

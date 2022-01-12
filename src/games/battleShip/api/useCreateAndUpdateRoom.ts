@@ -15,7 +15,6 @@ export const useCreateAndUpdateRoom = (
     useEffect(() => {
         if (!socket || !user) return
         const listener = async (room: IRoom) => {
-            console.log(room)
             setRoom((pre) => {
                 if (!pre) return room
                 return { ...pre, ...room }

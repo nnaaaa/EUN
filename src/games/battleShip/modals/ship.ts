@@ -27,10 +27,8 @@ export interface IShip extends IShipCategories {
     direction: IShipDirection
 }
 
-
-
-export interface IShipCategoryManager{
+export interface IShipCategoryManager {
     name: ListShipName
     current: number
-    limit:number
+    limit: number
 }

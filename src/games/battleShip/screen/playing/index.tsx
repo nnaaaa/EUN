@@ -15,7 +15,12 @@ import Message from './message'
 
 class Playing extends Screen {
     render() {
-        return <PlayingFunc state={this} />
+        return (
+            <>
+                <this.BackToLobbyButton />
+                <PlayingFunc state={this} />
+            </>
+        )
     }
 }
 
@@ -33,7 +38,7 @@ const PlayingFunc = ({ state }: { state: Screen }) => {
             return
         }
         if (room.message && room.message.content.search('winner') >= 0) {
-            console.log("have winner",room.message)
+            console.log('have winner', room.message)
             const setEndGame = async () => {
                 setTimeout(async () => {
                     socket.emit(`${url}/updateRoomAndDeleteMessage`, {
@@ -49,7 +54,6 @@ const PlayingFunc = ({ state }: { state: Screen }) => {
                 }, 3000)
             }
             setEndGame().then(() => {})
-            
         } else if (!room.player1) {
             console.log('player 1 out')
 

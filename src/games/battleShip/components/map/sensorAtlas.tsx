@@ -8,15 +8,14 @@ import Water from './background/water'
 import SensorTiles from './tiles/sensorTiles'
 import NormalTiles from './tiles/normalTiles'
 
-
-interface ISensorAtlas{
+interface ISensorAtlas {
     size: IAtlatSize
     sensors: ISensorTiles
     ships: IShip[]
 }
 
 const SensorAtlas = ({ size, sensors, ships }: ISensorAtlas) => {
-    const _borderTiles = useMemo(() => BattleShipService.initBorderTiles(size),[size])
+    const _borderTiles = useMemo(() => BattleShipService.initBorderTiles(size), [size])
     return (
         <Water size={size}>
             <NormalTiles map={_borderTiles} />

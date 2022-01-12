@@ -2,7 +2,7 @@ import { IAtlatSize } from 'games/battleShip/modals/state'
 import Constants from 'games/battleShip/services/constants'
 
 interface IWaterProps {
-    size: IAtlatSize
+    size: number
 }
 
 const Water: React.FC<IWaterProps> = ({ children, size }) => {

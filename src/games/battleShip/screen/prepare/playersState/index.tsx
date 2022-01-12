@@ -1,15 +1,18 @@
 import { Avatar, Box, Button, Typography } from '@mui/material'
-import { useContext, useEffect } from 'react'
+import Loading from 'games/battleShip/components/loading'
+import { RoomContext } from 'games/battleShip/states/roomProvider'
+import { useContext } from 'react'
 import { useStyle } from './styles'
 
-interface IPlayersStateProps{}
+interface IPlayersStateProps {}
 
-const PlayerState = (props:IPlayersStateProps) => {
+const PlayerState = (props: IPlayersStateProps) => {
     const style = useStyle()
+    const { room, role } = useContext(RoomContext)
+    const player1 = room?.player1
+    const player2 = room?.player2
 
-    // useEffect(() => {
-    //     if (map.arranged?.length === 2) setState('countDown')
-    // }, [map, setState])
+    if (!room || !player1 || !player2) return <></>
 
     return (
         <Box
@@ -17,16 +20,16 @@ const PlayerState = (props:IPlayersStateProps) => {
             display="flex"
             justifyContent="center"
             alignContent="center"
-            // bgcolor={role === 'player' ? 'transparent' : 'secondary.main'}
-            // height={role === 'player' ? 'auto' : '100%'}
+            bgcolor={role !== 'spectator' ? 'transparent' : 'secondary.main'}
+            height={role !== 'spectator' ? 'auto' : '100%'}
         >
             <Box
-                // width={role === 'player' ? '100%' : '30%'}
+                width={role !== 'spectator' ? '100%' : '30%'}
                 mt={4}
                 display="flex"
                 justifyContent="space-evenly"
             >
-                {/* <Box
+                <Box
                     width={150}
                     overflow="hidden"
                     justifyContent="center"
@@ -42,24 +45,26 @@ const PlayerState = (props:IPlayersStateProps) => {
                     >
                         <Avatar
                             variant="square"
-                            src={map.player1?.avatar}
+                            src={player1.avatar}
                             className={style.avatar}
                         />
                     </Box>
                     <Typography className={style.name} gutterBottom noWrap>
-                        {map.player1?.name}
+                        {player1.username}
                     </Typography>
                     <Button
                         className={style.state}
                         variant="contained"
                         disableElevation
-                        // color={
-                        //     map.arranged?.includes(map.player1?.id)
-                        //         ? 'primary'
-                        //         : 'default'
-                        // }
+                        color={
+                            room.arranged.find((u) => u._id === player1._id)
+                                ? 'primary'
+                                : 'inherit'
+                        }
                     >
-                        {map.arranged?.includes(map.player1?.id) ? 'Done' : 'Arranging'}
+                        {room.arranged.find((u) => u._id === player1._id)
+                            ? 'Done'
+                            : 'Arranging'}
                     </Button>
                 </Box>
                 <Box
@@ -78,26 +83,28 @@ const PlayerState = (props:IPlayersStateProps) => {
                     >
                         <Avatar
                             variant="square"
-                            src={map.player2?.avatar}
+                            src={player2.avatar}
                             className={style.avatar}
                         />
                     </Box>
                     <Typography className={style.name} gutterBottom noWrap>
-                        {map.player2?.name}
+                        {player2.username}
                     </Typography>
                     <Button
                         className={style.state}
                         variant="contained"
                         disableElevation
-                        // color={
-                        //     map.arranged?.includes(map.player2?.id)
-                        //         ? 'primary'
-                        //         : 'default'
-                        // }
+                        color={
+                            room.arranged.find((u) => u._id === player2._id)
+                                ? 'primary'
+                                : 'inherit'
+                        }
                     >
-                        {map.arranged?.includes(map.player2?.id) ? 'Done' : 'Arranging'}
-                    </Button> 
-                </Box>*/}
+                        {room.arranged.find((u) => u._id === player2._id)
+                            ? 'Done'
+                            : 'Arranging'}
+                    </Button>
+                </Box>
             </Box>
         </Box>
     )

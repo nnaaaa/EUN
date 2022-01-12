@@ -26,7 +26,7 @@ interface ISelectDirectionProps {
     setDirection: Dispatch<SetStateAction<ISelectDirection>>
 }
 
-const SelectDirection = (props:ISelectDirectionProps) => {
+const SelectDirection = (props: ISelectDirectionProps) => {
     return (
         <Box>
             <p className={className.title}>Direction</p>

@@ -1,10 +1,27 @@
-import { IShip } from 'games/battleShip/modals/ship'
+import { IShip, IShipDirection } from 'games/battleShip/modals/ship'
 import Constants from 'games/battleShip/services/constants'
 import Tilty from 'react-parallax-tilt'
 
 export const Image = ({ ship }: { ship: IShip }) => {
     const isVertical = ship.direction === 'top' || ship.direction === 'bottom'
-    const verticalSize = { width: ship.size.height, height: ship.size.width }
+    const verticalSize = isVertical
+        ? ship.size
+        : { width: ship.size.height, height: ship.size.width }
+
+    const rotate = (direction: IShipDirection) => {
+        switch (direction) {
+            case 'top':
+                return 'rotate(0) scale(0.9)'
+            case 'left':
+                return 'translate(-50%,-50%) rotate(-90deg) scale(0.9)'
+            case 'bottom':
+                return 'rotate(180deg) scale(0.9)'
+            case 'right':
+                return 'translate(-50%,-50%) rotate(90deg) scale(0.9)'
+            default:
+                return ''
+        }
+    }
 
     return (
         <div
@@ -13,9 +30,7 @@ export const Image = ({ ship }: { ship: IShip }) => {
                 width: verticalSize.width * Constants.boardSize,
                 height: verticalSize.height * Constants.boardSize,
 
-                transform: isVertical
-                    ? 'scale(0.9)'
-                    : 'translate(-50%,-50%) scale(0.9) rotate(-90deg) scale(0.9)',
+                transform: rotate(ship.direction),
                 top: isVertical ? '0' : '50%',
                 left: isVertical ? '0' : '50%',
                 zIndex: 10000,
@@ -39,8 +54,9 @@ export const Image = ({ ship }: { ship: IShip }) => {
                         background: `url(${Constants.getShipImage(
                             ship.name
                         )}) center center / 
-                                ${verticalSize.width * Constants.boardSize}px 
+                    ${verticalSize.width * Constants.boardSize}px 
                                 ${verticalSize.height * Constants.boardSize}px no-repeat`,
+                        cursor: 'pointer',
                     }}
                 />
             </Tilty>

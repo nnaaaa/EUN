@@ -8,7 +8,7 @@ import {
     Grid,
     Hidden,
     Pagination,
-    Typography
+    Typography,
 } from '@mui/material'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { ChangeEvent, useContext, useState } from 'react'

@@ -70,7 +70,10 @@ class BattleShip extends Component<IBattleShipProps, IBattleShipStates> {
                         <FontAwesomeIcon icon={faTimesCircle} />
                     </IconButton>
 
-                    <this.state.Screen changeScreen={this.changeScreen} />
+                    <this.state.Screen
+                        changeScreen={this.changeScreen}
+                        RoomContext={this.context}
+                    />
 
                     {/* {state !== 'select' && (
                     <IconButton

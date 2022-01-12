@@ -22,7 +22,12 @@ import BattleShipService from 'games/battleShip/services'
 
 class Waiting extends Screen {
     render() {
-        return <WaitingFunc state={this} />
+        return (
+            <>
+                <this.BackToLobbyButton />
+                <WaitingFunc state={this} />
+            </>
+        )
     }
 }
 
@@ -31,30 +36,30 @@ export default Waiting
 const WaitingFunc = ({ state }: { state: Select }) => {
     const style = useStyle()
     const { room, role } = useContext(RoomContext)
-    const {socket} = useContext(SocketContext)
+    const { socket } = useContext(SocketContext)
     const user = useAppSelector((state) => state.user.current)
 
     const randShips = useMemo<IShip[]>(() => {
         if (!room) return []
         return BattleShipGameService.initShips(room.limitShip, room.atlasSize)
-    }, [room])
+    }, [room?.limitShip, room?.atlasSize])
 
     const readyToPlay = () => {
         if (!room || !user || !socket) return
         if (room.userReady.find((u) => u._id === user._id)) {
             const userReady = room.userReady.filter((u) => u._id !== user._id)
             const updateRoom: Partial<IRoom> = {
-                _id:room._id,
-                userReady
+                _id: room._id,
+                userReady,
             }
-            socket.emit(`${url}/updateRoom`,updateRoom)
+            socket.emit(`${url}/updateRoom`, updateRoom)
         } else {
             const userReady = [...room.userReady, user]
             const updateRoom: Partial<IRoom> = {
-                _id:room._id,
-                userReady
+                _id: room._id,
+                userReady,
             }
-            socket.emit(`${url}/updateRoom`,updateRoom)
+            socket.emit(`${url}/updateRoom`, updateRoom)
         }
     }
 
@@ -65,20 +70,26 @@ const WaitingFunc = ({ state }: { state: Select }) => {
             if (room.mode === 'random') {
                 if (user._id === room.player1?._id) {
                     const roomUpdate: Partial<IRoom> = {
-                        _id:room._id,
+                        _id: room._id,
                         isStarting: true,
                         turn: user._id,
-                        ships1: BattleShipService.initShips(room.limitShip, room.atlasSize),
-                        sensors1: BattleShipService.initSensorTiles(room.atlasSize)
+                        ships1: BattleShipService.initShips(
+                            room.limitShip,
+                            room.atlasSize
+                        ),
+                        sensors1: BattleShipService.initSensorTiles(room.atlasSize),
                     }
-                    socket.emit(`${url}/updateRoom`,roomUpdate)
+                    socket.emit(`${url}/updateRoom`, roomUpdate)
                 } else if (user._id === room.player2?._id) {
                     const roomUpdate: Partial<IRoom> = {
-                        _id:room._id,
-                        ships2: BattleShipService.initShips(room.limitShip, room.atlasSize),
-                        sensors2: BattleShipService.initSensorTiles(room.atlasSize)
+                        _id: room._id,
+                        ships2: BattleShipService.initShips(
+                            room.limitShip,
+                            room.atlasSize
+                        ),
+                        sensors2: BattleShipService.initSensorTiles(room.atlasSize),
                     }
-                    socket.emit(`${url}/updateRoom`,roomUpdate)
+                    socket.emit(`${url}/updateRoom`, roomUpdate)
                 }
                 state.props.changeScreen(CountDown)
             } else {
@@ -139,7 +150,7 @@ const WaitingFunc = ({ state }: { state: Select }) => {
                             variant="contained"
                             color={
                                 room.userReady.find((u) => u._id === user._id)
-                                    ? 'primary'
+                                    ? 'inherit'
                                     : 'secondary'
                             }
                             onClick={readyToPlay}

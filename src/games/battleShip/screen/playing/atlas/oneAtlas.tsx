@@ -5,7 +5,7 @@ import { IRoom } from 'games/battleShip/modals/room'
 import { IPublicInfo } from 'models/user'
 import PlayerState from '../playerState'
 
-function OneAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
+function OneAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
     const isPlayer1 = user._id === room.player1?._id
     const isPlayer2 = user._id === room.player2?._id
 
@@ -19,15 +19,12 @@ function OneAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
             alignItems="center"
         >
             <Grid item container justifyContent="center" alignItems="center">
-                <PlayerState player={room.player1} room={room}/>
-                <PlayerState player={room.player2} room={room}/>
+                <PlayerState player={room.player1} room={room} />
+                <PlayerState player={room.player2} room={room} />
             </Grid>
             <Grid item container justifyContent="center" alignItems="center">
                 {isPlayer1 && room.turn === room.player1?._id && (
-                    <HiddenAtlas
-                        sensors={room.sensors2}
-                        size={room.atlasSize}
-                    />
+                    <HiddenAtlas sensors={room.sensors2} size={room.atlasSize} />
                 )}
                 {isPlayer1 && room.turn !== room.player1?._id && (
                     <SensorAtlas
@@ -37,10 +34,7 @@ function OneAtlas({ room, user }: { room: IRoom, user: IPublicInfo }) {
                     />
                 )}
                 {isPlayer2 && room.turn === room.player2?._id && (
-                    <HiddenAtlas
-                        sensors={room.sensors1}
-                        size={room.atlasSize}
-                    />
+                    <HiddenAtlas sensors={room.sensors1} size={room.atlasSize} />
                 )}
                 {isPlayer2 && room.turn !== room.player2?._id && (
                     <SensorAtlas

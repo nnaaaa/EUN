@@ -7,7 +7,7 @@ export class LightnightShip extends ShipCategories {
         const name = 'Lightnight'
         const category: IShipCategories = {
             name,
-            size: new ShipSize(2,1),
+            size: new ShipSize(2, 1),
         }
         return category
     }

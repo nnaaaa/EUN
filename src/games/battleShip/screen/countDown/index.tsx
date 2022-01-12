@@ -44,4 +44,3 @@ const CountDownFunc = ({ state }: { state: Screen }) => {
         </Box>
     )
 }
-

@@ -6,10 +6,19 @@ import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { useStyle } from './styles'
 
-const PlayerState = ({ player,room }: { player: IPublicInfo | undefined,room:IRoom }) => {
+const PlayerState = ({
+    player,
+    room,
+}: {
+    player: IPublicInfo | undefined
+    room: IRoom
+}) => {
     const style = useStyle()
     const nameSplit = player?.username?.split(' ')
-    let firstName = nameSplit?.[nameSplit?.length ? nameSplit?.length - 1 : 0]?.slice(0,7)
+    let firstName = nameSplit?.[nameSplit?.length ? nameSplit?.length - 1 : 0]?.slice(
+        0,
+        7
+    )
 
     return (
         <Box
@@ -59,7 +68,12 @@ const PlayerState = ({ player,room }: { player: IPublicInfo | undefined,room:IRo
                     {firstName}'s turn
                 </Button>
 
-                <Button className={style.state} variant="contained" disableElevation color='inherit'>
+                <Button
+                    className={style.state}
+                    variant="contained"
+                    disableElevation
+                    color="inherit"
+                >
                     Waiting
                 </Button>
             </Box>

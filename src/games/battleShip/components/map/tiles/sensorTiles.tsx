@@ -17,7 +17,7 @@ const ripple = keyframes`
         opacity: 0;
     }
 `
-const CenterStyled = styled.div`
+const EdgeStyled = styled.div`
     position: absolute;
     width: 14px;
     height: 14px;
@@ -29,7 +29,7 @@ const CenterStyled = styled.div`
     animation: ${ripple} 1.2s infinite ease-in-out;
 `
 
-const EdgeStyled = styled.div`
+const CenterStyled = styled.div`
     position: absolute;
     width: 8px;
     height: 8px;
@@ -42,22 +42,20 @@ const EdgeStyled = styled.div`
 const WrapperStyledClickable = styled.div`
     position: absolute;
     box-sizing: border-box;
-    z-index: 20000;
-    opacity:0;
+    z-index: 200000;
+    opacity: 0;
     cursor: pointer;
-    &:hover{
-        opacity:0.4;
+    &:hover {
+        opacity: 0.4;
     }
 `
 const WrapperStyledMarked = styled.div`
     position: absolute;
     box-sizing: border-box;
-    z-index: 20000;
-    opacity:0;
+    z-index: 200000;
+    opacity: 0;
     cursor: pointer;
 `
-
-
 
 const SensorTiles = ({
     sensors,
@@ -73,18 +71,19 @@ const SensorTiles = ({
             {sensors.map((tile, idx) => {
                 const color = tile.type === 'hit' ? 'red' : 'white'
                 const blur = tile.type === 'pure'
-                const wrapperStyleDynamic:any = {
+                const wrapperStyleDynamic: any = {
                     width: Constants.boardSize,
-                    height:Constants.boardSize ,
-                    left:tile.x * Constants.boardSize,
-                    top:tile.y * Constants.boardSize,
+                    height: Constants.boardSize,
+                    left: tile.x * Constants.boardSize,
+                    top: tile.y * Constants.boardSize,
                 }
                 const edgeStyleDynamic = {
-                    backgroundColor: color
+                    borderColor: color,
+                }
+                const centerStyleDynamic = {
+                    backgroundColor: color,
                 }
                 if (!blur) wrapperStyleDynamic.opacity = 1
-
-                
 
                 if (!clickable)
                     return (
@@ -96,11 +95,11 @@ const SensorTiles = ({
                                 attack(tile)
                             }}
                         >
-                            <EdgeStyled style={edgeStyleDynamic}/>
-                            <CenterStyled />
+                            <EdgeStyled style={edgeStyleDynamic} />
+                            <CenterStyled style={centerStyleDynamic} />
                         </WrapperStyledMarked>
                     )
-                
+
                 return (
                     <WrapperStyledClickable
                         key={`sensor ${tile.x}+${tile.y} clickable`}
@@ -110,8 +109,8 @@ const SensorTiles = ({
                             attack(tile)
                         }}
                     >
-                        <EdgeStyled style={edgeStyleDynamic}/>
-                        <CenterStyled />
+                        <EdgeStyled style={edgeStyleDynamic} />
+                        <CenterStyled style={centerStyleDynamic} />
                     </WrapperStyledClickable>
                 )
             })}

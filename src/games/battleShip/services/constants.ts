@@ -15,6 +15,7 @@ class CONSTANTS {
     private _boardSize: number
     private _shipImage: ListImage
     private _waterImage: any
+    private _maxShipSize: number
     constructor() {
         this._shipImage = {
             Rescue,
@@ -26,7 +27,8 @@ class CONSTANTS {
             Lightnight,
         }
         this._waterImage = water
-        this._boardSize = 25
+        this._boardSize = 30
+        this._maxShipSize = 5
     }
     getShipImage(shipName: string) {
         return this._shipImage[shipName]
@@ -36,6 +38,9 @@ class CONSTANTS {
     }
     public get boardSize() {
         return this._boardSize
+    }
+    public get maxShipSize() {
+        return this._maxShipSize
     }
 }
 

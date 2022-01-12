@@ -1,18 +1,17 @@
-import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box } from '@mui/material'
+import useDraggable from 'games/battleShip/components/map/draggableAtlas/useDraggable'
 import { IShip, IShipDirection } from 'games/battleShip/modals/ship'
 import Constants from 'games/battleShip/services/constants'
 import { Component } from 'react'
-import { useStyle } from './styles'
 
 interface IShipProps {
     representShip: IShip
+    dragTool: ReturnType<typeof useDraggable>
 }
 
 interface IShipStates {}
 
-class Ship extends Component<IShipProps, IShipStates> {
+class DraggableShip extends Component<IShipProps, IShipStates> {
     constructor(props: IShipProps) {
         super(props)
         this.state = {}
@@ -32,18 +31,22 @@ class Ship extends Component<IShipProps, IShipStates> {
         }
     }
     render() {
-        const { representShip } = this.props
-        console.log(representShip)
+        const { representShip, dragTool } = this.props
+        const { size } = this.props.representShip
+        const { height, width } = size
+        const verticalSize = height < width ? { width: height, height: width } : size
+
         return (
             <Box
                 position="absolute"
                 // className={hovered ? style.hovered : style.unhover}
                 zIndex={19998}
-                width={representShip.size.height * Constants.boardSize}
-                height={representShip.size.width * Constants.boardSize}
-                top={0}
-                left={0}
-                // draggable={drag}
+                width={representShip.size.width * Constants.boardSize}
+                height={representShip.size.height * Constants.boardSize}
+                top="50%"
+                left="50%"
+                sx={{ transform: 'translate(-50%,-50%)', cursor: 'grab' }}
+                draggable
                 // onMouseOver={
                 //     drag === 'false'
                 //         ? () => {
@@ -72,31 +75,25 @@ class Ship extends Component<IShipProps, IShipStates> {
                         left={(b.x - representShip.body[0].x) * Constants.boardSize}
                         top={(b.y - representShip.body[0].y) * Constants.boardSize}
                         bgcolor="transparent"
-                        // onMouseDown={
-                        //     drag === 'true'
-                        //         ? () => {
-                        //               setSelectedShip({
-                        //                   ...representShip,
-                        //                   id: idx,
-                        //               })
-                        //           }
-                        //         : () => {}
-                        // }
+                        onMouseDown={() => {
+                            dragTool.setPickedBodyOrder(idx)
+                            dragTool.setPickedShip(representShip)
+                        }}
                     />
                 ))}
                 <div
                     style={{
                         position: 'absolute',
                         zIndex: 19999,
-                        width: representShip.size.height * Constants.boardSize,
-                        height: representShip.size.width * Constants.boardSize,
+                        width: verticalSize.width * Constants.boardSize,
+                        height: verticalSize.height * Constants.boardSize,
                         top: '50%',
                         left: '50%',
                         background: `url(${Constants.getShipImage(
                             representShip.name
                         )}) center center / 
-                    ${representShip.size.height * Constants.boardSize}px 
-                    ${representShip.size.width * Constants.boardSize}px no-repeat`,
+                    ${verticalSize.width * Constants.boardSize}px 
+                    ${verticalSize.height * Constants.boardSize}px no-repeat`,
                         transform:
                             'translate(-50%,-50%) scale(0.9) ' +
                             this.rotate(representShip.direction),
@@ -116,20 +113,4 @@ class Ship extends Component<IShipProps, IShipStates> {
     }
 }
 
-// export const Shipp = ({ ship, drag = 'false', onRemove }) => {
-//     const style = useStyle()
-//     // const {setSelectedShip} = useContext(DragShipContext)
-//     const [hovered, setHovered] = useState(false)
-//     const hoverRef = useRef()
-//     //horizontal
-//     let imageSize =
-//         ship.direction === 'left' || ship.direction === 'right'
-//             ? { width: ship.size.height, height: ship.size.width }
-//             : ship.size
-
-//     return (
-
-//     )
-// }
-
-export default Ship
+export default DraggableShip

@@ -104,7 +104,11 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
             owner: { ...user, username: firstName },
             content: '',
         }
-        const considerAttack = (shipOrder: 'ships1' | 'ships2', sensorOrder: 'sensors1' | 'sensors2',playerOrder:'player1' | 'player2') => {
+        const considerAttack = (
+            shipOrder: 'ships1' | 'ships2',
+            sensorOrder: 'sensors1' | 'sensors2',
+            playerOrder: 'player1' | 'player2'
+        ) => {
             if (!room[playerOrder]) return
             let isHit = false
 
@@ -116,34 +120,37 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
                         const newShips: IShip[] = room[shipOrder].map((s) =>
                             s.body === ship.body
                                 ? (() => {
-                                    foundShip = {
-                                        ...s,
-                                        body: s.body.map((b) =>
-                                            b.x === tile.x && b.y === tile.y
-                                                ? { ...b, type: 'hit' }
-                                                : b
-                                        ),
-                                    }
-                                    return foundShip
-                                })()
+                                      foundShip = {
+                                          ...s,
+                                          body: s.body.map((b) =>
+                                              b.x === tile.x && b.y === tile.y
+                                                  ? { ...b, type: 'hit' }
+                                                  : b
+                                          ),
+                                      }
+                                      return foundShip
+                                  })()
                                 : s
                         )
-                        const newSensors:ISensorTiles = room[sensorOrder].map((sensor) =>
-                            sensor.x === tile.x && sensor.y === tile.y ? { ...tile, type: 'hit' } : sensor
+                        const newSensors: ISensorTiles = room[sensorOrder].map((sensor) =>
+                            sensor.x === tile.x && sensor.y === tile.y
+                                ? { ...tile, type: 'hit' }
+                                : sensor
                         )
 
                         if (
                             BattleShipService.isDestroyFullShip(
-                                newShips.find(s => s === foundShip) as IShip
+                                newShips.find((s) => s === foundShip) as IShip
                             )
                         )
                             message.content = 'was completely sunk ' + ship.name
                         else message.content = 'hit'
 
-                        if (BattleShipService.isEndGame(newShips)) message.content = 'is winner'
+                        if (BattleShipService.isEndGame(newShips))
+                            message.content = 'is winner'
 
                         socket.emit(`${url}/updateRoom`, {
-                            _id:room._id,
+                            _id: room._id,
                             [sensorOrder]: newSensors,
                             [shipOrder]: newShips,
                             turn: room[playerOrder]?._id,
@@ -156,10 +163,12 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
             if (!isHit) {
                 message.content = 'missed, no ship was shot'
                 const newSensors = room[sensorOrder].map((sensor) =>
-                    sensor.x === tile.x && sensor.y === tile.y ? { ...tile, type: 'miss' } : sensor
+                    sensor.x === tile.x && sensor.y === tile.y
+                        ? { ...tile, type: 'miss' }
+                        : sensor
                 )
                 socket.emit(`${url}/updateRoom`, {
-                    _id:room._id,
+                    _id: room._id,
                     [sensorOrder]: newSensors,
                     turn: room[playerOrder]?._id,
                     message,
@@ -167,11 +176,9 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
             }
         }
 
-        if (user._id === room.player1._id) 
-            considerAttack('ships2','sensors2','player2')
+        if (user._id === room.player1._id) considerAttack('ships2', 'sensors2', 'player2')
         else if (user._id === room.player2._id)
-            considerAttack('ships1','sensors1','player1')
-
+            considerAttack('ships1', 'sensors1', 'player1')
     }
 
     useEffect(() => {

@@ -14,33 +14,33 @@ export const useListRoom = (
     useEffect(() => {
         if (!socket || !user) return
         const getListRoom = async (listRoom: IRoom[]) => {
-            if (!listRoom )
-                return
-            setListPlayingRoom(listRoom.filter(room => room.isStarting))
-            setListPrepareRoom(listRoom.filter(room => !room.isStarting))
+            if (!listRoom) return
+            setListPlayingRoom(listRoom.filter((room) => room.isStarting))
+            setListPrepareRoom(listRoom.filter((room) => !room.isStarting))
         }
 
         const createRoom = async (room: IRoom) => {
-            if (!room)
-                return
-            setListPrepareRoom(pre => {
-                const newList = [...pre,room]
+            if (!room) return
+            setListPrepareRoom((pre) => {
+                const newList = [...pre, room]
                 return newList
             })
         }
 
         const updateRoom = async (room: Partial<IRoom>) => {
-            if (!room)
-                return
-            setListPlayingRoom(pre => pre.map(r => r._id === room._id ? {...r,...room} : r))
-            setListPrepareRoom(pre => pre.map(r => r._id === room._id ? {...r,...room} : r))
+            if (!room) return
+            setListPlayingRoom((pre) =>
+                pre.map((r) => (r._id === room._id ? { ...r, ...room } : r))
+            )
+            setListPrepareRoom((pre) =>
+                pre.map((r) => (r._id === room._id ? { ...r, ...room } : r))
+            )
         }
 
         const deleteRoom = async (roomId: ID) => {
-            if (!roomId)
-                return
-            setListPlayingRoom(pre => pre.filter(r => r._id !== roomId))
-            setListPrepareRoom(pre => pre.filter(r => r._id !== roomId))
+            if (!roomId) return
+            setListPlayingRoom((pre) => pre.filter((r) => r._id !== roomId))
+            setListPrepareRoom((pre) => pre.filter((r) => r._id !== roomId))
         }
 
         socket.on(`${url}/getListRoom/${user._id}`, getListRoom)

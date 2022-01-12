@@ -6,19 +6,18 @@ import { IAtlatSize } from 'games/battleShip/modals/state'
 import { ISensorTiles } from 'games/battleShip/modals/map'
 import SensorTiles from './tiles/sensorTiles'
 
-interface IHiddenAtlas{
+interface IHiddenAtlas {
     size: IAtlatSize
     sensors: ISensorTiles
 }
 
-const HiddenAtlas = ({ size, sensors }:IHiddenAtlas) => {
+const HiddenAtlas = ({ size, sensors }: IHiddenAtlas) => {
     const _borderTiles = useMemo(() => BattleShipService.initBorderTiles(size), [size])
-
 
     return (
         <Water size={size}>
             <NormalTiles map={_borderTiles} />
-            <SensorTiles sensors={sensors} clickable/>
+            <SensorTiles sensors={sensors} clickable />
         </Water>
     )
 }

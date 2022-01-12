@@ -7,7 +7,7 @@ export class SubmarineShip extends ShipCategories {
         const name = 'Submarine'
         const category: IShipCategories = {
             name,
-            size: new ShipSize(5,1),
+            size: new ShipSize(5, 1),
         }
         return category
     }

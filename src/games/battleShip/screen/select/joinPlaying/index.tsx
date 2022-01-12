@@ -7,7 +7,9 @@ import {
     Button,
     Chip,
     Grid,
-    Hidden, Pagination, Typography
+    Hidden,
+    Pagination,
+    Typography,
 } from '@mui/material'
 import url from 'games/battleShip/api'
 import { IRoom } from 'games/battleShip/modals/room'
@@ -26,18 +28,17 @@ interface IJoinPlayingProps {
 }
 const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
     const style = useStyle()
-    const { listPrepareRoom,setRole,setRoomId,setRoom } = useContext(RoomContext)
-    const user = useAppSelector(state=>state.user.current)
+    const { listPrepareRoom, setRole, setRoomId, setRoom } = useContext(RoomContext)
+    const user = useAppSelector((state) => state.user.current)
     const { socket } = useContext(SocketContext)
-    
+
     const [curPage, setCurPage] = useState(0)
     // const listPrepareRoom = useWatchCollection(socket, 'listPrepareRoom-not-start')
 
     const changePage = (e: ChangeEvent<unknown>, page: number) => setCurPage(page - 1)
 
     const joinRoomToPlay = (room: IRoom) => {
-        if (!setRole || !user || !socket || !setRoomId || !setRoom)
-            return
+        if (!setRole || !user || !socket || !setRoomId || !setRoom) return
 
         if (!room.player1) {
             setRole('player1')
@@ -58,8 +59,8 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
     useEffect(() => {
         if (!socket || !user) return
 
-        socket.emit(`${url}/getListRoom`,user._id)
-    },[])
+        socket.emit(`${url}/getListRoom`, user._id)
+    }, [])
 
     return (
         <Grid container className={style.wrapper}>
@@ -86,7 +87,7 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                         color="secondary"
                                         variant="outlined"
                                         className={style.room}
-                                        onClick={()=>joinRoomToPlay(room)}
+                                        onClick={() => joinRoomToPlay(room)}
                                     >
                                         <Box
                                             p={2}
@@ -104,7 +105,10 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                                             className={style.avatar}
                                                         />
                                                     </Box>
-                                                    <Typography className={style.name} noWrap>
+                                                    <Typography
+                                                        className={style.name}
+                                                        noWrap
+                                                    >
                                                         {room.player1.username}
                                                     </Typography>
                                                 </Box>
@@ -161,7 +165,10 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                                             className={style.avatar}
                                                         />
                                                     </Box>
-                                                    <Typography className={style.name} noWrap>
+                                                    <Typography
+                                                        className={style.name}
+                                                        noWrap
+                                                    >
                                                         {room.player2.username}
                                                     </Typography>
                                                 </Box>
@@ -180,7 +187,7 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
                                         className={style.stateBtn}
                                         size="small"
                                         variant="contained"
-                                        onClick={()=>joinRoomToPlay(room)}
+                                        onClick={() => joinRoomToPlay(room)}
                                     >
                                         {isFull ? 'Spectate' : 'Join to play'}
                                     </Button>
