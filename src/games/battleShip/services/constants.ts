@@ -30,6 +30,12 @@ class CONSTANTS {
         this._boardSize = 30
         this._maxShipSize = 5
     }
+    setBoardSize(newSize: number) {
+        this._boardSize = newSize
+    }
+    setMaxShipSize(newSize: number) {
+        this._maxShipSize = newSize
+    }
     getShipImage(shipName: string) {
         return this._shipImage[shipName]
     }

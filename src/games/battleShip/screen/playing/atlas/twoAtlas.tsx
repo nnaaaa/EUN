@@ -8,6 +8,7 @@ import PlayerState from '../playerState'
 function TwoAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
     const isPlayer1 = user._id === room.player1?._id
     const isPlayer2 = user._id === room.player2?._id
+    const isSpectator = !isPlayer1 && !isPlayer2
 
     return (
         <>
@@ -31,6 +32,13 @@ function TwoAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
                 {isPlayer2 && (
                     <HiddenAtlas sensors={room.sensors1} size={room.atlasSize} />
                 )}
+                {isSpectator && (
+                    <SensorAtlas
+                        sensors={room.sensors1}
+                        ships={room.ships1}
+                        size={room.atlasSize}
+                    />
+                )}
             </Grid>
             <Grid
                 item
@@ -51,6 +59,13 @@ function TwoAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
                 )}
                 {isPlayer1 && (
                     <HiddenAtlas sensors={room.sensors2} size={room.atlasSize} />
+                )}
+                {isSpectator && (
+                    <SensorAtlas
+                        sensors={room.sensors2}
+                        ships={room.ships2}
+                        size={room.atlasSize}
+                    />
                 )}
             </Grid>
         </>

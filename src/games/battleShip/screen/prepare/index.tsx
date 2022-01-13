@@ -7,7 +7,9 @@ import useDraggable from 'games/battleShip/components/map/draggableAtlas/useDrag
 import { IShip } from 'games/battleShip/modals/ship'
 import BattleShipService from 'games/battleShip/services'
 import { ShipCategoryManager as ShipCtgMng } from 'games/battleShip/services/shipCategories/ship'
+import EightShipFactory from 'games/battleShip/services/shipFactories/eightShipFactory'
 import ShipFactory from 'games/battleShip/services/shipFactories/shipFactory'
+import SixShipFactory from 'games/battleShip/services/shipFactories/sixShipFactory'
 import ThreeShipFactory from 'games/battleShip/services/shipFactories/threeShipFactory'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { useContext, useEffect, useState } from 'react'
@@ -15,6 +17,7 @@ import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'
 import Screen from '..'
 import CountDown from '../countDown'
+import Waiting from '../waiting'
 import ClearButton from './clearButton'
 import GenerateShip from './generateShip'
 import GenerateShips from './generateShips'
@@ -23,7 +26,7 @@ import PlayersState from './playersState'
 import ReadyButton from './readyButton'
 import SelectDirection, { useInitDirection } from './selectDirection'
 import { useStyle } from './styles'
-import Waiting from '../waiting'
+import Constants from 'games/battleShip/services/constants'
 
 class Prepare extends Screen {
     render() {
@@ -80,15 +83,21 @@ const PrepareFunc = ({ state }: { state: Screen }) => {
     useEffect(() => {
         if (!room) return
         let shipFactory: ShipFactory
-        if (room.limitShip === 3) {
+
+        if (room.atlasSize > 10) 
+            Constants.setBoardSize(22)
+        if (room.limitShip > 3)
+            Constants.setMaxShipSize(6)
+
+        if (room.limitShip === 3)
             shipFactory = new ThreeShipFactory(room.atlasSize)
-            setShipFactory(shipFactory)
-            setShipCategoryManager(shipFactory.getManagerList())
-        } else {
-            shipFactory = new ThreeShipFactory(room.atlasSize)
-            setShipFactory(shipFactory)
-            setShipCategoryManager(shipFactory.getManagerList())
-        }
+        else if (room.limitShip === 6)
+            shipFactory = new SixShipFactory(room.atlasSize)
+        else
+            shipFactory = new EightShipFactory(room.atlasSize)
+        
+        setShipFactory(shipFactory)
+        setShipCategoryManager(shipFactory.getManagerList())
     }, [room?.limitShip, room?.atlasSize])
 
     //nếu thiếu 1 trong 2 player sẽ direct về phòng chờ
@@ -149,6 +158,7 @@ const PrepareFunc = ({ state }: { state: Screen }) => {
                             shipCategoryManager={shipCategoryManager}
                             ShipFactory={ShipFactory}
                             dragTool={dragTool}
+                            setShips={setShips}
                         />
                     </Grid>
                     <Grid item xs={4}>

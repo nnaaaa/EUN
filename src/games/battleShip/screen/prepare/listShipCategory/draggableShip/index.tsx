@@ -2,11 +2,14 @@ import { Box } from '@mui/material'
 import useDraggable from 'games/battleShip/components/map/draggableAtlas/useDraggable'
 import { IShip, IShipDirection } from 'games/battleShip/modals/ship'
 import Constants from 'games/battleShip/services/constants'
-import { Component } from 'react'
+import ShipFactory from 'games/battleShip/services/shipFactories/shipFactory'
+import { Component, Dispatch, SetStateAction } from 'react'
 
 interface IShipProps {
     representShip: IShip
     dragTool: ReturnType<typeof useDraggable>
+    setShips: Dispatch<SetStateAction<IShip[]>>
+    ShipFactory: ShipFactory
 }
 
 interface IShipStates {}
@@ -31,7 +34,7 @@ class DraggableShip extends Component<IShipProps, IShipStates> {
         }
     }
     render() {
-        const { representShip, dragTool } = this.props
+        const { representShip, dragTool,ShipFactory,setShips } = this.props
         const { size } = this.props.representShip
         const { height, width } = size
         const verticalSize = height < width ? { width: height, height: width } : size
@@ -75,6 +78,10 @@ class DraggableShip extends Component<IShipProps, IShipStates> {
                         left={(b.x - representShip.body[0].x) * Constants.boardSize}
                         top={(b.y - representShip.body[0].y) * Constants.boardSize}
                         bgcolor="transparent"
+                        onDoubleClick={() => {
+                            ShipFactory.createShipByRand(representShip.name)
+                            setShips(ShipFactory.getShips())
+                        }}
                         onMouseDown={() => {
                             dragTool.setPickedBodyOrder(idx)
                             dragTool.setPickedShip(representShip)

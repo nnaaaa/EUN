@@ -8,6 +8,7 @@ import PlayerState from '../playerState'
 function OneAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
     const isPlayer1 = user._id === room.player1?._id
     const isPlayer2 = user._id === room.player2?._id
+    const isSpectator = !isPlayer1 && !isPlayer2
 
     return (
         <Grid
@@ -33,10 +34,28 @@ function OneAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
                         size={room.atlasSize}
                     />
                 )}
+
+                
                 {isPlayer2 && room.turn === room.player2?._id && (
                     <HiddenAtlas sensors={room.sensors1} size={room.atlasSize} />
                 )}
                 {isPlayer2 && room.turn !== room.player2?._id && (
+                    <SensorAtlas
+                        sensors={room.sensors2}
+                        ships={room.ships2}
+                        size={room.atlasSize}
+                    />
+                )}
+
+                
+                {isSpectator && room.turn === room.player2?._id && (
+                    <SensorAtlas
+                        sensors={room.sensors1}
+                        ships={room.ships1}
+                        size={room.atlasSize}
+                    />
+                )}
+                {isSpectator && room.turn === room.player1?._id && (
                     <SensorAtlas
                         sensors={room.sensors2}
                         ships={room.ships2}

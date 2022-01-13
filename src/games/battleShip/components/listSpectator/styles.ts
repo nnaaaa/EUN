@@ -2,10 +2,11 @@ import { makeStyles } from '@mui/styles'
 
 export const useStyle = makeStyles({
     spectators: {
-        maxHeight: '100%',
+        maxHeight: '40%',
         width: '100%',
         overflowY: 'auto',
         borderRadius: 4,
+        alignSelf:'flex-start'
     },
     spectator: {
         cursor: 'pointer',

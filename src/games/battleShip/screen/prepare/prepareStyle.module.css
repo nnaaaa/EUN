@@ -4,6 +4,11 @@
     font-weight: bold;
     text-align: center;
     margin: 10px 0;
+    user-select: none;
+}
+.title:hover{
+    opacity:0.7;
+    cursor:pointer;
 }
 
 .info {

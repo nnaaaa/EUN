@@ -20,7 +20,7 @@ const PlayerState = (props: IPlayersStateProps) => {
             display="flex"
             justifyContent="center"
             alignContent="center"
-            bgcolor={role !== 'spectator' ? 'transparent' : 'secondary.main'}
+            bgcolor={role !== 'spectator' ? 'transparent' : 'primary.main'}
             height={role !== 'spectator' ? 'auto' : '100%'}
         >
             <Box
@@ -58,7 +58,7 @@ const PlayerState = (props: IPlayersStateProps) => {
                         disableElevation
                         color={
                             room.arranged.find((u) => u._id === player1._id)
-                                ? 'primary'
+                                ? 'secondary'
                                 : 'inherit'
                         }
                     >

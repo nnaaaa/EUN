@@ -59,7 +59,6 @@ const DraggableAtlas = (props: IDraggableAtlas) => {
                     ship={ship}
                     onRemove={() => {
                         ShipFactory.deleteShip(i)
-                        console.log(ShipFactory)
                         setShips(ShipFactory.getShips())
                     }}
                     key={'shipDropped' + i}

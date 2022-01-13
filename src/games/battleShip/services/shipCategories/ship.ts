@@ -33,5 +33,8 @@ export abstract class ShipCategories {
     public static createManager(name: ListShipName, limitShip: number) {
         this.manager = new ShipCategoryManager(name, limitShip)
     }
+    public static setManager(limitShip: number) {
+        this.manager.limit = limitShip
+    }
     abstract build(): IShipCategories
 }

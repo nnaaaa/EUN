@@ -57,6 +57,7 @@ export const Image = ({ ship }: { ship: IShip }) => {
                     ${verticalSize.width * Constants.boardSize}px 
                                 ${verticalSize.height * Constants.boardSize}px no-repeat`,
                         cursor: 'pointer',
+                        imageRendering:'pixelated'
                     }}
                 />
             </Tilty>

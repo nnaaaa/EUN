@@ -19,6 +19,7 @@ import Select from '../select'
 import FilledSlot from './filledSlot'
 import { useStyle } from './styles'
 import BattleShipService from 'games/battleShip/services'
+import Constants from 'games/battleShip/services/constants'
 
 class Waiting extends Screen {
     render() {
@@ -63,6 +64,7 @@ const WaitingFunc = ({ state }: { state: Select }) => {
         }
     }
 
+    //tất cả người chơi sẵn sàng sẽ bắt đầu game
     useEffect(() => {
         if (!room || !user || !socket) return
         if (room.userReady.length !== 2) return
@@ -98,6 +100,12 @@ const WaitingFunc = ({ state }: { state: Select }) => {
         }
         setPlayGame().then(() => {})
     }, [room, user])
+
+    useEffect(() => {
+        if(!room) return
+        if (room.atlasSize > 10)
+            Constants.setBoardSize(22)
+    },[room?.atlasSize])
 
     if (!room || !user) return <Loading />
 

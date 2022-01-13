@@ -68,17 +68,21 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
             </Grid>
             <Grid item xs={3} container direction="column">
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">Map Size</FormLabel>
-                    <RadioGroup
+                    <FormLabel component="legend" className={style.label}>Map Size</FormLabel>
+                    <RadioGroup 
+                        className={style.group}
                         onChange={(e) => setSize(+e.target.value as IAtlatSize)}
-                        defaultValue="15"
+                        defaultValue="10"
                     >
+                        <FormControlLabel value="10" control={<Radio />} label="10" />
                         <FormControlLabel value="15" control={<Radio />} label="15" />
                     </RadioGroup>
+
                 </FormControl>
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">Limits</FormLabel>
-                    <RadioGroup
+                    <FormLabel component="legend" className={style.label}>Limits</FormLabel>
+                    <RadioGroup 
+                        className={style.group}
                         onChange={(e) => setLimits(+e.target.value as ILimitShip)}
                         defaultValue="3"
                     >
@@ -87,11 +91,22 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
                             control={<Radio color="primary" />}
                             label="3 ship"
                         />
+                        <FormControlLabel
+                            value="6"
+                            control={<Radio color="primary" />}
+                            label="6 ship"
+                        />
+                        <FormControlLabel
+                            value="8"
+                            control={<Radio color="primary" />}
+                            label="8 ship"
+                        />
                     </RadioGroup>
                 </FormControl>
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">Arrange</FormLabel>
-                    <RadioGroup
+                    <FormLabel component="legend" className={style.label}>Arrange</FormLabel>
+                    <RadioGroup 
+                        className={style.group}
                         onChange={(e) => setMode(e.target.value as IMode)}
                         defaultValue="random"
                     >

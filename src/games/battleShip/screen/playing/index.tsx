@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material'
 import url from 'games/battleShip/api'
 import ListSpectator from 'games/battleShip/components/listSpectator'
+import Constants from 'games/battleShip/services/constants'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
 import React, { useContext, useEffect, useState } from 'react'
 import Loading from 'screens/loading'
@@ -31,6 +32,7 @@ const PlayingFunc = ({ state }: { state: Screen }) => {
     const { socket } = useContext(SocketContext)
     const { room } = useContext(RoomContext)
     const user = useAppSelector((state) => state.user.current)
+    console.log(room)
     useEffect(() => {
         if (!room || !socket) return
         if (!room.isStarting) {
@@ -91,6 +93,12 @@ const PlayingFunc = ({ state }: { state: Screen }) => {
             })
         }
     }, [room])
+
+    useEffect(() => {
+        if (!room) return
+        if (room.atlasSize > 10)
+            Constants.setBoardSize(22)
+    },[room?.atlasSize])
 
     if (!room || !user) return <Loading />
 

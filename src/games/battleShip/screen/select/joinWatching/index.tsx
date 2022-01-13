@@ -10,8 +10,12 @@ import {
     Pagination,
     Typography,
 } from '@mui/material'
+import url from 'games/battleShip/api'
+import { IRoom } from 'games/battleShip/modals/room'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { ChangeEvent, useContext, useState } from 'react'
+import { SocketContext } from 'states/context/socket'
+import { useAppSelector } from 'states/hooks'
 import Screen from '../..'
 import Playing from '../../playing'
 import { Empty, useStyle } from './styles'
@@ -24,16 +28,21 @@ interface IJoinWatchProps {
 
 const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
     const style = useStyle()
-    const { listPlayingRoom } = useContext(RoomContext)
-
+    const { listPlayingRoom,setRole,setRoomId,setRoom } = useContext(RoomContext)
+    const {socket} = useContext(SocketContext)
+    const user = useAppSelector(state => state.user.current)
     const [curPage, setCurPage] = useState(0)
-
-    // const listPlayingRoom = useWatchCollection(socket, 'listPlayingRoom-starting')
-
+    
     const changePage = (e: ChangeEvent<unknown>, page: number) => setCurPage(page - 1)
 
-    const join = () => {
-        // joinRoom()
+    const joinToWatch = (room:IRoom) => {
+        if (!setRole || !user || !socket || !setRoomId || !setRoom) return
+
+        setRole('spectator')
+        const newSpectator = [...room.spectators, user]
+        socket.emit(`${url}/updateRoom`, { _id: room._id, spectators: newSpectator })
+        setRoom(room)
+        setRoomId(room._id)
         changeScreen(Playing)
     }
 
@@ -60,7 +69,7 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                     color="secondary"
                                     variant="outlined"
                                     className={style.room}
-                                    onClick={join}
+                                    onClick={()=>joinToWatch(room)}
                                 >
                                     <Box
                                         p={2}
@@ -148,7 +157,7 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                     className={style.stateBtn}
                                     size="small"
                                     variant="contained"
-                                    onClick={join}
+                                    onClick={()=>joinToWatch(room)}
                                 >
                                     Spectate
                                 </Button>

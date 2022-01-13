@@ -6,6 +6,7 @@ export const useStyle = makeStyles({
         marginBottom: 15,
         fontSize: 20,
         fontWeight: 'bold',
+        userSelect:'none'
     },
     group: {
         display: 'flex',
@@ -18,6 +19,6 @@ export const useStyle = makeStyles({
     label: {
         display: 'flex',
         alignItems: 'center',
-        marginRight: 30,
+        userSelect:'none'
     },
 })
