@@ -73,7 +73,7 @@ export default function Header() {
                         </Grid>
                     </Hidden>
                     <Grid item container md={6} xs={10}>
-                        <Button className={style.button} component={Link} to={url}>
+                        <Button className={style.button} component={Link} to="/">
                             <FontAwesomeIcon icon={faHome} />
                         </Button>
                         <Button className={style.button} disabled>

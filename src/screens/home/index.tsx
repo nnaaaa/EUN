@@ -13,6 +13,7 @@ import { userActions } from 'states/slices/userSlice'
 import { HomeLazyLoading, useStyle } from './homeStyles'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
+import Games from './games'
 
 export default function Home() {
     const style = useStyle()
@@ -32,6 +33,17 @@ export default function Home() {
     if (loading) return <HomeLazyLoading />
 
     if (status === 'stranger') return <Redirect to="/auth" />
+
+    // const DownloadButton = () => {
+    //     const downloadFile = () => {
+    //       window.location.href = "http://localhost:7000/download"
+    //     }
+    //     return (
+    //               <button onClick={downloadFile}>download</button>
+    //     )
+    // }
+
+    // return <DownloadButton/>
 
     return (
         <>
@@ -60,6 +72,7 @@ export default function Home() {
                         }}
                     >
                         <Switch>
+                            <Route path="/games" component={Games} />
                             <Route exact path={path} component={Newsfeed} />
                         </Switch>
                     </Box>
