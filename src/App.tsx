@@ -23,12 +23,9 @@ function App() {
                 <Switch>
                     <Route component={Home} exact path="/" />
                     <Route children={<OwnerProfile user={user} />} path="/profile" />
-                    {/*<Route component={Authentication} path="/login" />
-                    <Route component={NotFound} path="/:err" /> */}
                     <Route component={Authentication} path="/auth" />
                     <Route component={FriendProfileHandler} path="/user/:account" />
-                    <Route component={NotFound} path="/:error" />
-                    {/* <Redirect to="/home" /> */}
+                    <Route component={Home} exact path="/:anything" />
                 </Switch>
             </HashRouter>
         </ThemeProvider>

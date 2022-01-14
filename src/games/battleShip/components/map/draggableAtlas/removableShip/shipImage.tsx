@@ -45,7 +45,7 @@ export const Image = ({ ship }: { ship: IShip }) => {
                     )}) center center / 
                                 ${verticalSize.width * Constants.boardSize}px 
                                 ${verticalSize.height * Constants.boardSize}px no-repeat`,
-                    imageRendering:'pixelated'
+                    imageRendering: 'pixelated',
                 }}
             />
         </div>

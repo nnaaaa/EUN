@@ -42,7 +42,7 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
         () => BattleShipGameService.initShips(limits, size),
         [size, limits]
     )
-    const createRoom = async () => {
+    const createRoom = () => {
         try {
             if (!user || !socket || !setRole) return
             setLoading(true)
@@ -68,8 +68,10 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
             </Grid>
             <Grid item xs={3} container direction="column">
                 <FormControl component="fieldset">
-                    <FormLabel component="legend" className={style.label}>Map Size</FormLabel>
-                    <RadioGroup 
+                    <FormLabel component="legend" className={style.label}>
+                        Map Size
+                    </FormLabel>
+                    <RadioGroup
                         className={style.group}
                         onChange={(e) => setSize(+e.target.value as IAtlatSize)}
                         defaultValue="10"
@@ -77,11 +79,12 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
                         <FormControlLabel value="10" control={<Radio />} label="10" />
                         <FormControlLabel value="15" control={<Radio />} label="15" />
                     </RadioGroup>
-
                 </FormControl>
                 <FormControl component="fieldset">
-                    <FormLabel component="legend" className={style.label}>Limits</FormLabel>
-                    <RadioGroup 
+                    <FormLabel component="legend" className={style.label}>
+                        Limits
+                    </FormLabel>
+                    <RadioGroup
                         className={style.group}
                         onChange={(e) => setLimits(+e.target.value as ILimitShip)}
                         defaultValue="3"
@@ -104,8 +107,10 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
                     </RadioGroup>
                 </FormControl>
                 <FormControl component="fieldset">
-                    <FormLabel component="legend" className={style.label}>Arrange</FormLabel>
-                    <RadioGroup 
+                    <FormLabel component="legend" className={style.label}>
+                        Arrange
+                    </FormLabel>
+                    <RadioGroup
                         className={style.group}
                         onChange={(e) => setMode(e.target.value as IMode)}
                         defaultValue="random"

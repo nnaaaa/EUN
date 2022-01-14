@@ -1,8 +1,9 @@
 import { Box, Button } from '@mui/material'
-import className from '../prepareStyle.module.css'
+import { IShip } from 'games/battleShip/modals/ship'
+import { ShipCategoryManager } from 'games/battleShip/services/shipCategories/ship'
 import ShipFactory from 'games/battleShip/services/shipFactories/shipFactory'
 import { Dispatch, SetStateAction } from 'react'
-import { IShip } from 'games/battleShip/modals/ship'
+import className from '../prepareStyle.module.css'
 
 interface IGenerateShips {
     ShipFactory: ShipFactory

@@ -15,7 +15,7 @@ const RemovableShip = ({ ship, onRemove }: { ship: IShip; onRemove: () => void }
                 position: 'absolute',
                 top: ship.body[0].y * Constants.boardSize,
                 left: ship.body[0].x * Constants.boardSize,
-                borderRadius: Constants.boardSize/2,
+                borderRadius: Constants.boardSize / 2,
             }}
             onClick={onRemove}
         >

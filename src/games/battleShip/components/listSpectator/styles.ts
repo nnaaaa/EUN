@@ -6,7 +6,7 @@ export const useStyle = makeStyles({
         width: '100%',
         overflowY: 'auto',
         borderRadius: 4,
-        alignSelf:'flex-start'
+        alignSelf: 'flex-start',
     },
     spectator: {
         cursor: 'pointer',

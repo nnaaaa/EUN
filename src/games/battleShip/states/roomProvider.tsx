@@ -1,3 +1,4 @@
+import BattleShipService from 'games/battleShip/services'
 import {
     createContext,
     Dispatch,
@@ -14,8 +15,7 @@ import { useCreateAndUpdateRoom } from '../api/useCreateAndUpdateRoom'
 import { useListRoom } from '../api/useListRoom'
 import { ISensor, ISensorTiles } from '../modals/map'
 import { IMessage, IRoom } from '../modals/room'
-import { IBody, IShip } from '../modals/ship'
-import BattleShipService from 'games/battleShip/services'
+import { IShip } from '../modals/ship'
 
 export type PlayerRole = 'spectator' | 'player1' | 'player2' | undefined
 
@@ -53,6 +53,7 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
 
     useCreateAndUpdateRoom(roomId, setRoom, setRoomId)
     useListRoom(setListPlayingRoom, setListPrepareRoom)
+
     const outRoom = () => {
         if (!user || !room || !socket) return
         if (user._id === room.player1?._id) {
@@ -186,6 +187,12 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
         setRoomId(room._id)
     }, [room?._id])
 
+    useEffect(() => {
+        if (!socket || !user) return
+
+        socket.emit(`${url}/getListRoom`, user._id)
+    }, [])
+
     return (
         <RoomContext.Provider
             value={{
@@ -206,256 +213,4 @@ export const RoomProvider = ({ children }: { children: ReactChild }) => {
             {children}
         </RoomContext.Provider>
     )
-
-    //   const joinRoom = async (room) => {
-    //     const player = {id, name, avatar}
-    //     setMapId(room.id)
-    //     if (!room.player1.id) {
-    //       setRole('player1')
-    //       socket.emit('update-room', room.id, {player1: player})
-    //     } else if (!room.player2.id) {
-    //       setRole('player2')
-    //       socket.emit('update-room', room.id, {player2: player})
-    //     } else {
-    //       setRole('spectator')
-    //       const newSpectator = [...room.spectators, player]
-    //       socket.emit('update-room', room.id, {spectators: newSpectator})
-    //     }
-    //   }
-    //   const outRoom = useCallback(async () => {
-    //     if (id === map.player1?.id) {
-    //       if (!map.player2?.id && map.spectators?.length === 0)
-    //         socket.emit(`${url}/deleteRoom`, map.id)
-    //       else {
-    //         const userReady = map.userReady.filter((user) => user.id !== id)
-    //         socket.emit('update-room', map.id, {
-    //           userReady,
-    //           player1: {},
-    //         })
-    //       }
-    //     } else if (id === map.player2?.id) {
-    //       if (!map.player1?.id && map.spectators?.length === 0)
-    //         socket.emit(`${url}/deleteRoom`, map.id)
-    //       else {
-    //         const userReady = map.userReady.filter((user) => user.id !== id)
-    //         socket.emit('update-room', map.id, {
-    //           userReady,
-    //           player2: {},
-    //         })
-    //       }
-    //     } else {
-    //       if (!map.player1?.id && !map.player2?.id && map.spectators?.length === 1)
-    //         socket.emit(`${url}/deleteRoom`, map.id)
-    //       else {
-    //         const spectators = map.spectators.filter((user) => user.id !== id)
-    //         socket.emit('update-room', map.id, {
-    //           spectators,
-    //         })
-    //       }
-    //     }
-    //     setRole()
-    //   }, [map, id, mapId])
-
-    //   const joinPlay = async (playerSt) => {
-    //     const player = {id, name, avatar}
-    //     if (playerSt === 1) {
-    //       if (id === map.player2?.id) {
-    //         setRole('player1')
-    //         const spectators = map.spectators.filter((user) => user.id !== id)
-    //         socket.emit('update-room', map.id, {
-    //           spectators,
-    //           player1: player,
-    //           player2: {},
-    //         })
-    //       } else {
-    //         setRole('player1')
-    //         const spectators = map.spectators.filter((user) => user.id !== id)
-    //         socket.emit('update-room', map.id, {
-    //           spectators,
-    //           player1: player,
-    //         })
-    //       }
-    //     } else if (playerSt === 2) {
-    //       if (id === map.player1?.id) {
-    //         setRole('player2')
-    //         const spectators = map.spectators.filter((user) => user.id !== id)
-    //         socket.emit('update-room', map.id, {
-    //           spectators,
-    //           player2: player,
-    //           player1: {},
-    //         })
-    //       } else {
-    //         setRole('player2')
-    //         const spectators = map.spectators.filter((user) => user.id !== id)
-    //         socket.emit('update-room', map.id, {
-    //           spectators,
-    //           player2: player,
-    //         })
-    //       }
-    //     }
-    //   }
-    //   const readyToPlay = async () => {
-    //     if (map.userReady?.includes(id)) {
-    //       const userReady = map.userReady.filter((userId) => userId !== id)
-    //       socket.emit('update-room', map.id, {
-    //         userReady,
-    //       })
-    //     } else {
-    //       const userReady = [...map.userReady, id]
-    //       socket.emit('update-room', map.id, {
-    //         userReady,
-    //       })
-    //     }
-    //   }
-    //   const arranged = async (ships) => {
-    //     if (ships.length !== map.limits) return
-    //     let arranged
-    //     if (map.arranged?.includes(id))
-    //       arranged = map.arranged.filter((userId) => userId !== id)
-    //     else arranged = [...map.arranged, id]
-    //     socket.emit('update-room', map.id, {
-    //       arranged,
-    //     })
-    //   }
-
-    //   const hitOrMiss = async (tile) => {
-    //     if (id !== map.turn) return
-    //     if (tile.type !== 'pure') return
-
-    //     let isHit = false
-
-    //     let arrayName = name.split(' ')
-    //     const firstName = arrayName[arrayName.length - 1]?.slice(0, 10) + ' '
-    //     let message = {
-    //       avatar,
-    //       name: firstName,
-    //       message: '',
-    //     }
-
-    //     if (id === map.player1?.id) {
-    //       for (let oneship of map.ships2) {
-    //         for (let body of oneship.bodies) {
-    //           if (body.x === tile.x && body.y === tile.y) {
-    //             isHit = true
-    //             const newShips = map.ships2?.map((ship) =>
-    //               ship.id === oneship.id
-    //                 ? {
-    //                     ...ship,
-    //                     bodies: ship.bodies.map((b) =>
-    //                       b.x === tile.x && b.y === tile.y ? {...b, type: 'hit'} : b
-    //                     ),
-    //                   }
-    //                 : ship
-    //             )
-    //             const newSensors = map.sensors2?.map((sensor) =>
-    //               sensor.id === tile.id ? {...tile, type: 'hit'} : sensor
-    //             )
-
-    //             if (destroyFullShip(newShips.find((ship) => ship.id === oneship.id)))
-    //               message.message = 'was completely sunk ' + oneship.name
-    //             else message.message = 'hit'
-
-    //             if (endGame(newShips)) message.message = 'is winner'
-
-    //             socket.emit('update-room', map.id, {
-    //               sensors2: newSensors,
-    //               ships2: newShips,
-    //               turn: map.player2?.id,
-    //               message,
-    //             })
-    //             break
-    //           }
-    //         }
-    //       }
-    //       if (!isHit) {
-    //         message.message = 'missed, no ship was shot'
-    //         const newSensors = map.sensors2?.map((sensor) =>
-    //           sensor.id === tile.id ? {...tile, type: 'miss'} : sensor
-    //         )
-    //         socket.emit('update-room', map.id, {
-    //           sensors2: newSensors,
-    //           turn: map.player2?.id,
-    //           message,
-    //         })
-    //       }
-    //     } else if (id === map.player2?.id) {
-    //       for (let oneship of map.ships1) {
-    //         for (let body of oneship.bodies) {
-    //           if (body.x === tile.x && body.y === tile.y) {
-    //             isHit = true
-    //             const newShips = map.ships1?.map((ship) =>
-    //               ship.id === oneship.id
-    //                 ? {
-    //                     ...ship,
-    //                     bodies: ship.bodies.map((b) =>
-    //                       b.x === tile.x && b.y === tile.y ? {...b, type: 'hit'} : b
-    //                     ),
-    //                   }
-    //                 : ship
-    //             )
-
-    //             const newSensors = map.sensors1?.map((sensor) =>
-    //               sensor.id === tile.id ? {...tile, type: 'hit'} : sensor
-    //             )
-
-    //             if (destroyFullShip(newShips.find((ship) => ship.id === oneship.id)))
-    //               message.message = 'was completely sunk ' + oneship.name
-    //             else message.message = 'hit'
-
-    //             if (endGame(newShips)) message.message = 'is winner'
-
-    //             socket.emit('update-room', map.id, {
-    //               sensors1: newSensors,
-    //               turn: map.player1?.id,
-    //               ships1: newShips,
-    //               message,
-    //             })
-    //             break
-    //           }
-    //         }
-    //       }
-    //       if (!isHit) {
-    //         message.message = 'missed, no ship was shot'
-    //         const newSensors = map.sensors1?.map((sensor) =>
-    //           sensor.id === tile.id ? {...tile, type: 'miss'} : sensor
-    //         )
-    //         socket.emit('update-room', map.id, {
-    //           sensors1: newSensors,
-    //           turn: map.player1?.id,
-    //           message,
-    //         })
-    //       }
-    //     }
-    //   }
-
-    //   useEffect(() => {
-    //     window.addEventListener('beforeunload', outRoom)
-    //     return () => {
-    //       window.removeEventListener('beforeunload', outRoom)
-    //     }
-    //   }, [outRoom])
-
-    // return (
-    //     // <MapContext.Provider
-    //     //   value={{
-    //     //     socket,
-    //     //     mapId,
-    //     //     setMapId,
-    //     //     role,
-    //     //     setRole,
-    //     //     map,
-    //     //     joinRoom,
-    //     //     outRoom,
-    //     //     joinSpectate,
-    //     //     joinPlay,
-    //     //     readyToPlay,
-    //     //     arranged,
-    //     //     hitOrMiss,
-    //     //   }}
-    //     // >
-    //     <MapContext.Provider>
-    //         { children }
-    //     </MapContext.Provider>
-    //     // </MapContext.Provider>
-    // )
 }

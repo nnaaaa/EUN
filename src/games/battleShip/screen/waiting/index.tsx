@@ -7,9 +7,13 @@ import ShipAtlas from 'games/battleShip/components/map/shipAtlas'
 import { IRoom } from 'games/battleShip/modals/room'
 import { IShip } from 'games/battleShip/modals/ship'
 import EmptySlot from 'games/battleShip/screen/waiting/emptySlot'
-import BattleShipGameService from 'games/battleShip/services'
+import {
+    default as BattleShipGameService,
+    default as BattleShipService,
+} from 'games/battleShip/services'
+import Constants from 'games/battleShip/services/constants'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useLayoutEffect, useMemo } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'
 import Screen from '../'
@@ -18,8 +22,6 @@ import Prepare from '../prepare'
 import Select from '../select'
 import FilledSlot from './filledSlot'
 import { useStyle } from './styles'
-import BattleShipService from 'games/battleShip/services'
-import Constants from 'games/battleShip/services/constants'
 
 class Waiting extends Screen {
     render() {
@@ -65,7 +67,7 @@ const WaitingFunc = ({ state }: { state: Select }) => {
     }
 
     //tất cả người chơi sẵn sàng sẽ bắt đầu game
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!room || !user || !socket) return
         if (room.userReady.length !== 2) return
         const setPlayGame = async () => {
@@ -102,10 +104,9 @@ const WaitingFunc = ({ state }: { state: Select }) => {
     }, [room, user])
 
     useEffect(() => {
-        if(!room) return
-        if (room.atlasSize > 10)
-            Constants.setBoardSize(22)
-    },[room?.atlasSize])
+        if (!room) return
+        if (room.atlasSize > 10) Constants.setBoardSize(22)
+    }, [room?.atlasSize])
 
     if (!room || !user) return <Loading />
 

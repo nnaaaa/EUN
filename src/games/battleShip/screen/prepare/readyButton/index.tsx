@@ -29,7 +29,6 @@ function ReadyButton({ ships }: { ships: IShip[] }) {
     return (
         <Button
             variant="contained"
-            sx={{ ml: 2 }}
             size="small"
             color={room.arranged.find((u) => u._id === user._id) ? 'inherit' : 'primary'}
             onClick={ready}

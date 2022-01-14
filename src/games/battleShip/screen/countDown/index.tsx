@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Screen from '..'
 import Playing from '../playing'
 import className from './countDown.module.css'
+import Loading from 'games/battleShip/components/loading'
 
 class CountDown extends Screen {
     render() {
@@ -32,15 +33,16 @@ const CountDownFunc = ({ state }: { state: Screen }) => {
         }
     }, [])
 
-    return (
-        <Box
-            width="100%"
-            height="100%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-        >
-            <p className={className.text}>{count < 0 ? 'Start' : count}</p>
-        </Box>
-    )
+    // return (
+    //     <Box
+    //         width="100%"
+    //         height="100%"
+    //         display="flex"
+    //         justifyContent="center"
+    //         alignItems="center"
+    //     >
+    //         <p className={className.text}>{count < 0 ? 'Start' : count}</p>
+    //     </Box>
+    // )
+    return <Loading />
 }

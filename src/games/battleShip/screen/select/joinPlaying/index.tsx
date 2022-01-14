@@ -14,8 +14,7 @@ import {
 import url from 'games/battleShip/api'
 import { IRoom } from 'games/battleShip/modals/room'
 import { RoomContext } from 'games/battleShip/states/roomProvider'
-import { ID } from 'models/common'
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'
 import Screen from '../..'
@@ -33,7 +32,6 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
     const { socket } = useContext(SocketContext)
 
     const [curPage, setCurPage] = useState(0)
-    // const listPrepareRoom = useWatchCollection(socket, 'listPrepareRoom-not-start')
 
     const changePage = (e: ChangeEvent<unknown>, page: number) => setCurPage(page - 1)
 
@@ -55,12 +53,6 @@ const JoinPlaying = ({ changeScreen }: IJoinPlayingProps) => {
         setRoomId(room._id)
         changeScreen(Waiting)
     }
-
-    useEffect(() => {
-        if (!socket || !user) return
-
-        socket.emit(`${url}/getListRoom`, user._id)
-    }, [])
 
     return (
         <Grid container className={style.wrapper}>

@@ -1,7 +1,7 @@
-import EightShipFactory from 'games/battleShip/services/shipFactories/eightShipFactory';
-import { IShip } from 'games/battleShip/modals/ship'
 import { IBorderTiles, ISensorTiles } from 'games/battleShip/modals/map'
+import { IShip } from 'games/battleShip/modals/ship'
 import { IAtlatSize, ILimitShip } from 'games/battleShip/modals/state'
+import EightShipFactory from 'games/battleShip/services/shipFactories/eightShipFactory'
 import ShipFactory from './shipFactories/shipFactory'
 import SixShipFactory from './shipFactories/sixShipFactory'
 import ThreeShipFactory from './shipFactories/threeShipFactory'
@@ -35,12 +35,9 @@ class BattleShipGameService implements IBattleShipGameService {
     initShips = (limitShip: ILimitShip, atlasSize: IAtlatSize) => {
         let shipFactory: ShipFactory
         let ships: IShip[] = []
-        if (limitShip === 3) 
-            shipFactory = new ThreeShipFactory(atlasSize)
-        else if (limitShip === 6)
-            shipFactory = new SixShipFactory(atlasSize)
-        else 
-            shipFactory = new EightShipFactory(atlasSize)
+        if (limitShip === 3) shipFactory = new ThreeShipFactory(atlasSize)
+        else if (limitShip === 6) shipFactory = new SixShipFactory(atlasSize)
+        else shipFactory = new EightShipFactory(atlasSize)
         ships = shipFactory.manufacture()
         return ships
     }

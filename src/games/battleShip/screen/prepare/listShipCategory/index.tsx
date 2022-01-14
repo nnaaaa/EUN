@@ -15,12 +15,12 @@ interface IListShipCategoryProps {
     shipCategoryManager: ShipCategoryManager[]
     ShipFactory: ShipFactory
     dragTool: ReturnType<typeof useDraggable>
-    setShips:Dispatch<SetStateAction<IShip[]>>
+    setShips: Dispatch<SetStateAction<IShip[]>>
 }
 
 function ListShipCategory(props: IListShipCategoryProps) {
     const style = useStyle()
-    const { shipCategoryManager, direction, ShipFactory, dragTool,setShips } = props
+    const { shipCategoryManager, direction, ShipFactory, dragTool, setShips } = props
 
     return (
         <>
@@ -41,25 +41,26 @@ function ListShipCategory(props: IListShipCategoryProps) {
                             alignItems="center"
                             direction="column"
                         >
-                            
-                                <Box sx={{borderRadius:2,overflow:'hidden'}}>
-                                    <Water size={Constants.maxShipSize}>
-                                        <DraggableShip
-                                            representShip={ship}
-                                            dragTool={dragTool}
-                                            setShips={setShips}
-                                            ShipFactory={ShipFactory}
-                                        />
-                                    </Water>
-                                </Box>
-                          
-                                <Typography className={style.name} onClick={() => {
+                            <Box sx={{ borderRadius: 2, overflow: 'hidden' }}>
+                                <Water size={Constants.maxShipSize}>
+                                    <DraggableShip
+                                        representShip={ship}
+                                        dragTool={dragTool}
+                                        setShips={setShips}
+                                        ShipFactory={ShipFactory}
+                                    />
+                                </Water>
+                            </Box>
+
+                            <Typography
+                                className={style.name}
+                                onClick={() => {
                                     ShipFactory.createShipByRand(manager.name)
                                     setShips(ShipFactory.getShips())
-                                }}>
-                                    {ship.name} ({width}x{height})
-                                </Typography>
-                     
+                                }}
+                            >
+                                {ship.name} ({width}x{height})
+                            </Typography>
                         </Grid>
                     )
                 })}

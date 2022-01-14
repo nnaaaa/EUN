@@ -1,9 +1,6 @@
 import { Avatar, Box, Button, Typography } from '@mui/material'
 import { IRoom } from 'games/battleShip/modals/room'
-import { RoomContext } from 'games/battleShip/states/roomProvider'
 import { IPublicInfo } from 'models/user'
-import { useContext } from 'react'
-import { useSelector } from 'react-redux'
 import { useStyle } from './styles'
 
 const PlayerState = ({

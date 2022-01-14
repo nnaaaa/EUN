@@ -16,7 +16,7 @@ const PlayerState = (props: IPlayersStateProps) => {
 
     return (
         <Box
-            width="100%"
+            sx={{ width: { xs: '100%', lg: '70%' } }}
             display="flex"
             justifyContent="center"
             alignContent="center"

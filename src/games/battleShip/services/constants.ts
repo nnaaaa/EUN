@@ -8,7 +8,7 @@ import Submarine from 'games/battleShip/assets/submarine.png'
 import water from 'games/battleShip/assets/water2.gif'
 
 interface ListImage {
-    [key: string]: any
+    [key: string]: string
 }
 
 class CONSTANTS {

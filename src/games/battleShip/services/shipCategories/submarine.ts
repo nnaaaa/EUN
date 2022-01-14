@@ -1,6 +1,5 @@
 import { IShipCategories } from 'games/battleShip/modals/ship'
 import { ShipCategories, ShipSize } from './ship'
-import Constants from '../constants'
 
 export class SubmarineShip extends ShipCategories {
     build() {

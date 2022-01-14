@@ -9,7 +9,7 @@ class SixShipFactory extends ThreeShipFactory {
 
         CarrierShip.createManager('Carrier', 1)
         CruiserShip.createManager('Cruiser', 1)
-        PatrolShip.createManager('Patrol',1)
+        PatrolShip.createManager('Patrol', 1)
 
         this._shipCategoryManagerList.push(CarrierShip.manager)
         this._shipCategoryManagerList.push(CruiserShip.manager)

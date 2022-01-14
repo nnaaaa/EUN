@@ -1,6 +1,6 @@
-.animation:hover{
+.animation:hover {
     opacity: 0.6;
-    cursor:pointer;
+    cursor: pointer;
     border: 2px dashed rgb(160, 157, 157);
     transition: 0.1s;
 }

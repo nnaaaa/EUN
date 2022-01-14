@@ -8,13 +8,6 @@ import {
 import { ShipCategoryManager } from '../shipCategories/ship'
 import { Position } from 'games/battleShip/components/map/draggableAtlas/useDraggable'
 
-// class ShipCategoryManagerList{
-//     public list: IShipCategoryManager[]
-//     constructor() {
-//         this.list = []
-//     }
-// }
-
 export default abstract class ShipFactory {
     protected _ships: IShip[]
     protected _shipCategoryList: IShipCategories[]

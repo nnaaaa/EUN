@@ -1,5 +1,5 @@
-import { IShipCategories, IShipCategoryManager } from 'games/battleShip/modals/ship'
-import { ShipCategories, ShipCategoryManager, ShipSize } from './ship'
+import { IShipCategories } from 'games/battleShip/modals/ship'
+import { ShipCategories, ShipSize } from './ship'
 
 export class CarrierShip extends ShipCategories {
     build() {

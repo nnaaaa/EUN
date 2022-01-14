@@ -13,6 +13,7 @@ import OneAtlas from './atlas/oneAtlas'
 import TwoAtlas from './atlas/twoAtlas'
 import ChangeMode from './changeMode'
 import Message from './message'
+import { useEndGame } from './useEndGame'
 
 class Playing extends Screen {
     render() {
@@ -29,76 +30,10 @@ export default Playing
 
 const PlayingFunc = ({ state }: { state: Screen }) => {
     const [isSeeOneAtlas, setIsSeeOneAtlas] = useState(false)
-    const { socket } = useContext(SocketContext)
     const { room } = useContext(RoomContext)
     const user = useAppSelector((state) => state.user.current)
-    console.log(room)
-    useEffect(() => {
-        if (!room || !socket) return
-        if (!room.isStarting) {
-            state.props.changeScreen(Waiting)
-            return
-        }
-        if (room.message && room.message.content.search('winner') >= 0) {
-            console.log('have winner', room.message)
-            const setEndGame = async () => {
-                setTimeout(async () => {
-                    socket.emit(`${url}/updateRoomAndDeleteMessage`, {
-                        _id: room._id,
-                        ships1: [],
-                        ships2: [],
-                        sensors1: [],
-                        sensors2: [],
-                        userReady: [],
-                        arranged: [],
-                        isStarting: false,
-                    })
-                }, 3000)
-            }
-            setEndGame().then(() => {})
-        } else if (!room.player1) {
-            console.log('player 1 out')
 
-            const nameSplit = room.player2?.username.split(' ')
-            const firstName = nameSplit?.[
-                nameSplit?.length ? nameSplit?.length - 1 : 0
-            ]?.slice(0, 7)
-            socket.emit(`${url}/updateRoom`, {
-                _id: room._id,
-                message: {
-                    content: 'is winner',
-                    owner: {
-                        ...room.player2,
-                        username: firstName,
-                    },
-                },
-            })
-        } else if (!room.player2) {
-            console.log('player 2 out')
-
-            const nameSplit = room.player1?.username.split(' ')
-            const firstName = nameSplit?.[
-                nameSplit?.length ? nameSplit?.length - 1 : 0
-            ]?.slice(0, 7)
-
-            socket.emit(`${url}/updateRoom`, {
-                _id: room._id,
-                message: {
-                    content: 'is winner',
-                    owner: {
-                        ...room.player1,
-                        username: firstName,
-                    },
-                },
-            })
-        }
-    }, [room])
-
-    useEffect(() => {
-        if (!room) return
-        if (room.atlasSize > 10)
-            Constants.setBoardSize(22)
-    },[room?.atlasSize])
+    useEndGame(state.props.changeScreen)
 
     if (!room || !user) return <Loading />
 

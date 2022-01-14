@@ -35,7 +35,6 @@ function OneAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
                     />
                 )}
 
-                
                 {isPlayer2 && room.turn === room.player2?._id && (
                     <HiddenAtlas sensors={room.sensors1} size={room.atlasSize} />
                 )}
@@ -47,7 +46,6 @@ function OneAtlas({ room, user }: { room: IRoom; user: IPublicInfo }) {
                     />
                 )}
 
-                
                 {isSpectator && room.turn === room.player2?._id && (
                     <SensorAtlas
                         sensors={room.sensors1}

@@ -34,7 +34,7 @@ class DraggableShip extends Component<IShipProps, IShipStates> {
         }
     }
     render() {
-        const { representShip, dragTool,ShipFactory,setShips } = this.props
+        const { representShip, dragTool, ShipFactory, setShips } = this.props
         const { size } = this.props.representShip
         const { height, width } = size
         const verticalSize = height < width ? { width: height, height: width } : size

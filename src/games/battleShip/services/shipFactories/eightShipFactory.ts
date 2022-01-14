@@ -1,8 +1,8 @@
-import { DestroyerShip } from "../shipCategories/destroyer";
-import { LightnightShip } from "../shipCategories/lightnight";
-import SixShipFactory from "./sixShipFactory";
+import { DestroyerShip } from '../shipCategories/destroyer'
+import { LightnightShip } from '../shipCategories/lightnight'
+import SixShipFactory from './sixShipFactory'
 
-class EightShipFactory extends SixShipFactory{
+class EightShipFactory extends SixShipFactory {
     constructor(atlasSize: number) {
         super(atlasSize)
 

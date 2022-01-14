@@ -28,14 +28,14 @@ interface IJoinWatchProps {
 
 const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
     const style = useStyle()
-    const { listPlayingRoom,setRole,setRoomId,setRoom } = useContext(RoomContext)
-    const {socket} = useContext(SocketContext)
-    const user = useAppSelector(state => state.user.current)
+    const { listPlayingRoom, setRole, setRoomId, setRoom } = useContext(RoomContext)
+    const { socket } = useContext(SocketContext)
+    const user = useAppSelector((state) => state.user.current)
     const [curPage, setCurPage] = useState(0)
-    
+
     const changePage = (e: ChangeEvent<unknown>, page: number) => setCurPage(page - 1)
 
-    const joinToWatch = (room:IRoom) => {
+    const joinToWatch = (room: IRoom) => {
         if (!setRole || !user || !socket || !setRoomId || !setRoom) return
 
         setRole('spectator')
@@ -69,7 +69,7 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                     color="secondary"
                                     variant="outlined"
                                     className={style.room}
-                                    onClick={()=>joinToWatch(room)}
+                                    onClick={() => joinToWatch(room)}
                                 >
                                     <Box
                                         p={2}
@@ -157,14 +157,14 @@ const JoinWatching = ({ changeScreen }: IJoinWatchProps) => {
                                     className={style.stateBtn}
                                     size="small"
                                     variant="contained"
-                                    onClick={()=>joinToWatch(room)}
+                                    onClick={() => joinToWatch(room)}
                                 >
                                     Spectate
                                 </Button>
                             </Grid>
                         ))}
                     <Pagination
-                        // count={Math.ceil(listPlayingRoom.length / roomPerPage)}
+                        count={Math.ceil(listPlayingRoom.length / roomPerPage)}
                         className={style.pagination}
                         onChange={changePage}
                     />
