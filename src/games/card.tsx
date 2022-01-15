@@ -7,6 +7,7 @@ import {
     CardMedia,
     Chip,
     Grid,
+    Stack,
     Typography,
 } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
@@ -20,11 +21,12 @@ interface ICardProps {
     categoryList: ICategory[]
     onClick: () => void
     playButtonTitle: string
+    LanguageIcon?: React.ReactNode
 }
 
 export class DetailCard extends Component<ICardProps> {
     render() {
-        const { onClick, image, title, categoryList, playButtonTitle } = this.props
+        const { onClick, image, title, categoryList, playButtonTitle,LanguageIcon } = this.props
         return (
             <Card>
                 <CardActionArea onClick={onClick}>
@@ -37,9 +39,12 @@ export class DetailCard extends Component<ICardProps> {
                         }}
                     />
                     <CardContent>
-                        <Typography sx={{ fontWeight: 'bold', mb: 1 }}>
-                            {title}
-                        </Typography>
+                        <Stack flexDirection='row' sx={{mb:1}}>
+                            <Typography sx={{ fontWeight: 'bold', mb: 1,mr:1 }}>
+                                {title}
+                            </Typography>
+                            {LanguageIcon}
+                        </Stack>
                         <Grid container flexWrap="nowrap" spacing={1}>
                             {categoryList.map((ctg) => (
                                 <Chip

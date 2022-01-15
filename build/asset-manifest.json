@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/facebookClient/static/css/main.b382a952.css",
-    "main.js": "/facebookClient/static/js/main.81e34fad.js",
+    "main.js": "/facebookClient/static/js/main.33a3e16c.js",
     "static/media/game_background.jpg": "/facebookClient/static/media/game_background.d6f570273618ec6abc2c.jpg",
     "static/media/games.jpg": "/facebookClient/static/media/games.d6f570273618ec6abc2c.jpg",
     "static/media/water2.gif": "/facebookClient/static/media/water2.f724d6184fa865f9a9d1.gif",
@@ -16,10 +16,10 @@
     "static/media/slick.woff": "/facebookClient/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/facebookClient/index.html",
     "main.b382a952.css.map": "/facebookClient/static/css/main.b382a952.css.map",
-    "main.81e34fad.js.map": "/facebookClient/static/js/main.81e34fad.js.map"
+    "main.33a3e16c.js.map": "/facebookClient/static/js/main.33a3e16c.js.map"
   },
   "entrypoints": [
     "static/css/main.b382a952.css",
-    "static/js/main.81e34fad.js"
+    "static/js/main.33a3e16c.js"
   ]
 }

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid,  Typography } from '@mui/material'
 import { SERVER_EXPRESS } from 'config/keys'
 import { saveAs } from 'file-saver'
 import BattleShip from 'games/battleShip'
@@ -6,13 +6,19 @@ import battleShipIcon from 'games/battleShip/assets/icon.webp'
 import { SmallCard } from 'games/card'
 import pokerIcon from 'games/poker/assets/icon.png'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const ListGame = () => {
     const [playing, setPlaying] = useState<JSX.Element>(<></>)
     const stopPlaying = () => setPlaying(<></>)
     return (
         <Box mb={2} borderRadius={1} boxShadow={1} bgcolor="white">
-            <Typography fontWeight="bold" fontSize={14} p={2}>
+            <Typography
+                p={2}
+                sx={{ userSelect: 'none', cursor: 'pointer', fontWeight: 'bold', fontSize: 14,display:'inline-block',color:'black' }}
+                component={Link}
+                to='/games'
+            >
                 🎮 Games
             </Typography>
             <Grid container>

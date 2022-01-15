@@ -26,8 +26,14 @@ export const useStyle = makeStyles({
 
 export const HomeLazyLoading = () => {
     const style = useStyle()
+    const SmallRect = () => (
+        <Skeleton height={50} variant="rectangular" className={style.marginBottom} />
+    )
+    const BigRect = () => (
+        <Skeleton height={280} variant="rectangular" className={style.marginBottom} />
+    )
     return (
-        <Grid container className={style.wrapper}>
+        <Grid container mt={2}>
             <Grid
                 item
                 md={3}
@@ -39,28 +45,31 @@ export const HomeLazyLoading = () => {
                     },
                 }}
             >
-                <Skeleton height={300} variant="rectangular" />
-            </Grid>
-            <Grid item md={6} xs={12} className={style.pCenter}>
-                <Skeleton
-                    height={150}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
-                <Skeleton
-                    height={300}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
-                <Skeleton
-                    height={300}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
+                <BigRect />
+                <BigRect />
+                <SmallRect />
+                <SmallRect />
             </Grid>
             <Grid
                 item
-                md={3}
+                xs={12}
+                md={8}
+                lg={6}
+                sx={{ pl: { xs: 2, lg: 0 } }}
+                className={style.pCenter}
+            >
+                <Skeleton
+                    height={110}
+                    variant="rectangular"
+                    className={style.marginBottom}
+                />
+                <BigRect />
+                <BigRect />
+            </Grid>
+            <Grid
+                item
+                md={4}
+                lg={3}
                 className={style.pRight}
                 sx={{
                     display: {
@@ -69,31 +78,10 @@ export const HomeLazyLoading = () => {
                     },
                 }}
             >
-                <Skeleton
-                    height={50}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
-                <Skeleton
-                    height={50}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
-                <Skeleton
-                    height={50}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
-                <Skeleton
-                    height={50}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
-                <Skeleton
-                    height={50}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
+                <BigRect />
+                <SmallRect />
+                <SmallRect />
+                <BigRect />
             </Grid>
         </Grid>
     )
