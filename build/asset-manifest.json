@@ -1,25 +1,22 @@
 {
-  "files": {
-    "main.css": "/facebookClient/static/css/main.b382a952.css",
-    "main.js": "/facebookClient/static/js/main.33a3e16c.js",
-    "static/media/game_background.jpg": "/facebookClient/static/media/game_background.d6f570273618ec6abc2c.jpg",
-    "static/media/games.jpg": "/facebookClient/static/media/games.d6f570273618ec6abc2c.jpg",
-    "static/media/water2.gif": "/facebookClient/static/media/water2.f724d6184fa865f9a9d1.gif",
-    "static/media/background.jpg": "/facebookClient/static/media/background.562641ca2c89e9515b07.jpg",
-    "static/media/icon.webp": "/facebookClient/static/media/icon.3ec65295b8fbe1d25fb8.webp",
-    "static/media/icon.png": "/facebookClient/static/media/icon.4858e4d0ae81c7b68553.png",
-    "static/media/miniIcon.png": "/facebookClient/static/media/miniIcon.574cec6ddad9cb07c47d.png",
-    "static/media/message.mp3": "/facebookClient/static/media/message.126b39a6c1c93c0007ca.mp3",
-    "static/media/slick.svg": "/facebookClient/static/media/slick.2630a3e3eab21c607e21.svg",
-    "static/media/slick.eot": "/facebookClient/static/media/slick.a4e97f5a2a64f0ab1323.eot",
-    "static/media/slick.ttf": "/facebookClient/static/media/slick.c94f7671dcc99dce43e2.ttf",
-    "static/media/slick.woff": "/facebookClient/static/media/slick.295183786cd8a1389865.woff",
-    "index.html": "/facebookClient/index.html",
-    "main.b382a952.css.map": "/facebookClient/static/css/main.b382a952.css.map",
-    "main.33a3e16c.js.map": "/facebookClient/static/js/main.33a3e16c.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.b382a952.css",
-    "static/js/main.33a3e16c.js"
-  ]
+    "files": {
+        "main.css": "/facebookClient/static/css/main.b382a952.css",
+        "main.js": "/facebookClient/static/js/main.33a3e16c.js",
+        "static/media/game_background.jpg": "/facebookClient/static/media/game_background.d6f570273618ec6abc2c.jpg",
+        "static/media/games.jpg": "/facebookClient/static/media/games.d6f570273618ec6abc2c.jpg",
+        "static/media/water2.gif": "/facebookClient/static/media/water2.f724d6184fa865f9a9d1.gif",
+        "static/media/background.jpg": "/facebookClient/static/media/background.562641ca2c89e9515b07.jpg",
+        "static/media/icon.webp": "/facebookClient/static/media/icon.3ec65295b8fbe1d25fb8.webp",
+        "static/media/icon.png": "/facebookClient/static/media/icon.4858e4d0ae81c7b68553.png",
+        "static/media/miniIcon.png": "/facebookClient/static/media/miniIcon.574cec6ddad9cb07c47d.png",
+        "static/media/message.mp3": "/facebookClient/static/media/message.126b39a6c1c93c0007ca.mp3",
+        "static/media/slick.svg": "/facebookClient/static/media/slick.2630a3e3eab21c607e21.svg",
+        "static/media/slick.eot": "/facebookClient/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+        "static/media/slick.ttf": "/facebookClient/static/media/slick.c94f7671dcc99dce43e2.ttf",
+        "static/media/slick.woff": "/facebookClient/static/media/slick.295183786cd8a1389865.woff",
+        "index.html": "/facebookClient/index.html",
+        "main.b382a952.css.map": "/facebookClient/static/css/main.b382a952.css.map",
+        "main.33a3e16c.js.map": "/facebookClient/static/js/main.33a3e16c.js.map"
+    },
+    "entrypoints": ["static/css/main.b382a952.css", "static/js/main.33a3e16c.js"]
 }

@@ -36,7 +36,13 @@ const Games = () => {
                     <Grid item md={6} xs={12}>
                         <DetailCard
                             title="Battle Ship"
-                            LanguageIcon={<Avatar src={typescriptIcon} variant='square' sx={{height:24,width:24}}/>}
+                            LanguageIcon={
+                                <Avatar
+                                    src={typescriptIcon}
+                                    variant="square"
+                                    sx={{ height: 24, width: 24 }}
+                                />
+                            }
                             image={battleShipIcon}
                             categoryList={['multiplayer', 'online']}
                             onClick={() =>
@@ -48,7 +54,13 @@ const Games = () => {
                     <Grid item md={6} xs={12}>
                         <DetailCard
                             title="Poker"
-                            LanguageIcon={<Avatar src={cppIcon} variant='square' sx={{height:24,width:24}}/>}
+                            LanguageIcon={
+                                <Avatar
+                                    src={cppIcon}
+                                    variant="square"
+                                    sx={{ height: 24, width: 24 }}
+                                />
+                            }
                             image={pokerIcon}
                             categoryList={['4-6 player', 'offline']}
                             onClick={() =>

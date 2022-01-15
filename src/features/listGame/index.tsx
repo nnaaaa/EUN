@@ -1,4 +1,4 @@
-import { Box, Grid,  Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { SERVER_EXPRESS } from 'config/keys'
 import { saveAs } from 'file-saver'
 import BattleShip from 'games/battleShip'
@@ -15,9 +15,16 @@ const ListGame = () => {
         <Box mb={2} borderRadius={1} boxShadow={1} bgcolor="white">
             <Typography
                 p={2}
-                sx={{ userSelect: 'none', cursor: 'pointer', fontWeight: 'bold', fontSize: 14,display:'inline-block',color:'black' }}
+                sx={{
+                    userSelect: 'none',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                    display: 'inline-block',
+                    color: 'black',
+                }}
                 component={Link}
-                to='/games'
+                to="/games"
             >
                 🎮 Games
             </Typography>

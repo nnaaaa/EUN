@@ -26,7 +26,8 @@ interface ICardProps {
 
 export class DetailCard extends Component<ICardProps> {
     render() {
-        const { onClick, image, title, categoryList, playButtonTitle,LanguageIcon } = this.props
+        const { onClick, image, title, categoryList, playButtonTitle, LanguageIcon } =
+            this.props
         return (
             <Card>
                 <CardActionArea onClick={onClick}>
@@ -39,8 +40,8 @@ export class DetailCard extends Component<ICardProps> {
                         }}
                     />
                     <CardContent>
-                        <Stack flexDirection='row' sx={{mb:1}}>
-                            <Typography sx={{ fontWeight: 'bold', mb: 1,mr:1 }}>
+                        <Stack flexDirection="row" sx={{ mb: 1 }}>
+                            <Typography sx={{ fontWeight: 'bold', mb: 1, mr: 1 }}>
                                 {title}
                             </Typography>
                             {LanguageIcon}
