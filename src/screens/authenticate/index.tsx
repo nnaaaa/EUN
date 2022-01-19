@@ -16,7 +16,7 @@ export default function Form() {
     return (
         <Wrapper>
             <Typography variant="h2" component="h1" color="primary" gutterBottom>
-                Facebook
+                Emulate Universe Network
             </Typography>
             {isLogin && <Login switchForm={switchForm} />}
             {!isLogin && <Register switchForm={switchForm} />}

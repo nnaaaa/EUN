@@ -38,17 +38,17 @@ export default class Invited extends Role {
                     variant="contained"
                     color="primary"
                     onClick={this.mainButtonClick}
-                    startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
+                    startIcon={<FontAwesomeIcon icon={faPlus} size="xs" color='white'/>}
                     disabled={this.state.isLoading}
                     sx={{ textTransform: 'none' }}
                     size="small"
                 >
-                    <Typography fontSize={13} fontWeight="bold" noWrap>
+                    <Typography fontSize={13} fontWeight="bold" noWrap color='white'>
                         Accept
                     </Typography>
                 </Button>
                 <Button
-                    startIcon={<FontAwesomeIcon icon={faTimes} size="xs" />}
+                    startIcon={<FontAwesomeIcon icon={faTimes} size="xs" color='white'/>}
                     variant="contained"
                     color="error"
                     onClick={this.subButtonClick}
@@ -56,7 +56,7 @@ export default class Invited extends Role {
                     sx={{ ml: 2, textTransform: 'none' }}
                     size="small"
                 >
-                    <Typography fontSize={13} fontWeight="bold" noWrap>
+                    <Typography fontSize={13} fontWeight="bold" noWrap color='white'>
                         Refuse
                     </Typography>
                 </Button>

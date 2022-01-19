@@ -22,14 +22,14 @@ export default class Accepted extends Role {
     render() {
         return (
             <Button
-                startIcon={<FontAwesomeIcon icon={faUserFriends} size="xs" />}
+                startIcon={<FontAwesomeIcon icon={faUserFriends} size="xs" color='white'/>}
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}
                 sx={{ textTransform: 'none' }}
                 size="small"
             >
-                <Typography fontSize={13} fontWeight="bold" noWrap>
+                <Typography fontSize={13} fontWeight="bold" noWrap color='white'>
                     Unfriend
                 </Typography>
             </Button>

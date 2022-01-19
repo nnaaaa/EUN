@@ -13,7 +13,7 @@ import {
     WrapperMessage,
 } from './contentStyles'
 import { LinkPreview } from '@dhaiwat10/react-link-preview'
-
+import {socialUrlReg} from 'utils/regex'
 interface IProps {
     room: IChatRoom
 }
@@ -38,9 +38,7 @@ function Content({ room }: IProps) {
         <WrapperMessage ref={heightOfChatWrapper}>
             {messages.map((msg) => {
                 const time = moment(msg.createAt.toString()).calendar()
-                const isUrl = new RegExp(
-                    /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
-                ).test(msg.content)
+                const isUrl = socialUrlReg.test(msg.content)
                 let content = <TextContent>{msg.content}</TextContent>
                 if (isUrl)
                     content = (

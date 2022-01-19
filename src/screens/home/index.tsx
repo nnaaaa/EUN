@@ -11,6 +11,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { userActions } from 'states/slices/userSlice'
 import { HomeLazyLoading, useStyle } from './homeStyles'
+import Loading from '../loading'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
 import Games from './games'
@@ -29,6 +30,7 @@ export default function Home() {
         [dispatch]
     )
     useUserSocket(user ? user._id : undefined, dispatcher)
+
 
     if (loading) return <HomeLazyLoading />
 

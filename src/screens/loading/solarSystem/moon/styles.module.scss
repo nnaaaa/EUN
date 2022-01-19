@@ -1,0 +1,41 @@
+$moonSize:10px;
+:export {
+    moonSize: 10;
+}
+.wrapper{
+    width: $moonSize;
+    height: $moonSize;
+    position: absolute;
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+    animation: rotation 2s infinite linear;
+    top: -$moonSize / 2;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+.point{
+    width: 1px;
+    height: 1px;
+    background:rgb(158, 158, 151);
+    position: absolute;
+    top: -0.5px;
+    left: -0.5px;
+    transform-style: preserve-3d;
+    border-radius: 50%;
+    &:before{
+        content:"";
+        display: block;
+        width: 1px;
+        height:1px;
+        background:rgb(158, 158, 151);
+        border-radius: 50%;
+        animation: rotation 2s infinite linear reverse; 
+    }
+}
+
+@keyframes rotation{
+    to{
+      transform: translateX(-50%) rotateZ(360deg);
+    }
+}

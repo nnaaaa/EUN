@@ -1,8 +1,8 @@
 {
-    "name": "facebook2",
+    "name": "eun",
     "version": "0.1.0",
     "private": false,
-    "homepage": "https://nnaaaa.github.io/facebookClient/",
+    "homepage": "https://nnaaaa.github.io/EUN/",
     "dependencies": {
         "@charkour/react-reactions": "^0.6.1",
         "@dhaiwat10/react-link-preview": "^1.12.2",
@@ -17,6 +17,7 @@
         "@mui/lab": "^5.0.0-alpha.51",
         "@mui/material": "^5.2.7",
         "@mui/styles": "^5.0.1",
+        "@react-spring/web": "^9.4.2",
         "@reduxjs/toolkit": "^1.6.2",
         "@testing-library/jest-dom": "^5.11.4",
         "@testing-library/react": "^11.1.0",
@@ -86,6 +87,7 @@
         "@types/react-slick": "^0.23.6",
         "@types/react-swipeable-views": "^0.13.1",
         "@types/styled-components": "^5.1.14",
-        "file-saver": "^2.0.5"
+        "file-saver": "^2.0.5",
+        "node-sass": "^7.0.1"
     }
 }

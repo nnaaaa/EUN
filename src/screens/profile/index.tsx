@@ -5,11 +5,12 @@ import { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'
 import Loading from 'screens/loading'
 import Friends from './browse/friends'
-// import Header from './browse/header/ownerHeader'
 import Intro from './browse/intro'
 import Photos from './browse/photos'
 import ListFriend from './detail/listFriend'
 import ListPhoto from './detail/listPhoto'
+
+import className from './profileStyles.module.css'
 
 interface IProfileProps {
     user: IPublicInfo | undefined
@@ -63,6 +64,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
 
     private BoxStyled = ({ children }: { children: React.ReactElement }) => (
         <Box
+            className={className.wrapper}
             py={2}
             sx={{
                 px: {

@@ -11,6 +11,6 @@ export const useStyle = makeStyles((theme) => ({
         fontSize: 14,
         overflow: 'hidden',
         whiteSpace: 'nowrap',
-        color: '#000',
+        color: 'white',
     },
 }))

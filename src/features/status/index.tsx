@@ -1,15 +1,16 @@
 import { faSmile } from '@fortawesome/free-regular-svg-icons'
 import { faImages, faVideo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material'
+import { Avatar, Box, Button, Divider, Grid, Typography } from '@mui/material'
 import { CRUDType } from 'features/blog/crudPost/type'
+import CreateType from 'features/blog/crudPost/type/create'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Loading from 'screens/loading'
 import { useAppSelector } from 'states/hooks'
 import CreatePost from '../blog/crudPost/index'
-import CreateType from 'features/blog/crudPost/type/create'
 import { css } from './statusStyles'
-import Loading from 'screens/loading'
+import className from './statusStyles.module.css'
 
 export default function Status() {
     const style = css()
@@ -21,7 +22,9 @@ export default function Status() {
     if (!user) return <Loading />
 
     return (
-        <Box mb={2} p={2} borderRadius={2} boxShadow={1} bgcolor="white" width="100%">
+        <Box mb={2} p={2} borderRadius={2} boxShadow={1}
+            className={className.wrapper}
+        >
             <CreatePost isPopup={isPopup} setPopup={setPopup} type={createType} />
 
             <Grid container>

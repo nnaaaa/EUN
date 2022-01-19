@@ -7,6 +7,7 @@ export const css = makeStyles((theme: any) => ({
         boxShadow: '1px 3px 5px 0px rgba(0,0,0,0.1)',
         alignItems: 'stretch',
         height: 50,
+        // background: `url(https://i.ytimg.com/vi/eTD0WWFIDAg/maxresdefault.jpg) no-repeat`,
     },
     appBar: {
         boxShadow: 'none',

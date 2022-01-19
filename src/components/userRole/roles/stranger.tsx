@@ -25,12 +25,12 @@ export default class Stranger extends Role {
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}
-                startIcon={<FontAwesomeIcon icon={faPlus} size="xs" />}
+                startIcon={<FontAwesomeIcon icon={faPlus} size="xs" color='white'/>}
                 color="primary"
                 size="small"
                 sx={{ textTransform: 'none' }}
             >
-                <Typography fontSize={13} fontWeight="bold" noWrap>
+                <Typography fontSize={13} fontWeight="bold" noWrap color='white'>
                     Add friend
                 </Typography>
             </Button>

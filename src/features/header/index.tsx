@@ -1,4 +1,4 @@
-import { faFacebook, faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
 import {
     faBars,
     faBell,
@@ -21,13 +21,14 @@ import {
     SwipeableDrawer,
     Toolbar,
 } from '@mui/material'
+import Logo from 'components/logo'
 import Gutter from 'features/gutter'
 import { css } from 'features/header/headerStyles'
 import { useRef, useState } from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
+import SearchForm from '../searchForm'
 import Notifications from './notifications'
 import Options from './options'
-import SearchForm from '../searchForm'
 
 export default function Header() {
     const style = css()
@@ -68,7 +69,7 @@ export default function Header() {
                             alignItems="center"
                             justifyContent="space-around"
                         >
-                            <FontAwesomeIcon icon={faFacebook} className={style.logo} />
+                            <Logo />
                             <SearchForm />
                         </Grid>
                     </Hidden>

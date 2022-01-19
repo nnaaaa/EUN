@@ -5,10 +5,16 @@ import { Button, Divider, Stack } from '@mui/material'
 import { useAppSelector } from 'states/hooks'
 import { useStyle } from '../styles'
 import { red } from '@mui/material/colors'
+import { SERVER_EXPRESS } from 'config/keys'
 
 function ThirdPartyLogin() {
     const style = useStyle()
     const isLoading = useAppSelector((state) => state.auth.loading)
+
+    const facebookLogin = ()=>{
+        // console.log(SERVER_EXPRESS)
+        window.open(`${SERVER_EXPRESS}/auth/facebook`,"_self")
+    }
 
     return (
         <Stack sx={{ maxWidth: '80%' }}>
@@ -20,6 +26,7 @@ function ThirdPartyLogin() {
                 disabled={isLoading}
                 color="info"
                 sx={{ mb: 1 }}
+                onClick={facebookLogin}
             >
                 Đăng nhập với Facebook
             </Button>
