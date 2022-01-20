@@ -1,10 +1,14 @@
 import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box, Button, Typography } from '@mui/material'
+import { postAPI } from 'api/rest'
 import EditPost from 'features/blog/crudPost'
 import { CRUDType } from 'features/blog/crudPost/type'
 import EditType from 'features/blog/crudPost/type/edit'
 import { IPost } from 'models/post'
+import { useAppDispatch } from 'states/hooks'
+import { postActions } from 'states/slices/postSlice'
+
 import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { useStyle } from './styles'
 
@@ -17,7 +21,11 @@ const Options = (props: IOptionProps) => {
     const style = useStyle()
     const [isPopup, setPopup] = useState(false)
     const editType = useMemo<CRUDType>(() => new EditType(props.post), [props.post])
-    const removePost = async () => {}
+    const dispatch = useAppDispatch()
+    const removePost = async () => {
+        await postAPI.delete(props.post._id)
+        dispatch(postActions.deletePost(props.post._id))
+    }
 
     return (
         <Box p={1} display="flex" flexDirection="column">

@@ -58,7 +58,7 @@ export default function FriendOnline() {
                         <Stack direction="row" alignItems="center">
                             <Avatar src={friend.avatar} />
                             <Box ml={1} overflow="hidden">
-                                <Typography className={style.name} align="left">
+                                <Typography className={style.name} align="left" noWrap>
                                     {friend.username}
                                 </Typography>
                             </Box>

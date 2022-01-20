@@ -62,6 +62,10 @@ const postSlice = createSlice({
                 return post
             })
         },
+        deletePost(state, action: PayloadAction<ID>) {
+            console.log(action.payload)
+            state.current = state.current.filter((post) => post._id !== action.payload)
+        },
     },
     extraReducers: (builder) => {
         builder

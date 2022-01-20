@@ -1,10 +1,12 @@
-import { Avatar } from '@mui/material'
-import universeLogo from 'assets/logo.jpg'
-
+import { Box } from '@mui/material'
+import { Link } from 'react-router-dom'
+import SolarSystem from './2dSolarSystem'
 
 function Logo() {
     return (
-        <Avatar src={universeLogo}/> 
+        <Box style={{ cursor: 'pointer' }} component={Link} to="/">
+            <SolarSystem />
+        </Box>
     )
 }
 

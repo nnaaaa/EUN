@@ -13,7 +13,7 @@ import {
     WrapperMessage,
 } from './contentStyles'
 import { LinkPreview } from '@dhaiwat10/react-link-preview'
-import {socialUrlReg} from 'utils/regex'
+import { socialUrlReg } from 'utils/regex'
 interface IProps {
     room: IChatRoom
 }

@@ -27,6 +27,9 @@ class PostAPI {
 
         return Axios.put(`${this.url}/update/${postInfo._id}`, form, imagesConditon)
     }
+    async delete(postId: ID) {
+        return Axios.delete(`${this.url}/delete/${postId}`)
+    }
 
     async updateEmotion(reactId: ID, updateType: IEmotionList) {
         return Axios.put<IEmotionList>(`react/update/${reactId}/${updateType}`)

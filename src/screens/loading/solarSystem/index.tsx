@@ -1,15 +1,19 @@
 import { Stack } from '@mui/material'
-import Earth,{Orbit as EarthOrbit } from './earth'
+import Earth, { Orbit as EarthOrbit } from './earth'
 import Sun, { Orbit as SunOrbit } from './sun'
 import Moon from './moon'
 import image from './background.jpg'
 
 function SolarSystem() {
     return (
-        <Stack width="100vw" height="100vh" justifyContent="center" alignItems="center"
+        <Stack
+            width="100vw"
+            height="100vh"
+            justifyContent="center"
+            alignItems="center"
             style={{
                 background: `url(${image})`,
-                backgroundSize:'cover'
+                backgroundSize: 'cover',
             }}
         >
             {/* <Typography fontWeight="bold" color="primary">
@@ -29,7 +33,7 @@ function SolarSystem() {
                 <Sun />
                 <EarthOrbit>
                     <Earth />
-                    <Moon/>
+                    <Moon />
                 </EarthOrbit>
             </SunOrbit>
         </Stack>

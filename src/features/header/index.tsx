@@ -164,7 +164,14 @@ export default function Header() {
                                 onOpen={() => {}}
                                 onClose={() => setToggleDrawer(false)}
                             >
-                                <Box p={1} width={300}>
+                                <Box
+                                    p={1}
+                                    width={300}
+                                    height="100%"
+                                    sx={{
+                                        bgcolor: { xs: 'secondary.main', md: 'inherit' },
+                                    }}
+                                >
                                     <Gutter />
                                 </Box>
                             </SwipeableDrawer>

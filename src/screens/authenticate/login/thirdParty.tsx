@@ -11,9 +11,9 @@ function ThirdPartyLogin() {
     const style = useStyle()
     const isLoading = useAppSelector((state) => state.auth.loading)
 
-    const facebookLogin = ()=>{
+    const facebookLogin = () => {
         // console.log(SERVER_EXPRESS)
-        window.open(`${SERVER_EXPRESS}/auth/facebook`,"_self")
+        window.open(`${SERVER_EXPRESS}/auth/facebook`, '_self')
     }
 
     return (

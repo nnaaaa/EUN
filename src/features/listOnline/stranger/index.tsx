@@ -12,6 +12,7 @@ import { Box } from '@mui/system'
 import UserRole from 'components/userRole'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useStrangerSocket } from './strangerHook'
 
 export default function StrangerOnline() {
@@ -42,9 +43,19 @@ export default function StrangerOnline() {
                 {current.map((friend, index) => (
                     <Box className={style.wrapper} key={'listStranger' + index}>
                         <Stack direction="row" alignItems="center">
-                            <Avatar src={friend.avatar} />
+                            <Avatar
+                                src={friend.avatar}
+                                component={Link}
+                                to={`/user/${friend._id}`}
+                            />
                             <Box ml={1} overflow="hidden">
-                                <Typography className={style.name} align="left">
+                                <Typography
+                                    className={style.name}
+                                    align="left"
+                                    noWrap
+                                    component={Link}
+                                    to={`/user/${friend._id}`}
+                                >
                                     {friend.username}
                                 </Typography>
                             </Box>

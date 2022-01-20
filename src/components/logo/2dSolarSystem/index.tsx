@@ -4,11 +4,12 @@ import className from './styles.module.scss'
 const SolarSystem2d = () => {
     return (
         <Stack
-            width="100vw"
-            height="100vh"
+            width="50px"
+            height="50px"
             justifyContent="center"
             alignItems="center"
             bgcolor="#B88DEA"
+            borderRadius="50%"
         >
             <div className={className.solar}>
                 <div className={className.sun} />

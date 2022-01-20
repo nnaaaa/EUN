@@ -22,9 +22,7 @@ export default function Status() {
     if (!user) return <Loading />
 
     return (
-        <Box mb={2} p={2} borderRadius={2} boxShadow={1}
-            className={className.wrapper}
-        >
+        <Box mb={2} p={2} borderRadius={2} boxShadow={1} className={className.wrapper}>
             <CreatePost isPopup={isPopup} setPopup={setPopup} type={createType} />
 
             <Grid container>

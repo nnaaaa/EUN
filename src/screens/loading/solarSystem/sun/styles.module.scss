@@ -1,46 +1,46 @@
-$sunSize:80px;
+$sunSize: 80px;
 $orbitSize: 400px;
 
 :export {
     sunSize: 80;
     orbitSize: 400;
 }
-.wrapper{
+.wrapper {
     width: $sunSize;
     height: $sunSize;
     position: relative;
     transform-style: preserve-3d;
     backface-visibility: visible;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.point{
+.point {
     width: 1px;
     height: 1px;
-    background:red;
+    background: red;
     position: absolute;
     top: -0.5px;
     left: -0.5px;
     transform-style: preserve-3d;
     border-radius: 50%;
-    &:before{
-        content:"";
+    &:before {
+        content: '';
         display: block;
         width: 1px;
-        height:1px;
-        background:red;
+        height: 1px;
+        background: red;
         border-radius: 50%;
         animation: rotation 6s infinite linear reverse; //We use the same animation as on .mommy but in reverse mode !
     }
 }
 
-.orbit{
-    width:$orbitSize;
+.orbit {
+    width: $orbitSize;
     height: $orbitSize;
     border: 1px solid rgb(206, 198, 198);
-    position:relative;
+    position: relative;
     border-radius: 50%;
     animation: rotation 6s linear infinite;
     transform: rotateX(60deg) rotateY(-40deg);
@@ -48,9 +48,8 @@ $orbitSize: 400px;
     backface-visibility: visible;
 }
 
-@keyframes rotation{
-    to{
-      transform:rotateX(60deg) rotateY(-40deg) rotateZ(360deg);
+@keyframes rotation {
+    to {
+        transform: rotateX(60deg) rotateY(-40deg) rotateZ(360deg);
     }
 }
-

@@ -1,7 +1,6 @@
 import className from './styles.module.scss'
 import { useMemo } from 'react'
 
-
 const Sun = () => {
     const sunSizeHalf = Number(className.sunSize) / 2
     const points = useMemo(() => {
@@ -19,7 +18,7 @@ const Sun = () => {
                 const z = sunSizeHalf * Math.sin(delta)
                 return (
                     <div
-                        key={'sun front'+num}
+                        key={'sun front' + num}
                         className={className.point}
                         style={{
                             transform: `translate3d(${x}px, ${y}px, ${z}px)`,
@@ -35,7 +34,7 @@ const Sun = () => {
                 const z = -sunSizeHalf * Math.sin(delta)
                 return (
                     <div
-                        key={'sun back'+num}
+                        key={'sun back' + num}
                         className={className.point}
                         style={{
                             transform: `translate3d(${x}px, ${y}px, ${z}px)`,
@@ -47,12 +46,8 @@ const Sun = () => {
     )
 }
 
-export const Orbit:React.FC = ({children}) => {
-    return (
-        <div className={className.orbit}>
-            {children}
-        </div>
-    )
+export const Orbit: React.FC = ({ children }) => {
+    return <div className={className.orbit}>{children}</div>
 }
 
 export default Sun

@@ -5,10 +5,7 @@ import className from './loadingStyles.module.scss'
 import SolarSystem from './2dSolarSystem'
 
 function Loading() {
-    
-    return (
-        <SolarSystem/>
-    )
+    return <SolarSystem />
 }
 
 export default Loading

@@ -11,7 +11,7 @@ const Background = ({ avatar }: { avatar: string | undefined }) => {
                 <Avatar src={avatar} className={style.avatarInside} />
             </Box>
             <IconButton className={style.logo} component={Link} to="/">
-                <Logo/>
+                <Logo />
             </IconButton>
         </Box>
     )

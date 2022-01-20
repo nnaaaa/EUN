@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles'
 
 export const useStyle = makeStyles({
     wrapper: {
-        paddingTop: 80,
         backgroundImage: `linear-gradient(to right bottom,
             rgba(24, 1, 86,0.4),
             rgba(84, 0, 218,0.4),
@@ -39,7 +38,7 @@ export const HomeLazyLoading = () => {
         <Skeleton height={280} variant="rectangular" className={style.marginBottom} />
     )
     return (
-        <Grid container mt={2} className={style.wrapper} p={0}>
+        <Grid container className={style.wrapper} sx={{ p: 0, pt: 2 }}>
             <Grid
                 item
                 md={3}
@@ -61,7 +60,13 @@ export const HomeLazyLoading = () => {
                 xs={12}
                 md={8}
                 lg={6}
-                sx={{ pl: { xs: 2, lg: 0 } }}
+                sx={{
+                    pl: { xs: 2, lg: 0 },
+                    pr: {
+                        xs: 2,
+                        md: 0,
+                    },
+                }}
                 className={style.pCenter}
             >
                 <Skeleton

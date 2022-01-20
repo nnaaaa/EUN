@@ -4,7 +4,7 @@ import { useAppSelector } from 'states/hooks'
 import Images from './assets'
 import { useStyle } from './gutterStyles'
 
-export default function Profile() {
+export default function Gutter() {
     const style = useStyle()
     const user = useAppSelector((state) => state.user.current)
 

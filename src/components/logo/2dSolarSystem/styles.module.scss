@@ -1,13 +1,12 @@
-$solarSize: 250px;
-$sunSize: 50px;
-$plannetSize: 80px;
-$earthSize: 15px;
-$moonSize: 10px;
+$solarSize: 30px;
+$sunSize: 8px;
+$plannetSize: 12px;
+$earthSize: 4px;
+$moonSize: 2px;
 
 @mixin hasOrbit() {
     position: relative;
     border-radius: 50%;
-    border: 1px solid rgb(221, 217, 217);
 }
 @mixin inOrbit($size) {
     position: absolute;

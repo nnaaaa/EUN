@@ -12,7 +12,7 @@ const ListGame = () => {
     const [playing, setPlaying] = useState<JSX.Element>(<></>)
     const stopPlaying = () => setPlaying(<></>)
     return (
-        <Box mb={2} borderRadius={1} boxShadow={1} bgcolor="white">
+        <Box mb={2} borderRadius={1} boxShadow={1} bgcolor="rgba(255,255,255,0.8)">
             <Typography
                 p={2}
                 sx={{

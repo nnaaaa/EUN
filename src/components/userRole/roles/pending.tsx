@@ -22,14 +22,14 @@ export default class Pending extends Role {
     render() {
         return (
             <Button
-                startIcon={<FontAwesomeIcon icon={faTimes} size="xs" color='white'/>}
+                startIcon={<FontAwesomeIcon icon={faTimes} size="xs" color="white" />}
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}
                 size="small"
                 sx={{ textTransform: 'none' }}
             >
-                <Typography fontSize={13} fontWeight="bold" noWrap color='white'>
+                <Typography fontSize={13} fontWeight="bold" noWrap color="white">
                     Cancle invite
                 </Typography>
             </Button>

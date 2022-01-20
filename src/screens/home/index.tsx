@@ -31,26 +31,14 @@ export default function Home() {
     )
     useUserSocket(user ? user._id : undefined, dispatcher)
 
-
     if (loading) return <HomeLazyLoading />
 
     if (status === 'stranger') return <Redirect to="/auth" />
 
-    // const DownloadButton = () => {
-    //     const downloadFile = () => {
-    //       window.location.href = "http://localhost:7000/download"
-    //     }
-    //     return (
-    //               <button onClick={downloadFile}>download</button>
-    //     )
-    // }
-
-    // return <DownloadButton/>
-
     return (
         <>
             <Header />
-            <Grid container className={style.wrapper}>
+            <Grid container className={style.wrapper} pt={10}>
                 <Grid
                     item
                     md={3}
@@ -67,9 +55,13 @@ export default function Home() {
                 <Grid item xs={12} md={8} lg={6} className={style.pCenter}>
                     <Box
                         sx={{
-                            px: {
-                                xs: 1,
+                            pl: {
+                                xs: 2,
                                 lg: 0,
+                            },
+                            pr: {
+                                xs: 2,
+                                md: 0,
                             },
                         }}
                     >
