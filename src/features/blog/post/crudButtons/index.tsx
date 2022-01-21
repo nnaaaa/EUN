@@ -3,28 +3,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box, Button, Typography } from '@mui/material'
 import { postAPI } from 'api/rest'
 import EditPost from 'features/blog/crudPost'
-import { CRUDType } from 'features/blog/crudPost/type'
-import EditType from 'features/blog/crudPost/type/edit'
+import { CRUDType } from 'features/blog/crudPost/crudTool'
+import EditType from 'features/blog/crudPost/crudTool/edit'
 import { IPost } from 'models/post'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { useAppDispatch } from 'states/hooks'
 import { postActions } from 'states/slices/postSlice'
-
-import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { useStyle } from './styles'
 
 interface IOptionProps {
     post: IPost
-    setOpenOption: Dispatch<SetStateAction<boolean>>
+    setIsOpenCRUDButtons: Dispatch<SetStateAction<boolean>>
 }
 
-const Options = (props: IOptionProps) => {
+const CRUDButtons = (props: IOptionProps) => {
     const style = useStyle()
+    const { post, setIsOpenCRUDButtons } = props
     const [isPopup, setPopup] = useState(false)
-    const editType = useMemo<CRUDType>(() => new EditType(props.post), [props.post])
+    const editType = useMemo<CRUDType>(() => new EditType(post), [post])
     const dispatch = useAppDispatch()
     const removePost = async () => {
-        await postAPI.delete(props.post._id)
-        dispatch(postActions.deletePost(props.post._id))
+        setIsOpenCRUDButtons(false)
+        await postAPI.delete(post._id)
+        dispatch(postActions.deletePost(post._id))
     }
 
     return (
@@ -50,7 +51,7 @@ const Options = (props: IOptionProps) => {
                 isPopup={isPopup}
                 setPopup={(isOpen) => {
                     setPopup(isOpen)
-                    props.setOpenOption(isOpen)
+                    setIsOpenCRUDButtons(isOpen)
                 }}
                 type={editType}
             />
@@ -58,4 +59,4 @@ const Options = (props: IOptionProps) => {
     )
 }
 
-export default Options
+export default CRUDButtons

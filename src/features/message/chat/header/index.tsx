@@ -41,7 +41,7 @@ function Header({ room, setExpand }: IProps) {
                     mx={1}
                     color="black"
                     component={Link}
-                    to={`/${friend._id}`}
+                    to={`/user/${friend._id}`}
                 >
                     {friend.username}
                 </Typography>

@@ -6,6 +6,9 @@ import { IEmotionList, IReact } from 'models/react'
 
 class PostAPI {
     url = `post`
+    async get(postId: ID) {
+        return Axios.get<IPost>(`${this.url}/get/${postId}`)
+    }
 
     async create(postInfo: Partial<IPost>) {
         let form = new FormData()
@@ -43,6 +46,19 @@ class PostAPI {
         }
 
         return Axios.put(`${this.url}/addComment/${postId}`, form, imagesConditon)
+    }
+    async updateComment(updateField: Partial<IComment>, postId: string) {
+        let form = new FormData()
+        form.append('_id',updateField._id || '')
+        form.append('content', updateField.content || '')
+        console.log(updateField)
+        if (updateField.images) {
+            for (const image of updateField.images) form.append('images', image)
+        }
+        return Axios.put(`${this.url}/updateComment/${postId}`, form, imagesConditon)
+    }
+    async deleteComment(commentId: ID) {
+        return Axios.delete(`${this.url}/deleteComment/${commentId}`)
     }
 
     async getFromAllUser(query?: IQueryPost) {

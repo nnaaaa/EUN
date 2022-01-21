@@ -21,6 +21,6 @@ export const useStyle = makeStyles({
         position: 'absolute',
         top: '50%',
         transform: 'translate(0,-50%)',
-        right: 8,
+        right: 16,
     },
 })

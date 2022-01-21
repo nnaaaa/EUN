@@ -17,6 +17,7 @@
         "@mui/lab": "^5.0.0-alpha.51",
         "@mui/material": "^5.2.7",
         "@mui/styles": "^5.0.1",
+        "@react-hook/hover": "^4.0.0",
         "@react-spring/web": "^9.4.2",
         "@reduxjs/toolkit": "^1.6.2",
         "@testing-library/jest-dom": "^5.11.4",

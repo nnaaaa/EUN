@@ -13,18 +13,23 @@ export const useCommentSocket = (postId: ID | undefined) => {
 
     useEffect(() => {
         if (!postId || !socket) return
-        const listener = async (newData: IComment) => {
-            // const user = await userAPI.getProfile()
+        const createOrUpdateListener = async (newData: IComment) => {
             const owner = await friendAPI.findById(newData.owner as ID)
             newData.owner = owner.data as any
-            dispatch(postActions.insertComment({ comment: newData, postId }))
+            dispatch(postActions.createOrUpdateComment({ comment: newData, postId }))
         }
-        socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${postId}`, listener)
+        const deleteCommentListener = (commentId: ID) => {
+            dispatch(postActions.deleteComment({ postId, commentId }))
+        }
+        
+        socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${postId}`, createOrUpdateListener)
+        socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/deleteComment/${postId}`, deleteCommentListener)
         return () => {
             socket.off(
                 `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${postId}`,
-                listener
+                createOrUpdateListener
             )
+            socket.off(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/deleteComment/${postId}`, deleteCommentListener)
         }
     }, [socket, postId])
 }

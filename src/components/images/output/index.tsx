@@ -38,13 +38,15 @@ interface IPreviewImagesProps {
 
 export default function PreviewImages(props: IPreviewImagesProps & Settings) {
     const { images, width, height } = props
+    const propsClone = { ...props }
+    delete propsClone.images
     const style = css({ width, height })
+
     if (!images) return <></>
 
     return (
         <Slider
             {...settings}
-            {...props}
             className={style.wrapper}
             prevArrow={
                 <button>

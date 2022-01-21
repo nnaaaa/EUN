@@ -28,14 +28,20 @@ const Message = styled.span`
     margin-bottom: 5px;
 `
 export const FriendMessage = styledMUI(Message)(({ theme }) => ({
-    background: '#D8DADF',
+    backgroundColor: '#D8DADF',
     marginRight: 'auto',
 }))
+export const MyMessageWrap = styledMUI(Message)(({ theme }) => ({
+    display: 'flex',
+    marginLeft:'auto'
+}))
 
-export const MyMessage = styledMUI(Message)(({ theme }) => ({
-    background: theme.palette.primary.main,
+export const MyMessage = styledMUI('div')(({ theme }) => ({
+    maxWidth: '90%',
+    borderRadius: '10px',
+    marginTop: 0,
+    backgroundColor: theme.palette.primary.main,
     color: '#fff',
-    marginLeft: 'auto',
 }))
 
 export const TextContent = styled.p`

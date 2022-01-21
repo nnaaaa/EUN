@@ -1765,6 +1765,18 @@
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.0.tgz"
   "version" "2.11.0"
 
+"@react-hook/event@^1.2.1":
+  "integrity" "sha512-JUL5IluaOdn5w5Afpe/puPa1rj8X6udMlQ9dt4hvMuKmTrBS1Ya6sb4sVgvfe2eU4yDuOfAhik8xhbcCekbg9Q=="
+  "resolved" "https://registry.npmjs.org/@react-hook/event/-/event-1.2.6.tgz"
+  "version" "1.2.6"
+
+"@react-hook/hover@^4.0.0":
+  "integrity" "sha512-uBBXWte0f4ywxsleyTG2FzZRPqR7X2Dxa8tcCE24ZPzWNXXcToicFHunKVnSKMsVq6wzi8F0MZ1/KJ1XdorAjw=="
+  "resolved" "https://registry.npmjs.org/@react-hook/hover/-/hover-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "@react-hook/event" "^1.2.1"
+
 "@react-spring/animated@~9.4.0":
   "integrity" "sha512-Dzum5Ho8e+LIAegAqRyoQFakD2IVH3ZQ2nsFXJorAFq3Xjv6IVPz/+TNxb/wSvnsMludfoF+ZIf319FSFmgD5w=="
   "resolved" "https://registry.npmjs.org/@react-spring/animated/-/animated-9.4.2.tgz"

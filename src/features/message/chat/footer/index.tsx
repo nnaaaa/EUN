@@ -5,23 +5,25 @@ import {
     faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CircularProgress, InputLabel, Stack } from '@mui/material'
+import { CircularProgress, Stack } from '@mui/material'
 import { chatAPI } from 'api/rest'
 import InputImage from 'components/images/input'
+import PreviewImage from 'components/images/output'
+import { useBlockingSpam } from 'hooks/useBlockingSpam'
 import { useContent } from 'hooks/useContent'
 import { IChatRoom } from 'models/chatRoom'
+import { IMessage } from 'models/message'
 import { FormEvent, useRef, useState } from 'react'
 import { IconBox } from '../chatStyles'
-import { useBlockingSpam } from 'hooks/useBlockingSpam'
 import { MessageInput } from './footerStyles'
-import PreviewImage from 'components/images/output'
-import { IMessage } from 'models/message'
 
 interface IProps {
     room: IChatRoom
+    onFocus: () => void
+    onBlur: () => void
 }
 
-function Footer({ room }: IProps) {
+function Footer({ room, onFocus, onBlur }: IProps) {
     const inputMessageRef = useRef<null | HTMLInputElement>(null)
     const {
         previewImages,
@@ -47,7 +49,6 @@ function Footer({ room }: IProps) {
             console.log(e)
         }
     }
-
     return (
         <Stack
             p={1}
@@ -70,8 +71,8 @@ function Footer({ room }: IProps) {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     type="text"
-                    // onFocus={focus}
-                    // onBlur={blur}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 />
             </form>
 
@@ -102,7 +103,7 @@ function Footer({ room }: IProps) {
                 >
                     <IconBox
                         onClick={clearImages}
-                        sx={{ position: 'absolute', top: 0, right: '5px' }}
+                        sx={{ position: 'absolute', top: 0, right: 1 }}
                     >
                         <FontAwesomeIcon icon={faTimes} />
                     </IconBox>

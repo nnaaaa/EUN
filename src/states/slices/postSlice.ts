@@ -16,7 +16,7 @@ const initialState: IInitialState = {
     current: [],
 }
 
-const getPost = createAsyncThunk('post/get', async (userId: ID | undefined, thunkAPI) => {
+const getPosts = createAsyncThunk('post/get', async (userId: ID | undefined, thunkAPI) => {
     // const userId = (thunkAPI.getState() as RootState).user.current._id
     if (!userId) throw new Error()
     const room = await postAPI.getFromAllUser()
@@ -27,26 +27,6 @@ const postSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
-        insertComment(state, action: PayloadAction<{ comment: IComment; postId: ID }>) {
-            state.current = state.current.map((post) => {
-                if (post._id === action.payload.postId) {
-                    const newComments: IComment[] = [
-                        action.payload.comment,
-                        ...(post.comments as IComment[]),
-                    ]
-                    return { ...post, comments: newComments }
-                }
-                return post
-            })
-        },
-        updateReact(state, action: PayloadAction<{ react: IReact; postId: ID }>) {
-            state.current = state.current.map((post) => {
-                if (post._id === action.payload.postId) {
-                    return { ...post, react: action.payload.react }
-                }
-                return post
-            })
-        },
         insertPost(state, action: PayloadAction<IPost>) {
             state.current.unshift(action.payload)
         },
@@ -63,20 +43,60 @@ const postSlice = createSlice({
             })
         },
         deletePost(state, action: PayloadAction<ID>) {
-            console.log(action.payload)
             state.current = state.current.filter((post) => post._id !== action.payload)
         },
+        updateReact(state, action: PayloadAction<{ react: IReact; postId: ID }>) {
+            state.current = state.current.map((post) => {
+                if (post._id === action.payload.postId) {
+                    return { ...post, react: action.payload.react }
+                }
+                return post
+            })
+        },
+        createOrUpdateComment(state, action: PayloadAction<{ comment: IComment; postId: ID }>) {
+            const { comment, postId } = action.payload
+            state.current = state.current.map((post) => {
+                if (post._id === postId) {
+                    //nếu comment đã có thì tức là disptacher muốn cập nhật
+                    const isExistComment = post.comments?.find(cmt => cmt._id === comment._id)
+                    if (isExistComment) {
+                        const updatedComments = post.comments.map(cmt => cmt._id === comment._id ? { ...cmt, ...comment } : cmt)
+                        return { ...post, comments: updatedComments }
+                    }
+                    // nếu đã có comment chưa từng tồn tại thì thêm vào
+                    else {
+                        const newComments: IComment[] = [
+                            comment
+                        ]
+                        if (post.comments) newComments.concat(post.comments)
+                        return { ...post, comments: newComments }
+                    }
+                }
+                return post
+            })
+        },
+        deleteComment(state, action: PayloadAction<{ postId: ID, commentId: ID }>) {
+            const { postId, commentId } = action.payload
+            state.current = state.current.map((post) => {
+                if (post._id === postId) {
+                    const filteredComments =  post.comments.filter(cmt=>cmt._id !== commentId)
+                    return {...post,comments:filteredComments}
+                }
+                return post
+            })
+        },
+        
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getPost.pending, (state) => {
+            .addCase(getPosts.pending, (state) => {
                 state.loading = true
             })
-            .addCase(getPost.fulfilled, (state, action) => {
+            .addCase(getPosts.fulfilled, (state, action) => {
                 state.current = action.payload
                 state.loading = false
             })
-            .addCase(getPost.rejected, (state) => {
+            .addCase(getPosts.rejected, (state) => {
                 state.loading = false
                 state.error = 'Load error'
             })
@@ -86,7 +106,7 @@ const postSlice = createSlice({
 export const { actions, reducer } = postSlice
 
 export const postActions = Object.assign(actions, {
-    getTheFirstTime: getPost,
+    getTheFirstTime: getPosts,
 })
 
 export default reducer

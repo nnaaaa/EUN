@@ -24,6 +24,9 @@ class ChatAPI {
 
         return Axios.post(`${this.url}/addMessage/${roomId}`, form, imagesConditon)
     }
+    async deleteMessage(messageInfo:IMessage){
+        return Axios.delete(`${this.url}/deleteMessage/${messageInfo._id}`)
+    }
 }
 
 export const chatAPI = new ChatAPI()

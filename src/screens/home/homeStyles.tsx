@@ -9,6 +9,7 @@ export const useStyle = makeStyles({
             rgba(122, 39, 244,0.4),
             rgba(236, 58, 245,0.4),
             rgba(93, 214, 245,0.4))`,
+        minHeight:'100vh'
     },
     pLeft: {
         paddingLeft: 16,

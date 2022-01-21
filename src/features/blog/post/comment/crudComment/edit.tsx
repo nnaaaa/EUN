@@ -1,66 +1,78 @@
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, IconButton, Stack } from '@mui/material'
+import { Avatar, Stack } from '@mui/material'
+import { Box } from '@mui/system'
 import { postAPI } from 'api/rest'
 import InputImage from 'components/images/input'
 import PreviewImages from 'components/images/output'
-import { useBlockingSpam } from 'hooks/useBlockingSpam'
 import { useContent } from 'hooks/useContent'
+import { IComment } from 'models/comment'
 import { IPost } from 'models/post'
-import { FormEvent, useRef, useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
-import { StatusInput, useStyle } from './styles'
+import { Dispatch, FormEvent, SetStateAction, useEffect, useRef } from 'react'
 import Loading from 'screens/loading'
+import { useAppSelector } from 'states/hooks'
+import { StatusInput, useStyle } from './styles'
 
-interface IInputCommentProps {
+interface IEditCommentProps {
     post: IPost
+    initComment: IComment
+    setIsEdit: Dispatch<SetStateAction<boolean>>
 }
 
-function InputComment(props: IInputCommentProps) {
+function EditComment({ initComment, post, setIsEdit }: IEditCommentProps) {
     const style = useStyle()
     const inputContent = useRef<null | HTMLInputElement>(null)
     const user = useAppSelector((state) => state.user.current)
-    const [isSending, setIsSending] = useState<boolean>(false)
-    const { inputImages, previewImages, setContent, content, getContentAndImages } =
-        useContent(inputContent)
-    const { isAllow, setCountCurSpam, timeToAllow } = useBlockingSpam(5000, 10)
-    const sendComment = async (e: FormEvent<HTMLFormElement>) => {
+    const {
+        inputImages,
+        previewImages,
+        setContent,
+        content,
+        getContentAndImages,
+        setPreviewImages,
+    } = useContent(inputContent)
+
+    const editComment = async (e: FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault()
-            if (isSending || !isAllow) return
-            setCountCurSpam()
-            setIsSending(true)
-            if (isSending) return
             const comment = getContentAndImages()
-            if (comment) await postAPI.addComment(comment, props.post._id)
-            setIsSending(false)
+            if (comment) {
+                setIsEdit(false)
+                await postAPI.updateComment({ ...initComment, ...comment }, post._id)
+            }
         } catch (e) {
             console.log(e)
         }
     }
+
+    useEffect(() => {
+        setContent(initComment.content)
+        setPreviewImages(initComment.images)
+    }, [])
+
     if (!user) return <Loading />
 
     return (
         <Stack mb={2} mt={1} direction="row">
             <Avatar src={user.avatar} />
             <Stack flex={1} ml={1} alignItems="center">
-                <form onSubmit={sendComment} className={style.form}>
+                <form onSubmit={editComment} className={style.form}>
                     <StatusInput
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Nhập bình luận"
                         ref={inputContent}
                     />
-                    <IconButton size="small" className={style.tool}>
+                    <Box className={style.tool}>
                         <InputImage onChange={inputImages}>
                             <FontAwesomeIcon icon={faFileImage} />
                         </InputImage>
-                    </IconButton>
+                    </Box>
                 </form>
 
                 <PreviewImages
                     images={
-                        previewImages && previewImages.length <= 3 ? previewImages : []
+                        (previewImages && previewImages.length <= 3) ? previewImages : []
                     }
                     width="80%"
                     infinite
@@ -70,4 +82,4 @@ function InputComment(props: IInputCommentProps) {
     )
 }
 
-export default InputComment
+export default EditComment

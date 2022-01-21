@@ -55,6 +55,16 @@ const chatSlice = createSlice({
                 return room
             })
         },
+        removeMessage(state, action: PayloadAction<{ messageId: ID; roomId: ID }>) {
+            const { messageId, roomId } = action.payload
+            state.current = state.current.map((room) => {
+                if (room._id === roomId) {
+                    const newMessages = room.messages.filter(msg=>msg._id !== messageId)
+                    return { ...room, messages: newMessages }
+                }
+                return room
+            })
+        },
     },
     extraReducers: (builder) => {
         builder

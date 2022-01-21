@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import Select, { useInitMode } from './selectMode/index'
 import { StatusInput, useStyle } from './styles'
-import { CRUDType } from './type'
+import { CRUDType } from './crudTool'
 
 interface IModelProps {
     isPopup: boolean

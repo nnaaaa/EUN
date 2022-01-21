@@ -1,7 +1,7 @@
-import { postAPI } from 'api/rest'
-import { IPost } from 'models/post'
-import { postActions } from 'states/slices/postSlice'
-import { CRUDType } from '.'
+import { postAPI } from 'api/rest';
+import { IPost } from 'models/post';
+import { postActions } from 'states/slices/postSlice';
+import { CRUDType } from '.';
 
 class Create extends CRUDType {
     constructor() {
@@ -19,8 +19,10 @@ class Create extends CRUDType {
                     ...contentAndImages,
                     mode: mode.value,
                 }
-                const savedPost = await postAPI.create(post)
-                this._dispatch(postActions.insertPost(savedPost.data as any))
+                const res = await postAPI.create(post)
+                // res.data là id của post vừa được tạo
+                const savedPost = await postAPI.get(res.data as any)
+                this._dispatch(postActions.insertPost(savedPost.data))
             }
         } catch (e) {
             console.log(e)

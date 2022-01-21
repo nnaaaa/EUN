@@ -10,7 +10,7 @@ const Background = ({ avatar }: { avatar: string | undefined }) => {
             <Box className={style.avatar}>
                 <Avatar src={avatar} className={style.avatarInside} />
             </Box>
-            <IconButton className={style.logo} component={Link} to="/">
+            <IconButton className={style.logo}>
                 <Logo />
             </IconButton>
         </Box>

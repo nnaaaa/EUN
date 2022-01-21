@@ -14,7 +14,7 @@ export default function DisplayGridImages(props: IDisplayGridImages) {
                 img: image,
                 imgThumbnail: image,
             })),
-        [props.title]
+        [props]
     )
 
     return images.length ? (
