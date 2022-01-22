@@ -42,7 +42,7 @@ export const useListUserSocket = (dispatcher: () => void) => {
         if (!socket) return
         const updateListener = async (newData: IPublicInfo) => {
             try {
-                console.log(newData)
+                console.log(newData)                                           
                 // const user = await userAPI.getListUser()
             } catch {
             } finally {

@@ -65,10 +65,7 @@ const postSlice = createSlice({
                     }
                     // nếu đã có comment chưa từng tồn tại thì thêm vào
                     else {
-                        const newComments: IComment[] = [
-                            comment
-                        ]
-                        if (post.comments) newComments.concat(post.comments)
+                        const newComments: IComment[] = [comment,...post.comments]
                         return { ...post, comments: newComments }
                     }
                 }

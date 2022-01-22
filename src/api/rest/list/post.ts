@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import Axios, { imagesConditon } from 'api/rest/axios'
 import { ID, IQueryPost } from 'models/common'
 import { IModePost, IPost } from 'models/post'
@@ -9,7 +10,6 @@ class PostAPI {
     async get(postId: ID) {
         return Axios.get<IPost>(`${this.url}/get/${postId}`)
     }
-
     async create(postInfo: Partial<IPost>) {
         let form = new FormData()
         form.append('content', postInfo.content || '')
@@ -34,10 +34,10 @@ class PostAPI {
         return Axios.delete(`${this.url}/delete/${postId}`)
     }
 
-    async updateEmotion(reactId: ID, updateType: IEmotionList) {
-        return Axios.put<IEmotionList>(`react/update/${reactId}/${updateType}`)
+    
+    async getComment(query: IQueryPost) {
+        return Axios.get<IPost[]>(`${this.url}/getComment?${queryString.stringify(query)}`)
     }
-
     async addComment(commentInfo: Partial<IComment>, postId: string) {
         let form = new FormData()
         form.append('content', commentInfo.content || '')
@@ -67,11 +67,12 @@ class PostAPI {
     async getFromOneUser(query?: IQueryPost) {
         return Axios.get<IPost[]>(`${this.url}/getOneUser`)
     }
+
+    async updateEmotion(reactId: ID, updateType: IEmotionList) {
+        return Axios.put<IEmotionList>(`react/update/${reactId}/${updateType}`)
+    }
     async getReact(reactId: ID) {
         return Axios.get<IReact>(`react/get/${reactId}`)
-    }
-    async acceptInvite(friendId: string) {
-        return Axios.post(`${this.url}/acceptInvite`, { friendId })
     }
 }
 
