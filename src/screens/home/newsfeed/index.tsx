@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material'
 import Status from 'features/status'
-import ListPost from 'features/blog/listPost'
+import ListPost from 'features/listPost'
 
 const Newsfeed = () => {
     return (

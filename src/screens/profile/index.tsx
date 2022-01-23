@@ -1,5 +1,5 @@
 import { Box, Grid, Skeleton } from '@mui/material'
-import ListPost from 'features/blog/listPost'
+import ListPost from 'features/listPost'
 import { IPublicInfo } from 'models/user'
 import { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'

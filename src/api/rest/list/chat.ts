@@ -1,6 +1,6 @@
 import Axios, { imagesConditon } from 'api/rest/axios'
 import { IChatRoom } from 'models/chatRoom'
-import { ID } from 'models/common'
+import { ID, IQueryPost } from 'models/common'
 import { IMessage } from 'models/message'
 import queryString from 'query-string'
 
@@ -13,6 +13,11 @@ class ChatAPI {
     async getRoom(members: ID[]) {
         return Axios.get<IChatRoom>(
             `${this.url}/getRoom?${queryString.stringify({ members })}`
+        )
+    }
+    async getMessages(query:IQueryPost,roomId:ID) {
+        return Axios.get<IChatRoom[]>(
+            `${this.url}/getMessage/${roomId}?${queryString.stringify(query)}`
         )
     }
     async sendMessage(messageInfo: Partial<IMessage>, roomId: string) {

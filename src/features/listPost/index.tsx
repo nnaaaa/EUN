@@ -2,8 +2,8 @@ import { IPost } from 'models/post'
 import { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import Post from '../post'
-import useIteratorPost from '../post/useIteratorPost'
+import Post from './post'
+import useIteratorPost from './post/useIteratorPost'
 import { Stack, CircularProgress } from '@mui/material'
 
 interface IListPostProps {

@@ -22,6 +22,7 @@ export const useToggleChat = () => {
                 dispatch(chatActions.closeWindowChat([user._id, friendId]))
                 return
             }
+            //lấy thông thông tin về room cũng như 10 tin nhắn mới nhất
             await dispatch(chatActions.addChat(friendId))
         } catch (e) {
             console.log(e)

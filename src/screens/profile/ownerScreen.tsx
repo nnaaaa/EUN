@@ -1,4 +1,4 @@
-import ListPost from 'features/blog/listPost'
+import ListPost from 'features/listPost'
 import Profile from '.'
 import OwnerHeader from './browse/header/ownerHeader'
 

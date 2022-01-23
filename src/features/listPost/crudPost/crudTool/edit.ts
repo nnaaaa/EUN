@@ -2,7 +2,7 @@ import { postActions } from 'states/slices/postSlice'
 import { postAPI } from 'api/rest'
 import { IPost } from 'models/post'
 import { CRUDType } from '.'
-import { modeOptions } from 'features/blog/crudPost/selectMode'
+import { modeOptions } from 'features/listPost/crudPost/selectMode'
 
 class Edit extends CRUDType {
     constructor(post: Partial<IPost>) {

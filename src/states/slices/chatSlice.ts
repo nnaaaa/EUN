@@ -43,14 +43,21 @@ const chatSlice = createSlice({
                     return !arrayIsContain(listId, ...action.payload)
                 })
         },
-        insertMessage(state, action: PayloadAction<{ message: IMessage; roomId: ID }>) {
+        getMoreMessages(state, action: PayloadAction<{ messages: IMessage[], roomId: ID }>) {
+            const { messages, roomId } = action.payload
+
             state.current = state.current.map((room) => {
-                if (room._id === action.payload.roomId) {
-                    const newMessages: IMessage[] = [
-                        ...room.messages,
-                        action.payload.message,
-                    ]
-                    return { ...room, messages: newMessages }
+                if (room._id === roomId) {
+                    room.messages = room.messages.concat(messages)
+                }
+                return room
+            })
+        },
+        insertMessage(state, action: PayloadAction<{ message: IMessage, roomId: ID }>) {
+            const { message, roomId } = action.payload
+            state.current = state.current.map((room) => {
+                if (room._id === roomId) {
+                    room.messages.unshift(message)
                 }
                 return room
             })
@@ -59,8 +66,7 @@ const chatSlice = createSlice({
             const { messageId, roomId } = action.payload
             state.current = state.current.map((room) => {
                 if (room._id === roomId) {
-                    const newMessages = room.messages.filter(msg=>msg._id !== messageId)
-                    return { ...room, messages: newMessages }
+                    room.messages = room.messages.filter(msg=>msg._id !== messageId)
                 }
                 return room
             })

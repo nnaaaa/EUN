@@ -1,5 +1,5 @@
 import { friendAPI } from 'api/rest'
-import ListPost from 'features/blog/listPost'
+import ListPost from 'features/listPost'
 import { IPublicInfo } from 'models/user'
 import { useEffect, useState } from 'react'
 import { Redirect, useLocation } from 'react-router-dom'

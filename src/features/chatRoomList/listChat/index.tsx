@@ -1,5 +1,5 @@
-import Chat from 'features/message/chat'
-import { Wrapper } from 'features/message/listChat/listChatStyles'
+import Chat from 'features/chatRoomList/chat'
+import { Wrapper } from 'features/chatRoomList/listChat/listChatStyles'
 import { useAppSelector } from 'states/hooks'
 
 const ListChat = () => {
