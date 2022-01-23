@@ -71,6 +71,9 @@ const chatSlice = createSlice({
                 return room
             })
         },
+        clear(state) {
+            state.current = []
+        }
     },
     extraReducers: (builder) => {
         builder

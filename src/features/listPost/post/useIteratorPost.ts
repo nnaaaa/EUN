@@ -5,7 +5,6 @@ import { postActions } from 'states/slices/postSlice';
 
 const useIteratorPost = () => {
     const pagination = usePagination(3)
-    // const [isLoading, setIsLoading] = useState(false)
     const getMore = async () => {
         const { dispatch, _page, _limit, setPage, setIsHasMore,isHasMore } = pagination
         try {

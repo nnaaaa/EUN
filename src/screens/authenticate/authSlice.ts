@@ -5,6 +5,8 @@ import Cookie from 'js-cookie'
 import { IUser, SignInType } from 'models/user'
 import { userActions } from 'states/slices/userSlice'
 import { AppThunk } from 'states/store'
+import { postActions } from 'states/slices/postSlice'
+import { chatActions } from 'states/slices/chatSlice'
 
 interface IinitState {
     loading: boolean
@@ -95,6 +97,8 @@ const logoutAsync = (): AppThunk => async (dispatch, getState) => {
         await userAPI.updateProfile({ isOnline: false })
         Cookie.remove('token')
         dispatch(authActions.logout())
+        dispatch(postActions.clear())
+        dispatch(chatActions.clear())
         dispatch(userActions.clearUser())
     } catch {
         console.error('Fail to logout')

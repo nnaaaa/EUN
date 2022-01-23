@@ -95,7 +95,9 @@ const postSlice = createSlice({
                 return post
             })
         },
-        
+        clear(state) {
+            state.current = []
+        }
     },
     // extraReducers: (builder) => {
     //     builder
