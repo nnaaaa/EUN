@@ -1,9 +1,9 @@
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
+    Link as MUILink,
     Avatar,
     Box,
-    Button,
     CardHeader,
     CardMedia,
     Divider,
@@ -29,6 +29,7 @@ import { useInteraction } from './interactTools/interactHook'
 import Mode from './mode'
 import ReactCounter from './reactCounter'
 import { CardContent, CardMargin } from './styles'
+import useIteratorComment from './comment/useIteratorComment'
 
 export default function Post(post: IPost) {
     const { owner, content, images, react, _id, mode, comments, createAt } = post
@@ -36,6 +37,7 @@ export default function Post(post: IPost) {
 
     const interactTool = useInteraction(post)
     const { isToggle, setIsToggle, toggleBtnRef } = useToggle()
+    const { getMore,isHasMore } = useIteratorComment(post._id)
     
     const time = moment(createAt).fromNow(true)
     const detailTime = moment(createAt).format('h:mm:ss a, DD MMMM YYYY')
@@ -127,7 +129,7 @@ export default function Post(post: IPost) {
 
             <Box p={2} pb={1}>
                 <ReactCounter react={react} />
-                <InteractTool tool={interactTool} />
+                <InteractTool tool={interactTool}/>
             </Box>
             {interactTool.isJoinComment && (
                 <Box px={2} pt={0} pb={1}>
@@ -136,9 +138,9 @@ export default function Post(post: IPost) {
                     {comments ? comments.map((comment, index) => (
                         <Comment key={index} comment={comment} post={post} />
                     )) : <></>}
-                    <Button sx={{ textTransform: 'capitalize' }} size="small">
+                    {isHasMore ? <MUILink sx={{cursor:'pointer'}} underline="hover" variant="body2" onClick={getMore}>
                         View more comments
-                    </Button>
+                    </MUILink> : <></>}
                 </Box>
             )}
         </CardMargin>

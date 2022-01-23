@@ -2,6 +2,7 @@ import { ReactionBarSelector } from '@charkour/react-reactions'
 import { faComment, faCommentDots, faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Box, Button, Divider, Popover, Typography } from '@mui/material'
+import { IPost } from 'models/post'
 import { IEmotionList } from 'models/react'
 import { useCallback, useRef, useState } from 'react'
 import { useInteraction } from './interactHook'
@@ -16,9 +17,9 @@ export interface IEmotionSelect {
     node: React.ReactNode
 }
 
-export default function InteractTool(props: IInteractTools) {
+export default function InteractTool({tool}: IInteractTools) {
     const style = useStyle()
-    const { isJoinComment, setJoin, sendReact, isReacted, myReact } = props.tool
+    const { isJoinComment, setJoin, sendReact, isReacted, myReact } = tool
     const likeButton = useRef(null)
     const [toggleEmotion, setToggleEmotion] = useState<boolean>(false)
     const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)

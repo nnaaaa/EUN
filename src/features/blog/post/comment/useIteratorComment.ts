@@ -1,19 +1,19 @@
 import { postAPI } from 'api/rest';
 import usePagination from 'hooks/usePagination'
-import { useState } from 'react';
+import { ID } from 'models/common';
 import { postActions } from 'states/slices/postSlice';
 
-const useIteratorPost = () => {
-    const pagination = usePagination(3)
+const useIteratorComment = (postId:ID) => {
+    const pagination = usePagination(5,2)
     // const [isLoading, setIsLoading] = useState(false)
     const getMore = async () => {
         const { dispatch, _page, _limit, setPage, setIsHasMore,isHasMore } = pagination
         try {
             if (!isHasMore) return
-            const res = await postAPI.getFromAllUser({ _page, _limit })
+            const res = await postAPI.getComment({ _page, _limit },postId)
             if (!res.data || res.data.length === 0) throw new Error()
             setPage(pre => pre + 1)
-            dispatch(postActions.getMorePost(res.data as any))
+            dispatch(postActions.getMoreComments({ comments: res.data as any, postId }))
         }
         catch (e) {
             setIsHasMore(false)
@@ -24,4 +24,4 @@ const useIteratorPost = () => {
 
 }
 
-export default useIteratorPost
+export default useIteratorComment

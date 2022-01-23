@@ -35,8 +35,8 @@ class PostAPI {
     }
 
     
-    async getComment(query: IQueryPost) {
-        return Axios.get<IPost[]>(`${this.url}/getComment?${queryString.stringify(query)}`)
+    async getComment(query: IQueryPost,postId:ID) {
+        return Axios.get<IPost[]>(`${this.url}/getComment/${postId}?${queryString.stringify(query)}`)
     }
     async addComment(commentInfo: Partial<IComment>, postId: string) {
         let form = new FormData()
@@ -61,11 +61,11 @@ class PostAPI {
         return Axios.delete(`${this.url}/deleteComment/${commentId}`)
     }
 
-    async getFromAllUser(query?: IQueryPost) {
-        return Axios.get<IPost[]>(`${this.url}/getAllUser`)
+    async getFromAllUser(query: IQueryPost) {
+        return Axios.get<IPost[]>(`${this.url}/getAllUser?${queryString.stringify(query)}`)
     }
-    async getFromOneUser(query?: IQueryPost) {
-        return Axios.get<IPost[]>(`${this.url}/getOneUser`)
+    async getFromOneUser(query: IQueryPost) {
+        return Axios.get<IPost[]>(`${this.url}/getOneUser?${queryString.stringify(query)}`)
     }
 
     async updateEmotion(reactId: ID, updateType: IEmotionList) {

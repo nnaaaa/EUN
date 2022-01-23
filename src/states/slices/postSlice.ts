@@ -16,17 +16,20 @@ const initialState: IInitialState = {
     current: [],
 }
 
-const getPosts = createAsyncThunk('post/get', async (userId: ID | undefined, thunkAPI) => {
-    // const userId = (thunkAPI.getState() as RootState).user.current._id
-    if (!userId) throw new Error()
-    const room = await postAPI.getFromAllUser()
-    return room.data
-})
+// const getPosts = createAsyncThunk('post/get', async (userId: ID | undefined, thunkAPI) => {
+//     // const userId = (thunkAPI.getState() as RootState).user.current._id
+//     if (!userId) throw new Error()
+//     const room = await postAPI.getFromAllUser()
+//     return room.data
+// })
 
 const postSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
+        getMorePost(state, action: PayloadAction<IPost[]>) {
+            state.current = state.current.concat(action.payload)
+        },
         insertPost(state, action: PayloadAction<IPost>) {
             state.current.unshift(action.payload)
         },
@@ -49,6 +52,16 @@ const postSlice = createSlice({
             state.current = state.current.map((post) => {
                 if (post._id === action.payload.postId) {
                     return { ...post, react: action.payload.react }
+                }
+                return post
+            })
+        },
+        getMoreComments(state, action: PayloadAction<{ comments: IComment[], postId: ID }>) {
+            const { comments, postId } = action.payload
+            state.current = state.current.map((post) => {
+                if (post._id === postId) {
+                    const newComments: IComment[] = [...post.comments,...comments]
+                    return { ...post, comments: newComments }
                 }
                 return post
             })
@@ -84,26 +97,26 @@ const postSlice = createSlice({
         },
         
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(getPosts.pending, (state) => {
-                state.loading = true
-            })
-            .addCase(getPosts.fulfilled, (state, action) => {
-                state.current = action.payload
-                state.loading = false
-            })
-            .addCase(getPosts.rejected, (state) => {
-                state.loading = false
-                state.error = 'Load error'
-            })
-    },
+    // extraReducers: (builder) => {
+    //     builder
+    //         .addCase(getPosts.pending, (state) => {
+    //             state.loading = true
+    //         })
+    //         .addCase(getPosts.fulfilled, (state, action) => {
+    //             state.current = action.payload
+    //             state.loading = false
+    //         })
+    //         .addCase(getPosts.rejected, (state) => {
+    //             state.loading = false
+    //             state.error = 'Load error'
+    //         })
+    // },
 })
 
 export const { actions, reducer } = postSlice
 
 export const postActions = Object.assign(actions, {
-    getTheFirstTime: getPosts,
+    // getTheFirstTime: getPosts,
 })
 
 export default reducer
