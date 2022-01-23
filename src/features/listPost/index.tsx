@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppSelector } from 'states/hooks'
 import Post from './post'
-import useIteratorPost from './post/useIteratorPost'
+import useIteratorPost from './useIteratorPost'
+import SolarSystem from 'components/logo/2dSolarSystem'
 
 interface IListPostProps {
     posts?: IPost[]
@@ -14,7 +15,6 @@ export default function ListPost({ posts }: IListPostProps) {
     const { current } = useAppSelector((state) => state.post)
     const user = useAppSelector((state) => state.user.current)
     const { getMore, isHasMore } = useIteratorPost()
-    console.log("list",posts,current)
     //load data at first time
     useEffect(() => {
         (async () => {
@@ -51,7 +51,7 @@ export default function ListPost({ posts }: IListPostProps) {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <CircularProgress />
+                    <SolarSystem/>
                 </Stack>
             }
         >

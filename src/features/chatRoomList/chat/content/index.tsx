@@ -9,6 +9,7 @@ import {
     WrapperMessage
 } from './contentStyles'
 import Message from './message'
+import SolarSystem from 'components/logo/2dSolarSystem'
 
 interface IProps {
     room: IChatRoom
@@ -33,11 +34,11 @@ function Content({ room, userComposingId }: IProps) {
                 loader={
                     <Stack
                         width="100%"
-                        height="50px"
+                        height="100px"
                         alignItems="center"
                         justifyContent="center"
                     >
-                        <CircularProgress size='20px'/>
+                        <SolarSystem/>
                     </Stack>
                 }
                 scrollableTarget="messageScroll"
