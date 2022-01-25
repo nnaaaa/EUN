@@ -8,4 +8,6 @@ export interface IMessage {
     content: string
     images: FileList | string[]
     createAt: Date
+    seen: ID[] | IPublicInfo[]
+    sent: ID[] | IPublicInfo[]
 }

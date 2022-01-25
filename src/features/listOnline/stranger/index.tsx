@@ -42,7 +42,7 @@ export default function StrangerOnline() {
             <AccordionDetails className={style.accorDetail}>
                 {current.map((friend, index) => (
                     <Box className={style.wrapper} key={'listStranger' + index}>
-                        <Stack direction="row" alignItems="center">
+                        <Stack direction="row" alignItems="center" maxWidth="60%">
                             <Avatar
                                 src={friend.avatar}
                                 component={Link}
@@ -60,7 +60,7 @@ export default function StrangerOnline() {
                                 </Typography>
                             </Box>
                         </Stack>
-                        <UserRole friend={friend} />
+                        {/* <UserRole friend={friend}/> */}
                     </Box>
                 ))}
             </AccordionDetails>

@@ -17,17 +17,17 @@ export default function ListPost({ posts }: IListPostProps) {
     const { getMore, isHasMore } = useIteratorPost()
     //load data at first time
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             //nếu không truyền posts từ ngoài vào thì sẽ call api lấy tất cả post
             if (!posts && user) await getMore()
             else if (posts) {
-            } else throw new Error()
+            } else throw new Error("Posts are existed or User doesn't exist")
         })()
             .then(() => {})
             .catch((e) => {
                 console.log(e)
             })
-            .finally(() => {console.log("call api")})
+            .finally(() => {})
     }, [])
 
     if (posts)
@@ -51,7 +51,7 @@ export default function ListPost({ posts }: IListPostProps) {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <SolarSystem/>
+                    <SolarSystem />
                 </Stack>
             }
         >

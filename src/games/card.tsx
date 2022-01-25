@@ -49,7 +49,7 @@ export class DetailCard extends Component<ICardProps> {
                         <Grid container flexWrap="nowrap" spacing={1}>
                             {categoryList.map((ctg) => (
                                 <Chip
-                                    key={'detailCard'+title+ctg}
+                                    key={'detailCard' + title + ctg}
                                     color="default"
                                     label={ctg}
                                     sx={{ mb: 1, mr: 1 }}
@@ -96,7 +96,7 @@ export class SmallCard extends Component<ICardProps> {
                         <Grid container flexWrap="nowrap" spacing={1}>
                             {categoryList.map((ctg) => (
                                 <Chip
-                                    key={'smallCard'+title+ctg}
+                                    key={'smallCard' + title + ctg}
                                     color="info"
                                     label={ctg}
                                     sx={{ mb: 1, mr: 1 }}

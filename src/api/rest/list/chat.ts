@@ -10,15 +10,19 @@ class ChatAPI {
     async create(members: ID[]) {
         return Axios.post<ID[]>(`${this.url}/create`, members)
     }
-    async getRoom(members: ID[]) {
-        return Axios.get<IChatRoom>(
-            `${this.url}/getRoom?${queryString.stringify({ members })}`
+    async getNewestMessageOfRoom(roomId: ID) {
+        return Axios.get<IMessage[]>(`${this.url}/getNewestMessageOfRoom/${roomId}`)
+    }
+    async getListRoomWithNewMessages() {
+        return Axios.get<IChatRoom[]>(`${this.url}/getListRoomWithNewMessages`)
+    }
+    async getMessages(query: IQueryPost, roomId: ID, fromTime: Date) {
+        return Axios.get<IChatRoom[]>(
+            `${this.url}/getMessage/${roomId}/${fromTime}?${queryString.stringify(query)}`
         )
     }
-    async getMessages(query:IQueryPost,roomId:ID) {
-        return Axios.get<IChatRoom[]>(
-            `${this.url}/getMessage/${roomId}?${queryString.stringify(query)}`
-        )
+    async seenMessages(roomId: ID) {
+        return Axios.put(`${this.url}/seenMessages/${roomId}`)
     }
     async sendMessage(messageInfo: Partial<IMessage>, roomId: string) {
         let form = new FormData()
@@ -29,7 +33,7 @@ class ChatAPI {
 
         return Axios.post(`${this.url}/addMessage/${roomId}`, form, imagesConditon)
     }
-    async deleteMessage(messageInfo:IMessage){
+    async deleteMessage(messageInfo: IMessage) {
         return Axios.delete(`${this.url}/deleteMessage/${messageInfo._id}`)
     }
 }

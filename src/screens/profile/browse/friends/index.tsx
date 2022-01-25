@@ -36,7 +36,9 @@ export default function Friends({ setIndex, user }: IFriendsProps) {
                         to={`/user/${user._id}`}
                     >
                         <AutoAvatar src={user.avatar} />
-                        <Typography className={style.name}>{user.username}</Typography>
+                        <Typography className={style.name} noWrap>
+                            {user.username}
+                        </Typography>
                     </Grid>
                 ))}
             </Grid>

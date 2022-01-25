@@ -7,4 +7,5 @@ export interface IChatRoom {
     composing: IPublicInfo[]
     members: IPublicInfo[]
     messages: IMessage[]
+    newMessageAt: Date
 }

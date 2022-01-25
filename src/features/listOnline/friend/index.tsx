@@ -12,13 +12,17 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
+import { ID } from 'models/common'
 import { useState } from 'react'
 import { useAppSelector } from 'states/hooks'
-import { useToggleChat } from './friendHook'
+import { useToggleChat } from '../../chatRoomList/listChat/useToggleChat'
+import { arrayIsContain } from 'algorithms/array'
 
 export default function FriendOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
+    const { listRoom } = useAppSelector((state) => state.chat)
+    const user = useAppSelector((state) => state.user.current)
     const friendOnlineList = useAppSelector((state) => {
         return state.user.current
             ? state.user.current.friends?.accepted.filter((f) => f.isOnline)
@@ -28,6 +32,16 @@ export default function FriendOnline() {
 
     // ẩn hoặc hiện khung chat khi nhấn vào các người online
     const toggleChat = useToggleChat()
+    const chatWithFriend = async (friendId: ID) => {
+        if (!user) return
+        const room = listRoom.find((room) => {
+            const listId = room.members.map((u) => u._id)
+            return arrayIsContain(listId, user._id, friendId)
+        })
+        if (room) {
+            await toggleChat(room._id)
+        }
+    }
 
     if (!friendOnlineList || friendOnlineList.length <= 0) {
         return <></>
@@ -53,12 +67,18 @@ export default function FriendOnline() {
                         className={style.wrapper}
                         color="inherit"
                         key={'listOnline' + index}
-                        onClick={() => toggleChat(friend._id)}
+                        onClick={() => chatWithFriend(friend._id)}
+                        fullWidth
                     >
-                        <Stack direction="row" alignItems="center">
+                        <Stack direction="row" alignItems="center" width="100%">
                             <Avatar src={friend.avatar} />
                             <Box ml={1} overflow="hidden">
-                                <Typography className={style.name} align="left" noWrap>
+                                <Typography
+                                    className={style.name}
+                                    align="left"
+                                    noWrap
+                                    width="100%"
+                                >
                                     {friend.username}
                                 </Typography>
                             </Box>

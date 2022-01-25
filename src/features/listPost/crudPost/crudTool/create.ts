@@ -1,7 +1,7 @@
-import { postAPI } from 'api/rest';
-import { IPost } from 'models/post';
-import { postActions } from 'states/slices/postSlice';
-import { CRUDType } from '.';
+import { postAPI } from 'api/rest'
+import { IPost } from 'models/post'
+import { postActions } from 'states/slices/postSlice'
+import { CRUDType } from '.'
 
 class Create extends CRUDType {
     constructor() {

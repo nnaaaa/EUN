@@ -56,48 +56,60 @@ const postSlice = createSlice({
                 return post
             })
         },
-        getMoreComments(state, action: PayloadAction<{ comments: IComment[], postId: ID }>) {
+        getMoreComments(
+            state,
+            action: PayloadAction<{ comments: IComment[]; postId: ID }>
+        ) {
             const { comments, postId } = action.payload
             state.current = state.current.map((post) => {
                 if (post._id === postId) {
-                    const newComments: IComment[] = [...post.comments,...comments]
+                    const newComments: IComment[] = [...post.comments, ...comments]
                     return { ...post, comments: newComments }
                 }
                 return post
             })
         },
-        createOrUpdateComment(state, action: PayloadAction<{ comment: IComment; postId: ID }>) {
+        createOrUpdateComment(
+            state,
+            action: PayloadAction<{ comment: IComment; postId: ID }>
+        ) {
             const { comment, postId } = action.payload
             state.current = state.current.map((post) => {
                 if (post._id === postId) {
                     //nếu comment đã có thì tức là disptacher muốn cập nhật
-                    const isExistComment = post.comments?.find(cmt => cmt._id === comment._id)
+                    const isExistComment = post.comments?.find(
+                        (cmt) => cmt._id === comment._id
+                    )
                     if (isExistComment) {
-                        const updatedComments = post.comments.map(cmt => cmt._id === comment._id ? { ...cmt, ...comment } : cmt)
+                        const updatedComments = post.comments.map((cmt) =>
+                            cmt._id === comment._id ? { ...cmt, ...comment } : cmt
+                        )
                         return { ...post, comments: updatedComments }
                     }
                     // nếu đã có comment chưa từng tồn tại thì thêm vào
                     else {
-                        const newComments: IComment[] = [comment,...post.comments]
+                        const newComments: IComment[] = [comment, ...post.comments]
                         return { ...post, comments: newComments }
                     }
                 }
                 return post
             })
         },
-        deleteComment(state, action: PayloadAction<{ postId: ID, commentId: ID }>) {
+        deleteComment(state, action: PayloadAction<{ postId: ID; commentId: ID }>) {
             const { postId, commentId } = action.payload
             state.current = state.current.map((post) => {
                 if (post._id === postId) {
-                    const filteredComments =  post.comments.filter(cmt=>cmt._id !== commentId)
-                    return {...post,comments:filteredComments}
+                    const filteredComments = post.comments.filter(
+                        (cmt) => cmt._id !== commentId
+                    )
+                    return { ...post, comments: filteredComments }
                 }
                 return post
             })
         },
         clear(state) {
             state.current = []
-        }
+        },
     },
     // extraReducers: (builder) => {
     //     builder

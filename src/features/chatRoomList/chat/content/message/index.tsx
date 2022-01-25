@@ -13,12 +13,12 @@ import { SocketContext } from 'states/context/socket'
 import { socialUrlReg } from 'utils/regex'
 import { FriendMessage, MyMessage, MyMessageWrap, TextContent } from './styles'
 
-interface IMessageProps{
+interface IMessageProps {
     message: IMessage
     user: IPublicInfo
 }
 
-const Message = ({ message,user }:IMessageProps) => {
+const Message = ({ message, user }: IMessageProps) => {
     const time = moment(message.createAt.toString()).calendar()
     const isUrl = socialUrlReg.test(message.content)
     let content = <TextContent>{message.content}</TextContent>
@@ -26,14 +26,19 @@ const Message = ({ message,user }:IMessageProps) => {
     const [isHover, setIsHover] = useState(false)
 
     const removeMessage = async (message: IMessage) => {
-        if (!socket) return
-        const { chatRoom, _id } = message
-        socket.emit(
-            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.chatRooms}/deleteMessage`,
-            chatRoom,
-            _id
-        )
-        await chatAPI.deleteMessage(message)
+        try {
+            if (!socket) return
+            const { sent, _id, chatRoom } = message
+            socket.emit(
+                `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.chatRooms}/deleteMessage`,
+                sent,
+                chatRoom,
+                _id
+            )
+            await chatAPI.deleteMessage(message)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     if (isUrl)
@@ -80,7 +85,10 @@ const Message = ({ message,user }:IMessageProps) => {
         <Tooltip title={time} placement="right">
             <FriendMessage>
                 {content}
-                <DisplayGridImages images={message.images as string[]} title={message.content} />
+                <DisplayGridImages
+                    images={message.images as string[]}
+                    title={message.content}
+                />
             </FriendMessage>
         </Tooltip>
     )

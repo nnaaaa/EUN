@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import queryString from 'query-string'
 import Axios, { imagesConditon } from 'api/rest/axios'
 import { ID, IQueryPost } from 'models/common'
 import { IModePost, IPost } from 'models/post'
@@ -34,9 +34,10 @@ class PostAPI {
         return Axios.delete(`${this.url}/delete/${postId}`)
     }
 
-    
-    async getComment(query: IQueryPost,postId:ID) {
-        return Axios.get<IPost[]>(`${this.url}/getComment/${postId}?${queryString.stringify(query)}`)
+    async getComment(query: IQueryPost, postId: ID) {
+        return Axios.get<IPost[]>(
+            `${this.url}/getComment/${postId}?${queryString.stringify(query)}`
+        )
     }
     async addComment(commentInfo: Partial<IComment>, postId: string) {
         let form = new FormData()
@@ -49,7 +50,7 @@ class PostAPI {
     }
     async updateComment(updateField: Partial<IComment>, postId: string) {
         let form = new FormData()
-        form.append('_id',updateField._id || '')
+        form.append('_id', updateField._id || '')
         form.append('content', updateField.content || '')
         console.log(updateField)
         if (updateField.images) {
@@ -62,10 +63,14 @@ class PostAPI {
     }
 
     async getFromAllUser(query: IQueryPost) {
-        return Axios.get<IPost[]>(`${this.url}/getAllUser?${queryString.stringify(query)}`)
+        return Axios.get<IPost[]>(
+            `${this.url}/getAllUser?${queryString.stringify(query)}`
+        )
     }
     async getFromOneUser(query: IQueryPost) {
-        return Axios.get<IPost[]>(`${this.url}/getOneUser?${queryString.stringify(query)}`)
+        return Axios.get<IPost[]>(
+            `${this.url}/getOneUser?${queryString.stringify(query)}`
+        )
     }
 
     async updateEmotion(reactId: ID, updateType: IEmotionList) {

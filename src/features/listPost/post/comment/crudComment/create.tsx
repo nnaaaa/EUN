@@ -15,14 +15,20 @@ interface ICreateCommentProps {
     post: IPost
 }
 
-function CreateComment({post}: ICreateCommentProps) {
+function CreateComment({ post }: ICreateCommentProps) {
     const style = useStyle()
     const inputContent = useRef<null | HTMLInputElement>(null)
     const user = useAppSelector((state) => state.user.current)
     const [isSending, setIsSending] = useState<boolean>(false)
-    const { inputImages, previewImages, setContent, content, getContentAndImages,setPreviewImages } =
-        useContent(inputContent)
-    
+    const {
+        inputImages,
+        previewImages,
+        setContent,
+        content,
+        getContentAndImages,
+        setPreviewImages,
+    } = useContent(inputContent)
+
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault()
@@ -37,17 +43,13 @@ function CreateComment({post}: ICreateCommentProps) {
         }
     }
 
-
     if (!user) return <Loading />
 
     return (
         <Stack mb={2} mt={1} direction="row">
             <Avatar src={user.avatar} />
             <Stack flex={1} ml={1} alignItems="center">
-                <form
-                    onSubmit={sendComment}
-                    className={style.form}
-                >
+                <form onSubmit={sendComment} className={style.form}>
                     <StatusInput
                         value={content}
                         onChange={(e) => setContent(e.target.value)}

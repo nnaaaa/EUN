@@ -3,10 +3,10 @@ import { Wrapper } from 'features/chatRoomList/listChat/listChatStyles'
 import { useAppSelector } from 'states/hooks'
 
 const ListChat = () => {
-    const listChat = useAppSelector((state) => state.chat.current)
+    const currentWindow = useAppSelector((state) => state.chat.currentWindow)
     return (
         <Wrapper>
-            {listChat.map((room, index) => (
+            {currentWindow.map((room, index) => (
                 <Chat key={'roomChat' + index} {...room} />
             ))}
         </Wrapper>

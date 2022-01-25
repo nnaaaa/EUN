@@ -22,21 +22,22 @@ import {
     Toolbar,
 } from '@mui/material'
 import Logo from 'components/logo'
-import Gutter from 'features/gutter'
-import { css } from 'features/header/headerStyles'
+import Gutter from 'screens/home/gutter'
+import { useStyle } from 'screens/home/header/headerStyles'
 import { useRef, useState } from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
-import SearchForm from '../searchForm'
+import SearchForm from '../../../features/searchForm'
 import Notifications from './notifications'
 import Options from './options'
+import Conversation from './conversation'
+import ConversationButton from './conversation/representButton'
 
 export default function Header() {
-    const style = css()
+    const style = useStyle()
     const { url } = useRouteMatch()
 
     const [toggleMore, setToggleMore] = useState(false)
     const moreRef = useRef(null)
-
     const [toggleNotice, setToggleNotice] = useState(false)
     const noticeRef = useRef(null)
 
@@ -44,7 +45,6 @@ export default function Header() {
 
     const openOptions = () => {
         setToggleMore(true)
-        setToggleNotice(false)
     }
     const closeMore = () => {
         setToggleMore(false)
@@ -52,11 +52,11 @@ export default function Header() {
 
     const openNotice = () => {
         setToggleNotice(true)
-        setToggleMore(false)
     }
     const closeNotice = () => {
         setToggleNotice(false)
     }
+
     return (
         <AppBar position="fixed" color="inherit" className={style.appBar}>
             <Toolbar className={style.toolBar}>
@@ -100,9 +100,7 @@ export default function Header() {
                                 <FontAwesomeIcon icon={faBorderNone} />
                             </IconButton>
 
-                            <IconButton className={style.icon}>
-                                <FontAwesomeIcon icon={faFacebookMessenger} />
-                            </IconButton>
+                            <ConversationButton />
 
                             <IconButton
                                 className={style.icon}

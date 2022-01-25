@@ -21,15 +21,24 @@ export const useCommentSocket = (postId: ID | undefined) => {
         const deleteCommentListener = (commentId: ID) => {
             dispatch(postActions.deleteComment({ postId, commentId }))
         }
-        
-        socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${postId}`, createOrUpdateListener)
-        socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/deleteComment/${postId}`, deleteCommentListener)
+
+        socket.on(
+            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${postId}`,
+            createOrUpdateListener
+        )
+        socket.on(
+            `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/deleteComment/${postId}`,
+            deleteCommentListener
+        )
         return () => {
             socket.off(
                 `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/${postId}`,
                 createOrUpdateListener
             )
-            socket.off(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/deleteComment/${postId}`, deleteCommentListener)
+            socket.off(
+                `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.posts}/deleteComment/${postId}`,
+                deleteCommentListener
+            )
         }
     }, [socket, postId])
 }

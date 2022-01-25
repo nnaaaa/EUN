@@ -10,7 +10,7 @@ import {
     IconButton,
     Popover,
     Tooltip,
-    Typography
+    Typography,
 } from '@mui/material'
 import { useCommentSocket } from 'api/socket/comment'
 import { useReactSocket } from 'api/socket/react'
@@ -37,8 +37,8 @@ export default function Post(post: IPost) {
 
     const interactTool = useInteraction(post)
     const { isToggle, setIsToggle, toggleBtnRef } = useToggle()
-    const { getMore,isHasMore } = useIteratorComment(post._id)
-    
+    const { getMore, isHasMore } = useIteratorComment(post._id)
+
     const time = moment(createAt).fromNow(true)
     const detailTime = moment(createAt).format('h:mm:ss a, DD MMMM YYYY')
 
@@ -129,18 +129,31 @@ export default function Post(post: IPost) {
 
             <Box p={2} pb={1}>
                 <ReactCounter react={react} />
-                <InteractTool tool={interactTool}/>
+                <InteractTool tool={interactTool} />
             </Box>
             {interactTool.isJoinComment && (
                 <Box px={2} pt={0} pb={1}>
                     <Divider />
                     <CreateComment post={post} />
-                    {comments ? comments.map((comment, index) => (
-                        <Comment key={index} comment={comment} post={post} />
-                    )) : <></>}
-                    {isHasMore ? <MUILink sx={{cursor:'pointer'}} underline="hover" variant="body2" onClick={getMore}>
-                        View more comments
-                    </MUILink> : <></>}
+                    {comments ? (
+                        comments.map((comment, index) => (
+                            <Comment key={index} comment={comment} post={post} />
+                        ))
+                    ) : (
+                        <></>
+                    )}
+                    {isHasMore ? (
+                        <MUILink
+                            sx={{ cursor: 'pointer' }}
+                            underline="hover"
+                            variant="body2"
+                            onClick={getMore}
+                        >
+                            View more comments
+                        </MUILink>
+                    ) : (
+                        <></>
+                    )}
                 </Box>
             )}
         </CardMargin>

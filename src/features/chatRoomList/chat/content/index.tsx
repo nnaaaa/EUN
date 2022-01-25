@@ -4,10 +4,7 @@ import { ID } from 'models/common'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppSelector } from 'states/hooks'
 import useChatIterator from '../useChatIterator'
-import {
-    FriendComposing,
-    WrapperMessage
-} from './contentStyles'
+import { FriendComposing, WrapperMessage } from './contentStyles'
 import Message from './message'
 import SolarSystem from 'components/logo/2dSolarSystem'
 
@@ -19,7 +16,7 @@ interface IProps {
 function Content({ room, userComposingId }: IProps) {
     const { messages } = room
     const user = useAppSelector((state) => state.user.current)
-    const { getMore, isHasMore } = useChatIterator(room._id)
+    const { getMore, isHasMore } = useChatIterator(room)
 
     if (!user) return <></>
 
@@ -38,14 +35,14 @@ function Content({ room, userComposingId }: IProps) {
                         alignItems="center"
                         justifyContent="center"
                     >
-                        <SolarSystem/>
+                        <SolarSystem />
                     </Stack>
                 }
                 scrollableTarget="messageScroll"
             >
-                {messages.map((message) =>
+                {messages.map((message) => (
                     <Message key={message._id} message={message} user={user} />
-                )}
+                ))}
             </InfiniteScroll>
             {userComposingId && userComposingId !== user._id && <FriendComposing />}
         </WrapperMessage>

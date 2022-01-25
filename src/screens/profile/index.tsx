@@ -11,6 +11,7 @@ import ListFriend from './detail/listFriend'
 import ListPhoto from './detail/listPhoto'
 
 import className from './profileStyles.module.css'
+import { BoxStyled, ProfileLazyloading } from './styles'
 
 interface IProfileProps {
     user: IPublicInfo | undefined
@@ -32,51 +33,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
         }
     }
 
-    Lazyload = () => (
-        <Box width="100%">
-            <Skeleton height={400} variant="rectangular" />
-            <Skeleton height={50} variant="rectangular" style={{ marginTop: 100 }} />
-            <Box
-                py={2}
-                sx={{
-                    px: {
-                        xs: 10,
-                        lg: 30,
-                    },
-                }}
-            >
-                <Grid container spacing={2}>
-                    <Grid item md={5}>
-                        <Skeleton height={120} variant="rectangular" />
-                        <Skeleton height={120} variant="rectangular" />
-                        <Skeleton height={120} variant="rectangular" />
-                    </Grid>
-                    <Grid item md={7}>
-                        <Skeleton height={135} variant="rectangular" />
-                        <Skeleton height={300} variant="rectangular" />
-                        <Skeleton height={300} variant="rectangular" />
-                    </Grid>
-                </Grid>
-            </Box>
-        </Box>
-    )
     protected abstract Header(): React.ReactElement
-
-    private BoxStyled = ({ children }: { children: React.ReactElement }) => (
-        <Box
-            className={className.wrapper}
-            py={2}
-            sx={{
-                px: {
-                    xs: 10,
-                    lg: 30,
-                },
-            }}
-            bgcolor="#f2f5f6"
-        >
-            {children}
-        </Box>
-    )
 
     protected setIndexTabView = (index: number) => {
         this.setState({ index })
@@ -86,7 +43,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
         const { user } = this.props
         const { index } = this.state
 
-        if (!user) return <Loading />
+        if (!user) return <ProfileLazyloading />
 
         return (
             <Box bgcolor="white" width="100%">
@@ -97,7 +54,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
                     index={index}
                     onChangeIndex={(newIdx, lastedIndex) => this.setIndexTabView(newIdx)}
                 >
-                    <this.BoxStyled>
+                    <BoxStyled>
                         <Grid container spacing={2}>
                             <Grid
                                 item
@@ -117,13 +74,13 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
                                 <ListPost posts={user.posts} />
                             </Grid>
                         </Grid>
-                    </this.BoxStyled>
-                    <this.BoxStyled>
+                    </BoxStyled>
+                    <BoxStyled>
                         <ListPhoto user={user} />
-                    </this.BoxStyled>
-                    <this.BoxStyled>
+                    </BoxStyled>
+                    <BoxStyled>
                         <ListFriend user={user} setIndex={this.setIndexTabView} />
-                    </this.BoxStyled>
+                    </BoxStyled>
                 </SwipeableViews>
             </Box>
         )

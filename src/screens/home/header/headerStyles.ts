@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 
-export const css = makeStyles((theme: any) => ({
+export const useStyle = makeStyles((theme: any) => ({
     toolBar: {
         padding: `0.5rem 0`,
         color: 'white',

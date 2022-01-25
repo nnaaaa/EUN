@@ -31,10 +31,12 @@ export default function Intro({ user }: IIntroProps) {
                     />
                 ))}
             </Box>
-            {user.education ?? (
+            {user.education ? (
                 <Button className={style.education} variant="contained" color="inherit">
                     <Typography noWrap>Education: {user.education}</Typography>
                 </Button>
+            ) : (
+                <></>
             )}
         </Box>
     )

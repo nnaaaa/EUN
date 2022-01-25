@@ -72,7 +72,7 @@ function EditComment({ initComment, post, setIsEdit }: IEditCommentProps) {
 
                 <PreviewImages
                     images={
-                        (previewImages && previewImages.length <= 3) ? previewImages : []
+                        previewImages && previewImages.length <= 3 ? previewImages : []
                     }
                     width="80%"
                     infinite

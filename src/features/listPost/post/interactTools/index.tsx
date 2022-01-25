@@ -17,7 +17,7 @@ export interface IEmotionSelect {
     node: React.ReactNode
 }
 
-export default function InteractTool({tool}: IInteractTools) {
+export default function InteractTool({ tool }: IInteractTools) {
     const style = useStyle()
     const { isJoinComment, setJoin, sendReact, isReacted, myReact } = tool
     const likeButton = useRef(null)

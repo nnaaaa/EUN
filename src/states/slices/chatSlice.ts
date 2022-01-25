@@ -1,92 +1,146 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { arrayIsContain } from 'algorithms/array'
 import { chatAPI } from 'api/rest'
 import { IChatRoom } from 'models/chatRoom'
 import { ID } from 'models/common'
 import { IMessage } from 'models/message'
-import { RootState } from 'states/store'
 
 interface IinitalState {
     loading: boolean
     error?: string
-    current: IChatRoom[]
+    listRoom: IChatRoom[]
+    currentWindow: IChatRoom[]
 }
 
 const initialState: IinitalState = {
     loading: false,
-    current: [],
+    listRoom: [],
+    currentWindow: [],
 }
 
-const addChat = createAsyncThunk('chat/addOne', async (friendId: ID, thunkAPI) => {
-    const user = (thunkAPI.getState() as RootState).user.current
-    if (!user) throw new Error()
-    const userId = user._id
-    if (!userId) throw new Error()
-    const room = await chatAPI.getRoom([userId, friendId])
-    return room.data
+// const addWindowChat = createAsyncThunk('chat/openWindow', async (roomId: ID) => {
+//     const res = await chatAPI.getNewestMessageOfRoom(roomId)
+//     if (!res.data) throw new Error()
+//     await chatAPI.seenMessages(roomId)
+//     return { messages: res.data, roomId }
+// })
+
+const getListRoom = createAsyncThunk('chat/getListRoom', async () => {
+    const res = await chatAPI.getListRoomWithNewMessages()
+    return res.data
 })
 
 const chatSlice = createSlice({
     name: 'chat',
     initialState,
     reducers: {
-        closeWindowChat(state, action: PayloadAction<ID[] | ID>) {
-            //tắt bằng id phòng
-            if (typeof action.payload === 'string')
-                state.current = state.current.filter(
-                    (room) => room._id !== action.payload
-                )
-            //tắt bằng thành viên trong phòng
-            else if (typeof action.payload === 'object')
-                state.current = state.current.filter((room) => {
-                    const listId = room.members.map((u) => u._id)
-                    return !arrayIsContain(listId, ...action.payload)
-                })
+        addWindowChat(state, action: PayloadAction<ID>) {
+            const roomId = action.payload
+            const room = state.listRoom.find((r) => r._id === roomId)
+            if (!room) return
+            state.currentWindow.push(room)
         },
-        getMoreMessages(state, action: PayloadAction<{ messages: IMessage[], roomId: ID }>) {
+        closeWindowChat(state, action: PayloadAction<ID>) {
+            state.currentWindow = state.currentWindow.filter(
+                (room) => room._id !== action.payload
+            )
+        },
+        getMessagesTheFirstTime(
+            state,
+            action: PayloadAction<{ messages: IMessage[]; roomId: ID }>
+        ) {
             const { messages, roomId } = action.payload
-
-            state.current = state.current.map((room) => {
+            state.currentWindow = state.currentWindow.map((room) => {
+                if (room._id === roomId) {
+                    room.messages = messages
+                }
+                return room
+            })
+        },
+        getMoreMessages(
+            state,
+            action: PayloadAction<{ messages: IMessage[]; roomId: ID }>
+        ) {
+            const { messages, roomId } = action.payload
+            state.currentWindow = state.currentWindow.map((room) => {
                 if (room._id === roomId) {
                     room.messages = room.messages.concat(messages)
                 }
                 return room
             })
         },
-        insertMessage(state, action: PayloadAction<{ message: IMessage, roomId: ID }>) {
-            const { message, roomId } = action.payload
-            state.current = state.current.map((room) => {
-                if (room._id === roomId) {
+        insertMessage(state, action: PayloadAction<IMessage>) {
+            const message = action.payload
+            state.listRoom = state.listRoom.map((room) => {
+                if (room._id === message.chatRoom) {
+                    room.messages.unshift(message)
+                }
+                return room
+            })
+            state.currentWindow = state.currentWindow.map((room) => {
+                if (room._id === message.chatRoom) {
                     room.messages.unshift(message)
                 }
                 return room
             })
         },
-        removeMessage(state, action: PayloadAction<{ messageId: ID; roomId: ID }>) {
-            const { messageId, roomId } = action.payload
-            state.current = state.current.map((room) => {
+        updateMessage(state, action: PayloadAction<IMessage>) {
+            const message = action.payload
+            state.listRoom = state.listRoom.map((room) => {
+                if (room._id === message.chatRoom) {
+                    room.messages = room.messages.map((msg) =>
+                        msg._id === message._id ? message : msg
+                    )
+                }
+                return room
+            })
+        },
+        removeMessage(state, action: PayloadAction<{ roomId: ID; messageId: ID }>) {
+            const { roomId, messageId } = action.payload
+            state.listRoom = state.listRoom.map((room) => {
                 if (room._id === roomId) {
-                    room.messages = room.messages.filter(msg=>msg._id !== messageId)
+                    room.messages = room.messages.filter((msg) => msg._id !== messageId)
+                }
+                return room
+            })
+            state.currentWindow = state.currentWindow.map((room) => {
+                if (room._id === roomId) {
+                    room.messages = room.messages.filter((msg) => msg._id !== messageId)
                 }
                 return room
             })
         },
         clear(state) {
-            state.current = []
-        }
+            state.currentWindow = []
+            state.listRoom = []
+        },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(addChat.pending, (state) => {
+            // .addCase(addWindowChat.pending, (state) => {
+            //     state.loading = true
+            // })
+            // .addCase(addWindowChat.rejected, (state) => {
+            //     state.loading = false
+            //     state.error = 'Unauthorized'
+            // })
+            // .addCase(addWindowChat.fulfilled, (state, action) => {
+            //     const { messages, roomId } = action.payload
+            //     state.loading = false
+            //     const room = state.listRoom.find(r => r._id === roomId)
+            //     if (!room) return
+            //     state.currentWindow.push(room)
+            // })
+            .addCase(getListRoom.pending, (state) => {
                 state.loading = true
             })
-            .addCase(addChat.rejected, (state) => {
+            .addCase(getListRoom.rejected, (state) => {
                 state.loading = false
                 state.error = 'Unauthorized'
             })
-            .addCase(addChat.fulfilled, (state, action) => {
+            .addCase(getListRoom.fulfilled, (state, action) => {
                 state.loading = false
-                state.current.push(action.payload)
+                const newList = [...state.listRoom, ...action.payload]
+                state.listRoom = newList
             })
     },
 })
@@ -94,7 +148,7 @@ const chatSlice = createSlice({
 const { reducer, actions } = chatSlice
 
 export const chatActions = Object.assign(actions, {
-    addChat,
+    getListRoom,
 })
 
 export default reducer

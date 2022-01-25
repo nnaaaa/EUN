@@ -25,13 +25,17 @@ export default function Comment({ comment, post }: ICommentProps) {
     const { content, createAt, owner, images } = comment
     const { username, avatar } = owner as IPublicInfo
     const timeDetail = moment(createAt).fromNow()
-    
+
     const { isHover, setIsHover, setIsToggle, isToggle, toggleBtnRef } = useToggle()
 
-    if (isEdit) return <EditComment post={post} initComment={comment} setIsEdit={setIsEdit}/>
+    if (isEdit)
+        return <EditComment post={post} initComment={comment} setIsEdit={setIsEdit} />
 
     return (
-        <Box display="flex" mb={1} alignItems="flex-start"
+        <Box
+            display="flex"
+            mb={1}
+            alignItems="flex-start"
             onMouseOver={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
         >

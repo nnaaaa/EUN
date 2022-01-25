@@ -12,7 +12,6 @@ export const useStyle = makeStyles({
     },
 })
 
-
 const Message = styled.span`
     max-width: 80%;
     border-radius: 10px;
@@ -25,7 +24,7 @@ export const FriendMessage = styledMUI(Message)(({ theme }) => ({
 }))
 export const MyMessageWrap = styledMUI(Message)(({ theme }) => ({
     display: 'flex',
-    marginLeft:'auto'
+    marginLeft: 'auto',
 }))
 
 export const MyMessage = styledMUI('div')(({ theme }) => ({
@@ -43,5 +42,3 @@ export const TextContent = styled.p`
     font-size: 14px;
     padding: 0.5rem 0.6rem;
 `
-
-
