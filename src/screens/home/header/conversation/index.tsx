@@ -38,7 +38,7 @@ const Conversation = ({ converseHook, closeConverse }: IConversationProps) => {
                     return (
                         <Button
                             className={style.wrapper}
-                            color="inherit"
+                            color="primary"
                             key={'conversation' + idx}
                             onClick={async () => {
                                 closeConverse()

@@ -1,27 +1,32 @@
-import { CircularProgress, Stack } from '@mui/material'
-import { IPost } from 'models/post'
-import { useEffect } from 'react'
+import { Stack } from '@mui/material'
+import SolarSystem from 'components/logo/2dSolarSystem'
+import { IPublicInfo } from 'models/user'
+import { useEffect, useMemo } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppSelector } from 'states/hooks'
+import Private from './getStrategy/private'
+import PublicFriend from './getStrategy/publicAndFriend'
 import Post from './post'
 import useIteratorPost from './useIteratorPost'
-import SolarSystem from 'components/logo/2dSolarSystem'
 
 interface IListPostProps {
-    posts?: IPost[]
+    mode: 'publicAndFriend' | 'private'
+    user: IPublicInfo
 }
 
-export default function ListPost({ posts }: IListPostProps) {
+export default function ListPost({ mode, user }: IListPostProps) {
     const { current } = useAppSelector((state) => state.post)
-    const user = useAppSelector((state) => state.user.current)
-    const { getMore, isHasMore } = useIteratorPost()
+
+    const getStrategy = useMemo(() => {
+        if (mode === 'private') return new Private(user)
+        else return new PublicFriend(user)
+    }, [user])
+    const { getMore, isHasMore } = useIteratorPost(getStrategy)
+
     //load data at first time
     useEffect(() => {
         ;(async () => {
-            //nếu không truyền posts từ ngoài vào thì sẽ call api lấy tất cả post
-            if (!posts && user) await getMore()
-            else if (posts) {
-            } else throw new Error("Posts are existed or User doesn't exist")
+            await getMore()
         })()
             .then(() => {})
             .catch((e) => {
@@ -29,15 +34,6 @@ export default function ListPost({ posts }: IListPostProps) {
             })
             .finally(() => {})
     }, [])
-
-    if (posts)
-        return (
-            <>
-                {posts.map((post) => (
-                    <Post key={post._id} {...post} />
-                ))}
-            </>
-        )
 
     return (
         <InfiniteScroll

@@ -1,10 +1,11 @@
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import CloseIcon from '@mui/icons-material/Close'
 import { Button, Typography } from '@mui/material'
 import { friendAPI } from 'api/rest'
 import Role from '.'
 import Accepted from './accepted'
 import Stranger from './stranger'
+
 export default class Invited extends Role {
     protected mainButtonClick = async () => {
         try {
@@ -38,7 +39,7 @@ export default class Invited extends Role {
                     variant="contained"
                     color="primary"
                     onClick={this.mainButtonClick}
-                    startIcon={<FontAwesomeIcon icon={faPlus} size="xs" color="white" />}
+                    startIcon={<PersonAddIcon htmlColor="white" />}
                     disabled={this.state.isLoading}
                     sx={{ textTransform: 'none' }}
                     size="small"
@@ -48,7 +49,7 @@ export default class Invited extends Role {
                     </Typography>
                 </Button>
                 <Button
-                    startIcon={<FontAwesomeIcon icon={faTimes} size="xs" color="white" />}
+                    startIcon={<CloseIcon htmlColor="white" />}
                     variant="contained"
                     color="error"
                     onClick={this.subButtonClick}

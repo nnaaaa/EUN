@@ -83,7 +83,7 @@ export default function EditProfile() {
                 <Typography className={style.item}>Edit Profile</Typography>
             </Button>
             <Popup open={isToggle} onClose={closePopup}>
-                <Box width="800px" p={2}>
+                <Box p={2}>
                     <Typography style={{ fontSize: 20, padding: 10 }} align="center">
                         Edit Profile
                     </Typography>

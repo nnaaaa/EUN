@@ -16,19 +16,45 @@ export default function Gutter() {
                 startIcon={<Avatar src={user?.avatar} />}
                 className={style.button}
             >
-                <Typography className={style.text}>{user?.username}</Typography>
+                <Typography
+                    className={style.text}
+                    sx={{ color: { xs: 'primary', lg: 'white' } }}
+                    noWrap
+                >
+                    {user?.username}
+                </Typography>
             </Button>
             <Button startIcon={<Avatar src={Images.group} />} className={style.button}>
-                <Typography className={style.text}>Friends</Typography>
+                <Typography
+                    className={style.text}
+                    sx={{ color: { xs: 'primary', lg: 'white' } }}
+                >
+                    Friends
+                </Typography>
             </Button>
             <Button startIcon={<Avatar src={Images.save} />} className={style.button}>
-                <Typography className={style.text}>Save</Typography>
+                <Typography
+                    className={style.text}
+                    sx={{ color: { xs: 'primary', lg: 'white' } }}
+                >
+                    Save
+                </Typography>
             </Button>
             <Button startIcon={<Avatar src={Images.event} />} className={style.button}>
-                <Typography className={style.text}>Event</Typography>
+                <Typography
+                    className={style.text}
+                    sx={{ color: { xs: 'primary', lg: 'white' } }}
+                >
+                    Event
+                </Typography>
             </Button>
             <Button startIcon={<Avatar src={Images.clock} />} className={style.button}>
-                <Typography className={style.text}>Memories</Typography>
+                <Typography
+                    className={style.text}
+                    sx={{ color: { xs: 'primary', lg: 'white' } }}
+                >
+                    Memories
+                </Typography>
             </Button>
         </Stack>
     )

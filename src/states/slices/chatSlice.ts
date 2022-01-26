@@ -33,10 +33,8 @@ const chatSlice = createSlice({
     name: 'chat',
     initialState,
     reducers: {
-        addWindowChat(state, action: PayloadAction<ID>) {
-            const roomId = action.payload
-            const room = state.listRoom.find((r) => r._id === roomId)
-            if (!room) return
+        addWindowChat(state, action: PayloadAction<IChatRoom>) {
+            const room = action.payload
             state.currentWindow.push(room)
         },
         closeWindowChat(state, action: PayloadAction<ID>) {

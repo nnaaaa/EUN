@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import { IFriendPublicInfo } from 'states/slices/friendSlice'
-import Accepted from './roles/accepted'
-import Role from './roles'
-import Invited from './roles/invited'
-import Stranger from './roles/stranger'
-import Pending from './roles/pending'
+import Accepted from './states/accepted'
+import Role from './states'
+import Invited from './states/invited'
+import Stranger from './states/stranger'
+import Pending from './states/pending'
 
 interface IUserRoleProps {
     friend: IFriendPublicInfo

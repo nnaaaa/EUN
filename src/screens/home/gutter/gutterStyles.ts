@@ -9,8 +9,5 @@ export const useStyle = makeStyles((theme) => ({
     text: {
         fontWeight: 'bold',
         fontSize: 14,
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        color: 'white',
     },
 }))

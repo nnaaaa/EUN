@@ -1,5 +1,4 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CloseIcon from '@mui/icons-material/Close'
 import { Button, Typography } from '@mui/material'
 import { friendAPI } from 'api/rest'
 import Role from '.'
@@ -22,7 +21,7 @@ export default class Pending extends Role {
     render() {
         return (
             <Button
-                startIcon={<FontAwesomeIcon icon={faTimes} size="xs" color="white" />}
+                startIcon={<CloseIcon htmlColor="white" />}
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}

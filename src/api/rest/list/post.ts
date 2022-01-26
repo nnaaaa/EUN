@@ -4,6 +4,7 @@ import { ID, IQueryPost } from 'models/common'
 import { IModePost, IPost } from 'models/post'
 import { IComment } from 'models/comment'
 import { IEmotionList, IReact } from 'models/react'
+import { IPublicInfo } from 'models/user'
 
 class PostAPI {
     url = `post`
@@ -62,14 +63,14 @@ class PostAPI {
         return Axios.delete(`${this.url}/deleteComment/${commentId}`)
     }
 
-    async getFromAllUser(query: IQueryPost) {
+    async getFromAllUser(query: IQueryPost, user: IPublicInfo) {
         return Axios.get<IPost[]>(
-            `${this.url}/getAllUser?${queryString.stringify(query)}`
+            `${this.url}/getAllUser/${user._id}?${queryString.stringify(query)}`
         )
     }
-    async getFromOneUser(query: IQueryPost) {
+    async getFromOneUser(query: IQueryPost, user: IPublicInfo) {
         return Axios.get<IPost[]>(
-            `${this.url}/getOneUser?${queryString.stringify(query)}`
+            `${this.url}/getOneUser/${user._id}?${queryString.stringify(query)}`
         )
     }
 

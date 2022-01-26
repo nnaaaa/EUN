@@ -23,10 +23,9 @@ function ListResult(props: IProps) {
                     display="flex"
                     key={'searchResult' + index}
                     alignItems="center"
-                    width="100%"
                     justifyContent="space-between"
                 >
-                    <Stack direction="row" alignItems="center">
+                    <Stack direction="row" alignItems="center" maxWidth="50%">
                         <Link to={`/${stranger.account}`} color="inherit">
                             <Avatar src={stranger.avatar} />
                         </Link>
@@ -35,6 +34,8 @@ function ListResult(props: IProps) {
                             component={Link}
                             sx={{ ml: 1 }}
                             to={`/${stranger.account}`}
+                            noWrap
+                            width="100%"
                         >
                             {stranger.username}
                         </Typography>

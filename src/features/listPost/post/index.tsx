@@ -11,6 +11,7 @@ import {
     Popover,
     Tooltip,
     Typography,
+    Collapse,
 } from '@mui/material'
 import { useCommentSocket } from 'api/socket/comment'
 import { useReactSocket } from 'api/socket/react'
@@ -131,7 +132,7 @@ export default function Post(post: IPost) {
                 <ReactCounter react={react} />
                 <InteractTool tool={interactTool} />
             </Box>
-            {interactTool.isJoinComment && (
+            <Collapse in={interactTool.isJoinComment}>
                 <Box px={2} pt={0} pb={1}>
                     <Divider />
                     <CreateComment post={post} />
@@ -155,7 +156,7 @@ export default function Post(post: IPost) {
                         <></>
                     )}
                 </Box>
-            )}
+            </Collapse>
         </CardMargin>
     )
 }

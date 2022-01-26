@@ -1,7 +1,6 @@
 import Chat from 'features/chatRoomList/chat'
 import { Wrapper } from 'features/chatRoomList/listChat/listChatStyles'
 import { useAppSelector } from 'states/hooks'
-
 const ListChat = () => {
     const currentWindow = useAppSelector((state) => state.chat.currentWindow)
     return (

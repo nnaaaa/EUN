@@ -5,7 +5,7 @@ import { chatActions } from 'states/slices/chatSlice'
 
 export const useToggleChat = () => {
     const dispatch = useAppDispatch()
-    const { currentWindow, loading } = useAppSelector((state) => state.chat)
+    const { listRoom, currentWindow, loading } = useAppSelector((state) => state.chat)
     const user = useAppSelector((state) => state.user.current)
     return async (roomId: ID) => {
         try {
@@ -17,9 +17,10 @@ export const useToggleChat = () => {
                 // dispatch(chatActions.closeWindowChat(roomId))
                 return
             }
-            //lấy thông thông tin về room cũng như 10 tin nhắn mới mới nhất
             await chatAPI.seenMessages(roomId)
-            dispatch(chatActions.addWindowChat(roomId))
+            const room = listRoom.find((r) => r._id === roomId)
+            if (!room) throw new Error("Room doesn't exist")
+            dispatch(chatActions.addWindowChat(room))
         } catch (e) {
             console.log(e)
         }

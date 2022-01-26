@@ -1,5 +1,4 @@
-import { faUserFriends } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PeopleIcon from '@mui/icons-material/People'
 import { Button, Typography } from '@mui/material'
 import { friendAPI } from 'api/rest'
 import Role from '.'
@@ -22,9 +21,7 @@ export default class Accepted extends Role {
     render() {
         return (
             <Button
-                startIcon={
-                    <FontAwesomeIcon icon={faUserFriends} size="xs" color="white" />
-                }
+                startIcon={<PeopleIcon htmlColor="white" />}
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}

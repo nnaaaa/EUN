@@ -23,6 +23,13 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        updateFriend(state, action: PayloadAction<IPublicInfo>) {
+            const friend = action.payload
+            if (!state.current) return
+            state.current.friends.accepted = state.current.friends.accepted.map((f) =>
+                f._id === friend._id ? friend : f
+            )
+        },
         clearUser: (state) => {
             state.current = undefined
         },

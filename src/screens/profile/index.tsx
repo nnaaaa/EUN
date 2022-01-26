@@ -71,7 +71,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
                                 <Friends setIndex={this.setIndexTabView} user={user} />
                             </Grid>
                             <Grid item md={7} xs={12}>
-                                <ListPost posts={user.posts} />
+                                <ListPost mode="private" user={user} />
                             </Grid>
                         </Grid>
                     </BoxStyled>

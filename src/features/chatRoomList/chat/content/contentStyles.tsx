@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components'
 
 export const WrapperMessage = styled.div`
+    position: relative;
     padding: 0.5rem 0.5rem;
     overflow-y: auto;
     height: 300px;

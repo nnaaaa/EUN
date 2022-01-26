@@ -12,7 +12,14 @@ function Chat(props: IChatRoom) {
     const { onBlur, onFocus, userComposingId } = useComposing(props)
 
     return (
-        <Box bgcolor="white" boxShadow={2} mr={1} borderRadius={2} width="20rem">
+        <Box
+            bgcolor="white"
+            boxShadow={2}
+            mr={1}
+            borderRadius={2}
+            width="20rem"
+            position="relative"
+        >
             <Header room={props} setExpand={setExpand} />
             {expand && <Content room={props} userComposingId={userComposingId} />}
             {expand && <Footer room={props} onBlur={onBlur} onFocus={onFocus} />}

@@ -1,5 +1,4 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Button, Typography } from '@mui/material'
 import { friendAPI } from 'api/rest'
 import Role from '.'
@@ -25,7 +24,7 @@ export default class Stranger extends Role {
                 variant="contained"
                 onClick={this.mainButtonClick}
                 disabled={this.state.isLoading}
-                startIcon={<FontAwesomeIcon icon={faPlus} size="xs" color="white" />}
+                startIcon={<PersonAddIcon htmlColor="white" />}
                 color="primary"
                 size="small"
                 sx={{ textTransform: 'none' }}

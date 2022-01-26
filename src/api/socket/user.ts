@@ -4,6 +4,8 @@ import { IPublicInfo } from 'models/user'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { userAPI } from 'api/rest/list/user'
+import { useAppDispatch } from 'states/hooks'
+import { userActions } from 'states/slices/userSlice'
 
 export const useUserSocket = (
     targetId: ID | undefined,
@@ -37,13 +39,13 @@ export const useUserSocket = (
 
 export const useListUserSocket = (dispatcher: () => void) => {
     const { socket } = useContext(SocketContext)
-
+    const dispatch = useAppDispatch()
     useEffect(() => {
         if (!socket) return
         const updateListener = async (newData: IPublicInfo) => {
             try {
                 console.log(newData)
-                // const user = await userAPI.getListUser()
+                dispatch(userActions.updateFriend(newData))
             } catch {
             } finally {
                 dispatcher()
