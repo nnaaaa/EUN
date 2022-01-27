@@ -17,9 +17,4 @@ export const useStyle = makeStyles({
         paddingLeft: 15,
         backgroundColor: '#F0F2F5',
     },
-    name: {
-        display: 'flex',
-        alignItems: 'center',
-        margin: '0 10px',
-    },
 })

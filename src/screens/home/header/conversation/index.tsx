@@ -1,27 +1,43 @@
 import { Avatar, Button, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { useToggleChat } from 'features/chatRoomList/listChat/useToggleChat'
+import { useToggleChat } from 'features/chatRoomList/useToggleChat'
 import { ID } from 'models/common'
 import moment from 'moment'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { ConversationLoading, useStyle } from './styles'
-import useConversation from './useConversation'
+import useIteratorChatRoom from './useIteratorChatRoom'
 
 interface IConversationProps {
-    converseHook: ReturnType<typeof useConversation>
+    iteratorHook: ReturnType<typeof useIteratorChatRoom>
     closeConverse: () => void
 }
 
-const Conversation = ({ converseHook, closeConverse }: IConversationProps) => {
-    const { isLoading, chatRoomList, user } = converseHook
+const Conversation = ({ iteratorHook, closeConverse }: IConversationProps) => {
+    const { user, listRoom, getMore, isHasMore } = iteratorHook
+    
     const style = useStyle()
     const toggleChat = useToggleChat()
 
-    if (!user || isLoading) return <ConversationLoading />
+    if (!user) return <></>
 
     return (
-        <Box p={1} boxShadow={2} bgcolor="white" width="300px">
-            {chatRoomList.length > 0 ? (
-                chatRoomList.map((room, idx) => {
+        <Box
+            p={1}
+            boxShadow={2}
+            bgcolor="white"
+            width="300px"
+            height="200px"
+            overflow="auto"
+            id="wrapperScroll"
+        >
+            <InfiniteScroll
+                dataLength={listRoom.length}
+                next={getMore}
+                hasMore={isHasMore}
+                loader={<ConversationLoading/>}
+                scrollableTarget="wrapperScroll"
+            >
+                {listRoom.map((room, idx) => {
                     const friend = room.members.find((m) => m._id !== user._id)
                     const representMessage = room.messages[0]
                     const newMessageAt = moment(room.newMessageAt).fromNow(true)
@@ -84,10 +100,8 @@ const Conversation = ({ converseHook, closeConverse }: IConversationProps) => {
                             </Stack>
                         </Button>
                     )
-                })
-            ) : (
-                <Typography>😓 Không tin nhắn nào</Typography>
-            )}
+                })}
+            </InfiniteScroll>
         </Box>
     )
 }

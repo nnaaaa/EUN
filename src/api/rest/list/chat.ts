@@ -10,13 +10,10 @@ class ChatAPI {
     async create(members: ID[]) {
         return Axios.post<ID[]>(`${this.url}/create`, members)
     }
-    async getNewestMessageOfRoom(roomId: ID) {
-        return Axios.get<IMessage[]>(`${this.url}/getNewestMessageOfRoom/${roomId}`)
+    async getListRoomFromTime(query: Partial<IQueryPost>, fromTime: Date) {
+        return Axios.get<IChatRoom[]>(`${this.url}/getListRoomFromTime/${fromTime}?${queryString.stringify(query)}`)
     }
-    async getListRoomWithNewMessages() {
-        return Axios.get<IChatRoom[]>(`${this.url}/getListRoomWithNewMessages`)
-    }
-    async getMessages(query: IQueryPost, roomId: ID, fromTime: Date) {
+    async getMessagesFromTime(query:Partial<IQueryPost>, roomId: ID, fromTime: Date) {
         return Axios.get<IChatRoom[]>(
             `${this.url}/getMessage/${roomId}/${fromTime}?${queryString.stringify(query)}`
         )

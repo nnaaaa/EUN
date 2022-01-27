@@ -8,22 +8,22 @@ import {
     Button,
     CircularProgress,
     Stack,
-    Typography,
+    Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
+import { useListUserSocket } from 'api/socket/user'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
-import { ID } from 'models/common'
 import { useState } from 'react'
 import { useAppSelector } from 'states/hooks'
-import { useToggleChat } from '../../chatRoomList/listChat/useToggleChat'
-import { arrayIsContain } from 'algorithms/array'
-import className from './styles.module.scss'
+import {
+    useFindRoomByMembers,
+    useToggleChat
+} from '../../chatRoomList/useToggleChat'
 
 export default function FriendOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
-    const { listRoom } = useAppSelector((state) => state.chat)
-    const user = useAppSelector((state) => state.user.current)
+
     const friendOnlineList = useAppSelector((state) => {
         return state.user.current
             ? state.user.current.friends?.accepted.filter((f) => f.isOnline)
@@ -31,18 +31,9 @@ export default function FriendOnline() {
     })
     const { loading } = useAppSelector((state) => state.chat)
 
+    useListUserSocket()
     // ẩn hoặc hiện khung chat khi nhấn vào các người online
-    const toggleChat = useToggleChat()
-    const chatWithFriend = async (friendId: ID) => {
-        if (!user) return
-        const room = listRoom.find((room) => {
-            const listId = room.members.map((u) => u._id)
-            return arrayIsContain(listId, user._id, friendId)
-        })
-        if (room) {
-            await toggleChat(room._id)
-        }
-    }
+    const chatWithFriend = useFindRoomByMembers(useToggleChat())
 
     if (!friendOnlineList || friendOnlineList.length <= 0) {
         return <></>
@@ -72,9 +63,8 @@ export default function FriendOnline() {
                         fullWidth
                     >
                         <Stack direction="row" alignItems="center" width="100%">
-                            <Box className={className.aura}>
-                                <Avatar src={friend.avatar} />
-                            </Box>
+                            <Avatar src={friend.avatar} />
+
                             <Box ml={1} overflow="hidden">
                                 <Typography
                                     className={style.name}

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress, IconButton, InputBase, Typography } from '@mui/material'
 import { useEffect, useRef } from 'react'
 import { useAppSelector } from 'states/hooks'
-import { useFindUser, useSearchSocket } from '../searchHook'
+import { useFindUserDebounce, useSearchSocket } from 'hooks/useSearchDebounce'
 import { useStyle } from '../searchStyles'
 
 interface IProps {}
@@ -17,7 +17,7 @@ function SearchInput(props: IProps) {
     useSearchSocket()
 
     //tìm kiếm debounce
-    const findUser = useFindUser(searchInput)
+    const {getTheFirstTime} = useFindUserDebounce(searchInput, 'all')
 
     //focus vào ô input
     useEffect(() => {
@@ -28,7 +28,7 @@ function SearchInput(props: IProps) {
         <>
             <InputBase
                 inputRef={searchInput}
-                onChange={findUser}
+                onChange={getTheFirstTime}
                 className={style.input}
                 placeholder="Tìm kiếm bạn bè"
                 endAdornment={

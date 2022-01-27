@@ -1,3 +1,4 @@
+import { chatAPI } from 'api/rest'
 import { FACEBOOK_DB } from 'config/keys'
 import { IChatRoom } from 'models/chatRoom'
 import { ID } from 'models/common'
@@ -39,8 +40,9 @@ export const useComposing = (room: IChatRoom) => {
         }
     }, [])
 
-    const onFocus = () => {
+    const onFocus = async () => {
         if (!socket || !user) return
+        await chatAPI.seenMessages(room._id)
         socket.emit(
             `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.chatRooms}/isComposing`,
             room._id,

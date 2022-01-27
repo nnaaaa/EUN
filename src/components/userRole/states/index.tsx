@@ -1,4 +1,4 @@
-import { IFriendPublicInfo } from 'features/searchForm/searchSlice'
+import { IFriendPublicInfo } from 'states/slices/searchSlice'
 import { Component } from 'react'
 
 interface IRoleProps {

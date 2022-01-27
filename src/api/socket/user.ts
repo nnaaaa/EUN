@@ -37,18 +37,16 @@ export const useUserSocket = (
     }, [socket, targetId])
 }
 
-export const useListUserSocket = (dispatcher: () => void) => {
+export const useListUserSocket = () => {
     const { socket } = useContext(SocketContext)
     const dispatch = useAppDispatch()
     useEffect(() => {
         if (!socket) return
         const updateListener = async (newData: IPublicInfo) => {
             try {
-                console.log(newData)
                 dispatch(userActions.updateFriend(newData))
             } catch {
             } finally {
-                dispatcher()
             }
         }
         socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.users}`, updateListener)

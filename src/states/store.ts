@@ -3,7 +3,7 @@ import chatReducer from 'states/slices/chatSlice'
 import authReducer from 'screens/authenticate/authSlice'
 import userReducer from 'states/slices/userSlice'
 import friendReducer from 'states/slices/friendSlice'
-import searchReducer from 'features/searchForm/searchSlice'
+import searchReducer from 'states/slices/searchSlice'
 import postReducer from 'states/slices/postSlice'
 const rootReducer = combineReducers({
     auth: authReducer,

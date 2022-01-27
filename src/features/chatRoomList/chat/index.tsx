@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { useMessageSocket } from 'api/socket/message'
 import { IChatRoom } from 'models/chatRoom'
 import React, { useState } from 'react'
 import Content from './content'

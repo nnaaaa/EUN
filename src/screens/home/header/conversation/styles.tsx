@@ -27,8 +27,7 @@ export const ConversationLoading = () => {
             p={1}
             boxShadow={2}
             bgcolor="white"
-            width="300px"
-            height="200px"
+            width="100%"
             display="flex"
             justifyContent="center"
             alignItems="center"

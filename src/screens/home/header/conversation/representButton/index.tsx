@@ -4,15 +4,15 @@ import { IconButton, Popover, Badge } from '@mui/material'
 import { useRef, useState } from 'react'
 import Conversation from '..'
 import { useStyle } from '../../headerStyles'
-import useConversation from '../useConversation'
-import { useMessageSocket } from '../../../../../api/socket/message'
+import useIteratorChatRoom from '../useIteratorChatRoom'
+import { useMessageSocket } from 'api/socket/message'
 
 const ConversationButton = () => {
     const style = useStyle()
     const [toggleConverse, setToggleConverse] = useState(false)
     const conversationRef = useRef(null)
 
-    const converseHook = useConversation()
+    const iteratorHook = useIteratorChatRoom()
     useMessageSocket()
 
     const openConverse = () => setToggleConverse(true)
@@ -25,9 +25,9 @@ const ConversationButton = () => {
                 ref={conversationRef}
                 onClick={openConverse}
             >
-                {converseHook.messageUnseenAmount ? (
+                {iteratorHook.messageUnseenAmount ? (
                     <Badge
-                        badgeContent={converseHook.messageUnseenAmount}
+                        badgeContent={iteratorHook.messageUnseenAmount}
                         color="warning"
                     >
                         <FontAwesomeIcon icon={faFacebookMessenger} />
@@ -49,7 +49,7 @@ const ConversationButton = () => {
                     horizontal: 'center',
                 }}
             >
-                <Conversation converseHook={converseHook} closeConverse={closeConverse} />
+                <Conversation iteratorHook={iteratorHook} closeConverse={closeConverse} />
             </Popover>
         </>
     )

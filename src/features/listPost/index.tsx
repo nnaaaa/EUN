@@ -4,6 +4,7 @@ import { IPublicInfo } from 'models/user'
 import { useEffect, useMemo } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppSelector } from 'states/hooks'
+import { postActions } from 'states/slices/postSlice'
 import Private from './getStrategy/private'
 import PublicFriend from './getStrategy/publicAndFriend'
 import Post from './post'
@@ -21,11 +22,12 @@ export default function ListPost({ mode, user }: IListPostProps) {
         if (mode === 'private') return new Private(user)
         else return new PublicFriend(user)
     }, [user])
-    const { getMore, isHasMore } = useIteratorPost(getStrategy)
+    const { getMore, isHasMore,dispatch } = useIteratorPost(getStrategy)
 
     //load data at first time
     useEffect(() => {
-        ;(async () => {
+        dispatch(postActions.clear());
+        (async () => {
             await getMore()
         })()
             .then(() => {})

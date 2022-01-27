@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { chatAPI } from 'api/rest'
 import { IChatRoom } from 'models/chatRoom'
-import { ID } from 'models/common'
+import { ID, IQueryPost } from 'models/common'
 import { IMessage } from 'models/message'
 
 interface IinitalState {
@@ -17,15 +17,10 @@ const initialState: IinitalState = {
     currentWindow: [],
 }
 
-// const addWindowChat = createAsyncThunk('chat/openWindow', async (roomId: ID) => {
-//     const res = await chatAPI.getNewestMessageOfRoom(roomId)
-//     if (!res.data) throw new Error()
-//     await chatAPI.seenMessages(roomId)
-//     return { messages: res.data, roomId }
-// })
-
-const getListRoom = createAsyncThunk('chat/getListRoom', async () => {
-    const res = await chatAPI.getListRoomWithNewMessages()
+const getListRoomFromTime = createAsyncThunk('chat/getListRoomFromTime', async (args: Partial<IQueryPost> & { fromTime: Date }) => {
+    const {_limit,fromTime} = args
+    const res = await chatAPI.getListRoomFromTime({ _limit }, fromTime)
+    if (!res.data || res.data.length === 0) throw new Error("No more room")
     return res.data
 })
 
@@ -42,18 +37,6 @@ const chatSlice = createSlice({
                 (room) => room._id !== action.payload
             )
         },
-        getMessagesTheFirstTime(
-            state,
-            action: PayloadAction<{ messages: IMessage[]; roomId: ID }>
-        ) {
-            const { messages, roomId } = action.payload
-            state.currentWindow = state.currentWindow.map((room) => {
-                if (room._id === roomId) {
-                    room.messages = messages
-                }
-                return room
-            })
-        },
         getMoreMessages(
             state,
             action: PayloadAction<{ messages: IMessage[]; roomId: ID }>
@@ -68,12 +51,12 @@ const chatSlice = createSlice({
         },
         insertMessage(state, action: PayloadAction<IMessage>) {
             const message = action.payload
-            state.listRoom = state.listRoom.map((room) => {
-                if (room._id === message.chatRoom) {
-                    room.messages.unshift(message)
-                }
-                return room
-            })
+            const room = state.listRoom.find(r => r._id === message.chatRoom)
+            if (!room) return
+            room.messages.unshift(message)
+            state.listRoom = state.listRoom.filter(r => r._id !== message.chatRoom)
+            state.listRoom.unshift(room)
+
             state.currentWindow = state.currentWindow.map((room) => {
                 if (room._id === message.chatRoom) {
                     room.messages.unshift(message)
@@ -114,31 +97,16 @@ const chatSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // .addCase(addWindowChat.pending, (state) => {
-            //     state.loading = true
-            // })
-            // .addCase(addWindowChat.rejected, (state) => {
-            //     state.loading = false
-            //     state.error = 'Unauthorized'
-            // })
-            // .addCase(addWindowChat.fulfilled, (state, action) => {
-            //     const { messages, roomId } = action.payload
-            //     state.loading = false
-            //     const room = state.listRoom.find(r => r._id === roomId)
-            //     if (!room) return
-            //     state.currentWindow.push(room)
-            // })
-            .addCase(getListRoom.pending, (state) => {
+            .addCase(getListRoomFromTime.pending, (state) => {
                 state.loading = true
             })
-            .addCase(getListRoom.rejected, (state) => {
-                state.loading = false
+            .addCase(getListRoomFromTime.rejected, (state) => {
                 state.error = 'Unauthorized'
-            })
-            .addCase(getListRoom.fulfilled, (state, action) => {
                 state.loading = false
-                const newList = [...state.listRoom, ...action.payload]
-                state.listRoom = newList
+            })
+            .addCase(getListRoomFromTime.fulfilled, (state, action) => {
+                state.listRoom = state.listRoom.concat(action.payload)
+                state.loading = false
             })
     },
 })
@@ -146,7 +114,7 @@ const chatSlice = createSlice({
 const { reducer, actions } = chatSlice
 
 export const chatActions = Object.assign(actions, {
-    getListRoom,
+    getListRoomFromTime,
 })
 
 export default reducer
