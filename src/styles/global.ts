@@ -1,6 +1,5 @@
 import { createTheme } from '@mui/material'
 import { createGlobalStyle } from 'styled-components'
-import { pink, blue } from '@mui/material/colors'
 
 const globalStyles = createGlobalStyle`
     html{
@@ -42,11 +41,12 @@ const globalStyles = createGlobalStyle`
 export const theme = createTheme({
     palette: {
         primary: {
-            main: '#EA63FD',
+            main: 'rgba(122, 39, 244,0.4)',
         },
         secondary: {
             main: '#5CD6F5',
         },
+        
     },
 })
 

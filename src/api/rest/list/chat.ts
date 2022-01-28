@@ -8,7 +8,7 @@ class ChatAPI {
     url = `chat`
 
     async create(members: ID[]) {
-        return Axios.post<ID[]>(`${this.url}/create`, members)
+        return Axios.post(`${this.url}/create`, { members })
     }
     async getListRoomFromTime(query: Partial<IQueryPost>, fromTime: Date) {
         return Axios.get<IChatRoom[]>(`${this.url}/getListRoomFromTime/${fromTime}?${queryString.stringify(query)}`)

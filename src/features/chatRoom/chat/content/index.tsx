@@ -3,6 +3,7 @@ import { Fab, Grow, Stack } from '@mui/material'
 import SolarSystem from 'components/logo/2dSolarSystem'
 import { IChatRoom } from 'models/chatRoom'
 import { ID } from 'models/common'
+import { IPublicInfo } from 'models/user'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppSelector } from 'states/hooks'
 import useChatIterator from '../useChatIterator'
@@ -13,16 +14,15 @@ import useScroll from './useScroll'
 interface IProps {
     room: IChatRoom
     userComposingId: ID | null | undefined
+    user: IPublicInfo
 }
 
-function Content({ room, userComposingId }: IProps) {
+function Content({ room, userComposingId,user }: IProps) {
     const { messages } = room
-    const user = useAppSelector((state) => state.user.current)
     const { getMore, isHasMore } = useChatIterator(room)
     const { infiniteScrollRef, isDisplayScrollButton, onScroll, scrollToBottom } =
         useScroll(messages)
 
-    if (!user) return <></>
 
     return (
         <>

@@ -4,7 +4,7 @@ import { ID } from './common'
 export interface IMessage {
     _id: ID
     chatRoom: ID
-    owner: ID | IPublicInfo
+    owner: IPublicInfo
     content: string
     images: FileList | string[]
     createAt: Date

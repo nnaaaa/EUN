@@ -33,7 +33,7 @@ function ListResult(props: IProps) {
                             color="textPrimary"
                             component={Link}
                             sx={{ ml: 1 }}
-                            to={`/${stranger.account}`}
+                            to={`/user/${stranger._id}`}
                             noWrap
                             width="100%"
                         >

@@ -1,7 +1,7 @@
 import { LinkPreview } from '@dhaiwat10/react-link-preview'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconButton, Tooltip } from '@mui/material'
+import { Avatar, IconButton, Tooltip } from '@mui/material'
 import { chatAPI } from 'api/rest'
 import DisplayGridImages from 'components/images/output2'
 import { FACEBOOK_DB } from 'config/keys'
@@ -11,7 +11,13 @@ import moment from 'moment'
 import { useContext, useState } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { socialUrlReg } from 'utils/regex'
-import { FriendMessage, MyMessage, MyMessageWrap, TextContent } from './styles'
+import {
+    FriendMessage,
+    FriendMessageWrap,
+    MyMessage,
+    MyMessageWrap,
+    TextContent,
+} from './styles'
 
 interface IMessageProps {
     message: IMessage
@@ -50,7 +56,7 @@ const Message = ({ message, user }: IMessageProps) => {
                 fallback={<TextContent>{message.content}</TextContent>}
             />
         )
-    if (message.owner === user._id) {
+    if (message.owner._id === user._id) {
         return (
             <MyMessageWrap
                 onMouseOver={() => setIsHover(true)}
@@ -82,15 +88,20 @@ const Message = ({ message, user }: IMessageProps) => {
         )
     }
     return (
-        <Tooltip title={time} placement="right">
-            <FriendMessage>
-                {content}
-                <DisplayGridImages
-                    images={message.images as string[]}
-                    title={message.content}
-                />
-            </FriendMessage>
-        </Tooltip>
+        <FriendMessageWrap>
+            <Tooltip title={message.owner.username} placement="left">
+                <Avatar src={message.owner.avatar} sx={{width:32,height:32,mr:1}}/>
+            </Tooltip>
+            <Tooltip title={time} placement="right">
+                <FriendMessage>
+                    {content}
+                    <DisplayGridImages
+                        images={message.images as string[]}
+                        title={message.content}
+                    />
+                </FriendMessage>
+            </Tooltip>
+        </FriendMessageWrap>
     )
 }
 

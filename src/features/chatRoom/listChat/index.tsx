@@ -1,9 +1,9 @@
 import { Box, Fab } from '@mui/material'
-import Chat from 'features/chatRoomList/chat'
-import { Wrapper, WrapperCreateRoom } from 'features/chatRoomList/listChat/listChatStyles'
+import Chat from 'features/chatRoom/chat'
+import { Wrapper, WrapperCreateRoom } from 'features/chatRoom/listChat/listChatStyles'
 import { useAppSelector } from 'states/hooks'
 import EditIcon from '@mui/icons-material/Edit';
-import CreateRoom from './createRoom';
+import CreateRoom from '../createRoom';
 import { useState } from 'react';
 
 const ListChat = () => {

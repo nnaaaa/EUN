@@ -25,7 +25,7 @@ const useIteratorChatRoom = () => {
         let amount = 0
         for (const room of listRoom)
             for (const message of room.messages) {
-                if (message.owner === user._id) continue
+                if (message.owner._id === user._id) continue
                 if (!(message.seen as ID[]).includes(user._id)) amount++
             }
         return amount

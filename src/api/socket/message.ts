@@ -19,17 +19,16 @@ export const useMessageSocket = () => {
 
         const addMessage = async (newMessage: IMessage) => {
             dispatch(chatActions.insertMessage(newMessage))
-            if (newMessage.owner !== user._id) {
+            if (newMessage.owner._id !== user._id) {
                 const room = currentWindow.find((r) => r._id === newMessage.chatRoom)
                 if (!room) return
-                const friend = room.members.find((f) => f._id === newMessage.owner)
-                if (friend) {
+                if (user._id !== newMessage.owner._id){
                     new Audio(audio).play()
                     createNotification(
-                        `${friend.username} send messages`,
+                        `${newMessage.owner.username} send messages`,
                         {
                             body: newMessage.content,
-                            icon: friend.avatar,
+                            icon: newMessage.owner.avatar,
                         },
                         () => {}
                     )

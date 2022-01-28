@@ -27,17 +27,16 @@ export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, ro
     }
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
     const getTheFirstTime = useCallback(async () => {
-        const { setIsHasMore, setPage, _limit, _page } = pagination
+        const { setIsHasMore, setPage, _limit } = pagination
         if (!searchInput.current) return
-
         if (!searchInput.current?.value) return
-        console.log(searchInput.current?.value)
 
         if (timeout.current) clearTimeout(timeout.current)
         timeout.current = setTimeout(async () => {
             try {
+                if (!searchInput.current) return
+                if (!searchInput.current?.value) return
                 setIsHasMore(true)
-                console.log("search")
                 const searchTarget = (searchInput.current?.value.trim() as string)
                 if (role === 'friend')
                     unwrapResult(await pagination.dispatch(searchActions.findFriendByName({ searchTarget,query:{_limit,_page:1} })))

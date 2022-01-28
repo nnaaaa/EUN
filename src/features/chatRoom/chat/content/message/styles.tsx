@@ -18,9 +18,16 @@ const Message = styled.span`
     margin-top: 0;
     margin-bottom: 5px;
 `
-export const FriendMessage = styledMUI(Message)(({ theme }) => ({
-    backgroundColor: '#D8DADF',
+export const FriendMessageWrap = styledMUI(Message)(({ theme }) => ({
+    display: 'flex',
     marginRight: 'auto',
+}))
+
+export const FriendMessage = styledMUI('div')(({ theme }) => ({
+    backgroundColor: '#D8DADF',
+    maxWidth: '90%',
+    borderRadius: '10px',
+    marginTop: 0,
 }))
 export const MyMessageWrap = styledMUI(Message)(({ theme }) => ({
     display: 'flex',

@@ -9,21 +9,21 @@ export const useStrangerSocket = () => {
     const [strangerList, setStrangerList] = useState<IFriendPublicInfo[]>([])
 
     const dispatcher = useCallback(() => {
-        userAPI.getProfile().then((user) => {
-            const getListUser = async () => {
-                try {
-                    setLoading(true)
-                    const res = await userAPI.getListUser()
-                    const filterUser = filterSearch(res.data, user.data)
-                    setStrangerList(filterUser.filter((u) => u.role !== 'accepted'))
-                } catch {
-                    setError('...')
-                } finally {
-                    setLoading(false)
-                }
-            }
-            getListUser().then(() => {})
-        })
+        // userAPI.getProfile().then((user) => {
+        //     const getListUser = async () => {
+        //         try {
+        //             setLoading(true)
+        //             const res = await userAPI.getListUser()
+        //             const filterUser = filterSearch(res.data, user.data)
+        //             setStrangerList(filterUser.filter((u) => u.role !== 'accepted'))
+        //         } catch {
+        //             setError('...')
+        //         } finally {
+        //             setLoading(false)
+        //         }
+        //     }
+        //     getListUser().then(() => {})
+        // })
     }, [])
 
 

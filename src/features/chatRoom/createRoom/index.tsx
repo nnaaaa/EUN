@@ -1,8 +1,6 @@
 import { Box } from '@mui/material'
-import { IChatRoom } from 'models/chatRoom'
-import React, { SetStateAction, useState ,Dispatch} from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import Content from './content'
-import Footer from './footer'
 import Header from './header'
 
 interface ICreateRoomProps{
@@ -11,8 +9,6 @@ interface ICreateRoomProps{
 }
 
 function CreateRoom({isOpen,setIsOpen}: ICreateRoomProps) {
-    // const { onBlur, onFocus, userComposingId } = useComposing(props)
-
     if (!isOpen) return <></>
 
     return (
@@ -25,8 +21,7 @@ function CreateRoom({isOpen,setIsOpen}: ICreateRoomProps) {
             position="relative"
         >
             <Header setIsOpen={setIsOpen}/>
-            <Content/>
-            <Footer/>
+            <Content setIsOpen={setIsOpen}/>
         </Box>
     )
 }

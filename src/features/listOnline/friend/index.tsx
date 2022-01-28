@@ -18,7 +18,7 @@ import { useAppSelector } from 'states/hooks'
 import {
     useFindRoomByMembers,
     useToggleChat
-} from '../../chatRoomList/useToggleChat'
+} from '../../chatRoom/useToggleChat'
 
 export default function FriendOnline() {
     const style = useStyle()
