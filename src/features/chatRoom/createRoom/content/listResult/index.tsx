@@ -1,13 +1,13 @@
 import { Avatar, Box, Button, Stack, Typography } from '@mui/material'
 import SolarSystem from 'components/logo/2dSolarSystem'
+import { IPublicInfo } from 'models/user'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppSelector } from 'states/hooks'
-import { IFriendPublicInfo } from 'states/slices/searchSlice'
 import { useStyle } from './styles'
 
 interface IListResultProps{
     getMore: ()=>Promise<void>
-    addMember: (member:IFriendPublicInfo) => void
+    addMember: (member:IPublicInfo) => void
     isHasMore: boolean
 }
 

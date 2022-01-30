@@ -41,7 +41,7 @@ const globalStyles = createGlobalStyle`
 export const theme = createTheme({
     palette: {
         primary: {
-            main: 'rgba(122, 39, 244,0.4)',
+            main: 'rgba(236, 58, 245,0.7)',
         },
         secondary: {
             main: '#5CD6F5',

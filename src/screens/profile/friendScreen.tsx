@@ -1,9 +1,10 @@
-import { friendAPI } from 'api/rest'
-import ListPost from 'features/listPost'
+import { friendAPI, userAPI } from 'api/rest'
+import { useUserSocket } from 'api/socket/user'
 import { IPublicInfo } from 'models/user'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Redirect, useLocation } from 'react-router-dom'
-import { useAppSelector } from 'states/hooks'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { userActions } from 'states/slices/userSlice'
 import FriendHeader from './browse/header/friendHeader'
 import Profile from './index'
 
@@ -19,6 +20,7 @@ export default class FriendProfile extends Profile {
 export const FriendProfileHandler = () => {
     const location = useLocation()
     const [user, setUser] = useState<IPublicInfo | undefined>(undefined)
+    const dispatch = useAppDispatch()
     const myInfo = useAppSelector((state) => state.user.current)
     useEffect(() => {
         const fetchUser = async () => {
@@ -30,6 +32,15 @@ export const FriendProfileHandler = () => {
         }
         fetchUser().then((data) => setUser(data))
     }, [location])
+
+    const dispatcher = useCallback(
+        async (newInfo: IPublicInfo) => {
+            const res = await userAPI.getProfile()
+            dispatch(userActions.updateStore(res.data))
+        },
+        [setUser]
+    )
+    useUserSocket(myInfo ? myInfo._id : undefined, dispatcher)
 
     if (user && myInfo && user._id === myInfo._id) return <Redirect to="/profile" />
 

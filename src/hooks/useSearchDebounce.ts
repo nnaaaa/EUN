@@ -1,15 +1,12 @@
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useUserSocket } from 'api/socket/user'
 import usePagination from 'hooks/usePagination'
-import { IPublicInfo } from 'models/user'
-import { RefObject, useCallback, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { RefObject, useCallback, useRef, useState } from 'react'
 import { searchActions } from '../states/slices/searchSlice'
 
 export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, role: 'friend' | 'all') => {
     const limitPerPage = 10
     const pagination = usePagination(limitPerPage)
-
+    const [preSearch,setPreSearch] = useState('')
     const getMore = async () => {
         const { setIsHasMore, isHasMore, setPage,_limit,_page } = pagination
         try {
@@ -36,12 +33,15 @@ export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, ro
             try {
                 if (!searchInput.current) return
                 if (!searchInput.current?.value) return
-                setIsHasMore(true)
                 const searchTarget = (searchInput.current?.value.trim() as string)
+                if (preSearch === searchTarget)
+                    return
+                setIsHasMore(true)
                 if (role === 'friend')
                     unwrapResult(await pagination.dispatch(searchActions.findFriendByName({ searchTarget,query:{_limit,_page:1} })))
                 else if (role === 'all')
                     unwrapResult(await pagination.dispatch(searchActions.findAllUserByName({ searchTarget,query:{_limit,_page:1} })))
+                setPreSearch(searchTarget)
                 setPage(2)
 
             }
@@ -56,16 +56,16 @@ export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, ro
 
 
 
-export const useSearchSocket = () => {
-    const dispatch = useAppDispatch()
-    const user = useAppSelector((state) => state.user.current)
+// export const useSearchSocket = () => {
+//     const dispatch = useAppDispatch()
+//     const user = useAppSelector((state) => state.user.current)
 
-    const updateRole = useCallback(
-        (newInfo: IPublicInfo) => {
-            dispatch(searchActions.updateStore(newInfo))
-        },
-        [dispatch]
-    )
+//     const updateRole = useCallback(
+//         (newInfo: IPublicInfo) => {
+//             dispatch(searchActions.updateStore(newInfo))
+//         },
+//         [dispatch]
+//     )
 
-    useUserSocket(user ? user._id : undefined, updateRole)
-}
+//     useUserSocket(user ? user._id : undefined, updateRole)
+// }

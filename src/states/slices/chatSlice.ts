@@ -23,6 +23,10 @@ const getListRoomFromTime = createAsyncThunk('chat/getListRoomFromTime', async (
     if (!res.data || res.data.length === 0) throw new Error("No more room")
     return res.data
 })
+const getNewestRoom = createAsyncThunk('chat/getNewestRoom', async () => {
+    const res = await chatAPI.getListRoomFromTime({ _limit:1 }, new Date())
+    return res.data
+})
 
 const chatSlice = createSlice({
     name: 'chat',
@@ -108,6 +112,17 @@ const chatSlice = createSlice({
                 state.listRoom = state.listRoom.concat(action.payload)
                 state.loading = false
             })
+            .addCase(getNewestRoom.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getNewestRoom.rejected, (state) => {
+                state.error = 'Room is not found'
+                state.loading = false
+            })
+            .addCase(getNewestRoom.fulfilled, (state, action) => {
+                state.listRoom = action.payload.concat(state.listRoom)
+                state.loading = false
+            })
     },
 })
 
@@ -115,6 +130,7 @@ const { reducer, actions } = chatSlice
 
 export const chatActions = Object.assign(actions, {
     getListRoomFromTime,
+    getNewestRoom
 })
 
 export default reducer

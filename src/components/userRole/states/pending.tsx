@@ -29,7 +29,7 @@ export default class Pending extends Role {
                 sx={{ textTransform: 'none' }}
             >
                 <Typography fontSize={13} fontWeight="bold" noWrap color="white">
-                    Cancle invite
+                    Cancle
                 </Typography>
             </Button>
         )

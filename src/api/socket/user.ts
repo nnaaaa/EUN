@@ -9,7 +9,7 @@ import { userActions } from 'states/slices/userSlice'
 
 export const useUserSocket = (
     targetId: ID | undefined,
-    dispatcher: (user: IPublicInfo) => void
+    dispatcher: (user: IPublicInfo) => Promise<void>
 ) => {
     const { socket } = useContext(SocketContext)
 
@@ -17,8 +17,7 @@ export const useUserSocket = (
         if (!targetId || !socket) return
         const updateListener = async (newData: IPublicInfo) => {
             try {
-                const user = await userAPI.getProfile()
-                dispatcher(user.data)
+                await dispatcher(newData)
             } catch {
                 console.log('Fail to update user role')
             }

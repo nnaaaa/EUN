@@ -55,7 +55,7 @@ class UserRole extends Component<IUserRoleProps, IUserRoleStates> {
     }
 
     protected changeState = (NewState: typeof Role) => {
-        this.setState({ Role: NewState })
+        // this.setState({ Role: NewState })
     }
 
     render() {

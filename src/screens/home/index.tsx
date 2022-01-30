@@ -1,20 +1,20 @@
 import { Box, Grid } from '@mui/material'
+import { userAPI } from 'api/rest'
 import { useUserSocket } from 'api/socket/user'
-import Gutter from 'screens/home/gutter'
-import Header from 'screens/home/header'
+import ListChat from 'features/chatRoom/listChat'
 import ListGame from 'features/listGame'
 import ListOnline from 'features/listOnline'
-import ListChat from 'features/chatRoom/listChat'
 import { IPublicInfo } from 'models/user'
 import { useCallback } from 'react'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
+import Gutter from 'screens/home/gutter'
+import Header from 'screens/home/header'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { userActions } from 'states/slices/userSlice'
+import Games from './games'
 import { HomeLazyLoading, useStyle } from './homeStyles'
-import Loading from '../loading'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
-import Games from './games'
 
 export default function Home() {
     const style = useStyle()
@@ -24,8 +24,9 @@ export default function Home() {
     const status = useAppSelector((state) => state.auth.state)
 
     const dispatcher = useCallback(
-        (newInfo: IPublicInfo) => {
-            dispatch(userActions.updateStore(newInfo))
+        async (newInfo: IPublicInfo) => {
+            const res = await userAPI.getProfile()
+            dispatch(userActions.updateStore(res.data))
         },
         [dispatch]
     )

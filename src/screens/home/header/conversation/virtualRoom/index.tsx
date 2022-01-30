@@ -10,10 +10,10 @@ import { useStyle } from './styles'
 interface IVirtualRoomProps {
     room: IChatRoom
     user: IPublicInfo
-    closeConverse: ()=> void
+    closeConverse: () => void
 }
 
-function VirtualRoom({room,user,closeConverse}: IVirtualRoomProps) {
+function VirtualRoom({ room, user, closeConverse }: IVirtualRoomProps) {
     const style = useStyle()
     const toggleChat = useToggleChat()
     const { members, roomName } = useDisplayChat(room, user)
@@ -56,17 +56,13 @@ function VirtualRoom({room,user,closeConverse}: IVirtualRoomProps) {
                             ? representMessage.content
                             : 'Bắt đầu cuộc trò chuyện'}
                     </Typography>
-                    {representMessage ? (
-                        <Typography
-                            variant="subtitle2"
-                            color="textSecondary"
-                            textAlign="left"
-                        >
-                            {newMessageAt}
-                        </Typography>
-                    ) : (
-                        <></>
-                    )}
+                    <Typography
+                        variant="subtitle2"
+                        color="textSecondary"
+                        textAlign="left"
+                    >
+                        {newMessageAt}
+                    </Typography>
                 </Stack>
             </Stack>
         </Button>

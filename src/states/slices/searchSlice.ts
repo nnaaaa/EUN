@@ -5,14 +5,12 @@ import { friendAPI } from 'api/rest'
 import { IPublicInfo } from 'models/user'
 import { IQueryPost } from 'models/common'
 
-export type IFriendRole = 'accepted' | 'invited' | 'pending' | 'stranger'
 
-export type IFriendPublicInfo = IPublicInfo & { role: IFriendRole }
 
 interface IinitialState {
     loading: boolean
     error?: string
-    current: IFriendPublicInfo[]
+    current: IPublicInfo[]
 }
 
 const initialState: IinitialState = {
@@ -22,9 +20,10 @@ const initialState: IinitialState = {
 
 const findAllUserByName = createAsyncThunk(
     'search/findAllUserByName',
-    async (args:{searchTarget:string,query:IQueryPost}, thunkAPI) => {
+    async (args: { searchTarget: string, query: IQueryPost }, thunkAPI) => {
         const { query, searchTarget } = args
-        const res = await friendAPI.findAllUserByName(query,searchTarget)
+        const res = await friendAPI.findAllUserByName(query, searchTarget)
+        if (!res.data || res.data.length === 0) throw new Error("No more user")
         const myInfo = (thunkAPI.getState() as RootState).user.current
         const filterData = filterSearch(res.data, myInfo)
         return filterData
@@ -42,7 +41,7 @@ const findFriendByName = createAsyncThunk(
     }
 )
 
-const friendSlice = createSlice({
+const searchSlice = createSlice({
     name: 'search',
     initialState,
     reducers: {
@@ -65,6 +64,7 @@ const friendSlice = createSlice({
             })
             .addCase(findAllUserByName.fulfilled, (state, action) => {
                 state.loading = false
+                state.error = ''
                 state.current = action.payload
             })
             .addCase(findFriendByName.pending, (state) => {
@@ -76,12 +76,13 @@ const friendSlice = createSlice({
             })
             .addCase(findFriendByName.fulfilled, (state, action) => {
                 state.loading = false
+                state.error = ''
                 state.current = action.payload
             })
     },
 })
 
-const { actions, reducer } = friendSlice
+const { actions, reducer } = searchSlice
 export const searchActions = Object.assign(actions, {
     findAllUserByName,
     findFriendByName

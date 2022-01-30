@@ -21,7 +21,7 @@ export default abstract class Header extends Component<IHeaderProps, IHeaderStat
 
     render() {
         const { user } = this.props
-        if (!user) return <Loading />
+        if (!user) return <></>
 
         return (
             <Box width="100%">

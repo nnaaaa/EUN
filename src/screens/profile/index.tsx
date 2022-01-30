@@ -1,17 +1,15 @@
-import { Box, Grid, Skeleton } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import ListPost from 'features/listPost'
 import { IPublicInfo } from 'models/user'
 import { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'
-import Loading from 'screens/loading'
 import Friends from './browse/friends'
 import Intro from './browse/intro'
 import Photos from './browse/photos'
 import ListFriend from './detail/listFriend'
 import ListPhoto from './detail/listPhoto'
-
-import className from './profileStyles.module.css'
 import { BoxStyled, ProfileLazyloading } from './styles'
+
 
 interface IProfileProps {
     user: IPublicInfo | undefined

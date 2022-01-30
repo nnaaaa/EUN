@@ -30,7 +30,7 @@ export default class Stranger extends Role {
                 sx={{ textTransform: 'none' }}
             >
                 <Typography fontSize={13} fontWeight="bold" noWrap color="white">
-                    Add friend
+                    Add
                 </Typography>
             </Button>
         )

@@ -6,23 +6,25 @@ import {
     AccordionSummary,
     Avatar,
     Stack,
-    Typography,
+    Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
-import UserRole from 'components/userRole'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from 'states/hooks'
 import { useStrangerSocket } from './strangerHook'
 
 export default function StrangerOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
+    const user = useAppSelector(state=>state.user.current)
+
 
     //lắng nghe users thay đổi
     const { current, loading, error } = useStrangerSocket()
 
-    if (!current || current.length <= 0 || error) {
+    if (!current || current.length <= 0 || error || !user) {
         return <></>
     }
     return (
@@ -42,7 +44,7 @@ export default function StrangerOnline() {
             <AccordionDetails className={style.accorDetail}>
                 {current.map((friend, index) => (
                     <Box className={style.wrapper} key={'listStranger' + index}>
-                        <Stack direction="row" alignItems="center" maxWidth="60%">
+                        <Stack direction="row" alignItems="center" maxWidth="80%">
                             <Avatar
                                 src={friend.avatar}
                                 component={Link}
@@ -60,7 +62,7 @@ export default function StrangerOnline() {
                                 </Typography>
                             </Box>
                         </Stack>
-                        {/* <UserRole friend={friend}/> */}
+                        {/* <UserRole friend={attachRelationship(friend,user)}/> */}
                     </Box>
                 ))}
             </AccordionDetails>

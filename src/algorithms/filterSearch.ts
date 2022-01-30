@@ -3,15 +3,11 @@ import { IFriendPublicInfo } from 'states/slices/friendSlice'
 
 export const filterSearch = (data: IPublicInfo[], user: IPublicInfo | undefined) => {
     if (!user || !user.friends) return []
-
     const exceptMe = data.filter((u) => u._id !== user._id)
-    const checkedList: IFriendPublicInfo[] = exceptMe.map((f) =>
-        atachRelationship(f, user)
-    )
-    return checkedList
+    return exceptMe
 }
 
-export const atachRelationship = (stranger: IPublicInfo, user: IPublicInfo) => {
+export const attachRelationship = (stranger: IPublicInfo, user: IPublicInfo) => {
     const { accepted, invited, pending } = user.friends
     const maxLength = Math.max(accepted.length, invited.length, pending.length)
 

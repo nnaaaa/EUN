@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { ConversationLoading } from './styles'
@@ -12,7 +13,17 @@ interface IConversationProps {
 const Conversation = ({ iteratorHook, closeConverse }: IConversationProps) => {
     const { user, listRoom, getMore, isHasMore } = iteratorHook
 
-    if (!user) return <></>
+    if (!user || !listRoom || listRoom.length === 0)
+        return (
+            <Box
+                boxShadow={2}
+                bgcolor="white"
+                width="300px"
+                p={1}
+            >
+                <Typography>Không có tin nhắn nào</Typography>
+            </Box>
+        )
 
     return (
         <Box

@@ -1,9 +1,9 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress, IconButton, InputBase, Typography } from '@mui/material'
+import { useFindUserDebounce } from 'hooks/useSearchDebounce'
 import { useEffect, useRef } from 'react'
 import { useAppSelector } from 'states/hooks'
-import { useFindUserDebounce, useSearchSocket } from 'hooks/useSearchDebounce'
 import { useStyle } from '../searchStyles'
 
 interface IProps {}
@@ -14,10 +14,10 @@ function SearchInput(props: IProps) {
     const { loading, error } = useAppSelector((state) => state.search)
 
     //lắng nghe khi user thay đổi
-    useSearchSocket()
+    // useSearchSocket()
 
     //tìm kiếm debounce
-    const {getTheFirstTime} = useFindUserDebounce(searchInput, 'all')
+    const { getTheFirstTime } = useFindUserDebounce(searchInput, 'all')
 
     //focus vào ô input
     useEffect(() => {
@@ -43,11 +43,6 @@ function SearchInput(props: IProps) {
                     )
                 }
             />
-            {error && (
-                <Typography color="error" textAlign="center">
-                    {error}
-                </Typography>
-            )}
         </>
     )
 }

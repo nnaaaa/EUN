@@ -26,8 +26,8 @@ export default function ListPost({ mode, user }: IListPostProps) {
 
     //load data at first time
     useEffect(() => {
-        dispatch(postActions.clear());
         (async () => {
+            dispatch(postActions.clear())
             await getMore()
         })()
             .then(() => {})

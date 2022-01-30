@@ -32,6 +32,7 @@ export default function FriendOnline() {
     const { loading } = useAppSelector((state) => state.chat)
 
     useListUserSocket()
+    
     // ẩn hoặc hiện khung chat khi nhấn vào các người online
     const chatWithFriend = useFindRoomByMembers(useToggleChat())
 

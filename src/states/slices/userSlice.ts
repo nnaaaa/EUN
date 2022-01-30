@@ -24,8 +24,8 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         updateFriend(state, action: PayloadAction<IPublicInfo>) {
-            const friend = action.payload
             if (!state.current) return
+            const friend = action.payload
             state.current.friends.accepted = state.current.friends.accepted.map((f) =>
                 f._id === friend._id ? friend : f
             )
@@ -34,7 +34,10 @@ const userSlice = createSlice({
             state.current = undefined
         },
         updateStore: (state, action: PayloadAction<IPublicInfo>) => {
-            state.current = action.payload
+            if (!state.current) return
+            state.current = {
+                ...action.payload,
+            }
         },
     },
     extraReducers: (builder) => {
