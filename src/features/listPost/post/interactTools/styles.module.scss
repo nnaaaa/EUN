@@ -1,0 +1,24 @@
+.wrapper{
+    
+}
+
+.button,.likeButton{
+    flex:1;
+    justify-content: center;
+}
+
+
+.reactionBar{
+    top:-100%;
+    position:absolute;
+    display: none;
+    transition:display 0.4s;
+}
+
+.likeButton{
+    position: relative;
+}
+
+.likeButton:hover .reactionBar{
+    display:initial;
+}

@@ -13,9 +13,6 @@ function SearchInput(props: IProps) {
     const searchInput = useRef<null | HTMLInputElement>(null)
     const { loading, error } = useAppSelector((state) => state.search)
 
-    //lắng nghe khi user thay đổi
-    // useSearchSocket()
-
     //tìm kiếm debounce
     const { getTheFirstTime } = useFindUserDebounce(searchInput, 'all')
 

@@ -45,16 +45,28 @@ function ListResult({getMore,isHasMore,addMember}:IListResultProps) {
                     <Stack direction="row" alignItems="center" width="100%">
                         <Avatar src={friend.avatar} />
 
-                        <Box ml={1} overflow="hidden">
+                        <Stack ml={1} overflow="hidden">
                             <Typography
-                                className={style.name}
+                                fontWeight='bold'
+                                variant='body2'
+                                color='textPrimary'
                                 align="left"
                                 noWrap
                                 width="100%"
                             >
                                 {friend.username}
                             </Typography>
-                        </Box>
+                            <Typography
+                                fontWeight='bold'
+                                color='textSecondary'
+                                variant='caption'
+                                align="left"
+                                noWrap
+                                width="100%"
+                            >
+                                {friend.account}
+                            </Typography>
+                        </Stack>
                     </Stack>
                 </Button>
             ))}

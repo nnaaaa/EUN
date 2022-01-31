@@ -2,11 +2,10 @@ import { ReactionBarSelector } from '@charkour/react-reactions'
 import { faComment, faCommentDots, faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Box, Button, Divider, Popover, Typography } from '@mui/material'
-import { IPost } from 'models/post'
 import { IEmotionList } from 'models/react'
 import { useCallback, useRef, useState } from 'react'
 import { useInteraction } from './interactHook'
-import { useStyle } from './styles'
+import className from './styles.module.scss'
 
 interface IInteractTools {
     tool: ReturnType<typeof useInteraction>
@@ -18,7 +17,6 @@ export interface IEmotionSelect {
 }
 
 export default function InteractTool({ tool }: IInteractTools) {
-    const style = useStyle()
     const { isJoinComment, setJoin, sendReact, isReacted, myReact } = tool
     const likeButton = useRef(null)
     const [toggleEmotion, setToggleEmotion] = useState<boolean>(false)
@@ -32,66 +30,37 @@ export default function InteractTool({ tool }: IInteractTools) {
         },
         [toggleEmotion, timeoutRef]
     )
-
     const colorReact = isReacted ? myReact.color : '#a19c9c'
     const colorComment = isJoinComment ? '#1198F6' : '#a19c9c'
 
     return (
         <>
             <Divider />
-            <Box display="flex" mt={1}>
+            <Box display="flex" mt={1} className={className.wrapper}>
                 <Button
-                    className={style.button}
+                    className={className.likeButton}
                     startIcon={
-                        <Avatar
-                            sx={{
-                                width: '30px',
-                                height: '30px',
-                                background: colorReact,
-                                fontSize: '15px',
-                            }}
-                        >
-                            <FontAwesomeIcon icon={myReact.image} size="sm" />
-                        </Avatar>
+                        <FontAwesomeIcon icon={myReact.image} size="sm" color={colorReact}/>
                     }
                     sx={{ color: colorReact }}
                     onClick={() => {
                         timeoutToggle(false)
                         sendReact(myReact.text)
                     }}
-                    onMouseOver={() => timeoutToggle(true)}
-                    onMouseLeave={() => timeoutToggle(false)}
                     ref={likeButton}
                 >
-                    <Typography variant="subtitle2" className={style.textBtn}>
+                    <Typography variant="subtitle2" noWrap>
                         {myReact.text}
                     </Typography>
+                    <Box className={className.reactionBar}>
+                        <ReactionBarSelector
+                            onSelect={(s: string) => sendReact(s as IEmotionList)}
+                            iconSize={25}
+                        />
+                    </Box>
                 </Button>
-                <Popover
-                    open={toggleEmotion}
-                    anchorEl={likeButton.current}
-                    onClose={() => setToggleEmotion(false)}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    PaperProps={{
-                        sx: { borderRadius: '50px', overflow: 'visible' },
-                        onMouseOver: () => timeoutToggle(true),
-                        onMouseLeave: () => timeoutToggle(false),
-                    }}
-                >
-                    <ReactionBarSelector
-                        onSelect={(s: string) => sendReact(s as IEmotionList)}
-                        iconSize={25}
-                    />
-                </Popover>
                 <Button
-                    className={style.button}
+                    className={className.button}
                     startIcon={
                         <FontAwesomeIcon
                             icon={isJoinComment ? faCommentDots : faComment}
@@ -100,23 +69,15 @@ export default function InteractTool({ tool }: IInteractTools) {
                     }
                     onClick={setJoin}
                 >
-                    <Typography
-                        variant="subtitle2"
-                        className={style.textBtn}
-                        sx={{ color: colorComment }}
-                    >
+                    <Typography variant="subtitle2" noWrap sx={{ color: colorComment }}>
                         {isJoinComment ? 'Hide' : 'Comment'}
                     </Typography>
                 </Button>
                 <Button
-                    className={style.button}
+                    className={className.button}
                     startIcon={<FontAwesomeIcon icon={faShare} color="#a19c9c" />}
                 >
-                    <Typography
-                        variant="subtitle2"
-                        className={style.textBtn}
-                        style={{ color: '#a19c9c' }}
-                    >
+                    <Typography variant="subtitle2" noWrap style={{ color: '#a19c9c' }}>
                         Share
                     </Typography>
                 </Button>

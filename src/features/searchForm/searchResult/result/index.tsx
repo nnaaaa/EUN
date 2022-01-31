@@ -28,16 +28,25 @@ function Result({ stranger, user }: IResultProps) {
                 <Link to={`/${stranger.account}`} color="inherit">
                     <Avatar src={stranger.avatar} />
                 </Link>
-                <Typography
-                    color="textPrimary"
-                    component={Link}
-                    sx={{ ml: 1 }}
-                    to={`/user/${stranger._id}`}
-                    noWrap
-                    width="100%"
-                >
-                    {stranger.username}
-                </Typography>
+                <Stack sx={{ ml: 1 }}>
+                    <Typography
+                        color="textPrimary"
+                        fontWeight='bold'
+                        component={Link}
+                        to={`/user/${stranger._id}`}
+                        noWrap
+                        width="100%"
+                    >
+                        {stranger.username}
+                    </Typography>
+                    <Typography
+                        color="textSecondary"
+                        noWrap
+                        width="100%"
+                    >
+                        {stranger.account}
+                    </Typography>
+                </Stack>
             </Stack>
             <UserRole friend={strangerWithRole} />
         </Box>

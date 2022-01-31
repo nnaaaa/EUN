@@ -1,6 +1,7 @@
 import { IconDefinition } from '@fortawesome/free-brands-svg-icons'
-import { faHeart, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import { blue } from '@mui/material/colors'
+import { faAngry, faLaughSquint, faSadTear, faSurprise,faThumbsUp } from '@fortawesome/free-regular-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { blue,yellow,red } from '@mui/material/colors'
 import { postAPI } from 'api/rest'
 import { IPost } from 'models/post'
 import { IEmotionList } from 'models/react'
@@ -29,33 +30,32 @@ const displayReact: Record<IEmotionList, IDisplayReactType> = {
     love: {
         text: 'love',
         image: faHeart,
-        color: '#F55470',
+        color: red[500],
     },
     haha: {
-        text: 'love',
-        image: faHeart,
-        color: blue[500],
+        text: 'haha',
+        image: faLaughSquint,
+        color: yellow[800],
     },
     wow: {
-        text: 'love',
-        image: faHeart,
-        color: blue[500],
+        text: 'wow',
+        image: faSurprise,
+        color: yellow[800],
     },
     sad: {
-        text: 'love',
-        image: faHeart,
-        color: blue[500],
+        text: 'sad',
+        image: faSadTear,
+        color: yellow[800],
     },
     angry: {
-        text: 'love',
-        image: faHeart,
-        color: blue[500],
+        text: 'angry',
+        image: faAngry,
+        color: red[500],
     },
 }
 
 export const useInteraction = (postInfo: IPost) => {
     const user = useAppSelector((state) => state.user.current)
-
     const [toggleOption, setToggleOption] = useState(false)
     const [err, setErr] = useState(false)
     const [isLoading, setLoading] = useState(false)
@@ -70,6 +70,7 @@ export const useInteraction = (postInfo: IPost) => {
             for (const u of postInfo.react[emotion as IEmotionList]) {
                 if (u._id == user._id) {
                     setIsReacted(true)
+                    console.log(displayReact[emotion as IEmotionList])
                     return displayReact[emotion as IEmotionList]
                 }
             }
@@ -77,7 +78,7 @@ export const useInteraction = (postInfo: IPost) => {
         setIsReacted(false)
         return displayReact['like']
     }, [postInfo.react, setIsReacted])
-
+    console.log(postInfo.react)
     //update on my react
     const sendReact = async (selected: IEmotionList) => {
         if (!postInfo.react || !user) return
@@ -103,7 +104,7 @@ export const useInteraction = (postInfo: IPost) => {
             })
         }
         if ((isOtherReact && isReacted) || !isReacted)
-            react[selected as IEmotionList].push(user as IPublicInfo)
+            react[selected as IEmotionList].push(user)
         dispatch(postActions.updateReact({ react, postId: postInfo._id }))
         await postAPI.updateEmotion(postInfo.react._id, selected)
     }
