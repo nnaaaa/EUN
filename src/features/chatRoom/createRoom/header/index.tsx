@@ -21,7 +21,7 @@ interface IProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-function Header({setIsOpen}: IProps) {
+function Header({ setIsOpen }: IProps) {
     const user = useAppSelector((state) => state.user.current)
     const dispatch = useAppDispatch()
     // const friend = useMemo<IUser>(() => {
@@ -31,17 +31,18 @@ function Header({setIsOpen}: IProps) {
     // const closeChat = () => dispatch(chatActions.closeWindowChat(room._id))
 
     return (
-        <Box p={1} display="flex" justifyContent="space-between" height="60px" alignItems='center'>
-            <Typography
-                noWrap
-                fontSize={16}
-                fontWeight="bold"
-                color="black"
-            >
+        <Box
+            p={1}
+            display="flex"
+            justifyContent="space-between"
+            height="60px"
+            alignItems="center"
+        >
+            <Typography noWrap fontSize={16} fontWeight="bold" color="black">
                 New message
             </Typography>
 
-            <IconBox onClick={()=>setIsOpen(false)}>
+            <IconBox onClick={() => setIsOpen(false)}>
                 <FontAwesomeIcon icon={faTimes} />
             </IconBox>
         </Box>

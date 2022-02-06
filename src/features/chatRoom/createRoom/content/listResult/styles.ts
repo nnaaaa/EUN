@@ -7,6 +7,6 @@ export const useStyle = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        textTransform:'inherit'
+        textTransform: 'inherit',
     },
 }))

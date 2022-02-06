@@ -3,21 +3,38 @@ import usePagination from 'hooks/usePagination'
 import { RefObject, useCallback, useRef, useState } from 'react'
 import { searchActions } from '../states/slices/searchSlice'
 
-export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, role: 'friend' | 'all') => {
+export const useFindUserDebounce = (
+    searchInput: RefObject<HTMLInputElement>,
+    role: 'friend' | 'all'
+) => {
     const limitPerPage = 10
     const pagination = usePagination(limitPerPage)
-    const [preSearch,setPreSearch] = useState('')
+    const [preSearch, setPreSearch] = useState('')
     const getMore = async () => {
-        const { setIsHasMore, isHasMore, setPage,_limit,_page } = pagination
+        const { setIsHasMore, isHasMore, setPage, _limit, _page } = pagination
         try {
             if (!searchInput.current?.value) return
             const searchTarget = (searchInput.current?.value.trim() as string) || ''
             if (!isHasMore) return
             if (role === 'friend')
-                unwrapResult(await pagination.dispatch(searchActions.findFriendByName({ searchTarget,query:{_limit,_page} })))
+                unwrapResult(
+                    await pagination.dispatch(
+                        searchActions.findFriendByName({
+                            searchTarget,
+                            query: { _limit, _page },
+                        })
+                    )
+                )
             else if (role === 'all')
-                unwrapResult(await pagination.dispatch(searchActions.findAllUserByName({ searchTarget,query:{_limit,_page} })))
-            setPage(pre => pre + 1)
+                unwrapResult(
+                    await pagination.dispatch(
+                        searchActions.findAllUserByName({
+                            searchTarget,
+                            query: { _limit, _page },
+                        })
+                    )
+                )
+            setPage((pre) => pre + 1)
         } catch (e) {
             setIsHasMore(false)
         }
@@ -33,18 +50,30 @@ export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, ro
             try {
                 if (!searchInput.current) return
                 if (!searchInput.current?.value) return
-                const searchTarget = (searchInput.current?.value.trim() as string)
-                if (preSearch === searchTarget)
-                    return
+                const searchTarget = searchInput.current?.value.trim() as string
+                if (preSearch === searchTarget) return
                 setIsHasMore(true)
                 if (role === 'friend')
-                    unwrapResult(await pagination.dispatch(searchActions.findFriendByName({ searchTarget,query:{_limit,_page:1} })))
+                    unwrapResult(
+                        await pagination.dispatch(
+                            searchActions.findFriendByName({
+                                searchTarget,
+                                query: { _limit, _page: 1 },
+                            })
+                        )
+                    )
                 else if (role === 'all')
-                    unwrapResult(await pagination.dispatch(searchActions.findAllUserByName({ searchTarget,query:{_limit,_page:1} })))
+                    unwrapResult(
+                        await pagination.dispatch(
+                            searchActions.findAllUserByName({
+                                searchTarget,
+                                query: { _limit, _page: 1 },
+                            })
+                        )
+                    )
                 setPreSearch(searchTarget)
                 setPage(2)
-            }
-            catch (e) {
+            } catch (e) {
                 setIsHasMore(false)
             }
         }, 300)
@@ -52,8 +81,6 @@ export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, ro
 
     return { getMore, getTheFirstTime, ...pagination }
 }
-
-
 
 // export const useSearchSocket = () => {
 //     const dispatch = useAppDispatch()

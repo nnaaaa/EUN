@@ -20,14 +20,8 @@ function CreateComment({ post }: ICreateCommentProps) {
     const inputContent = useRef<null | HTMLInputElement>(null)
     const user = useAppSelector((state) => state.user.current)
     const [isSending, setIsSending] = useState<boolean>(false)
-    const {
-        inputImages,
-        previewImages,
-        setContent,
-        content,
-        getContentAndImages,
-        setPreviewImages,
-    } = useContent(inputContent)
+    const { inputImages, previewImages, setContent, content, getContentAndImages } =
+        useContent(inputContent)
 
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         try {

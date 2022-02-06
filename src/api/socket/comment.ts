@@ -14,8 +14,6 @@ export const useCommentSocket = (postId: ID | undefined) => {
     useEffect(() => {
         if (!postId || !socket) return
         const createOrUpdateListener = async (newData: IComment) => {
-            const owner = await friendAPI.findById(newData.owner as ID)
-            newData.owner = owner.data as any
             dispatch(postActions.createOrUpdateComment({ comment: newData, postId }))
         }
         const deleteCommentListener = (commentId: ID) => {

@@ -1,34 +1,27 @@
 import { faHeart, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, AvatarGroup, Box, Tooltip, Typography } from '@mui/material'
-import { IEmotionList, IReact } from 'models/react'
+import { IReact } from 'models/react'
+import { IPublicInfo } from 'models/user'
 import { useStyle } from './styles'
 
 interface IReactsProps {
-    react: IReact
+    reacts: IReact[]
+    counter: {
+        [key: string]: IPublicInfo[]
+    }
 }
 
 export default function ReactCounter(props: IReactsProps) {
-    const { react } = props
+    const { reacts, counter } = props
     const style = useStyle()
-
-    const countAmount = () => {
-        if (!react) return 0
-        let count = 0
-        for (const emotion of Object.keys(react)) {
-            if (emotion == '_id') continue
-            for (const user of react[emotion as IEmotionList]) {
-                count++
-            }
-        }
-        return count
-    }
-
     return (
         <Box display="flex" alignItems="center" mb={1}>
             <AvatarGroup className={style.group}>
                 <Tooltip
-                    title={react.like.map((u) => u.username).join('\n')}
+                    title={
+                        counter.like ? counter.like.map((u) => u.username).join('\n') : ''
+                    }
                     placement="bottom-start"
                 >
                     <Avatar className={style.like}>
@@ -37,7 +30,9 @@ export default function ReactCounter(props: IReactsProps) {
                 </Tooltip>
 
                 <Tooltip
-                    title={react.love.map((u) => u.username).join('\n')}
+                    title={
+                        counter.love ? counter.love.map((u) => u.username).join('\n') : ''
+                    }
                     placement="bottom-start"
                 >
                     <Avatar className={style.heart}>
@@ -45,9 +40,8 @@ export default function ReactCounter(props: IReactsProps) {
                     </Avatar>
                 </Tooltip>
             </AvatarGroup>
-            {/* <PokemonCounter/> */}
             <Typography color="textSecondary" variant="subtitle2">
-                {countAmount()}
+                {reacts.length}
             </Typography>
         </Box>
     )

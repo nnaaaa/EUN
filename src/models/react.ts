@@ -1,15 +1,13 @@
 import { ID } from './common'
-import { IPost } from './post'
 import { IPublicInfo } from './user'
 
-export type IEmotionList = 'like' | 'love' | 'haha' | 'wow' | 'sad' | 'angry'
+export type IPostEmotionList = 'like' | 'love' | 'haha' | 'wow' | 'sad' | 'angry'
+export type IEmoji = Pick<IReact, 'icon' | 'label'>
 
-type IRecordType = Record<IEmotionList, IPublicInfo[]>
-
-type IEmotion = {
-    [Property in keyof IRecordType]: IPublicInfo[]
-}
-
-export interface IReact extends IEmotion {
+export interface IReact {
     _id: ID
+    possess: ID
+    icon: string
+    label: string
+    owner: IPublicInfo | ID
 }

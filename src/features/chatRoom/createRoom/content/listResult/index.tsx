@@ -5,13 +5,13 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useAppSelector } from 'states/hooks'
 import { useStyle } from './styles'
 
-interface IListResultProps{
-    getMore: ()=>Promise<void>
-    addMember: (member:IPublicInfo) => void
+interface IListResultProps {
+    getMore: () => Promise<void>
+    addMember: (member: IPublicInfo) => void
     isHasMore: boolean
 }
 
-function ListResult({getMore,isHasMore,addMember}:IListResultProps) {
+function ListResult({ getMore, isHasMore, addMember }: IListResultProps) {
     const style = useStyle()
     const { current: listFriend } = useAppSelector((state) => state.search)
 
@@ -47,9 +47,9 @@ function ListResult({getMore,isHasMore,addMember}:IListResultProps) {
 
                         <Stack ml={1} overflow="hidden">
                             <Typography
-                                fontWeight='bold'
-                                variant='body2'
-                                color='textPrimary'
+                                fontWeight="bold"
+                                variant="body2"
+                                color="textPrimary"
                                 align="left"
                                 noWrap
                                 width="100%"
@@ -57,9 +57,9 @@ function ListResult({getMore,isHasMore,addMember}:IListResultProps) {
                                 {friend.username}
                             </Typography>
                             <Typography
-                                fontWeight='bold'
-                                color='textSecondary'
-                                variant='caption'
+                                fontWeight="bold"
+                                color="textSecondary"
+                                variant="caption"
                                 align="left"
                                 noWrap
                                 width="100%"

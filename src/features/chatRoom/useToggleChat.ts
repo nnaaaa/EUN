@@ -27,7 +27,7 @@ export const useToggleChat = () => {
     }
 }
 
-export const useFindRoomByMembers = (toggleChat:ReturnType<typeof useToggleChat>) => {
+export const useFindRoomByMembers = (toggleChat: ReturnType<typeof useToggleChat>) => {
     const { listRoom } = useAppSelector((state) => state.chat)
     const user = useAppSelector((state) => state.user.current)
 

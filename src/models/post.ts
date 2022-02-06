@@ -10,7 +10,7 @@ export interface IPost {
     owner: IPublicInfo
     content: string
     images: string[]
-    react: IReact
+    reacts: IReact[]
     comments: IComment[]
     createAt: Date
     mode: IModePost

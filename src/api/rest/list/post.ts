@@ -3,7 +3,6 @@ import Axios, { imagesConditon } from 'api/rest/axios'
 import { ID, IQueryPost } from 'models/common'
 import { IModePost, IPost } from 'models/post'
 import { IComment } from 'models/comment'
-import { IEmotionList, IReact } from 'models/react'
 import { IPublicInfo } from 'models/user'
 
 class PostAPI {
@@ -72,13 +71,6 @@ class PostAPI {
         return Axios.get<IPost[]>(
             `${this.url}/getOneUser/${user._id}?${queryString.stringify(query)}`
         )
-    }
-
-    async updateEmotion(reactId: ID, updateType: IEmotionList) {
-        return Axios.put<IEmotionList>(`react/update/${reactId}/${updateType}`)
-    }
-    async getReact(reactId: ID) {
-        return Axios.get<IReact>(`react/get/${reactId}`)
     }
 }
 

@@ -8,17 +8,14 @@ import {
     Button,
     CircularProgress,
     Stack,
-    Typography
+    Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { useListUserSocket } from 'api/socket/user'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
 import { useAppSelector } from 'states/hooks'
-import {
-    useFindRoomByMembers,
-    useToggleChat
-} from '../../chatRoom/useToggleChat'
+import { useFindRoomByMembers, useToggleChat } from '../../chatRoom/useToggleChat'
 
 export default function FriendOnline() {
     const style = useStyle()
@@ -32,7 +29,7 @@ export default function FriendOnline() {
     const { loading } = useAppSelector((state) => state.chat)
 
     useListUserSocket()
-    
+
     // ẩn hoặc hiện khung chat khi nhấn vào các người online
     const chatWithFriend = useFindRoomByMembers(useToggleChat())
 

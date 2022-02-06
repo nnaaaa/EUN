@@ -33,7 +33,7 @@ import { CardContent, CardMargin } from './styles'
 import useIteratorComment from './comment/useIteratorComment'
 
 export default function Post(post: IPost) {
-    const { owner, content, images, react, _id, mode, comments, createAt } = post
+    const { owner, content, images, reacts, _id, mode, comments, createAt } = post
     const user = useAppSelector((state) => state.user.current)
 
     const interactTool = useInteraction(post)
@@ -44,7 +44,7 @@ export default function Post(post: IPost) {
     const detailTime = moment(createAt).format('h:mm:ss a, DD MMMM YYYY')
 
     useCommentSocket(_id)
-    useReactSocket(post._id, post.react._id)
+    useReactSocket(_id)
 
     if (!user) return <Loading />
 
@@ -129,7 +129,7 @@ export default function Post(post: IPost) {
             </CardMedia>
 
             <Box p={2} pb={1}>
-                <ReactCounter react={react} />
+                <ReactCounter reacts={reacts} counter={interactTool.counter} />
                 <InteractTool tool={interactTool} />
             </Box>
             <Collapse in={interactTool.isJoinComment}>
@@ -160,33 +160,3 @@ export default function Post(post: IPost) {
         </CardMargin>
     )
 }
-
-//   useWatchDoc('posts', id, dispatch, Actions.updatePostComment)
-
-//
-//   const getListReact = async () => {
-//     const user = await getDocument('users', {
-//       field: 'uid',
-//       operator: 'in',
-//       value: [...reacts.like, ...reacts.heart],
-//     })
-//     setListReact(user)
-//   }
-//   //update on my react
-//   const setReact = async (type) => {
-//     if (reacts[type].includes(myUid)) {
-//       await updateDocument('posts', id, {
-//         reacts: {
-//           like: reacts.like.filter((uid) => uid !== myUid),
-//           heart: reacts.heart,
-//         },
-//       })
-//     } else {
-//       await updateDocument('posts', id, {
-//         reacts: {
-//           like: [...reacts.like, myUid],
-//           heart: reacts.heart,
-//         },
-//       })
-//     }
-//   }

@@ -11,9 +11,11 @@ class ChatAPI {
         return Axios.post(`${this.url}/create`, { members })
     }
     async getListRoomFromTime(query: Partial<IQueryPost>, fromTime: Date) {
-        return Axios.get<IChatRoom[]>(`${this.url}/getListRoomFromTime/${fromTime}?${queryString.stringify(query)}`)
+        return Axios.get<IChatRoom[]>(
+            `${this.url}/getListRoomFromTime/${fromTime}?${queryString.stringify(query)}`
+        )
     }
-    async getMessagesFromTime(query:Partial<IQueryPost>, roomId: ID, fromTime: Date) {
+    async getMessagesFromTime(query: Partial<IQueryPost>, roomId: ID, fromTime: Date) {
         return Axios.get<IChatRoom[]>(
             `${this.url}/getMessage/${roomId}/${fromTime}?${queryString.stringify(query)}`
         )

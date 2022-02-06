@@ -3,12 +3,12 @@ import { Dispatch, SetStateAction } from 'react'
 import Content from './content'
 import Header from './header'
 
-interface ICreateRoomProps{
+interface ICreateRoomProps {
     isOpen: boolean
     setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-function CreateRoom({isOpen,setIsOpen}: ICreateRoomProps) {
+function CreateRoom({ isOpen, setIsOpen }: ICreateRoomProps) {
     if (!isOpen) return <></>
 
     return (
@@ -20,8 +20,8 @@ function CreateRoom({isOpen,setIsOpen}: ICreateRoomProps) {
             width="20rem"
             position="relative"
         >
-            <Header setIsOpen={setIsOpen}/>
-            <Content setIsOpen={setIsOpen}/>
+            <Header setIsOpen={setIsOpen} />
+            <Content setIsOpen={setIsOpen} />
         </Box>
     )
 }

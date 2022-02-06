@@ -11,4 +11,3 @@ export const arrayIsContain = <T = string>(array: T[], ...rest: T[]) => {
     }
     return true
 }
-

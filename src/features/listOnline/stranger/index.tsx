@@ -6,7 +6,7 @@ import {
     AccordionSummary,
     Avatar,
     Stack,
-    Typography
+    Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
@@ -18,8 +18,7 @@ import { useStrangerSocket } from './strangerHook'
 export default function StrangerOnline() {
     const style = useStyle()
     const [expand, setExpand] = useState(true)
-    const user = useAppSelector(state=>state.user.current)
-
+    const user = useAppSelector((state) => state.user.current)
 
     //lắng nghe users thay đổi
     const { current, loading, error } = useStrangerSocket()

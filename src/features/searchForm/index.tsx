@@ -16,10 +16,13 @@ export default function SearchForm() {
             <Button className={style.inputBtn} onClick={() => setPopup(true)}>
                 Tìm kiếm bạn bè
             </Button>
-            <Popup open={popup} onClose={() => {
-                dispatch(searchActions.clear())
-                setPopup(false)
-            }}>
+            <Popup
+                open={popup}
+                onClose={() => {
+                    dispatch(searchActions.clear())
+                    setPopup(false)
+                }}
+            >
                 <Box width="400px" height="600px">
                     <Typography
                         color="primary"

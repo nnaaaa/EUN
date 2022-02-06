@@ -18,4 +18,3 @@ export const useStyle = makeStyles((theme) => ({
         userSelect: 'none',
     },
 }))
-

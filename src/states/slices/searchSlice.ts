@@ -5,8 +5,6 @@ import { friendAPI } from 'api/rest'
 import { IPublicInfo } from 'models/user'
 import { IQueryPost } from 'models/common'
 
-
-
 interface IinitialState {
     loading: boolean
     error?: string
@@ -20,10 +18,10 @@ const initialState: IinitialState = {
 
 const findAllUserByName = createAsyncThunk(
     'search/findAllUserByName',
-    async (args: { searchTarget: string, query: IQueryPost }, thunkAPI) => {
+    async (args: { searchTarget: string; query: IQueryPost }, thunkAPI) => {
         const { query, searchTarget } = args
         const res = await friendAPI.findAllUserByName(query, searchTarget)
-        if (!res.data || res.data.length === 0) throw new Error("No more user")
+        if (!res.data || res.data.length === 0) throw new Error('No more user')
         const myInfo = (thunkAPI.getState() as RootState).user.current
         const filterData = filterSearch(res.data, myInfo)
         return filterData
@@ -31,10 +29,10 @@ const findAllUserByName = createAsyncThunk(
 )
 const findFriendByName = createAsyncThunk(
     'search/findFriendByName',
-    async (args:{searchTarget:string,query:IQueryPost}, thunkAPI) => {
+    async (args: { searchTarget: string; query: IQueryPost }, thunkAPI) => {
         const { query, searchTarget } = args
-        const res = await friendAPI.findFriendByName(query,searchTarget)
-        if (!res.data || res.data.length === 0) throw new Error("No more user")
+        const res = await friendAPI.findFriendByName(query, searchTarget)
+        if (!res.data || res.data.length === 0) throw new Error('No more user')
         const myInfo = (thunkAPI.getState() as RootState).user.current
         const filterData = filterSearch(res.data, myInfo)
         return filterData
@@ -51,7 +49,7 @@ const searchSlice = createSlice({
         },
         clear: (state) => {
             state.current = []
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -85,6 +83,6 @@ const searchSlice = createSlice({
 const { actions, reducer } = searchSlice
 export const searchActions = Object.assign(actions, {
     findAllUserByName,
-    findFriendByName
+    findFriendByName,
 })
 export default reducer

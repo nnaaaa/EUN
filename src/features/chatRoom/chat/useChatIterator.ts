@@ -33,7 +33,7 @@ const useChatIterator = (room: IChatRoom) => {
         }
     }
     useEffect(() => {
-        (async () => await getMore())()
+        ;(async () => await getMore())()
     }, [])
 
     return { getMore, ...pagination }

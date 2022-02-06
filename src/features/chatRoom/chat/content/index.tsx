@@ -17,12 +17,11 @@ interface IProps {
     user: IPublicInfo
 }
 
-function Content({ room, userComposingId,user }: IProps) {
+function Content({ room, userComposingId, user }: IProps) {
     const { messages } = room
     const { getMore, isHasMore } = useChatIterator(room)
     const { infiniteScrollRef, isDisplayScrollButton, onScroll, scrollToBottom } =
         useScroll(messages)
-
 
     return (
         <>

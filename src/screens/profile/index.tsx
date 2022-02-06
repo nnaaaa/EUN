@@ -10,7 +10,6 @@ import ListFriend from './detail/listFriend'
 import ListPhoto from './detail/listPhoto'
 import { BoxStyled, ProfileLazyloading } from './styles'
 
-
 interface IProfileProps {
     user: IPublicInfo | undefined
 }

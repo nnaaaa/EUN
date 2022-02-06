@@ -1,62 +1,56 @@
-import { ReactionBarSelector } from '@charkour/react-reactions'
+import { faThumbsUp } from '@fortawesome/free-regular-svg-icons'
 import { faComment, faCommentDots, faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Box, Button, Divider, Popover, Typography } from '@mui/material'
-import { IEmotionList } from 'models/react'
-import { useCallback, useRef, useState } from 'react'
+import { Box, Button, Divider, Typography } from '@mui/material'
+import ReactionBar from 'components/emoji'
+import 'emoji-mart/css/emoji-mart.css'
+import { IPostEmotionList } from 'models/react'
 import { useInteraction } from './interactHook'
 import className from './styles.module.scss'
-import { faThumbsUp } from '@fortawesome/free-regular-svg-icons'
-import ReactionBar from 'components/emoji'
 
 interface IInteractTools {
     tool: ReturnType<typeof useInteraction>
 }
 
 export interface IEmotionSelect {
-    label: IEmotionList
+    label: IPostEmotionList
     node: React.ReactNode
 }
 
 export default function InteractTool({ tool }: IInteractTools) {
-    const { isJoinComment, setJoin, sendReact, myReact } = tool
-    const likeButton = useRef(null)
-    const [toggleEmotion, setToggleEmotion] = useState<boolean>(false)
-    const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
-    const timeoutToggle = useCallback(
-        (bool: boolean) => {
-            if (timeoutRef.current) clearTimeout(timeoutRef.current)
-            timeoutRef.current = setTimeout(() => {
-                setToggleEmotion(bool)
-            }, 1000)
-        },
-        [toggleEmotion, timeoutRef]
-    )
+    const { isJoinComment, setJoin, sendReact, myReact, reactDefault, isLoading } = tool
     const colorReact = myReact ? myReact.color : '#a19c9c'
     const colorComment = isJoinComment ? '#1198F6' : '#a19c9c'
-
     return (
         <>
             <Divider />
             <Box display="flex" mt={1} className={className.wrapper}>
                 <Button
+                    disabled={isLoading}
                     className={className.likeButton}
-                    startIcon={(!myReact || myReact.label === 'like') ? <FontAwesomeIcon icon={faThumbsUp} color={colorReact}/> : <></>}
+                    startIcon={
+                        !myReact || myReact.label === reactDefault.label ? (
+                            <FontAwesomeIcon icon={faThumbsUp} color={colorReact} />
+                        ) : (
+                            <></>
+                        )
+                    }
                     sx={{ color: colorReact }}
                     onClick={() => {
-                        timeoutToggle(false)
-                        sendReact(myReact ? myReact.label : 'like')
+                        const { label, icon } = myReact ? myReact : reactDefault
+                        sendReact({ label, icon })
                     }}
-                    ref={likeButton}
                 >
                     <Typography variant="subtitle2" noWrap>
-                        {(!myReact || myReact.label === 'like') ? <></> : myReact.icon} {myReact ? myReact.label : 'like'}
+                        {!myReact || myReact.label === reactDefault.label ? (
+                            <></>
+                        ) : (
+                            myReact.icon
+                        )}{' '}
+                        {myReact ? myReact.label : reactDefault.label}
                     </Typography>
                     <Box className={className.reactionBar}>
-                        <ReactionBar
-                            onSelect={(s: string) => sendReact(s as IEmotionList)}
-                            iconSize={25}
-                        />
+                        <ReactionBar onSelect={sendReact} iconSize={25} />
                     </Box>
                 </Button>
                 <Button

@@ -17,14 +17,17 @@ const initialState: IinitalState = {
     currentWindow: [],
 }
 
-const getListRoomFromTime = createAsyncThunk('chat/getListRoomFromTime', async (args: Partial<IQueryPost> & { fromTime: Date }) => {
-    const {_limit,fromTime} = args
-    const res = await chatAPI.getListRoomFromTime({ _limit }, fromTime)
-    if (!res.data || res.data.length === 0) throw new Error("No more room")
-    return res.data
-})
+const getListRoomFromTime = createAsyncThunk(
+    'chat/getListRoomFromTime',
+    async (args: Partial<IQueryPost> & { fromTime: Date }) => {
+        const { _limit, fromTime } = args
+        const res = await chatAPI.getListRoomFromTime({ _limit }, fromTime)
+        if (!res.data || res.data.length === 0) throw new Error('No more room')
+        return res.data
+    }
+)
 const getNewestRoom = createAsyncThunk('chat/getNewestRoom', async () => {
-    const res = await chatAPI.getListRoomFromTime({ _limit:1 }, new Date())
+    const res = await chatAPI.getListRoomFromTime({ _limit: 1 }, new Date())
     return res.data
 })
 
@@ -55,10 +58,10 @@ const chatSlice = createSlice({
         },
         insertMessage(state, action: PayloadAction<IMessage>) {
             const message = action.payload
-            const room = state.listRoom.find(r => r._id === message.chatRoom)
+            const room = state.listRoom.find((r) => r._id === message.chatRoom)
             if (!room) return
             room.messages.unshift(message)
-            state.listRoom = state.listRoom.filter(r => r._id !== message.chatRoom)
+            state.listRoom = state.listRoom.filter((r) => r._id !== message.chatRoom)
             state.listRoom.unshift(room)
 
             state.currentWindow = state.currentWindow.map((room) => {
@@ -130,7 +133,7 @@ const { reducer, actions } = chatSlice
 
 export const chatActions = Object.assign(actions, {
     getListRoomFromTime,
-    getNewestRoom
+    getNewestRoom,
 })
 
 export default reducer

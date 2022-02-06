@@ -1,109 +1,131 @@
-import { IconDefinition } from '@fortawesome/free-brands-svg-icons'
-import { faAngry, faLaughSquint, faSadTear, faSurprise,faThumbsUp } from '@fortawesome/free-regular-svg-icons'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { blue,yellow,red } from '@mui/material/colors'
-import { postAPI } from 'api/rest'
+import { blue, red, yellow } from '@mui/material/colors'
+import { reactAPI } from 'api/rest/list/react'
+import { FACEBOOK_DB } from 'config/keys'
 import { IPost } from 'models/post'
-import { IEmotionList } from 'models/react'
+import { IEmoji, IPostEmotionList, IReact } from 'models/react'
 import { IPublicInfo } from 'models/user'
-import { useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
+import { SocketContext } from 'states/context/socket'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { postActions } from 'states/slices/postSlice'
 
-export interface IUpdateEmotionType {
-    type: IEmotionList
-    isReacted: boolean
-}
-
-interface IDisplayReactType {
-    label: IEmotionList
+interface IDisplayPostReactType {
+    label: IPostEmotionList
     icon: string
-    color: any
+    color: string
 }
-export const displayReact: Record<IEmotionList, IDisplayReactType> = {
-    like: {
+export const displayPostReact: IDisplayPostReactType[] = [
+    {
         label: 'like',
         icon: '👍',
         color: blue[500],
     },
-    love: {
+    {
         label: 'love',
         icon: '❤️',
         color: red[500],
     },
-    haha: {
+    {
         label: 'haha',
         icon: '😆',
-        color: yellow[800],
+        color: yellow[500],
     },
-    wow: {
+    {
         label: 'wow',
         icon: '😮',
-        color: yellow[800],
+        color: yellow[500],
     },
-    sad: {
+    {
         label: 'sad',
         icon: '😢',
-        color: yellow[800],
+        color: yellow[500],
     },
-    angry: {
+    {
         label: 'angry',
         icon: '😡',
         color: red[500],
     },
-}
+]
 
 export const useInteraction = (postInfo: IPost) => {
     const user = useAppSelector((state) => state.user.current)
-    // const [toggleOption, setToggleOption] = useState(false)
-    // const [err, setErr] = useState(false)
+
+    const { socket } = useContext(SocketContext)
     const [isLoading, setLoading] = useState(false)
     const [isJoinComment, setIsJoinCommtent] = useState(false)
     const dispatch = useAppDispatch()
-    const myReact = useMemo<IDisplayReactType | null>(() => {
-        if (!user) return null
-        if (!postInfo.react) return null
-        for (const emotion of Object.keys(postInfo.react)) {
-            if (emotion == '_id') continue
-            for (const u of postInfo.react[emotion as IEmotionList]) {
-                if (u._id == user._id) {
-                    return displayReact[emotion as IEmotionList]
-                }
+
+    const myReact = useMemo<IDisplayPostReactType | undefined>(() => {
+        if (!user) return undefined
+        const react = postInfo.reacts.find(
+            (r) => (r.owner as IPublicInfo)._id === user._id
+        )
+        if (!react) return undefined
+        return displayPostReact.find((emoji) => emoji.label === react.label)
+    }, [postInfo.reacts])
+
+    const counter = useMemo(() => {
+        const counterObj: { [key: string]: IPublicInfo[] } = {}
+        for (const react of postInfo.reacts) {
+            if (!counterObj[react.label]) counterObj[react.label] = []
+            counterObj[react.label].push(react.owner as IPublicInfo)
+        }
+        return counterObj
+    }, [postInfo.reacts])
+
+    const sendReact = async (emoji: IEmoji) => {
+        if (!user || !socket) return
+        const reacted = postInfo.reacts.find(
+            (r) => (r.owner as IPublicInfo)._id === user._id
+        )
+        if (reacted) {
+            if (reacted.label === emoji.label) {
+                const { _id, possess } = reacted
+                socket.emit(
+                    `${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.reacts}/deleteReact`,
+                    possess,
+                    _id
+                )
+                dispatch(postActions.removeReact({ reactId: _id, postId: postInfo._id }))
+                await reactAPI.deleteReact(_id)
+            } else {
+                const updatedReact: IReact = { ...reacted, ...emoji }
+                dispatch(
+                    postActions.addOrUpdateReact({
+                        react: updatedReact,
+                        postId: postInfo._id,
+                    })
+                )
+                await reactAPI.updateReact(updatedReact)
             }
+        } else {
+            const newReact: Omit<IReact, '_id'> = {
+                ...emoji,
+                owner: user._id,
+                possess: postInfo._id,
+            }
+            setLoading(true)
+            const res = await reactAPI.addReactToPost(newReact)
+            const savedReact = await reactAPI.getReact(res.data as any)
+            dispatch(
+                postActions.addOrUpdateReact({
+                    react: savedReact.data,
+                    postId: postInfo._id,
+                })
+            )
+            setLoading(false)
         }
-        return null
-    }, [postInfo.react])
-    //update on my react
-    const sendReact = async (selected: IEmotionList) => {
-        if (!postInfo.react || !user) return
-
-        let react = { ...postInfo.react }
-
-        let isOtherReact = false
-        let isReacted = false
-        for (const type of Object.keys(react)) {
-            if (type == '_id') continue
-            const listUser = react[type as IEmotionList] as IPublicInfo[]
-            react[type as IEmotionList] = listUser.filter((u) => {
-                if (u._id == user._id && type == selected) {
-                    isReacted = true
-                    return false
-                }
-                if (u._id == user._id) {
-                    isReacted = true
-                    isOtherReact = true
-                    return false
-                }
-                return true
-            })
-        }
-        if ((isOtherReact && isReacted) || !isReacted)
-            react[selected as IEmotionList].push(user)
-        dispatch(postActions.updateReact({ react, postId: postInfo._id }))
-        await postAPI.updateEmotion(postInfo.react._id, selected)
     }
 
     const setJoin = () => setIsJoinCommtent((pre) => !pre)
 
-    return { isJoinComment, setJoin, sendReact, myReact }
+    return {
+        isJoinComment,
+        setJoin,
+        sendReact,
+        myReact,
+        reactDefault: displayPostReact[0],
+        isLoading,
+        counter,
+    }
 }

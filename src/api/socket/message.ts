@@ -11,22 +11,22 @@ import { createNotification } from 'utils/notification'
 export const useMessageSocket = () => {
     const { socket } = useContext(SocketContext)
     const dispatch = useAppDispatch()
-    const { currentWindow, listRoom} = useAppSelector((state) => state.chat)
+    const { currentWindow, listRoom } = useAppSelector((state) => state.chat)
     const user = useAppSelector((state) => state.user.current)
 
     useEffect(() => {
         if (!socket || !user) return
 
         const addMessage = async (newMessage: IMessage) => {
-            //nếu trong redux store chưa có phòng này thì load về 
-            if (!listRoom.some(r => r._id === newMessage.chatRoom))
+            //nếu trong redux store chưa có phòng này thì load về
+            if (!listRoom.some((r) => r._id === newMessage.chatRoom))
                 await dispatch(chatActions.getNewestRoom())
             //nếu có rồi thì chèn thêm tin nhắn vào
             else dispatch(chatActions.insertMessage(newMessage))
             if (newMessage.owner._id !== user._id) {
                 const room = currentWindow.find((r) => r._id === newMessage.chatRoom)
                 if (!room) return
-                if (user._id !== newMessage.owner._id){
+                if (user._id !== newMessage.owner._id) {
                     new Audio(audio).play()
                     createNotification(
                         `${newMessage.owner.username} send messages`,

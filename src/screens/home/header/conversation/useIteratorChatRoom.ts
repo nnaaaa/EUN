@@ -8,14 +8,21 @@ import { chatActions } from 'states/slices/chatSlice'
 const useIteratorChatRoom = () => {
     const limitPerPage = 3
     const pagination = usePagination(limitPerPage)
-    const listRoom = useAppSelector(state => state.chat.listRoom)
+    const listRoom = useAppSelector((state) => state.chat.listRoom)
     const user = useAppSelector((state) => state.user.current)
     const getMore = async () => {
         const { dispatch, setIsHasMore, isHasMore, _limit } = pagination
         try {
             if (!isHasMore) return
             const oldestRoom = listRoom[listRoom.length - 1]
-            unwrapResult(await dispatch(chatActions.getListRoomFromTime({ _limit, fromTime: oldestRoom ? oldestRoom.newMessageAt : new Date() })))
+            unwrapResult(
+                await dispatch(
+                    chatActions.getListRoomFromTime({
+                        _limit,
+                        fromTime: oldestRoom ? oldestRoom.newMessageAt : new Date(),
+                    })
+                )
+            )
         } catch (e) {
             setIsHasMore(false)
         }
@@ -32,7 +39,7 @@ const useIteratorChatRoom = () => {
     }, [listRoom])
 
     useEffect(() => {
-        (async () => await getMore())()
+        ;(async () => await getMore())()
     }, [])
 
     return { listRoom, user, messageUnseenAmount, getMore, ...pagination }

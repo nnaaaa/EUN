@@ -1,21 +1,21 @@
-.button,.likeButton{
-    flex:1;
+.button,
+.likeButton {
+    flex: 1;
     justify-content: center;
 }
 
+.reactionBar {
+    top: -100%;
+    display: none;
 
-.reactionBar{
-    top:-100%;
-    display:none;
-
-    position:absolute;
-    transition:2s display linear;
+    position: absolute;
+    transition: 2s display linear;
 }
 
-.likeButton{
+.likeButton {
     position: relative;
 }
 
-.likeButton:hover .reactionBar{
-    display:initial;
+.likeButton:hover .reactionBar {
+    display: initial;
 }

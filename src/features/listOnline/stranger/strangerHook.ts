@@ -15,14 +15,17 @@ export const useStrangerSocket = () => {
             setLoading(true)
             const strangerRes = await userAPI.getListUser()
             const filterUser = filterSearch(strangerRes.data, userRes.data)
-            setStrangerList(filterUser.filter((u) => attachRelationship(u,userRes.data).role !== 'accepted'))
+            setStrangerList(
+                filterUser.filter(
+                    (u) => attachRelationship(u, userRes.data).role !== 'accepted'
+                )
+            )
         } catch {
             setError('...')
         } finally {
             setLoading(false)
         }
     }, [])
-
 
     useEffect(() => {
         dispatcher()

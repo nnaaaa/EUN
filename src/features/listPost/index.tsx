@@ -22,11 +22,11 @@ export default function ListPost({ mode, user }: IListPostProps) {
         if (mode === 'private') return new Private(user)
         else return new PublicFriend(user)
     }, [user])
-    const { getMore, isHasMore,dispatch } = useIteratorPost(getStrategy)
+    const { getMore, isHasMore, dispatch } = useIteratorPost(getStrategy)
 
     //load data at first time
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             dispatch(postActions.clear())
             await getMore()
         })()

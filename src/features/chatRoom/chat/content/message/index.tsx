@@ -90,7 +90,10 @@ const Message = ({ message, user }: IMessageProps) => {
     return (
         <FriendMessageWrap>
             <Tooltip title={message.owner.username} placement="left">
-                <Avatar src={message.owner.avatar} sx={{width:32,height:32,mr:1}}/>
+                <Avatar
+                    src={message.owner.avatar}
+                    sx={{ width: 32, height: 32, mr: 1 }}
+                />
             </Tooltip>
             <Tooltip title={time} placement="right">
                 <FriendMessage>

@@ -12,7 +12,7 @@ const Relationship = (props: { user: IPublicInfo }) => {
         if (!user) return undefined
         return attachRelationship(stranger, user)
     }, [stranger, user])
-    
+
     if (!friend) return <></>
 
     return <UserRole friend={friend} />

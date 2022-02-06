@@ -48,15 +48,42 @@ const postSlice = createSlice({
         deletePost(state, action: PayloadAction<ID>) {
             state.current = state.current.filter((post) => post._id !== action.payload)
         },
-        updateReact(state, action: PayloadAction<{ react: IReact; postId: ID }>) {
+        clear(state) {
+            state.current = []
+        },
+
+        addOrUpdateReact(state, action: PayloadAction<{ react: IReact; postId: ID }>) {
             const { react, postId } = action.payload
             state.current = state.current.map((post) => {
                 if (post._id === postId) {
-                    return { ...post, react: { ...post.react,...react } }
+                    const isReacted = post.reacts.find((r) => r._id === react._id)
+                    if (isReacted) {
+                        const updatedReacts = post.reacts.map((r) =>
+                            r._id === react._id ? react : r
+                        )
+                        return { ...post, reacts: updatedReacts }
+                    }
+                    // nếu react chưa từng tồn tại thì thêm vào
+                    else {
+                        post.reacts.push(react)
+                        return post
+                    }
                 }
                 return post
             })
         },
+        removeReact(state, action: PayloadAction<{ reactId: ID; postId: ID }>) {
+            const { reactId, postId } = action.payload
+            state.current = state.current.map((post) => {
+                if (post._id === postId) {
+                    const filteredReacts = post.reacts.filter((r) => r._id !== reactId)
+                    post.reacts = filteredReacts
+                    return post
+                }
+                return post
+            })
+        },
+
         getMoreComments(
             state,
             action: PayloadAction<{ comments: IComment[]; postId: ID }>
@@ -87,7 +114,7 @@ const postSlice = createSlice({
                         )
                         return { ...post, comments: updatedComments }
                     }
-                    // nếu đã có comment chưa từng tồn tại thì thêm vào
+                    // nếu comment chưa từng tồn tại thì thêm vào
                     else {
                         const newComments: IComment[] = [comment, ...post.comments]
                         return { ...post, comments: newComments }
@@ -107,9 +134,6 @@ const postSlice = createSlice({
                 }
                 return post
             })
-        },
-        clear(state) {
-            state.current = []
         },
     },
     // extraReducers: (builder) => {

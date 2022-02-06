@@ -1,10 +1,10 @@
 import { Avatar, Chip } from '@mui/material'
 import { IPublicInfo } from 'models/user'
-import { ListMemberWrapper,useStyle } from './styles'
+import { ListMemberWrapper, useStyle } from './styles'
 
-interface IListMemberProps{
+interface IListMemberProps {
     members: IPublicInfo[]
-    removeMember: (member:IPublicInfo) => void
+    removeMember: (member: IPublicInfo) => void
 }
 
 function ListMember({ members, removeMember }: IListMemberProps) {

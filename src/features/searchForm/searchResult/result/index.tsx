@@ -6,15 +6,15 @@ import { IPublicInfo } from 'models/user'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
-interface IResultProps{
-    stranger:IPublicInfo
-    user:IPublicInfo
+interface IResultProps {
+    stranger: IPublicInfo
+    user: IPublicInfo
 }
 
 function Result({ stranger, user }: IResultProps) {
     const strangerWithRole = useMemo(() => {
-        return attachRelationship(stranger,user)
-    },[stranger,user])
+        return attachRelationship(stranger, user)
+    }, [stranger, user])
 
     return (
         <Box
@@ -31,7 +31,7 @@ function Result({ stranger, user }: IResultProps) {
                 <Stack sx={{ ml: 1 }}>
                     <Typography
                         color="textPrimary"
-                        fontWeight='bold'
+                        fontWeight="bold"
                         component={Link}
                         to={`/user/${stranger._id}`}
                         noWrap
@@ -39,11 +39,7 @@ function Result({ stranger, user }: IResultProps) {
                     >
                         {stranger.username}
                     </Typography>
-                    <Typography
-                        color="textSecondary"
-                        noWrap
-                        width="100%"
-                    >
+                    <Typography color="textSecondary" noWrap width="100%">
                         {stranger.account}
                     </Typography>
                 </Stack>

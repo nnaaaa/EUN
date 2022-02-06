@@ -2,7 +2,7 @@ import {
     faMinusCircle,
     faPhone,
     faTimes,
-    faVideo
+    faVideo,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, AvatarGroup, Typography } from '@mui/material'
@@ -21,7 +21,7 @@ interface IProps {
     user: IPublicInfo
 }
 
-function Header({ room, setExpand,user }: IProps) {
+function Header({ room, setExpand, user }: IProps) {
     const dispatch = useAppDispatch()
     const { members, roomName } = useDisplayChat(room, user)
 

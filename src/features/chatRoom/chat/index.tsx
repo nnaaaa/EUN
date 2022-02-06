@@ -23,8 +23,10 @@ function Chat(props: IChatRoom) {
             width="20rem"
             position="relative"
         >
-            <Header room={props} setExpand={setExpand} user={user}/>
-            {expand && <Content room={props} userComposingId={userComposingId} user={user}/>}
+            <Header room={props} setExpand={setExpand} user={user} />
+            {expand && (
+                <Content room={props} userComposingId={userComposingId} user={user} />
+            )}
             {expand && <Footer room={props} onBlur={onBlur} onFocus={onFocus} />}
         </Box>
     )

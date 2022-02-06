@@ -11,14 +11,14 @@ interface IProps {
     setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-function Content({setIsOpen}: IProps) {
+function Content({ setIsOpen }: IProps) {
     const user = useAppSelector((state) => state.user.current)
     const { current: listFriend, loading } = useAppSelector((state) => state.search)
 
     const inputRef = useRef<HTMLInputElement | null>(null)
     //tìm kiếm debouce
     const { getMore, isHasMore, getTheFirstTime } = useFindDebounce(inputRef, 'friend')
-    const { addMember, removeMember, members,createRoom } = useCreateRoom(inputRef)
+    const { addMember, removeMember, members, createRoom } = useCreateRoom(inputRef)
 
     if (!user) return <></>
 
@@ -47,7 +47,7 @@ function Content({setIsOpen}: IProps) {
                     color="primary"
                     variant="contained"
                     size="small"
-                    onClick={async() => { 
+                    onClick={async () => {
                         await createRoom()
                         setIsOpen(false)
                     }}
