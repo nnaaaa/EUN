@@ -16,69 +16,63 @@ export interface IUpdateEmotionType {
 }
 
 interface IDisplayReactType {
-    text: IEmotionList
-    image: IconDefinition
+    label: IEmotionList
+    icon: string
     color: any
 }
-
-const displayReact: Record<IEmotionList, IDisplayReactType> = {
+export const displayReact: Record<IEmotionList, IDisplayReactType> = {
     like: {
-        text: 'like',
-        image: faThumbsUp,
+        label: 'like',
+        icon: '👍',
         color: blue[500],
     },
     love: {
-        text: 'love',
-        image: faHeart,
+        label: 'love',
+        icon: '❤️',
         color: red[500],
     },
     haha: {
-        text: 'haha',
-        image: faLaughSquint,
+        label: 'haha',
+        icon: '😆',
         color: yellow[800],
     },
     wow: {
-        text: 'wow',
-        image: faSurprise,
+        label: 'wow',
+        icon: '😮',
         color: yellow[800],
     },
     sad: {
-        text: 'sad',
-        image: faSadTear,
+        label: 'sad',
+        icon: '😢',
         color: yellow[800],
     },
     angry: {
-        text: 'angry',
-        image: faAngry,
+        label: 'angry',
+        icon: '😡',
         color: red[500],
     },
 }
 
 export const useInteraction = (postInfo: IPost) => {
     const user = useAppSelector((state) => state.user.current)
-    const [toggleOption, setToggleOption] = useState(false)
-    const [err, setErr] = useState(false)
+    // const [toggleOption, setToggleOption] = useState(false)
+    // const [err, setErr] = useState(false)
     const [isLoading, setLoading] = useState(false)
-    const [isReacted, setIsReacted] = useState(false)
     const [isJoinComment, setIsJoinCommtent] = useState(false)
     const dispatch = useAppDispatch()
-    const myReact = useMemo<IDisplayReactType>(() => {
-        if (!user) return displayReact['like']
-        if (!postInfo.react) return displayReact['like']
+    const myReact = useMemo<IDisplayReactType | null>(() => {
+        if (!user) return null
+        if (!postInfo.react) return null
         for (const emotion of Object.keys(postInfo.react)) {
             if (emotion == '_id') continue
             for (const u of postInfo.react[emotion as IEmotionList]) {
                 if (u._id == user._id) {
-                    setIsReacted(true)
-                    console.log(displayReact[emotion as IEmotionList])
                     return displayReact[emotion as IEmotionList]
                 }
             }
         }
-        setIsReacted(false)
-        return displayReact['like']
-    }, [postInfo.react, setIsReacted])
-    console.log(postInfo.react)
+        return null
+    }, [postInfo.react])
     //update on my react
     const sendReact = async (selected: IEmotionList) => {
         if (!postInfo.react || !user) return
@@ -111,5 +105,5 @@ export const useInteraction = (postInfo: IPost) => {
 
     const setJoin = () => setIsJoinCommtent((pre) => !pre)
 
-    return { isJoinComment, setJoin, sendReact, isReacted, myReact }
+    return { isJoinComment, setJoin, sendReact, myReact }
 }

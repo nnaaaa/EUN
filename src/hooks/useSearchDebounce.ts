@@ -43,7 +43,6 @@ export const useFindUserDebounce = (searchInput: RefObject<HTMLInputElement>, ro
                     unwrapResult(await pagination.dispatch(searchActions.findAllUserByName({ searchTarget,query:{_limit,_page:1} })))
                 setPreSearch(searchTarget)
                 setPage(2)
-
             }
             catch (e) {
                 setIsHasMore(false)

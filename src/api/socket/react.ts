@@ -13,9 +13,8 @@ export const useReactSocket = (postId: ID | undefined, reactId: ID | undefined) 
     useEffect(() => {
         if (!postId || !reactId || !socket) return
         const listener = async (newReact: IReact) => {
-            const react = await postAPI.getReact(reactId)
-            if (!react) return
-            dispatch(postActions.updateReact({ react: react.data, postId }))
+            if (!newReact) return
+            dispatch(postActions.updateReact({ react: newReact, postId }))
         }
         socket.on(`${FACEBOOK_DB.name}/${FACEBOOK_DB.coll.reacts}/${reactId}`, listener)
         return () => {

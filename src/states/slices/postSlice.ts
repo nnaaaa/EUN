@@ -49,9 +49,10 @@ const postSlice = createSlice({
             state.current = state.current.filter((post) => post._id !== action.payload)
         },
         updateReact(state, action: PayloadAction<{ react: IReact; postId: ID }>) {
+            const { react, postId } = action.payload
             state.current = state.current.map((post) => {
-                if (post._id === action.payload.postId) {
-                    return { ...post, react: action.payload.react }
+                if (post._id === postId) {
+                    return { ...post, react: { ...post.react,...react } }
                 }
                 return post
             })

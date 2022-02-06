@@ -6,6 +6,8 @@ import { IEmotionList } from 'models/react'
 import { useCallback, useRef, useState } from 'react'
 import { useInteraction } from './interactHook'
 import className from './styles.module.scss'
+import { faThumbsUp } from '@fortawesome/free-regular-svg-icons'
+import ReactionBar from 'components/emoji'
 
 interface IInteractTools {
     tool: ReturnType<typeof useInteraction>
@@ -17,7 +19,7 @@ export interface IEmotionSelect {
 }
 
 export default function InteractTool({ tool }: IInteractTools) {
-    const { isJoinComment, setJoin, sendReact, isReacted, myReact } = tool
+    const { isJoinComment, setJoin, sendReact, myReact } = tool
     const likeButton = useRef(null)
     const [toggleEmotion, setToggleEmotion] = useState<boolean>(false)
     const timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
@@ -30,7 +32,7 @@ export default function InteractTool({ tool }: IInteractTools) {
         },
         [toggleEmotion, timeoutRef]
     )
-    const colorReact = isReacted ? myReact.color : '#a19c9c'
+    const colorReact = myReact ? myReact.color : '#a19c9c'
     const colorComment = isJoinComment ? '#1198F6' : '#a19c9c'
 
     return (
@@ -39,21 +41,19 @@ export default function InteractTool({ tool }: IInteractTools) {
             <Box display="flex" mt={1} className={className.wrapper}>
                 <Button
                     className={className.likeButton}
-                    startIcon={
-                        <FontAwesomeIcon icon={myReact.image} size="sm" color={colorReact}/>
-                    }
+                    startIcon={(!myReact || myReact.label === 'like') ? <FontAwesomeIcon icon={faThumbsUp} color={colorReact}/> : <></>}
                     sx={{ color: colorReact }}
                     onClick={() => {
                         timeoutToggle(false)
-                        sendReact(myReact.text)
+                        sendReact(myReact ? myReact.label : 'like')
                     }}
                     ref={likeButton}
                 >
                     <Typography variant="subtitle2" noWrap>
-                        {myReact.text}
+                        {(!myReact || myReact.label === 'like') ? <></> : myReact.icon} {myReact ? myReact.label : 'like'}
                     </Typography>
                     <Box className={className.reactionBar}>
-                        <ReactionBarSelector
+                        <ReactionBar
                             onSelect={(s: string) => sendReact(s as IEmotionList)}
                             iconSize={25}
                         />
