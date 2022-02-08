@@ -1,5 +1,6 @@
 import { IPublicInfo } from 'models/user'
 import { ID } from './common'
+import { IReact } from './react'
 
 export interface IMessage {
     _id: ID
@@ -10,4 +11,5 @@ export interface IMessage {
     createAt: Date
     seen: ID[] | IPublicInfo[]
     sent: ID[] | IPublicInfo[]
+    reacts: IReact[]
 }

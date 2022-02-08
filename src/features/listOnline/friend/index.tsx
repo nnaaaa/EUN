@@ -15,7 +15,7 @@ import { useListUserSocket } from 'api/socket/user'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
 import { useAppSelector } from 'states/hooks'
-import { useFindRoomByMembers, useToggleChat } from '../../chatRoom/useToggleChat'
+import { useFindRoomByMembers, useToggleChat } from '../../listRoom/useToggleChat'
 
 export default function FriendOnline() {
     const style = useStyle()

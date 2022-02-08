@@ -4,8 +4,11 @@ import { IReact } from 'models/react'
 
 class ReactAPI {
     url = `react`
-    async addReactToPost(react: Omit<IReact, '_id'>) {
+    addReactToPost = async (react: Omit<IReact, '_id'>) => {
         return Axios.post(`${this.url}/addToPost`, react)
+    }
+    addReactToComment = async (react: Omit<IReact, '_id'>) => {
+        return Axios.post(`${this.url}/addToComment`, react)
     }
     async updateReact(react: IReact) {
         return Axios.put<IReact>(`${this.url}/update`, react)

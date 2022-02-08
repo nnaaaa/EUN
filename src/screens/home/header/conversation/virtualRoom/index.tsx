@@ -1,6 +1,6 @@
 import { Avatar, AvatarGroup, Button, Stack, Typography } from '@mui/material'
-import useDisplayChat from 'features/chatRoom/useDisplayChat'
-import { useToggleChat } from 'features/chatRoom/useToggleChat'
+import useDisplayChat from 'features/listRoom/useDisplayChat'
+import { useToggleChat } from 'features/listRoom/useToggleChat'
 import { IChatRoom } from 'models/chatRoom'
 import { ID } from 'models/common'
 import { IPublicInfo } from 'models/user'

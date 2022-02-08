@@ -1,9 +1,8 @@
-import queryString from 'query-string'
 import Axios, { imagesConditon } from 'api/rest/axios'
 import { ID, IQueryPost } from 'models/common'
 import { IModePost, IPost } from 'models/post'
-import { IComment } from 'models/comment'
 import { IPublicInfo } from 'models/user'
+import queryString from 'query-string'
 
 class PostAPI {
     url = `post`
@@ -32,34 +31,6 @@ class PostAPI {
     }
     async delete(postId: ID) {
         return Axios.delete(`${this.url}/delete/${postId}`)
-    }
-
-    async getComment(query: IQueryPost, postId: ID) {
-        return Axios.get<IPost[]>(
-            `${this.url}/getComment/${postId}?${queryString.stringify(query)}`
-        )
-    }
-    async addComment(commentInfo: Partial<IComment>, postId: string) {
-        let form = new FormData()
-        form.append('content', commentInfo.content || '')
-        if (commentInfo.images) {
-            for (const image of commentInfo.images) form.append('images', image)
-        }
-
-        return Axios.put(`${this.url}/addComment/${postId}`, form, imagesConditon)
-    }
-    async updateComment(updateField: Partial<IComment>, postId: string) {
-        let form = new FormData()
-        form.append('_id', updateField._id || '')
-        form.append('content', updateField.content || '')
-        console.log(updateField)
-        if (updateField.images) {
-            for (const image of updateField.images) form.append('images', image)
-        }
-        return Axios.put(`${this.url}/updateComment/${postId}`, form, imagesConditon)
-    }
-    async deleteComment(commentId: ID) {
-        return Axios.delete(`${this.url}/deleteComment/${commentId}`)
     }
 
     async getFromAllUser(query: IQueryPost, user: IPublicInfo) {

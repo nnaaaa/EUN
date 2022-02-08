@@ -5,6 +5,8 @@ import userReducer from 'states/slices/userSlice'
 import friendReducer from 'states/slices/friendSlice'
 import searchReducer from 'states/slices/searchSlice'
 import postReducer from 'states/slices/postSlice'
+import commentReducer from 'states/slices/commentSlice'
+
 const rootReducer = combineReducers({
     auth: authReducer,
     user: userReducer,
@@ -12,6 +14,7 @@ const rootReducer = combineReducers({
     friend: friendReducer,
     search: searchReducer,
     post: postReducer,
+    comment: commentReducer,
 })
 
 export const store = configureStore({

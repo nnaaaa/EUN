@@ -13,6 +13,7 @@ interface IDB {
         users: string
         chatRooms: string
         messages: string
+        comments: string
         posts: string
         reacts: string
     }
@@ -24,6 +25,7 @@ export const FACEBOOK_DB: IDB = {
         users: 'users',
         chatRooms: 'chatrooms',
         messages: 'messages',
+        comments: 'comments',
         posts: 'posts',
         reacts: 'reacts',
     },

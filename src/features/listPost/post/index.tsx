@@ -1,126 +1,48 @@
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    Link as MUILink,
-    Avatar,
-    Box,
-    CardHeader,
-    CardMedia,
-    Divider,
-    IconButton,
-    Popover,
-    Tooltip,
-    Typography,
-    Collapse,
-} from '@mui/material'
+import { Box, CardMedia, Collapse, Divider } from '@mui/material'
 import { useCommentSocket } from 'api/socket/comment'
 import { useReactSocket } from 'api/socket/react'
 import DisplayGridImages from 'components/images/output2'
-import useToggle from 'hooks/useToggle'
+import ListComment from 'features/listComment'
+import CreateComment from 'features/listComment/comment/crudComment/create'
+import CommentToPost from 'features/listComment/strategies/commentToPost'
+import EmojiCounter from 'features/listReact'
+import ReactToPost from 'features/listReact/strategies/reactToPost'
+import ReactTableDisplay from 'features/listReact/tableDisplay'
+import { useReactAndReply } from 'hooks/useReactAndReply'
 import { IPost } from 'models/post'
-import moment from 'moment'
-import { Link } from 'react-router-dom'
-import Loading from 'screens/loading'
+import { useMemo } from 'react'
 import { useAppSelector } from 'states/hooks'
-import Comment from './comment'
-import CreateComment from './comment/crudComment/create'
-import CRUDButtons from './crudButtons'
-import InteractTool from './interactTools'
-import { useInteraction } from './interactTools/interactHook'
-import Mode from './mode'
-import ReactCounter from './reactCounter'
+import CardHeader from './header'
+import InteractBar from './interactBar'
 import { CardContent, CardMargin } from './styles'
-import useIteratorComment from './comment/useIteratorComment'
 
 export default function Post(post: IPost) {
-    const { owner, content, images, reacts, _id, mode, comments, createAt } = post
-    const user = useAppSelector((state) => state.user.current)
+    const reply = useAppSelector((state) =>
+        state.comment.current.find((possess) => possess._id === post._id)
+    )
+    const reactToPost = useMemo(
+        () => new ReactToPost({ _id: post._id, reacts: post.reacts }),
+        [post]
+    )
+    const commentToPost = useMemo(
+        () =>
+            new CommentToPost({
+                _id: post._id,
+                comments: reply ? reply.comments : [],
+                levelOrder: 0,
+            }),
+        [post, reply]
+    )
+    const interactHook = useReactAndReply(reactToPost, commentToPost)
 
-    const interactTool = useInteraction(post)
-    const { isToggle, setIsToggle, toggleBtnRef } = useToggle()
-    const { getMore, isHasMore } = useIteratorComment(post._id)
+    const { owner, images, content, reacts } = post
 
-    const time = moment(createAt).fromNow(true)
-    const detailTime = moment(createAt).format('h:mm:ss a, DD MMMM YYYY')
-
-    useCommentSocket(_id)
-    useReactSocket(_id)
-
-    if (!user) return <Loading />
+    useCommentSocket(commentToPost)
+    useReactSocket(reactToPost)
 
     return (
         <CardMargin>
-            <CardHeader
-                avatar={
-                    <Avatar
-                        src={owner.avatar}
-                        component={Link}
-                        to={`/user/${owner._id}`}
-                    />
-                }
-                title={
-                    <Typography
-                        variant="h6"
-                        component={Link}
-                        to={`/user/${owner._id}`}
-                        color="black"
-                    >
-                        {owner.username}
-                    </Typography>
-                }
-                subheader={
-                    <Box display="flex" alignItems="center">
-                        <Tooltip title={detailTime} placement="bottom">
-                            <Typography
-                                variant="subtitle2"
-                                color="textSecondary"
-                                sx={{ marginRight: 1 }}
-                            >
-                                {time}
-                            </Typography>
-                        </Tooltip>
-                        <Tooltip title={mode} placement="bottom">
-                            <Typography
-                                variant="subtitle2"
-                                color="textSecondary"
-                                sx={{ marginRight: 1 }}
-                            >
-                                <Mode mode={mode} />
-                            </Typography>
-                        </Tooltip>
-                    </Box>
-                }
-                action={
-                    user._id == owner._id ? (
-                        <IconButton
-                            color="primary"
-                            size="small"
-                            ref={toggleBtnRef}
-                            onClick={() => setIsToggle(true)}
-                        >
-                            <FontAwesomeIcon icon={faEllipsisH} />
-                        </IconButton>
-                    ) : (
-                        <></>
-                    )
-                }
-            />
-
-            <Popover
-                open={isToggle}
-                anchorEl={toggleBtnRef.current}
-                onClose={() => setIsToggle(false)}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-            >
-                <CRUDButtons post={post} setIsOpenCRUDButtons={setIsToggle} />
-            </Popover>
+            <CardHeader post={post} />
 
             {content && <CardContent>{content}</CardContent>}
 
@@ -129,34 +51,29 @@ export default function Post(post: IPost) {
             </CardMedia>
 
             <Box p={2} pb={1}>
-                <ReactCounter reacts={reacts} counter={interactTool.counter} />
-                <InteractTool tool={interactTool} />
+                <Box onClick={() => interactHook.setIsPopupReactTable(true)}>
+                    <EmojiCounter
+                        reacts={reacts}
+                        counter={interactHook.reactCounter}
+                        iconSize={18}
+                        displayDefault
+                    />
+                </Box>
+                <InteractBar interactHook={interactHook} />
             </Box>
-            <Collapse in={interactTool.isJoinComment}>
+            <Collapse in={interactHook.isJoinReply}>
                 <Box px={2} pt={0} pb={1}>
                     <Divider />
-                    <CreateComment post={post} />
-                    {comments ? (
-                        comments.map((comment, index) => (
-                            <Comment key={index} comment={comment} post={post} />
-                        ))
-                    ) : (
-                        <></>
-                    )}
-                    {isHasMore ? (
-                        <MUILink
-                            sx={{ cursor: 'pointer' }}
-                            underline="hover"
-                            variant="body2"
-                            onClick={getMore}
-                        >
-                            View more comments
-                        </MUILink>
-                    ) : (
-                        <></>
-                    )}
+                    <CreateComment commentStrategy={commentToPost} />
+                    <ListComment interactHook={interactHook} />
                 </Box>
             </Collapse>
+
+            <ReactTableDisplay
+                counter={interactHook.reactCounter}
+                open={interactHook.isPopupReactTable}
+                onClose={() => interactHook.setIsPopupReactTable(false)}
+            />
         </CardMargin>
     )
 }

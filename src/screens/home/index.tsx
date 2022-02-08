@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material'
 import { userAPI } from 'api/rest'
 import { useUserSocket } from 'api/socket/user'
-import ListChat from 'features/chatRoom/listChat'
+import ListChat from 'features/listRoom/listChat'
 import ListGame from 'features/listGame'
 import ListOnline from 'features/listOnline'
 import { IPublicInfo } from 'models/user'
