@@ -1,8 +1,9 @@
 import className from './styles.module.scss'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Tooltip, Typography } from '@mui/material'
 import EmojiPicker from 'features/listReact/picker'
 import { useReactAndReply } from 'hooks/useReactAndReply'
 import { IPostEmotionList } from 'models/react'
+import Helper from 'helpers/comment'
 
 interface IInteractTools {
     interactHook: ReturnType<typeof useReactAndReply>
@@ -47,20 +48,22 @@ export default function InteractTool({ interactHook }: IInteractTools) {
                     <EmojiPicker onSelect={sendReact} iconSize={14} />
                 </Box>
             </Button>
-            <Button
-                disabled={isCommentLoading}
-                size="small"
-                sx={{
-                    textTransform: 'none',
-                    px: 1,
-                    color: colorComment,
-                }}
-                onClick={setJoinReply}
-            >
-                <Typography noWrap fontSize={14}>
-                    💭 {isJoinReply ? 'hide' : 'reply'}
-                </Typography>
-            </Button>
+            <Tooltip title={Helper.joinComment} placement="top">
+                <Button
+                    disabled={isCommentLoading}
+                    size="small"
+                    sx={{
+                        textTransform: 'none',
+                        px: 1,
+                        color: colorComment,
+                    }}
+                    onClick={setJoinReply}
+                >
+                    <Typography noWrap fontSize={14}>
+                        💭 {isJoinReply ? 'hide' : 'reply'}
+                    </Typography>
+                </Button>
+            </Tooltip>
         </Box>
     )
 }

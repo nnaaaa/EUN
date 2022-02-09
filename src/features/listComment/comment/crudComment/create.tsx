@@ -1,28 +1,34 @@
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Box, Stack } from '@mui/material'
+import { Avatar, Box, Stack, Tooltip } from '@mui/material'
 import InputImage from 'components/images/input'
 import PreviewImages from 'components/images/output'
 import { useContent } from 'hooks/useContent'
-import { FormEvent, useRef, useState } from 'react'
+import { useReactAndReply } from 'hooks/useReactAndReply'
+import { IComment } from 'models/comment'
+import { FormEvent, useState } from 'react'
 import Loading from 'screens/loading'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { Branch, Trunk } from '../styles'
 import { StatusInput, useStyle } from './styles'
-import CommentStrategy from '../../strategies'
-import { IComment } from 'models/comment'
+import Helper from 'helpers/comment'
 
 interface ICreateCommentProps {
-    commentStrategy: CommentStrategy
+    interactHook: ReturnType<typeof useReactAndReply>
 }
 
-function CreateComment({ commentStrategy }: ICreateCommentProps) {
+function CreateComment({ interactHook }: ICreateCommentProps) {
+    const { inputContentRef, commentStrategy, reply } = interactHook
+    const {
+        possess: { levelOrder, _id },
+    } = commentStrategy
+
     const style = useStyle()
-    const inputContent = useRef<null | HTMLInputElement>(null)
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.user.current)
     const [isSending, setIsSending] = useState<boolean>(false)
     const { inputImages, previewImages, setContent, content, getContentAndImages } =
-        useContent(inputContent)
+        useContent(inputContentRef)
 
     const sendComment = async (e: FormEvent<HTMLFormElement>) => {
         try {
@@ -32,10 +38,8 @@ function CreateComment({ commentStrategy }: ICreateCommentProps) {
             if (isSending) return
             const comment = getContentAndImages()
             if (comment) {
-                comment.levelOrder = commentStrategy.possess.levelOrder + 1
-                const res = await commentStrategy
-                    .getCommentAPI()
-                    .addComment(comment, commentStrategy.possess._id)
+                comment.levelOrder = levelOrder + 1
+                const res = await commentStrategy.getCommentAPI().addComment(comment, _id)
                 const savedComment = await commentStrategy
                     .getCommentAPI()
                     .getComment(res.data as string)
@@ -54,7 +58,10 @@ function CreateComment({ commentStrategy }: ICreateCommentProps) {
     if (!user) return <Loading />
 
     return (
-        <Stack mb={1} mt={1} direction="row">
+        <Stack direction="row" position="relative">
+            {levelOrder >= 1 && reply && reply.comments.length > 0 ? <Trunk /> : <></>}
+            {levelOrder >= 1 ? <Branch /> : <></>}
+
             <Avatar src={user.avatar} />
             <Stack flex={1} ml={1} alignItems="center">
                 <form onSubmit={sendComment} className={style.form}>
@@ -62,13 +69,15 @@ function CreateComment({ commentStrategy }: ICreateCommentProps) {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Nhập bình luận"
-                        ref={inputContent}
+                        ref={inputContentRef}
                     />
-                    <Box className={style.tool}>
-                        <InputImage onChange={inputImages}>
-                            <FontAwesomeIcon icon={faFileImage} />
-                        </InputImage>
-                    </Box>
+                    <Tooltip title={Helper.choseImages} placement="top">
+                        <Box className={style.tool}>
+                            <InputImage onChange={inputImages}>
+                                <FontAwesomeIcon icon={faFileImage} />
+                            </InputImage>
+                        </Box>
+                    </Tooltip>
                 </form>
 
                 <PreviewImages

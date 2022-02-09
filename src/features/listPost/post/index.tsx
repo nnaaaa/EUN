@@ -3,20 +3,22 @@ import { useCommentSocket } from 'api/socket/comment'
 import { useReactSocket } from 'api/socket/react'
 import DisplayGridImages from 'components/images/output2'
 import ListComment from 'features/listComment'
-import CreateComment from 'features/listComment/comment/crudComment/create'
 import CommentToPost from 'features/listComment/strategies/commentToPost'
 import EmojiCounter from 'features/listReact'
 import ReactToPost from 'features/listReact/strategies/reactToPost'
 import ReactTableDisplay from 'features/listReact/tableDisplay'
 import { useReactAndReply } from 'hooks/useReactAndReply'
 import { IPost } from 'models/post'
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { useAppSelector } from 'states/hooks'
 import CardHeader from './header'
 import InteractBar from './interactBar'
-import { CardContent, CardMargin } from './styles'
+import { PostContext } from './postContext'
+import { CardContent, CardLoading, CardMargin } from './styles'
 
 export default function Post(post: IPost) {
+    const { isLoading } = useContext(PostContext)
+
     const reply = useAppSelector((state) =>
         state.comment.current.find((possess) => possess._id === post._id)
     )
@@ -42,6 +44,8 @@ export default function Post(post: IPost) {
 
     return (
         <CardMargin>
+            {isLoading && <CardLoading />}
+
             <CardHeader post={post} />
 
             {content && <CardContent>{content}</CardContent>}
@@ -61,10 +65,9 @@ export default function Post(post: IPost) {
                 </Box>
                 <InteractBar interactHook={interactHook} />
             </Box>
-            <Collapse in={interactHook.isJoinReply}>
+            <Collapse in={interactHook.isJoinReply} unmountOnExit>
                 <Box px={2} pt={0} pb={1}>
-                    <Divider />
-                    <CreateComment commentStrategy={commentToPost} />
+                    <Divider sx={{ mb: 1 }} />
                     <ListComment interactHook={interactHook} />
                 </Box>
             </Collapse>

@@ -1,12 +1,13 @@
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons'
 import { faComment, faCommentDots, faShare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, Button, Divider, Typography } from '@mui/material'
+import { Box, Button, Divider, Tooltip, Typography } from '@mui/material'
 import EmojiPicker from 'features/listReact/picker'
 import 'emoji-mart/css/emoji-mart.css'
 import { IPostEmotionList } from 'models/react'
 import { useReactAndReply } from 'hooks/useReactAndReply'
 import className from './styles.module.scss'
+import Helper from 'helpers/comment'
 
 interface IInteractTools {
     interactHook: ReturnType<typeof useReactAndReply>
@@ -63,19 +64,23 @@ export default function InteractTool({ interactHook }: IInteractTools) {
                         <EmojiPicker onSelect={sendReact} iconSize={25} />
                     </Box>
                 </Button>
-                <Button
-                    disabled={isCommentLoading}
-                    className={className.button}
-                    startIcon={
-                        <FontAwesomeIcon icon={isJoinReply ? faCommentDots : faComment} />
-                    }
-                    sx={{ color: colorComment }}
-                    onClick={setJoinReply}
-                >
-                    <Typography variant="subtitle2" noWrap>
-                        {isJoinReply ? 'Hide' : 'Comment'}
-                    </Typography>
-                </Button>
+                <Tooltip title={Helper.joinComment} placement="top">
+                    <Button
+                        disabled={isCommentLoading}
+                        className={className.button}
+                        startIcon={
+                            <FontAwesomeIcon
+                                icon={isJoinReply ? faCommentDots : faComment}
+                            />
+                        }
+                        sx={{ color: colorComment }}
+                        onClick={setJoinReply}
+                    >
+                        <Typography variant="subtitle2" noWrap>
+                            {isJoinReply ? 'Hide' : 'Comment'}
+                        </Typography>
+                    </Button>
+                </Tooltip>
                 <Button
                     sx={{ color: colorShare }}
                     className={className.button}

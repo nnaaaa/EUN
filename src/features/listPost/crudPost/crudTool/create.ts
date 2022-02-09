@@ -11,6 +11,7 @@ class Create extends CRUDType {
     }
     public async complete() {
         try {
+            if (!this._tool || !this._modeTool || !this._dispatch) throw new Error()
             const contentAndImages = this._tool.getContentAndImages()
             const [mode] = this._modeTool
 

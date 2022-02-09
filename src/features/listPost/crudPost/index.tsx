@@ -5,12 +5,12 @@ import InputImages from 'components/images/input'
 import PreviewImage from 'components/images/output'
 import Popup from 'components/popup'
 import { useContent } from 'hooks/useContent'
-import { IPost } from 'models/post'
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { PostContext } from '../post/postContext'
+import { CRUDType } from './crudTool'
 import Select, { useInitMode } from './selectMode/index'
 import { StatusInput, useStyle } from './styles'
-import { CRUDType } from './crudTool'
 
 interface IModelProps {
     isPopup: boolean
@@ -19,6 +19,8 @@ interface IModelProps {
 }
 
 export default function CRUDModel(props: IModelProps) {
+    const { isLoading, setIsLoading } = useContext(PostContext)
+
     const style = useStyle()
     const dispatch = useAppDispatch()
     const inputContentRef = useRef<null | HTMLInputElement>(null)
@@ -27,9 +29,8 @@ export default function CRUDModel(props: IModelProps) {
     const tool = useContent(inputContentRef)
     const { previewImages, content, setContent, inputImages, clearImages, clearAll } =
         tool
-    const [isSending, setIsSending] = useState<boolean>(false)
     const [mode, setMode] = useInitMode()
-
+    const [isUploading, setIsUploading] = useState(false)
     //khi giá trị useContent thay đổi thì type instance cũng thay đổi
     useEffect(() => {
         type.setTool(tool)
@@ -44,9 +45,11 @@ export default function CRUDModel(props: IModelProps) {
 
     const upPost = async () => {
         try {
-            setIsSending(true)
+            if (setIsLoading) setIsLoading(true)
+            else setIsUploading(true)
             await type.complete()
-            setIsSending(false)
+            if (setIsLoading) setIsLoading(false)
+            else setIsUploading(false)
             closePopup()
         } catch (e) {
             console.log(e)
@@ -107,7 +110,7 @@ export default function CRUDModel(props: IModelProps) {
                         color="primary"
                         variant="contained"
                         onClick={upPost}
-                        disabled={isSending}
+                        disabled={isLoading || isUploading}
                     >
                         <Typography variant="h6" fontSize={16}>
                             {type.getCompletedTitle()}

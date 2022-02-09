@@ -20,6 +20,7 @@ class Edit extends CRUDType {
 
     public async complete() {
         try {
+            await this.checkTool()
             const contentAndImages = this._tool.getContentAndImages()
             const [mode] = this._modeTool
             if (contentAndImages) {

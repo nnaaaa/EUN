@@ -8,6 +8,7 @@ import { postActions } from 'states/slices/postSlice'
 import Private from './getStrategy/private'
 import PublicFriend from './getStrategy/publicAndFriend'
 import Post from './post'
+import PostProvider from './post/postContext'
 import useIteratorPost from './useIteratorPost'
 
 interface IListPostProps {
@@ -54,7 +55,9 @@ export default function ListPost({ mode, user }: IListPostProps) {
             }
         >
             {current.map((post) => (
-                <Post key={post._id} {...post} />
+                <PostProvider key={post._id}>
+                    <Post {...post} />
+                </PostProvider>
             ))}
         </InfiniteScroll>
     )

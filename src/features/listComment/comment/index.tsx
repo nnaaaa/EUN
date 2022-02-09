@@ -1,4 +1,4 @@
-import { Avatar, Box, Collapse, Divider } from '@mui/material'
+import { Avatar, Box, Collapse, Stack } from '@mui/material'
 import { useCommentSocket } from 'api/socket/comment'
 import { useReactSocket } from 'api/socket/react'
 import EmojiCounter from 'features/listReact'
@@ -11,18 +11,19 @@ import { useMemo, useState } from 'react'
 import { useAppSelector } from 'states/hooks'
 import ListComment from '..'
 import CommentToReply from '../strategies/commentToComment'
-import CreateComment from './crudComment/create'
 import EditComment from './crudComment/edit'
 import DisplayContent from './displayContent'
 import DisplayCrudButton from './displayCrudButton'
 import InteractBar from './interactBar'
 import className from './style.module.scss'
+import { Branch, TopTrunk, Trunk } from './styles'
 
 interface ICommentProps {
     comment: IComment
+    isLastComment: boolean
 }
 
-export default function Comment({ comment }: ICommentProps) {
+export default function Comment({ comment, isLastComment }: ICommentProps) {
     const reply = useAppSelector((state) =>
         state.comment.current.find((possess) => possess._id === comment._id)
     )
@@ -51,44 +52,65 @@ export default function Comment({ comment }: ICommentProps) {
     if (isEdit) return <EditComment initComment={comment} setIsEdit={setIsEdit} />
 
     return (
-        <Box mb={0.5}>
-            <Box className={className.comment}>
-                <Avatar src={avatar} />
-                <Box ml={1}>
-                    <Box className={className.content}>
-                        <Box className={className.wrapContent}>
-                            <DisplayContent comment={comment} />
-                            <Box
-                                className={className.displayEmoji}
-                                borderRadius={10}
-                                onClick={() => interactHook.setIsPopupReactTable(true)}
-                            >
-                                <EmojiCounter
-                                    counter={interactHook.reactCounter}
-                                    reacts={comment.reacts}
+        <>
+            <Stack
+                className={className.comment}
+                position="relative"
+                flexDirection="row"
+                alignItems="flex-start"
+                sx={{ width: '100%' }}
+            >
+                {comment.levelOrder > 1 && !isLastComment ? <Trunk /> : <></>}
+                {comment.levelOrder > 1 ? <Branch /> : <></>}
+
+                <Box sx={{ width: '100%' }}>
+                    <Stack flexDirection="row">
+                        <Box>
+                            <Avatar src={avatar} sx={{ mb: 1 }} />
+                            {comment.levelOrder > 0 && interactHook.isJoinReply ? (
+                                <TopTrunk />
+                            ) : (
+                                <></>
+                            )}
+                        </Box>
+                        <Box ml={1}>
+                            <Stack flexDirection="row">
+                                <Box className={className.wrapContent}>
+                                    <DisplayContent comment={comment} />
+                                    <Box
+                                        className={className.displayEmoji}
+                                        onClick={() =>
+                                            interactHook.setIsPopupReactTable(true)
+                                        }
+                                    >
+                                        <EmojiCounter
+                                            counter={interactHook.reactCounter}
+                                            reacts={comment.reacts}
+                                        />
+                                    </Box>
+                                </Box>
+                                <DisplayCrudButton
+                                    comment={comment}
+                                    setIsEdit={setIsEdit}
                                 />
+                            </Stack>
+                            <Box>
+                                <InteractBar interactHook={interactHook} />
                             </Box>
                         </Box>
-                        <DisplayCrudButton comment={comment} setIsEdit={setIsEdit} />
-                    </Box>
-                    <Box>
-                        <InteractBar interactHook={interactHook} />
-                    </Box>
+                    </Stack>
+
+                    <Collapse in={interactHook.isJoinReply} unmountOnExit>
+                        <ListComment interactHook={interactHook} />
+                    </Collapse>
                 </Box>
-            </Box>
-            <Collapse in={interactHook.isJoinReply}>
-                <Box pl={6}>
-                    <Divider />
-                    <CreateComment commentStrategy={commentToReply} />
-                    {reply ? <ListComment interactHook={interactHook} /> : <></>}
-                </Box>
-            </Collapse>
+            </Stack>
 
             <ReactTableDisplay
                 counter={interactHook.reactCounter}
                 open={interactHook.isPopupReactTable}
                 onClose={() => interactHook.setIsPopupReactTable(false)}
             />
-        </Box>
+        </>
     )
 }

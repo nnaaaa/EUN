@@ -6,9 +6,10 @@ import EditPost from 'features/listPost/crudPost'
 import { CRUDType } from 'features/listPost/crudPost/crudTool'
 import EditType from 'features/listPost/crudPost/crudTool/edit'
 import { IPost } from 'models/post'
-import { Dispatch, SetStateAction, useMemo, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useMemo, useState } from 'react'
 import { useAppDispatch } from 'states/hooks'
 import { postActions } from 'states/slices/postSlice'
+import { PostContext } from '../postContext'
 import { useStyle } from './styles'
 
 interface IOptionProps {
@@ -17,15 +18,23 @@ interface IOptionProps {
 }
 
 const CRUDButtons = (props: IOptionProps) => {
+    const { setIsLoading } = useContext(PostContext)
     const style = useStyle()
     const { post, setIsOpenCRUDButtons } = props
     const [isPopup, setPopup] = useState(false)
     const editType = useMemo<CRUDType>(() => new EditType(post), [post])
     const dispatch = useAppDispatch()
     const removePost = async () => {
-        setIsOpenCRUDButtons(false)
-        await postAPI.delete(post._id)
-        dispatch(postActions.deletePost(post._id))
+        try {
+            if (!setIsLoading) throw new Error("SetIsLoading doesn't exist")
+            setIsOpenCRUDButtons(false)
+            setIsLoading(true)
+            await postAPI.delete(post._id)
+            setIsLoading(false)
+            dispatch(postActions.deletePost(post._id))
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     return (

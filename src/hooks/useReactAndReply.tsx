@@ -6,7 +6,7 @@ import {
 import { FACEBOOK_DB } from 'config/keys'
 import { IEmoji, IReact } from 'models/react'
 import { IPublicInfo } from 'models/user'
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useMemo, useRef, useState } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import ReactStrategy from '../features/listReact/strategies'
@@ -29,6 +29,7 @@ export const useReactAndReply = (
     const iterator = useIteratorComment(commentStrategy.possess)
     const [isCommentLoading, setIsCommentLoading] = useState(false)
     const [isJoinReply, setIsJoinCommtent] = useState(false)
+    const inputContentRef = useRef<null | HTMLInputElement>(null)
 
     const [isPopupReactTable, setIsPopupReactTable] = useState(false)
     const [isReactLoading, setIsReactLoading] = useState(false)
@@ -101,7 +102,7 @@ export const useReactAndReply = (
 
     const setJoinReply = async () => {
         setIsJoinCommtent((pre) => {
-            if (commentStrategy.possess.levelOrder >= 3) return false
+            if (commentStrategy.possess.levelOrder >= 5) return false
 
             if (!pre) {
                 iterator.setIsHasMore(true)
@@ -109,7 +110,11 @@ export const useReactAndReply = (
                     .then(() => {})
                     .catch((e) => console.log(e))
                 dispatch(commentActions.addPossess(commentStrategy.possess))
+                setTimeout(() => {
+                    if (inputContentRef.current) inputContentRef.current.focus()
+                }, 0)
             } else dispatch(commentActions.removePossess(commentStrategy.possess._id))
+
             return !pre
         })
     }
@@ -139,5 +144,7 @@ export const useReactAndReply = (
         reply,
         iterator,
         getReplies,
+        inputContentRef,
+        commentStrategy,
     }
 }

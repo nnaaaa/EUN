@@ -34,4 +34,10 @@ export abstract class CRUDType {
     }
     public init(): void {}
     public async complete() {}
+    public async checkTool() {
+        const thisClass = Object.values(this)
+        for (const member of thisClass) {
+            if (!member) throw new Error()
+        }
+    }
 }
