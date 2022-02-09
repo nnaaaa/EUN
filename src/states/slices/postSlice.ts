@@ -1,9 +1,7 @@
-import { IReact } from 'models/react'
-import { IComment } from 'models/comment'
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { postAPI } from 'api/rest'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ID } from 'models/common'
 import { IPost } from 'models/post'
+import { IReact } from 'models/react'
 
 interface IInitialState {
     loading: boolean
@@ -31,9 +29,7 @@ const postSlice = createSlice({
                 if (post._id === action.payload._id)
                     return {
                         ...post,
-                        content: action.payload.content,
-                        images: action.payload.images,
-                        mode: action.payload.mode,
+                        ...action.payload,
                     }
                 return post
             })

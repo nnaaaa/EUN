@@ -1,5 +1,6 @@
 import { Box, CardMedia, Collapse, Divider } from '@mui/material'
 import { useCommentSocket } from 'api/socket/comment'
+import { usePostSocket } from 'api/socket/post'
 import { useReactSocket } from 'api/socket/react'
 import DisplayGridImages from 'components/images/output2'
 import ListComment from 'features/listComment'
@@ -18,18 +19,16 @@ import { CardContent, CardLoading, CardMargin } from './styles'
 
 export default function Post(post: IPost) {
     const { isLoading } = useContext(PostContext)
+    const { owner, images, content, reacts, _id } = post
 
     const reply = useAppSelector((state) =>
-        state.comment.current.find((possess) => possess._id === post._id)
+        state.comment.current.find((possess) => possess._id === _id)
     )
-    const reactToPost = useMemo(
-        () => new ReactToPost({ _id: post._id, reacts: post.reacts }),
-        [post]
-    )
+    const reactToPost = useMemo(() => new ReactToPost({ _id, reacts }), [post])
     const commentToPost = useMemo(
         () =>
             new CommentToPost({
-                _id: post._id,
+                _id,
                 comments: reply ? reply.comments : [],
                 levelOrder: 0,
             }),
@@ -37,8 +36,7 @@ export default function Post(post: IPost) {
     )
     const interactHook = useReactAndReply(reactToPost, commentToPost)
 
-    const { owner, images, content, reacts } = post
-
+    usePostSocket(_id)
     useCommentSocket(commentToPost)
     useReactSocket(reactToPost)
 

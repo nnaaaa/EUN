@@ -21,10 +21,15 @@ const useCreateRoom = (searchInput: RefObject<HTMLInputElement>) => {
         setMembers((pre) => pre.filter((member) => member._id !== friend._id))
     }
     const createRoom = async () => {
-        if (!user) return
-        await chatAPI.create(members.map((m) => m._id).concat([user._id]))
-        setMembers([])
-        dispatch(searchActions.clear())
+        try {
+            if (!user) return
+            await chatAPI.create(members.map((m) => m._id).concat([user._id]))
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setMembers([])
+            dispatch(searchActions.clear())
+        }
     }
     return { members, addMember, removeMember, createRoom }
 }

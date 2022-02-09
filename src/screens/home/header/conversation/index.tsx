@@ -25,7 +25,7 @@ const Conversation = ({ iteratorHook, closeConverse }: IConversationProps) => {
             boxShadow={2}
             bgcolor="white"
             width="300px"
-            height="200px"
+            maxHeight="200px"
             overflow="auto"
             id="wrapperScroll"
         >

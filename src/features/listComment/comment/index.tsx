@@ -24,25 +24,23 @@ interface ICommentProps {
 }
 
 export default function Comment({ comment, isLastComment }: ICommentProps) {
+    const { owner, levelOrder, reacts, _id } = comment
+    const { avatar } = owner as IPublicInfo
+
     const reply = useAppSelector((state) =>
-        state.comment.current.find((possess) => possess._id === comment._id)
+        state.comment.current.find((possess) => possess._id === _id)
     )
-    const reactToComment = useMemo(
-        () => new ReactToComment({ _id: comment._id, reacts: comment.reacts }),
-        [comment]
-    )
+    const reactToComment = useMemo(() => new ReactToComment({ _id, reacts }), [comment])
     const commentToReply = useMemo(
         () =>
             new CommentToReply({
-                _id: comment._id,
+                _id,
                 comments: reply ? reply.comments : [],
-                levelOrder: comment.levelOrder,
+                levelOrder,
             }),
         [comment, reply]
     )
     const interactHook = useReactAndReply(reactToComment, commentToReply)
-    const { owner } = comment
-    const { avatar } = owner as IPublicInfo
 
     const [isEdit, setIsEdit] = useState(false)
 
@@ -60,14 +58,14 @@ export default function Comment({ comment, isLastComment }: ICommentProps) {
                 alignItems="flex-start"
                 sx={{ width: '100%' }}
             >
-                {comment.levelOrder > 1 && !isLastComment ? <Trunk /> : <></>}
-                {comment.levelOrder > 1 ? <Branch /> : <></>}
+                {levelOrder > 1 && !isLastComment ? <Trunk /> : <></>}
+                {levelOrder > 1 ? <Branch /> : <></>}
 
                 <Box sx={{ width: '100%' }}>
                     <Stack flexDirection="row">
                         <Box>
                             <Avatar src={avatar} sx={{ mb: 1 }} />
-                            {comment.levelOrder > 0 && interactHook.isJoinReply ? (
+                            {levelOrder > 0 && interactHook.isJoinReply ? (
                                 <TopTrunk />
                             ) : (
                                 <></>
@@ -85,7 +83,7 @@ export default function Comment({ comment, isLastComment }: ICommentProps) {
                                     >
                                         <EmojiCounter
                                             counter={interactHook.reactCounter}
-                                            reacts={comment.reacts}
+                                            reacts={reacts}
                                         />
                                     </Box>
                                 </Box>
