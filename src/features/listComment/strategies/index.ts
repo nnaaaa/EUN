@@ -1,30 +1,31 @@
 import { AxiosResponse } from 'axios'
 import { IComment } from 'models/comment'
 import { ID } from 'models/common'
+import { IMessage } from 'models/message'
+import { IPublicInfo } from 'models/user'
 
 interface IPossess {
     _id: ID
-    comments: IComment[]
+    owner: IPublicInfo
+    replies: IComment[]
     levelOrder: number
+    participants: ID[] | IPublicInfo[]
 }
 interface IReduxActions {
-    deleteComment: (payload: { commentId: ID; possessId: ID }) => any
-    addOrUpdateComment: (payload: IComment) => any
+    delete: (payload: { replyId: ID; possessId: ID }) => any
+    addOrUpdate: (payload: IComment) => any
 }
-interface ICommentAPI {
-    addComment: (
-        commentInfo: Partial<IComment>,
-        possessId: ID
-    ) => Promise<AxiosResponse<any>>
-    getComment: (commentId: ID) => Promise<AxiosResponse<any>>
+interface IReplyAPI {
+    add: (replyInfo: Partial<IComment>, possessId: ID) => Promise<AxiosResponse<any>>
+    get: (commentId: ID) => Promise<AxiosResponse<any>>
 }
-export default abstract class CommentStrategy {
+export default abstract class ReplyStrategy {
     private _possess: IPossess
     constructor(possess: IPossess) {
         this._possess = possess
     }
     abstract getReduxActions(): IReduxActions
-    abstract getCommentAPI(): ICommentAPI
+    abstract getReplyAPI(): IReplyAPI
     public get possess() {
         return this._possess
     }

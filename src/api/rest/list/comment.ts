@@ -7,15 +7,13 @@ class CommentAPI {
     url = `comment`
     async getListCommentFromTime(query: IQueryPost, possess: ID, fromTime: Date) {
         return Axios.get<IComment[]>(
-            `${
-                this.url
-            }/getListCommentFromTime/${possess}/${fromTime}?${queryString.stringify(
+            `${this.url}/getListFromTime/${possess}/${fromTime}?${queryString.stringify(
                 query
             )}`
         )
     }
     getComment = async (commentId: ID) => {
-        return Axios.get<IComment>(`${this.url}/getComment/${commentId}`)
+        return Axios.get<IComment>(`${this.url}/get/${commentId}`)
     }
 
     addCommentToPost = async (commentInfo: Partial<IComment>, possessId: string) => {
@@ -26,11 +24,7 @@ class CommentAPI {
         }
         form.append('levelOrder', commentInfo.levelOrder?.toString() || '0')
 
-        return Axios.post(
-            `${this.url}/addCommentToPost/${possessId}`,
-            form,
-            imagesConditon
-        )
+        return Axios.post(`${this.url}/addToPost/${possessId}`, form, imagesConditon)
     }
     addCommentToComment = async (commentInfo: Partial<IComment>, possessId: string) => {
         let form = new FormData()
@@ -40,11 +34,7 @@ class CommentAPI {
         }
         form.append('levelOrder', commentInfo.levelOrder?.toString() || '0')
 
-        return Axios.post(
-            `${this.url}/addCommentToComment/${possessId}`,
-            form,
-            imagesConditon
-        )
+        return Axios.post(`${this.url}/addToComment/${possessId}`, form, imagesConditon)
     }
 
     async updateComment(updateField: Partial<IComment>) {
@@ -54,10 +44,10 @@ class CommentAPI {
         if (updateField.images) {
             for (const image of updateField.images) form.append('images', image)
         }
-        return Axios.put(`${this.url}/updateComment`, form, imagesConditon)
+        return Axios.put(`${this.url}/update`, form, imagesConditon)
     }
     async deleteComment(commentId: ID) {
-        return Axios.delete(`${this.url}/deleteComment/${commentId}`)
+        return Axios.delete(`${this.url}/delete/${commentId}`)
     }
 }
 

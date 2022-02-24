@@ -1,3 +1,6 @@
+import { IComment } from 'models/comment'
+import { IPublicInfo } from 'models/user'
+
 export const arrayIsContain = <T = string>(array: T[], ...rest: T[]) => {
     for (const eleRest of rest) {
         let key = false

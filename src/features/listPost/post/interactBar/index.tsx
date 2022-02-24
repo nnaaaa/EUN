@@ -9,7 +9,7 @@ import { useReactAndReply } from 'hooks/useReactAndReply'
 import className from './styles.module.scss'
 import Helper from 'helpers/comment'
 
-interface IInteractTools {
+interface IInteractBarProps {
     interactHook: ReturnType<typeof useReactAndReply>
 }
 
@@ -18,14 +18,14 @@ export interface IEmotionSelect {
     node: React.ReactNode
 }
 
-export default function InteractTool({ interactHook }: IInteractTools) {
+export default function InteractBar({ interactHook }: IInteractBarProps) {
     const {
         isJoinReply,
         setJoinReply,
         sendReact,
         myReact,
         reactDefault,
-        isCommentLoading,
+        isGettingComment,
         isReactLoading,
     } = interactHook
     const colorReact = myReact ? myReact.color : '#a19c9c'
@@ -65,21 +65,22 @@ export default function InteractTool({ interactHook }: IInteractTools) {
                     </Box>
                 </Button>
                 <Tooltip title={Helper.joinComment} placement="top">
-                    <Button
-                        disabled={isCommentLoading}
-                        className={className.button}
-                        startIcon={
-                            <FontAwesomeIcon
-                                icon={isJoinReply ? faCommentDots : faComment}
-                            />
-                        }
-                        sx={{ color: colorComment }}
-                        onClick={setJoinReply}
-                    >
-                        <Typography variant="subtitle2" noWrap>
-                            {isJoinReply ? 'Hide' : 'Comment'}
-                        </Typography>
-                    </Button>
+                    <Box className={className.button}>
+                        <Button
+                            disabled={isGettingComment}
+                            startIcon={
+                                <FontAwesomeIcon
+                                    icon={isJoinReply ? faCommentDots : faComment}
+                                />
+                            }
+                            sx={{ color: colorComment, width: '100%' }}
+                            onClick={setJoinReply}
+                        >
+                            <Typography variant="subtitle2" noWrap>
+                                {isJoinReply ? 'Hide' : 'Comment'}
+                            </Typography>
+                        </Button>
+                    </Box>
                 </Tooltip>
                 <Button
                     sx={{ color: colorShare }}

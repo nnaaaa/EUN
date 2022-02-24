@@ -24,19 +24,24 @@ interface ICommentProps {
 }
 
 export default function Comment({ comment, isLastComment }: ICommentProps) {
-    const { owner, levelOrder, reacts, _id } = comment
+    const { owner, levelOrder, reacts, _id, participants } = comment
     const { avatar } = owner as IPublicInfo
 
     const reply = useAppSelector((state) =>
         state.comment.current.find((possess) => possess._id === _id)
     )
-    const reactToComment = useMemo(() => new ReactToComment({ _id, reacts }), [comment])
+    const reactToComment = useMemo(
+        () => new ReactToComment({ _id, reacts, participants }),
+        [comment]
+    )
     const commentToReply = useMemo(
         () =>
             new CommentToReply({
                 _id,
-                comments: reply ? reply.comments : [],
+                replies: reply ? reply.comments : [],
                 levelOrder,
+                participants,
+                owner: owner as IPublicInfo,
             }),
         [comment, reply]
     )
@@ -52,16 +57,15 @@ export default function Comment({ comment, isLastComment }: ICommentProps) {
     return (
         <>
             <Stack
-                className={className.comment}
                 position="relative"
                 flexDirection="row"
                 alignItems="flex-start"
-                sx={{ width: '100%' }}
+                width="100%"
             >
                 {levelOrder > 1 && !isLastComment ? <Trunk /> : <></>}
                 {levelOrder > 1 ? <Branch /> : <></>}
 
-                <Box sx={{ width: '100%' }}>
+                <Box width="100%">
                     <Stack flexDirection="row">
                         <Box>
                             <Avatar src={avatar} sx={{ mb: 1 }} />

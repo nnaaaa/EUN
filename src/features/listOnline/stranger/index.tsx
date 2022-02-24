@@ -47,7 +47,7 @@ export default function StrangerOnline() {
                             <Avatar
                                 src={friend.avatar}
                                 component={Link}
-                                to={`/user/${friend._id}`}
+                                to={`/user/${friend.account}`}
                             />
                             <Box ml={1} overflow="hidden">
                                 <Typography
@@ -55,7 +55,7 @@ export default function StrangerOnline() {
                                     align="left"
                                     noWrap
                                     component={Link}
-                                    to={`/user/${friend._id}`}
+                                    to={`/user/${friend.account}`}
                                 >
                                     {friend.username}
                                 </Typography>

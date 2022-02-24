@@ -7,7 +7,7 @@ import { useAppSelector } from 'states/hooks'
 import { postActions } from 'states/slices/postSlice'
 import Private from './getStrategy/private'
 import PublicFriend from './getStrategy/publicAndFriend'
-import Post from './post'
+import Post from './post/display/comprehension'
 import PostProvider from './post/postContext'
 import useIteratorPost from './useIteratorPost'
 

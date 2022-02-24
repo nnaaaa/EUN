@@ -16,6 +16,7 @@ interface IDB {
         comments: string
         posts: string
         reacts: string
+        notifications: string
     }
 }
 
@@ -28,6 +29,7 @@ export const FACEBOOK_DB: IDB = {
         comments: 'comments',
         posts: 'posts',
         reacts: 'reacts',
+        notifications: 'notifications',
     },
 }
 export const BATTLESHIP_DB = 'BattleShip'

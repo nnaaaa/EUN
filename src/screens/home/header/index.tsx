@@ -1,7 +1,5 @@
-import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
 import {
     faBars,
-    faBell,
     faBorderNone,
     faGamepad,
     faHome,
@@ -22,24 +20,20 @@ import {
     Toolbar,
 } from '@mui/material'
 import Logo from 'components/logo'
+import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Gutter from 'screens/home/gutter'
 import { useStyle } from 'screens/home/header/headerStyles'
-import { useRef, useState } from 'react'
-import { Link, useRouteMatch } from 'react-router-dom'
 import SearchForm from '../../../features/searchForm'
-import Notifications from './notifications'
-import Options from './options'
-import Conversation from './conversation'
 import ConversationButton from './conversation/representButton'
+import NotificationButton from './notificationList/representButton'
+import Options from './options'
 
 export default function Header() {
     const style = useStyle()
-    const { url } = useRouteMatch()
 
     const [toggleMore, setToggleMore] = useState(false)
     const moreRef = useRef(null)
-    const [toggleNotice, setToggleNotice] = useState(false)
-    const noticeRef = useRef(null)
 
     const [toggleDrawer, setToggleDrawer] = useState(false)
 
@@ -48,13 +42,6 @@ export default function Header() {
     }
     const closeMore = () => {
         setToggleMore(false)
-    }
-
-    const openNotice = () => {
-        setToggleNotice(true)
-    }
-    const closeNotice = () => {
-        setToggleNotice(false)
     }
 
     return (
@@ -101,29 +88,7 @@ export default function Header() {
                             </IconButton>
 
                             <ConversationButton />
-
-                            <IconButton
-                                className={style.icon}
-                                onClick={openNotice}
-                                ref={noticeRef}
-                            >
-                                <FontAwesomeIcon icon={faBell} />
-                            </IconButton>
-                            <Popover
-                                open={toggleNotice}
-                                anchorEl={noticeRef.current}
-                                onClose={closeNotice}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'right',
-                                }}
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                            >
-                                <Notifications />
-                            </Popover>
+                            <NotificationButton />
 
                             <IconButton
                                 className={style.icon}

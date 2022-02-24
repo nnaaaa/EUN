@@ -19,8 +19,9 @@ const commentSlice = createSlice({
     name: 'comment',
     initialState,
     reducers: {
-        addPossess(state, action: PayloadAction<{ _id: ID; comments: IComment[] }>) {
-            state.current.push(action.payload)
+        addPossess(state, action: PayloadAction<{ _id: ID; replies: IComment[] }>) {
+            const { _id, replies } = action.payload
+            state.current.push({ _id, comments: replies })
         },
         removePossess(state, action: PayloadAction<ID>) {
             state.current = state.current.filter(
@@ -61,12 +62,12 @@ const commentSlice = createSlice({
                 return possess
             })
         },
-        deleteComment(state, action: PayloadAction<{ possessId: ID; commentId: ID }>) {
-            const { possessId, commentId } = action.payload
+        deleteComment(state, action: PayloadAction<{ possessId: ID; replyId: ID }>) {
+            const { possessId, replyId } = action.payload
             state.current = state.current.map((possess) => {
                 if (possess._id === possessId) {
                     possess.comments = possess.comments.filter(
-                        (cmt) => cmt._id !== commentId
+                        (cmt) => cmt._id !== replyId
                     )
                 }
                 return possess
@@ -78,8 +79,8 @@ const commentSlice = createSlice({
             action: PayloadAction<{ react: IReact; possessId: ID }>
         ) {
             const { react, possessId } = action.payload
-            state.current = state.current.map((post) => {
-                post.comments = post.comments.map((comment) => {
+            state.current = state.current.map((possess) => {
+                possess.comments = possess.comments.map((comment) => {
                     if (comment._id === possessId) {
                         const isReacted = comment.reacts.find((r) => r._id === react._id)
                         if (isReacted) {
@@ -96,7 +97,7 @@ const commentSlice = createSlice({
                     }
                     return comment
                 })
-                return post
+                return possess
             })
         },
         deleteReactFromComment(
@@ -104,14 +105,14 @@ const commentSlice = createSlice({
             action: PayloadAction<{ reactId: ID; possessId: ID }>
         ) {
             const { reactId, possessId } = action.payload
-            state.current = state.current.map((post) => {
-                post.comments = post.comments.map((comment) => {
+            state.current = state.current.map((possess) => {
+                possess.comments = possess.comments.map((comment) => {
                     if (comment._id === possessId) {
                         comment.reacts = comment.reacts.filter((r) => r._id !== reactId)
                     }
                     return comment
                 })
-                return post
+                return possess
             })
         },
 

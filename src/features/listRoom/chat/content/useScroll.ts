@@ -1,7 +1,7 @@
 import { IMessage } from 'models/message'
 import { useRef, useState } from 'react'
 
-const useScroll = (messages: IMessage[]) => {
+const useScroll = () => {
     const infiniteScrollRef = useRef<HTMLDivElement | null>()
     const [isDisplayScrollButton, setIsDisplayScrollButton] = useState(false)
     const scrollToBottom = () => {

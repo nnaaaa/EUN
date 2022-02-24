@@ -24,9 +24,9 @@ export const FriendProfileHandler = () => {
     const myInfo = useAppSelector((state) => state.user.current)
     useEffect(() => {
         const fetchUser = async () => {
-            const _id = location.pathname.substring(6)
-            if (_id === myInfo?._id) return myInfo
-            const response = await friendAPI.findById(_id)
+            const account = location.pathname.substring(6)
+            if (account === myInfo?.account) return myInfo
+            const response = await friendAPI.findByAccount(account)
 
             return response.data
         }
@@ -42,7 +42,8 @@ export const FriendProfileHandler = () => {
     )
     useUserSocket(myInfo ? myInfo._id : undefined, dispatcher)
 
-    if (user && myInfo && user._id === myInfo._id) return <Redirect to="/profile" />
+    if (user && myInfo && user.account === myInfo.account)
+        return <Redirect to="/profile" />
 
     return <FriendProfile user={user} />
 }

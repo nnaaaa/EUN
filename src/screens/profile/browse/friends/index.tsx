@@ -33,7 +33,7 @@ export default function Friends({ setIndex, user }: IFriendsProps) {
                         xs={4}
                         key={index}
                         component={Link}
-                        to={`/user/${user._id}`}
+                        to={`/user/${user.account}`}
                     >
                         <AutoAvatar src={user.avatar} />
                         <Typography className={style.name} noWrap>

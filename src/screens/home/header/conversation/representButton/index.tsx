@@ -4,7 +4,7 @@ import { IconButton, Popover, Badge } from '@mui/material'
 import { useRef, useState } from 'react'
 import Conversation from '..'
 import { useStyle } from '../../headerStyles'
-import useIteratorChatRoom from '../useIteratorChatRoom'
+import useIteratorChatRoom from '../useChatRoomIterator'
 import { useMessageSocket } from 'api/socket/message'
 
 const ConversationButton = () => {

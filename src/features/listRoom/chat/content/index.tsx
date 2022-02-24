@@ -21,7 +21,7 @@ function Content({ room, userComposingId, user }: IProps) {
     const { messages } = room
     const { getMore, isHasMore } = useChatIterator(room)
     const { infiniteScrollRef, isDisplayScrollButton, onScroll, scrollToBottom } =
-        useScroll(messages)
+        useScroll()
 
     return (
         <>

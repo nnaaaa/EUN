@@ -6,6 +6,7 @@ export const StatusInput = styled.input`
     height: 2.5rem;
     font-size: 1rem;
     padding: 0.6rem 1rem;
+    padding-right: 3rem;
     border-radius: 4rem;
     background: #f0f2f5;
 `

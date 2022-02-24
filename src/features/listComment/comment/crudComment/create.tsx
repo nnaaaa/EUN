@@ -1,27 +1,27 @@
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Box, Stack, Tooltip } from '@mui/material'
+import { notificationAPI } from 'api/rest/list/notification'
 import InputImage from 'components/images/input'
 import PreviewImages from 'components/images/output'
+import Helper from 'helpers/comment'
 import { useContent } from 'hooks/useContent'
 import { useReactAndReply } from 'hooks/useReactAndReply'
-import { IComment } from 'models/comment'
 import { FormEvent, useState } from 'react'
 import Loading from 'screens/loading'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { Branch, Trunk } from '../styles'
 import { StatusInput, useStyle } from './styles'
-import Helper from 'helpers/comment'
 
 interface ICreateCommentProps {
     interactHook: ReturnType<typeof useReactAndReply>
 }
 
 function CreateComment({ interactHook }: ICreateCommentProps) {
-    const { inputContentRef, commentStrategy, reply } = interactHook
+    const { inputContentRef, replyStrategy, reply } = interactHook
     const {
         possess: { levelOrder, _id },
-    } = commentStrategy
+    } = replyStrategy
 
     const style = useStyle()
     const dispatch = useAppDispatch()
@@ -35,21 +35,25 @@ function CreateComment({ interactHook }: ICreateCommentProps) {
             e.preventDefault()
             if (isSending) return
             setIsSending(true)
-            if (isSending) return
             const comment = getContentAndImages()
             if (comment) {
                 comment.levelOrder = levelOrder + 1
-                const res = await commentStrategy.getCommentAPI().addComment(comment, _id)
-                const savedComment = await commentStrategy
-                    .getCommentAPI()
-                    .getComment(res.data as string)
-                dispatch(
-                    commentStrategy
-                        .getReduxActions()
-                        .addOrUpdateComment(savedComment.data as IComment)
+
+                //tạo comment
+                const res = await replyStrategy.getReplyAPI().add(comment, _id)
+                const savedComment = (
+                    await replyStrategy.getReplyAPI().get(res.data as string)
+                ).data as any
+                dispatch(replyStrategy.getReduxActions().addOrUpdate(savedComment))
+                setIsSending(false)
+
+                if (!user) return
+                //tạo thông báo cho những người join vào comment
+                await notificationAPI.createCommentNotification(
+                    savedComment,
+                    replyStrategy.possess
                 )
             }
-            setIsSending(false)
         } catch (e) {
             console.log(e)
         }

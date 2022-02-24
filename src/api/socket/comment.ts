@@ -14,11 +14,11 @@ export const useCommentSocket = (strategy: CommentStrategy) => {
         if (!strategy.possess || !socket) return
         const { _id } = strategy.possess
         const createOrUpdateListener = async (newData: IComment) => {
-            dispatch(strategy.getReduxActions().addOrUpdateComment(newData))
+            dispatch(strategy.getReduxActions().addOrUpdate(newData))
         }
         const deleteCommentListener = (commentId: ID) => {
             dispatch(
-                strategy.getReduxActions().deleteComment({ possessId: _id, commentId })
+                strategy.getReduxActions().delete({ possessId: _id, replyId: commentId })
             )
         }
 

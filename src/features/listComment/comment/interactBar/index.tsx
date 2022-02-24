@@ -1,11 +1,11 @@
 import className from './styles.module.scss'
-import { Box, Button, Tooltip, Typography } from '@mui/material'
+import { Box, Button, Stack, Tooltip, Typography } from '@mui/material'
 import EmojiPicker from 'features/listReact/picker'
 import { useReactAndReply } from 'hooks/useReactAndReply'
 import { IPostEmotionList } from 'models/react'
 import Helper from 'helpers/comment'
 
-interface IInteractTools {
+interface IInteractBarProps {
     interactHook: ReturnType<typeof useReactAndReply>
 }
 
@@ -14,7 +14,7 @@ export interface IEmotionSelect {
     node: React.ReactNode
 }
 
-export default function InteractTool({ interactHook }: IInteractTools) {
+export default function InteractBar({ interactHook }: IInteractBarProps) {
     const {
         isJoinReply,
         setJoinReply,
@@ -22,14 +22,14 @@ export default function InteractTool({ interactHook }: IInteractTools) {
         myReact,
         reactDefault,
         isReactLoading,
-        isCommentLoading,
+        isGettingComment,
     } = interactHook
 
     const colorReact = myReact ? myReact.color : '#a19c9c'
     const colorComment = isJoinReply ? '#1198F6' : '#a19c9c'
 
     return (
-        <Box p={0.5}>
+        <Stack p={0.5} flexDirection="row">
             <Button
                 className={className.reactionButton}
                 disabled={isReactLoading}
@@ -49,21 +49,23 @@ export default function InteractTool({ interactHook }: IInteractTools) {
                 </Box>
             </Button>
             <Tooltip title={Helper.joinComment} placement="top">
-                <Button
-                    disabled={isCommentLoading}
-                    size="small"
-                    sx={{
-                        textTransform: 'none',
-                        px: 1,
-                        color: colorComment,
-                    }}
-                    onClick={setJoinReply}
-                >
-                    <Typography noWrap fontSize={14}>
-                        💭 {isJoinReply ? 'hide' : 'reply'}
-                    </Typography>
-                </Button>
+                <Box>
+                    <Button
+                        disabled={isGettingComment}
+                        size="small"
+                        sx={{
+                            textTransform: 'none',
+                            px: 1,
+                            color: colorComment,
+                        }}
+                        onClick={setJoinReply}
+                    >
+                        <Typography noWrap fontSize={14}>
+                            💭 {isJoinReply ? 'hide' : 'reply'}
+                        </Typography>
+                    </Button>
+                </Box>
             </Tooltip>
-        </Box>
+        </Stack>
     )
 }

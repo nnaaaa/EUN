@@ -6,7 +6,11 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { useStyle } from './styles'
 
-function Display({ comment }: { comment: IComment }) {
+interface IDisplayProps {
+    comment: IComment
+}
+
+function Display({ comment }: IDisplayProps) {
     const style = useStyle()
 
     const { content, createAt, owner, images } = comment

@@ -14,4 +14,5 @@ export interface IPost {
     comments: IComment[]
     createAt: Date
     mode: IModePost
+    participants: IPublicInfo[] | ID[]
 }

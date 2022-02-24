@@ -1,36 +1,82 @@
 import { reactAPI } from 'api/rest/list/react'
+import { FACEBOOK_DB } from 'config/keys'
+import CommentStrategy from 'features/listComment/strategies'
+import useIteratorComment from 'features/listComment/useIteratorComment'
 import {
     displayPostReact,
     IDisplayCriterionReactType,
 } from 'features/listReact/postCriterion'
-import { FACEBOOK_DB } from 'config/keys'
 import { IEmoji, IReact } from 'models/react'
 import { IPublicInfo } from 'models/user'
 import { useContext, useMemo, useRef, useState } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
-import ReactStrategy from '../features/listReact/strategies'
-import CommentStrategy from 'features/listComment/strategies'
 import { commentActions } from 'states/slices/commentSlice'
-import useIteratorComment from 'features/listComment/useIteratorComment'
+import ReactStrategy from '../features/listReact/strategies'
 
 export const useReactAndReply = (
     reactStrategy: ReactStrategy,
-    commentStrategy: CommentStrategy
+    replyStrategy: CommentStrategy,
+    limitReplyIterator?: number
 ) => {
+    const dispatch = useAppDispatch()
+    const reactsHook = useReacts(reactStrategy)
+
+    const reply = useAppSelector((state) =>
+        state.comment.current.find((possess) => possess._id === replyStrategy.possess._id)
+    )
+    const iterator = useIteratorComment(replyStrategy.possess, limitReplyIterator)
+    const [isGettingComment, setIsGettingComment] = useState(false)
+    const [isJoinReply, setIsJoinComment] = useState(false)
+    const inputContentRef = useRef<null | HTMLInputElement>(null)
+
+    const setJoinReply = async () => {
+        setIsJoinComment((pre) => {
+            if (replyStrategy.possess.levelOrder >= 5) return false
+
+            if (!pre) {
+                iterator.setIsHasMore(true)
+                getReplies()
+                    .then(() => {})
+                    .catch((e) => console.log(e))
+                dispatch(commentActions.addPossess(replyStrategy.possess))
+                setTimeout(() => {
+                    if (inputContentRef.current) inputContentRef.current.focus()
+                }, 0)
+            } else dispatch(commentActions.removePossess(replyStrategy.possess._id))
+
+            return !pre
+        })
+    }
+    const getReplies = async () => {
+        try {
+            setIsGettingComment(true)
+            await iterator.getMore()
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setIsGettingComment(false)
+        }
+    }
+
+    return {
+        isJoinReply,
+        setJoinReply,
+        isGettingComment,
+        setIsGettingComment,
+        reply,
+        iterator,
+        getReplies,
+        inputContentRef,
+        replyStrategy,
+        ...reactsHook,
+    }
+}
+
+export const useReacts = (reactStrategy: ReactStrategy) => {
     const { socket } = useContext(SocketContext)
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.user.current)
-    const reply = useAppSelector((state) =>
-        state.comment.current.find(
-            (possess) => possess._id === commentStrategy.possess._id
-        )
-    )
-    const iterator = useIteratorComment(commentStrategy.possess)
-    const [isCommentLoading, setIsCommentLoading] = useState(false)
-    const [isJoinReply, setIsJoinCommtent] = useState(false)
-    const inputContentRef = useRef<null | HTMLInputElement>(null)
-
     const [isPopupReactTable, setIsPopupReactTable] = useState(false)
     const [isReactLoading, setIsReactLoading] = useState(false)
     const myReact = useMemo<IDisplayCriterionReactType | undefined>(() => {
@@ -100,40 +146,8 @@ export const useReactAndReply = (
         }
     }
 
-    const setJoinReply = async () => {
-        setIsJoinCommtent((pre) => {
-            if (commentStrategy.possess.levelOrder >= 5) return false
-
-            if (!pre) {
-                iterator.setIsHasMore(true)
-                getReplies()
-                    .then(() => {})
-                    .catch((e) => console.log(e))
-                dispatch(commentActions.addPossess(commentStrategy.possess))
-                setTimeout(() => {
-                    if (inputContentRef.current) inputContentRef.current.focus()
-                }, 0)
-            } else dispatch(commentActions.removePossess(commentStrategy.possess._id))
-
-            return !pre
-        })
-    }
-    const getReplies = async () => {
-        try {
-            setIsCommentLoading(true)
-            await iterator.getMore()
-        } catch (e) {
-            console.log(e)
-        } finally {
-            setIsCommentLoading(false)
-        }
-    }
     return {
-        isJoinReply,
-        setJoinReply,
         sendReact,
-        isCommentLoading,
-        setIsCommentLoading,
         myReact,
         reactDefault: displayPostReact[0],
         isReactLoading,
@@ -141,10 +155,5 @@ export const useReactAndReply = (
         isPopupReactTable,
         setIsPopupReactTable,
         reactCounter,
-        reply,
-        iterator,
-        getReplies,
-        inputContentRef,
-        commentStrategy,
     }
 }

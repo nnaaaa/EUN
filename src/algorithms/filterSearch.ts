@@ -8,6 +8,7 @@ export const filterSearch = (data: IPublicInfo[], user: IPublicInfo | undefined)
 }
 
 export const attachRelationship = (stranger: IPublicInfo, user: IPublicInfo) => {
+    // console.log("Stranger",stranger,"user",user)
     const { accepted, invited, pending } = user.friends
     const maxLength = Math.max(accepted.length, invited.length, pending.length)
 
@@ -18,17 +19,20 @@ export const attachRelationship = (stranger: IPublicInfo, user: IPublicInfo) => 
                 userWithRole.role = 'accepted'
                 break
             }
-        } else if (invited[i]) {
+        }
+        if (invited[i]) {
             if (stranger._id === invited[i]._id) {
                 userWithRole.role = 'invited'
                 break
             }
-        } else if (pending[i]) {
+        }
+        if (pending[i]) {
             if (stranger._id === pending[i]._id) {
                 userWithRole.role = 'pending'
                 break
             }
         }
     }
+    // console.log("role",userWithRole)
     return userWithRole
 }

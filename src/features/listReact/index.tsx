@@ -1,8 +1,5 @@
-import { Avatar, AvatarGroup, Box, Tooltip, Typography } from '@mui/material'
-
+import { Box, Tooltip, Typography } from '@mui/material'
 import { IReact } from 'models/react'
-import { IPublicInfo } from 'models/user'
-import { useState } from 'react'
 import { displayPostReact } from './postCriterion'
 
 interface IEmojiDisplayProps {
@@ -49,26 +46,19 @@ function EmojiDisplay({
                     sx={{ cursor: 'pointer' }}
                     borderRadius={10}
                 >
-                    {/* {Object.values(counter).map((reactList) => {
-                return (
-                    <Avatar
-                        sx={{ p: 0, width: iconSize + 4, height: iconSize + 4 }}
-                        children={
-                            <div style={{ fontSize: iconSize }}>{reactList[0].icon}</div>
-                        }
-                        key={reactList.toString()}
-                        />
-                        )
-                    })} */}
                     {emoji[0] ? <div>{emoji[0][0].icon}</div> : <></>}
                     {emoji[1] ? <div>{emoji[1][0].icon}</div> : <></>}
-                    <Typography
-                        fontSize={iconSize}
-                        sx={{ pr: 0.2 }}
-                        color="textSecondary"
-                    >
-                        {reacts.length}
-                    </Typography>
+                    {reacts.length > 1 ? (
+                        <Typography
+                            fontSize={iconSize}
+                            sx={{ pr: 0.2 }}
+                            color="textSecondary"
+                        >
+                            {reacts.length}
+                        </Typography>
+                    ) : (
+                        <></>
+                    )}
                 </Box>
             </Tooltip>
         </>

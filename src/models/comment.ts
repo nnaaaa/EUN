@@ -12,4 +12,5 @@ export interface IComment {
     comments: IComment[]
     reacts: IReact[]
     levelOrder: number
+    participants: IPublicInfo[] | ID[]
 }

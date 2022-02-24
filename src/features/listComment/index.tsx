@@ -13,7 +13,7 @@ function ListComment({ interactHook }: IListCommentProps) {
         reply,
         iterator: { isHasMore },
         getReplies,
-        isCommentLoading,
+        isGettingComment,
     } = interactHook
 
     return (
@@ -31,7 +31,7 @@ function ListComment({ interactHook }: IListCommentProps) {
                     ))}
                 {isHasMore ? (
                     <LoadingButton
-                        loading={isCommentLoading}
+                        loading={isGettingComment}
                         sx={{ textTransform: 'inherit', ml: 6, width: 'fit-content' }}
                         size="small"
                         onClick={getReplies}

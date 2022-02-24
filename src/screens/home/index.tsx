@@ -43,17 +43,18 @@ export default function Home() {
                 <Grid
                     item
                     md={3}
-                    className={style.pLeft}
                     sx={{
                         display: {
                             xs: 'none',
                             lg: 'initial',
                         },
+                        px: 2,
+                        pb: 2,
                     }}
                 >
                     <Gutter />
                 </Grid>
-                <Grid item xs={12} md={8} lg={6} className={style.pCenter}>
+                <Grid item xs={12} md={8} lg={6} sx={{ pb: 2 }}>
                     <Box
                         sx={{
                             pl: {
@@ -67,7 +68,7 @@ export default function Home() {
                         }}
                     >
                         <Switch>
-                            <Route path="/games" component={Games} />
+                            <Route path={`${path}games`} component={Games} />
                             <Route exact path={path} component={Newsfeed} />
                         </Switch>
                     </Box>
@@ -76,12 +77,13 @@ export default function Home() {
                     item
                     md={4}
                     lg={3}
-                    className={style.pRight}
                     sx={{
                         display: {
                             xs: 'none',
                             md: 'initial',
                         },
+                        px: 2,
+                        pb: 2,
                     }}
                 >
                     <ListOnline />

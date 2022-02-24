@@ -6,6 +6,7 @@ import friendReducer from 'states/slices/friendSlice'
 import searchReducer from 'states/slices/searchSlice'
 import postReducer from 'states/slices/postSlice'
 import commentReducer from 'states/slices/commentSlice'
+import notificationReducer from 'states/slices/notificationSlice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     chat: chatReducer,
     friend: friendReducer,
     search: searchReducer,
+    notification: notificationReducer,
     post: postReducer,
     comment: commentReducer,
 })

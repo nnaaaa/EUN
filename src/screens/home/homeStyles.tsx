@@ -11,44 +11,24 @@ export const useStyle = makeStyles({
             rgba(93, 214, 245,0.4))`,
         minHeight: '100vh',
     },
-    pLeft: {
-        paddingLeft: 16,
-        paddingRight: 16,
-        paddingBottom: 16,
-    },
-    pRight: {
-        paddingRight: 16,
-        paddingLeft: 16,
-        paddingBottom: 16,
-    },
-    pCenter: {
-        paddingBottom: 20,
-        height: 'auto',
-    },
-    marginBottom: {
-        marginBottom: 10,
-    },
 })
 
 export const HomeLazyLoading = () => {
     const style = useStyle()
-    const SmallRect = () => (
-        <Skeleton height={50} variant="rectangular" className={style.marginBottom} />
-    )
-    const BigRect = () => (
-        <Skeleton height={280} variant="rectangular" className={style.marginBottom} />
-    )
+    const SmallRect = () => <Skeleton height={50} variant="rectangular" sx={{ mb: 2 }} />
+    const BigRect = () => <Skeleton height={280} variant="rectangular" sx={{ mb: 2 }} />
     return (
         <Grid container className={style.wrapper} sx={{ p: 0, pt: 2 }}>
             <Grid
                 item
                 md={3}
-                className={style.pLeft}
                 sx={{
                     display: {
                         xs: 'none',
                         lg: 'initial',
                     },
+                    px: 2,
+                    pb: 2,
                 }}
             >
                 <BigRect />
@@ -67,14 +47,10 @@ export const HomeLazyLoading = () => {
                         xs: 2,
                         md: 0,
                     },
+                    pb: 2,
                 }}
-                className={style.pCenter}
             >
-                <Skeleton
-                    height={110}
-                    variant="rectangular"
-                    className={style.marginBottom}
-                />
+                <Skeleton height={110} variant="rectangular" sx={{ mb: 2 }} />
                 <BigRect />
                 <BigRect />
             </Grid>
@@ -82,12 +58,13 @@ export const HomeLazyLoading = () => {
                 item
                 md={4}
                 lg={3}
-                className={style.pRight}
                 sx={{
                     display: {
                         xs: 'none',
                         md: 'initial',
                     },
+                    px: 2,
+                    pb: 2,
                 }}
             >
                 <BigRect />

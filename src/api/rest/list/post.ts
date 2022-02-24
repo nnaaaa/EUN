@@ -9,6 +9,9 @@ class PostAPI {
     async get(postId: ID) {
         return Axios.get<IPost>(`${this.url}/get/${postId}`)
     }
+    async getRootPost(commentId: ID) {
+        return Axios.get<IPost>(`${this.url}/getRootPost/${commentId}`)
+    }
     async create(postInfo: Partial<IPost>) {
         let form = new FormData()
         form.append('content', postInfo.content || '')

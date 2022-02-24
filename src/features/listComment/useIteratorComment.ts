@@ -5,15 +5,17 @@ import { ID } from 'models/common'
 import { useEffect } from 'react'
 import { commentActions } from 'states/slices/commentSlice'
 
-const useIteratorComment = (possess: { _id: ID; comments: IComment[] }) => {
-    const limitPerPage = 5
+const useIteratorComment = (
+    possess: { _id: ID; replies: IComment[] },
+    limitPerPage = 5
+) => {
     const pagination = usePagination(limitPerPage)
     const getMore = async () => {
-        const { _id, comments } = possess
+        const { _id, replies } = possess
         const { dispatch, _limit, setIsHasMore, isHasMore } = pagination
         try {
             if (!isHasMore) return
-            const oldestComment = comments[comments.length - 1]
+            const oldestComment = replies[replies.length - 1]
             const res = await commentAPI.getListCommentFromTime(
                 { _limit },
                 _id,

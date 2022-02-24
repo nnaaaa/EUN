@@ -31,7 +31,7 @@ function VirtualRoom({ room, user, closeConverse }: IVirtualRoomProps) {
             color="primary"
             onClick={async () => {
                 closeConverse()
-                await toggleChat(room._id)
+                await toggleChat(room)
             }}
             sx={{ textTransform: 'initial' }}
             fullWidth

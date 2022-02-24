@@ -6,7 +6,7 @@ import { useAppSelector } from 'states/hooks'
 import { chatActions } from 'states/slices/chatSlice'
 
 const useIteratorChatRoom = () => {
-    const limitPerPage = 3
+    const limitPerPage = 5
     const pagination = usePagination(limitPerPage)
     const listRoom = useAppSelector((state) => state.chat.listRoom)
     const user = useAppSelector((state) => state.user.current)

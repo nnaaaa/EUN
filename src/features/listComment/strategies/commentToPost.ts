@@ -1,18 +1,20 @@
 import { commentAPI } from 'api/rest/list/comment'
+import { notificationAPI } from 'api/rest/list/notification'
+import { INotification } from 'models/notification'
 import { commentActions } from 'states/slices/commentSlice'
 import CommentStrategy from '.'
 
 export default class CommentToPost extends CommentStrategy {
-    getCommentAPI() {
+    getReplyAPI() {
         return {
-            addComment: commentAPI.addCommentToPost,
-            getComment: commentAPI.getComment,
+            add: commentAPI.addCommentToPost,
+            get: commentAPI.getComment,
         }
     }
     getReduxActions() {
         return {
-            addOrUpdateComment: commentActions.addOrUpdateComment,
-            deleteComment: commentActions.deleteComment,
+            addOrUpdate: commentActions.addOrUpdateComment,
+            delete: commentActions.deleteComment,
         }
     }
 }

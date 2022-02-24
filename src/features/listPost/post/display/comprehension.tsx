@@ -10,27 +10,33 @@ import ReactToPost from 'features/listReact/strategies/reactToPost'
 import ReactTableDisplay from 'features/listReact/tableDisplay'
 import { useReactAndReply } from 'hooks/useReactAndReply'
 import { IPost } from 'models/post'
+import { IPublicInfo } from 'models/user'
 import { useContext, useMemo } from 'react'
 import { useAppSelector } from 'states/hooks'
-import CardHeader from './header'
-import InteractBar from './interactBar'
-import { PostContext } from './postContext'
-import { CardContent, CardLoading, CardMargin } from './styles'
+import CardHeader from '../header'
+import InteractBar from '../interactBar'
+import { PostContext } from '../postContext'
+import { CardContent, CardLoading, CardMargin } from '../styles'
 
 export default function Post(post: IPost) {
     const { isLoading } = useContext(PostContext)
-    const { owner, images, content, reacts, _id } = post
+    const { owner, images, content, reacts, _id, participants } = post
 
     const reply = useAppSelector((state) =>
         state.comment.current.find((possess) => possess._id === _id)
     )
-    const reactToPost = useMemo(() => new ReactToPost({ _id, reacts }), [post])
+    const reactToPost = useMemo(
+        () => new ReactToPost({ _id, reacts, participants }),
+        [post]
+    )
     const commentToPost = useMemo(
         () =>
             new CommentToPost({
                 _id,
-                comments: reply ? reply.comments : [],
+                replies: reply ? reply.comments : [],
                 levelOrder: 0,
+                participants,
+                owner: owner as IPublicInfo,
             }),
         [post, reply]
     )

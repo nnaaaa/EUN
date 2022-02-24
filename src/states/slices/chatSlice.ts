@@ -3,6 +3,8 @@ import { chatAPI } from 'api/rest'
 import { IChatRoom } from 'models/chatRoom'
 import { ID, IQueryPost } from 'models/common'
 import { IMessage } from 'models/message'
+import { IReact } from 'models/react'
+import { RootState } from 'states/store'
 
 interface IinitalState {
     loading: boolean
@@ -16,6 +18,19 @@ const initialState: IinitalState = {
     listRoom: [],
     currentWindow: [],
 }
+
+const addWindowChatAsync = createAsyncThunk(
+    'chat/addWindowChat',
+    async (room: IChatRoom, thunkAPI) => {
+        const currentWindow = (thunkAPI.getState() as RootState).chat.currentWindow
+        if (currentWindow.find((r) => r._id === room._id)) {
+            thunkAPI.dispatch(chatActions.closeWindowChat(room._id))
+            return
+        }
+        await chatAPI.seenMessages(room._id)
+        return room
+    }
+)
 
 const getListRoomFromTime = createAsyncThunk(
     'chat/getListRoomFromTime',
@@ -97,6 +112,49 @@ const chatSlice = createSlice({
                 return room
             })
         },
+
+        addOrUpdateReactToPost(
+            state,
+            action: PayloadAction<{ react: IReact; possessId: ID }>
+        ) {
+            const { react, possessId } = action.payload
+            state.currentWindow = state.currentWindow.map((room) => {
+                room.messages = room.messages.map((message) => {
+                    if (message._id === possessId) {
+                        const isReacted = message.reacts.find((r) => r._id === react._id)
+                        if (isReacted) {
+                            const updatedReacts = message.reacts.map((r) =>
+                                r._id === react._id ? react : r
+                            )
+                            return { ...message, reacts: updatedReacts }
+                        }
+                        // nếu react chưa từng tồn tại thì thêm vào
+                        else {
+                            message.reacts.push(react)
+                            return message
+                        }
+                    }
+                    return message
+                })
+                return room
+            })
+        },
+        deleteReactFromPost(
+            state,
+            action: PayloadAction<{ reactId: ID; possessId: ID }>
+        ) {
+            const { reactId, possessId } = action.payload
+            state.currentWindow = state.currentWindow.map((room) => {
+                room.messages = room.messages.map((message) => {
+                    if (message._id === possessId) {
+                        message.reacts = message.reacts.filter((r) => r._id !== reactId)
+                    }
+                    return message
+                })
+                return room
+            })
+        },
+
         clear(state) {
             state.currentWindow = []
             state.listRoom = []
@@ -126,6 +184,19 @@ const chatSlice = createSlice({
                 state.listRoom = action.payload.concat(state.listRoom)
                 state.loading = false
             })
+            .addCase(addWindowChatAsync.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(addWindowChatAsync.rejected, (state) => {
+                state.error = 'Window chat is not found'
+                state.loading = false
+            })
+            .addCase(addWindowChatAsync.fulfilled, (state, action) => {
+                if (action.payload) {
+                    state.currentWindow.push(action.payload)
+                }
+                state.loading = false
+            })
     },
 })
 
@@ -134,6 +205,7 @@ const { reducer, actions } = chatSlice
 export const chatActions = Object.assign(actions, {
     getListRoomFromTime,
     getNewestRoom,
+    addWindowChatAsync,
 })
 
 export default reducer

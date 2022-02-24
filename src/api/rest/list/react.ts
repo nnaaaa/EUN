@@ -10,6 +10,9 @@ class ReactAPI {
     addReactToComment = async (react: Omit<IReact, '_id'>) => {
         return Axios.post(`${this.url}/addToComment`, react)
     }
+    addReactToMessage = async (react: Omit<IReact, '_id'>) => {
+        return Axios.post(`${this.url}/addToMessage`, react)
+    }
     async updateReact(react: IReact) {
         return Axios.put<IReact>(`${this.url}/update`, react)
     }

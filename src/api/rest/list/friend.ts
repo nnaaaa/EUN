@@ -7,7 +7,10 @@ class FriendAPI {
     url = `friend`
 
     async findById(userId: ID) {
-        return Axios.get<IPublicInfo>(`${this.url}/findUser/${userId}`)
+        return Axios.get<IPublicInfo>(`${this.url}/findById/${userId}`)
+    }
+    async findByAccount(account: string) {
+        return Axios.get<IPublicInfo>(`${this.url}/findByAccount/${account}`)
     }
     async findAllUserByName(query: IQueryPost, name: string) {
         return Axios.get<IPublicInfo[]>(

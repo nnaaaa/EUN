@@ -25,15 +25,17 @@ function Result({ stranger, user }: IResultProps) {
             justifyContent="space-between"
         >
             <Stack direction="row" alignItems="center" maxWidth="50%">
-                <Link to={`/${stranger.account}`} color="inherit">
-                    <Avatar src={stranger.avatar} />
-                </Link>
+                <Avatar
+                    src={stranger.avatar}
+                    component={Link}
+                    to={`user/${stranger.account}`}
+                />
                 <Stack sx={{ ml: 1 }}>
                     <Typography
                         color="textPrimary"
                         fontWeight="bold"
                         component={Link}
-                        to={`/user/${stranger._id}`}
+                        to={`/user/${stranger.account}`}
                         noWrap
                         width="100%"
                     >
