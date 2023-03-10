@@ -1,14 +1,9 @@
-import { createTheme } from '@mui/material';
-import {
-    createGlobalStyle
-} from 'styled-components'
-import {
-    pink,blue
-} from '@mui/material/colors'
+import { createTheme } from '@mui/material'
+import { createGlobalStyle } from 'styled-components'
 
-const globalStyles = createGlobalStyle `
+const globalStyles = createGlobalStyle`
     html{
-        font-family:'VT323';
+        font-family:'Fira Code';
     }
     *{
         box-sizing: border-box;
@@ -39,19 +34,26 @@ const globalStyles = createGlobalStyle `
         background:gray;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background:#f06292;
+        background:#EA63FD;
     }
 `
 
 export const theme = createTheme({
     palette: {
-        primary: {
-            main: pink[300],
-        },
-        secondary: {
-            main: blue[300],
-        },
+        // primary: {
+        //     main: 'rgba(236, 58, 245,0.7)',
+        // },
+        // secondary: {
+        //     main: '#5CD6F5',
+        // },
     },
 })
+
+// export const linearBackground = `linear-gradient(to right bottom,
+//     rgba(24, 1, 86,0.4),
+//     rgba(84, 0, 218,0.4),
+//     rgba(122, 39, 244,0.4),
+//     rgba(236, 58, 245,0.4),
+//     rgba(93, 214, 245,0.4))`
 
 export default globalStyles

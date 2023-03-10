@@ -1,44 +1,117 @@
-import { SignInType, IUser } from 'models/user';
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authAPI } from 'api'
+import { userAPI } from 'api/rest/list/user'
+import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit'
+import { authAPI } from 'api/rest'
+import Cookie from 'js-cookie'
+import { IUser, SignInType } from 'models/user'
+import { userActions } from 'states/slices/userSlice'
+import { AppThunk } from 'states/store'
+import { postActions } from 'states/slices/postSlice'
+import { chatActions } from 'states/slices/chatSlice'
 
-
-interface IinitState{
+interface IinitState {
     loading: boolean
-    error: SignInType
-    current?: IUser
+    error: string
+    state: 'stranger' | 'logged'
 }
 
-const initialState:IinitState = {
+const initialState: IinitState = {
     loading: false,
-    error: {
-        account: '',
-        password:''
-    }
+    error: '',
+    state: 'stranger',
 }
 
-export const loginAsync = createAsyncThunk('auth/login', async (credential: SignInType) => {
-    const data = await authAPI.postLogin(credential)
+const loginAsync = createAsyncThunk('auth/login', async (credential: SignInType) => {
+    const res = await authAPI.postLogin(credential)
+    if (res.data.accessToken) {
+        Cookie.set('token', res.data.accessToken)
+        await userAPI.updateProfile({ isOnline: true })
+    } else {
+        throw new Error()
+    }
 })
 
+const registerAsync = createAsyncThunk(
+    'auth/register',
+    async (userInfo: Partial<IUser>) => {
+        try {
+            const res = await authAPI.postRegister(userInfo)
+            console.log(res)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+)
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        
+        login: (state) => {
+            state.loading = false
+            state.state = 'logged'
+        },
+        logout: (state) => {
+            state.loading = false
+            state.state = 'stranger'
+        },
     },
     extraReducers: (builder) => {
-        builder.addCase(loginAsync.pending,(state)=> {
-            state.loading = true
-        }).addCase(loginAsync.rejected, (state) => {
-            state.loading = false
-            state.error.account = 'Fail Account'
-        }).addCase(loginAsync.fulfilled, (state, action) => {
-            state.loading = false
-        })
-    }
+        builder
+            .addCase(loginAsync.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(loginAsync.rejected, (state) => {
+                state.loading = false
+                state.error = 'Fail to login'
+            })
+            .addCase(loginAsync.fulfilled, (state) => {
+                state.loading = false
+                state.state = 'logged'
+            })
+
+            .addCase(registerAsync.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(registerAsync.rejected, (state) => {
+                state.loading = false
+                state.error = 'Fail to register'
+            })
+            .addCase(registerAsync.fulfilled, (state) => {
+                state.loading = false
+            })
+    },
 })
 
-export const { actions, reducer } = authSlice
+const loginWithToken = (): AppThunk => async (dispatch, getState) => {
+    try {
+        await userAPI.updateProfile({ isOnline: true })
+        unwrapResult(await dispatch(userActions.getProfile()))
+        dispatch(actions.login())
+    } catch {
+        console.error('Token unauthorized')
+    }
+}
+
+const logoutAsync = (): AppThunk => async (dispatch, getState) => {
+    try {
+        await userAPI.updateProfile({ isOnline: false })
+        Cookie.remove('token')
+        dispatch(authActions.logout())
+        dispatch(postActions.clear())
+        dispatch(chatActions.clear())
+        dispatch(userActions.clearUser())
+    } catch {
+        console.error('Fail to logout')
+    }
+}
+
+const { actions, reducer } = authSlice
+
+export const authActions = Object.assign(actions, {
+    loginAsync,
+    registerAsync,
+    loginWithToken,
+    logoutAsync,
+})
+
 export default reducer

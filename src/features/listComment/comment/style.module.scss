@@ -1,0 +1,23 @@
+.wrapContent {
+    position: relative;
+}
+.content {
+    display: flex;
+    align-items: center;
+}
+
+.displayEmoji {
+    position: absolute;
+    bottom: 0;
+    right: 8px;
+    transform: translateY(30%);
+    border-radius: 50px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.397);
+}
+
+.editButton {
+    visibility: hidden;
+}
+.comment:hover .editButton {
+    visibility: initial;
+}

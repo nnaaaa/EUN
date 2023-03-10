@@ -1,4 +1,4 @@
-import { ID } from './Common'
+import { ID } from 'models/index'
 import { IPost } from './post'
 export interface SignInType {
     account: string
@@ -19,12 +19,15 @@ export interface IUser {
     avatar?: string
 
     friends: {
-        accepted: ID[] | IUser[]
-        invited: ID[] | IUser[]
-        pending: ID[] | IUser[]
+        accepted: IPublicInfo[]
+        invited: IPublicInfo[]
+        pending: IPublicInfo[]
     }
 
-    posts: ID[] | IPost[]
+    education: string
+    hobbies: string[]
+
+    posts: IPost[]
 
     isOnline: boolean
     token: string

@@ -1,0 +1,16 @@
+.reactionPicker {
+    z-index: 1000;
+    top: -60%;
+    display: none;
+
+    position: absolute;
+    transition: 2s display linear;
+}
+
+.reactionButton {
+    position: relative;
+}
+
+.reactionButton:hover .reactionPicker {
+    display: initial;
+}

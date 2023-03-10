@@ -1,16 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
-import { store } from 'states/store'
 import { Provider } from 'react-redux'
+import { SocketProvider } from 'states/context/socket'
+import { store } from 'states/store'
+import App from './App'
 import * as serviceWorker from './serviceWorker'
-
 ReactDOM.render(
-    <React.StrictMode>
+    <SocketProvider>
         <Provider store={store}>
             <App />
         </Provider>
-    </React.StrictMode>,
+    </SocketProvider>,
     document.getElementById('root')
 )
 

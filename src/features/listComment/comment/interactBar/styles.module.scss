@@ -1,0 +1,21 @@
+.button,
+.reactionButton {
+    flex: 1;
+    justify-content: center;
+}
+
+.reactionPicker {
+    top: -80%;
+    display: none;
+
+    position: absolute;
+    transition: 2s display linear;
+}
+
+.reactionButton {
+    position: relative;
+}
+
+.reactionButton:hover .reactionPicker {
+    display: initial;
+}

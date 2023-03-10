@@ -1,12 +1,21 @@
-import { SERVER_EXPRESS } from 'config/keys'
+import Axios from 'api/rest/axios'
+import { AxiosResponse } from 'axios'
 import { IUser, SignInType } from 'models/user'
-import Axios from 'api/axios'
+
+
+interface TokenResponse {
+    accessToken?: string
+    refreshToken?: string
+}
 
 class AuthAPI {
     async postLogin(credential: SignInType) {
-        return Axios.post(`auth/login`, credential)
+        return Axios.post<SignInType, AxiosResponse<TokenResponse>>(
+            `auth/login`,
+            credential
+        )
     }
-    async postRegister(userInfo: IUser) {
+    async postRegister(userInfo: Partial<IUser>) {
         return Axios.post(`auth/register`, userInfo)
     }
 }

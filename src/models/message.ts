@@ -1,12 +1,15 @@
-import { IChatRoom } from './chatRoom'
-import { ID } from './Common'
-import { IUser } from './user'
+import { IPublicInfo } from 'models/user'
+import { ID } from 'models/index'
+import { IReact } from './react'
 
 export interface IMessage {
     _id: ID
-    chatRoom: IChatRoom | ID
-    owner: IUser | ID
+    chatRoom: ID
+    owner: IPublicInfo
     content: string
-    images: string[]
+    images: FileList | string[]
     createAt: Date
+    seen: ID[] | IPublicInfo[]
+    sent: ID[] | IPublicInfo[]
+    reacts: IReact[]
 }

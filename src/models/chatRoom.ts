@@ -1,10 +1,11 @@
+import { IPublicInfo } from 'models/user'
+import { ID } from 'models/index'
 import { IMessage } from './message'
-import { ID } from './Common'
-import { IUser } from './user'
 
 export interface IChatRoom {
     _id: ID
-    composing: ID[] | IUser[]
-    members: ID[] | IUser[]
+    composing: IPublicInfo[]
+    members: IPublicInfo[]
     messages: IMessage[]
+    newMessageAt: Date
 }
