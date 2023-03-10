@@ -1,5 +1,5 @@
 import Axios, { imagesConditon } from 'api/rest/axios'
-import { ID, IQueryPost } from 'models/common'
+import { ID, IQueryPost } from 'models/index'
 import { IModePost, IPost } from 'models/post'
 import { IPublicInfo } from 'models/user'
 import queryString from 'query-string'

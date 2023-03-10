@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { chatAPI } from 'api/rest'
 import { IChatRoom } from 'models/chatRoom'
-import { ID, IQueryPost } from 'models/common'
+import { ID, IQueryPost } from 'models/index'
 import { IMessage } from 'models/message'
 import { IReact } from 'models/react'
 import { RootState } from 'states/store'

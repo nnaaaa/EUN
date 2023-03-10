@@ -1,7 +1,7 @@
 import { FACEBOOK_DB } from 'config/keys'
 import CommentStrategy from 'features/listComment/strategies'
 import { IComment } from 'models/comment'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppDispatch } from 'states/hooks'

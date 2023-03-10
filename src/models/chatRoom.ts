@@ -1,5 +1,5 @@
 import { IPublicInfo } from 'models/user'
-import { ID } from './common'
+import { ID } from 'models/index'
 import { IMessage } from './message'
 
 export interface IChatRoom {

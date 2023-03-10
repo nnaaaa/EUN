@@ -15,7 +15,7 @@ export default class Invited extends Role {
             this.loadingEnd()
             this.props.changeState(Accepted)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
         }
     }
@@ -27,7 +27,7 @@ export default class Invited extends Role {
             this.loadingEnd()
             this.props.changeState(Stranger)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
         }
     }

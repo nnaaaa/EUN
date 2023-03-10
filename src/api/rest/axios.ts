@@ -31,7 +31,7 @@ axiosClient.interceptors.response.use(
     (response) => {
         if (!response) return
         if (response.headers && response.headers.token) {
-            //save token here
+            Cookie.set('token', response.headers.accessToken)
         }
 
         return response

@@ -1,4 +1,4 @@
-import { ID } from './common'
+import { ID } from 'models/index'
 import { IReact } from './react'
 import { IPublicInfo } from './user'
 

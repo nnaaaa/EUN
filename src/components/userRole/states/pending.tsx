@@ -13,7 +13,7 @@ export default class Pending extends Role {
             this.loadingEnd()
             this.props.changeState(Stranger)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
         }
     }

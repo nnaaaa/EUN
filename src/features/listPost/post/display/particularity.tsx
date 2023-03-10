@@ -9,7 +9,7 @@ import EmojiCounter from 'features/listReact'
 import ReactToPost from 'features/listReact/strategies/reactToPost'
 import ReactTableDisplay from 'features/listReact/tableDisplay'
 import { useReactAndReply } from 'hooks/useReactAndReply'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { IPost } from 'models/post'
 import { IPublicInfo } from 'models/user'
 import { useContext, useEffect, useMemo, useRef } from 'react'
@@ -55,7 +55,7 @@ export default function Post({ post, concentratedCommentId }: IPostProps) {
         interactHook
             .setJoinReply()
             .then(() => {})
-            .catch((e) => console.log(e))
+            .catch((e) => console.error(e))
     }, [])
 
     return (

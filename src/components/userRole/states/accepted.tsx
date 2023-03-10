@@ -13,7 +13,7 @@ export default class Accepted extends Role {
             this.loadingEnd()
             this.props.changeState(Stranger)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
         }
     }

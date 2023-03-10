@@ -1,5 +1,5 @@
 import { FACEBOOK_DB } from 'config/keys'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { IPublicInfo } from 'models/user'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'
@@ -19,7 +19,7 @@ export const useUserSocket = (
             try {
                 await dispatcher(newData)
             } catch {
-                console.log('Fail to update user role')
+                console.error('Fail to update user role')
             }
         }
 

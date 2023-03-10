@@ -38,7 +38,7 @@ export const useReactAndReply = (
                 iterator.setIsHasMore(true)
                 getReplies()
                     .then(() => {})
-                    .catch((e) => console.log(e))
+                    .catch((e) => console.error(e))
                 dispatch(commentActions.addPossess(replyStrategy.possess))
                 setTimeout(() => {
                     if (inputContentRef.current) inputContentRef.current.focus()
@@ -53,7 +53,7 @@ export const useReactAndReply = (
             setIsGettingComment(true)
             await iterator.getMore()
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
             setIsGettingComment(false)
         }

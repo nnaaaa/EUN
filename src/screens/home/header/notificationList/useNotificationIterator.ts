@@ -1,6 +1,6 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import usePagination from 'hooks/usePagination'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { useEffect, useMemo } from 'react'
 import { useAppSelector } from 'states/hooks'
 import { notificationActions } from 'states/slices/notificationSlice'

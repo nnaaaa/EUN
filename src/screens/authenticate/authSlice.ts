@@ -22,8 +22,8 @@ const initialState: IinitState = {
 
 const loginAsync = createAsyncThunk('auth/login', async (credential: SignInType) => {
     const res = await authAPI.postLogin(credential)
-    if (res.data.token) {
-        Cookie.set('token', res.data.token)
+    if (res.data.accessToken) {
+        Cookie.set('token', res.data.accessToken)
         await userAPI.updateProfile({ isOnline: true })
     } else {
         throw new Error()
@@ -37,7 +37,7 @@ const registerAsync = createAsyncThunk(
             const res = await authAPI.postRegister(userInfo)
             console.log(res)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 )

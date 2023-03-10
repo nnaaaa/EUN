@@ -1,7 +1,7 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import { arrayIsContain } from 'algorithms/array'
 import { IChatRoom } from 'models/chatRoom'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { chatActions } from 'states/slices/chatSlice'
 export const useToggleChat = () => {
@@ -13,7 +13,7 @@ export const useToggleChat = () => {
 
             unwrapResult(await dispatch(chatActions.addWindowChatAsync(room)))
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 }

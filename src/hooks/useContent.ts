@@ -42,7 +42,7 @@ export const useContent = <T = DefaultReturnType>(
             setImageFiles(e.target.files)
             setPreviewImages(listUrl)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
     return {

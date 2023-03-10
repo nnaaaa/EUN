@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { IPost } from 'models/post'
 import { IReact } from 'models/react'
 

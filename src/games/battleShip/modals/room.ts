@@ -1,4 +1,4 @@
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { IPublicInfo } from 'models/user'
 import { ISensorTiles } from './map'
 import { IShip } from './ship'

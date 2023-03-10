@@ -1,6 +1,6 @@
 import Axios, { imagesConditon } from 'api/rest/axios'
 import { IComment } from 'models/comment'
-import { ID, IQueryPost } from 'models/common'
+import { ID, IQueryPost } from 'models/index'
 import queryString from 'query-string'
 
 class CommentAPI {

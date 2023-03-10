@@ -57,7 +57,7 @@ export default function EditProfile() {
             const user = await userAPI.updateProfile(content)
             dispatch(userActions.updateStore(user.data as any))
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
             setIsLoading(false)
             closePopup()

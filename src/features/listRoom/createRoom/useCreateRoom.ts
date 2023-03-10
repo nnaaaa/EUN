@@ -25,7 +25,7 @@ const useCreateRoom = (searchInput: RefObject<HTMLInputElement>) => {
             if (!user) return
             await chatAPI.create(members.map((m) => m._id).concat([user._id]))
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
             setMembers([])
             dispatch(searchActions.clear())

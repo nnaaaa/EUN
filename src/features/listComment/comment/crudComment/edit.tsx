@@ -43,7 +43,7 @@ function EditComment({ initComment, setIsEdit }: IEditCommentProps) {
                 dispatch(commentActions.addOrUpdateComment(savedComment.data as any))
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 

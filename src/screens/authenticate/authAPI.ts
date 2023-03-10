@@ -2,9 +2,15 @@ import Axios from 'api/rest/axios'
 import { AxiosResponse } from 'axios'
 import { IUser, SignInType } from 'models/user'
 
+
+interface TokenResponse {
+    accessToken?: string
+    refreshToken?: string
+}
+
 class AuthAPI {
     async postLogin(credential: SignInType) {
-        return Axios.post<SignInType, AxiosResponse<{ token?: 'string' }>>(
+        return Axios.post<SignInType, AxiosResponse<TokenResponse>>(
             `auth/login`,
             credential
         )

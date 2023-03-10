@@ -4,7 +4,7 @@ export const createNotification = (
     onClick: () => void
 ) => {
     if (!window.Notification) {
-        console.log('Browser does not support notifications.')
+        console.error('Browser does not support notifications.')
     } else {
         // check if permission is already granted
         if (Notification.permission === 'granted') {
@@ -20,7 +20,7 @@ export const createNotification = (
                         const notify = new Notification(title, options)
                         notify.onclick = onClick
                     } else {
-                        console.log('User blocked notifications.')
+                        console.error('User blocked notifications.')
                     }
                 })
                 .catch(function (err) {

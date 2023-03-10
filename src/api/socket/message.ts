@@ -1,6 +1,6 @@
 import audio from 'assets/message.mp3'
 import { FACEBOOK_DB } from 'config/keys'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { IMessage } from 'models/message'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'

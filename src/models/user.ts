@@ -1,4 +1,4 @@
-import { ID } from './common'
+import { ID } from 'models/index'
 import { IPost } from './post'
 export interface SignInType {
     account: string

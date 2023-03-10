@@ -1,4 +1,4 @@
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'
 import url from '.'

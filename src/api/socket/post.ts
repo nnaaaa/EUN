@@ -1,5 +1,5 @@
 import { FACEBOOK_DB } from 'config/keys'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { IPost } from 'models/post'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'

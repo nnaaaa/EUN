@@ -1,5 +1,5 @@
 import { postAPI } from 'api/rest'
-import { IQueryPost } from 'models/common'
+import { IQueryPost } from 'models/index'
 import GetPostStrategy from '.'
 
 class PublicFriend extends GetPostStrategy {

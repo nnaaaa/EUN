@@ -33,7 +33,7 @@ const CRUDButtons = (props: IOptionProps) => {
             setIsLoading(false)
             dispatch(postActions.deletePost(post._id))
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 

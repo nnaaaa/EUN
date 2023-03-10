@@ -1,6 +1,6 @@
 import { IPublicInfo } from 'models/user'
 import { IComment } from './comment'
-import { ID } from './common'
+import { ID } from 'models/index'
 import { IReact } from './react'
 
 export type IModePost = 'private' | 'public' | 'friend'

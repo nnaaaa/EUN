@@ -33,7 +33,7 @@ export default function ListPost({ mode, user }: IListPostProps) {
         })()
             .then(() => {})
             .catch((e) => {
-                console.log(e)
+                console.error(e)
             })
             .finally(() => {})
     }, [])

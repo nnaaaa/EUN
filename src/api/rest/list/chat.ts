@@ -1,6 +1,6 @@
 import Axios, { imagesConditon } from 'api/rest/axios'
 import { IChatRoom } from 'models/chatRoom'
-import { ID, IQueryPost } from 'models/common'
+import { ID, IQueryPost } from 'models/index'
 import { IMessage } from 'models/message'
 import queryString from 'query-string'
 

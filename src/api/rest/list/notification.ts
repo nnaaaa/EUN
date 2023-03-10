@@ -1,6 +1,6 @@
 import Axios from 'api/rest/axios'
 import { IComment } from 'models/comment'
-import { ID, IQueryPost } from 'models/common'
+import { ID, IQueryPost } from 'models/index'
 import { INotification } from 'models/notification'
 import { IPublicInfo } from 'models/user'
 import queryString from 'query-string'

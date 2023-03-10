@@ -1,5 +1,5 @@
 import { postAPI } from 'api/rest'
-import { IQueryPost } from 'models/common'
+import { IQueryPost } from 'models/index'
 import { IPost } from 'models/post'
 import { IPublicInfo } from 'models/user'
 

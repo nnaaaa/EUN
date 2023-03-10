@@ -52,7 +52,7 @@ export default function CRUDModel(props: IModelProps) {
             else setIsUploading(false)
             closePopup()
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
     const closePopup = () => {

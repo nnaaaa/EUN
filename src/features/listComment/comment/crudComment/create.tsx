@@ -55,7 +55,7 @@ function CreateComment({ interactHook }: ICreateCommentProps) {
                 )
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 

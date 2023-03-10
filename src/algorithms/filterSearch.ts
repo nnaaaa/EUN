@@ -8,7 +8,6 @@ export const filterSearch = (data: IPublicInfo[], user: IPublicInfo | undefined)
 }
 
 export const attachRelationship = (stranger: IPublicInfo, user: IPublicInfo) => {
-    // console.log("Stranger",stranger,"user",user)
     const { accepted, invited, pending } = user.friends
     const maxLength = Math.max(accepted.length, invited.length, pending.length)
 

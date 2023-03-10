@@ -99,6 +99,6 @@
         "@types/react-swipeable-views": "^0.13.1",
         "@types/styled-components": "^5.1.14",
         "file-saver": "^2.0.5",
-        "node-sass": "^7.0.1"
+        "node-sass": "^8.0.0"
     }
 }

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { IComment } from 'models/comment'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { IMessage } from 'models/message'
 import { IPublicInfo } from 'models/user'
 

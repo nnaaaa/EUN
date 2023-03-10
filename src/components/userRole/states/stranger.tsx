@@ -14,7 +14,7 @@ export default class Stranger extends Role {
             this.loadingEnd()
             this.props.changeState(Pending)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         } finally {
         }
     }

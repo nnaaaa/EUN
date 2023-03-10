@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { filterSearch } from 'algorithms/filterSearch'
 import { friendAPI } from 'api/rest'
 import { IPublicInfo } from 'models/user'
-import { IQueryPost } from 'models/common'
+import { IQueryPost } from 'models/index'
 
 interface IinitialState {
     loading: boolean

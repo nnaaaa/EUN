@@ -1,7 +1,7 @@
 import { chatAPI } from 'api/rest'
 import { FACEBOOK_DB } from 'config/keys'
 import { IChatRoom } from 'models/chatRoom'
-import { ID } from 'models/common'
+import { ID } from 'models/index'
 import { useContext, useEffect, useState } from 'react'
 import { SocketContext } from 'states/context/socket'
 import { useAppSelector } from 'states/hooks'

@@ -1,6 +1,6 @@
 export const SERVER_EXPRESS =
     process.env.SERVER_EXPRESS ||
-    'http://localhost:5000' ||
+    'http://localhost:4000' ||
     'https://facebookserverexpress.herokuapp.com'
 export const SERVER_SOCKET =
     process.env.SERVER_SOCKET ||

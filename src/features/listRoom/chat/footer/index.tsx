@@ -46,7 +46,7 @@ function Footer({ room, onFocus, onBlur }: IProps) {
             if (message) await chatAPI.sendMessage(message, room._id)
             setIsSending(false)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
     return (

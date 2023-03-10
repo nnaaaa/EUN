@@ -34,7 +34,7 @@ class Edit extends CRUDType {
                 this._dispatch(postActions.updatePost(updatedPost.data as any))
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 }

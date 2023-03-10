@@ -26,7 +26,7 @@ export const useEditProfile = () => {
             setImageFile(e.target.files[0])
             setPreviewImage(url)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 

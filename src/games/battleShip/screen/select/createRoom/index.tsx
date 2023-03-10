@@ -57,7 +57,7 @@ const CreateRoom = ({ changeScreen }: ICreateRoomProps) => {
             setLoading(false)
             changeScreen(Waiting)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 

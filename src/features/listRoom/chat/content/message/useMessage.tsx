@@ -25,7 +25,7 @@ export const useMessage = (message: IMessage) => {
             )
             await chatAPI.deleteMessage(message)
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 

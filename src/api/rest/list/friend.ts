@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 import Axios from 'api/rest/axios'
-import { ID, IQueryPost } from 'models/common'
+import { ID, IQueryPost } from 'models/index'
 import { IPublicInfo } from 'models/user'
 
 class FriendAPI {
