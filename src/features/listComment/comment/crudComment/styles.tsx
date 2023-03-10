@@ -1,17 +1,14 @@
-import { makeStyles } from '@mui/styles'
-import styled from 'styled-components'
-
-export const StatusInput = styled.input`
-    width: 100%;
-    height: 2.5rem;
-    font-size: 1rem;
-    padding: 0.6rem 1rem;
-    padding-right: 3rem;
-    border-radius: 4rem;
-    background: #f0f2f5;
-`
+import { makeStyles } from '@mui/styles';
 
 export const useStyle = makeStyles({
+    input: {
+        width: '100%', 
+        height: '2.5rem', 
+        fontSize: '1rem', 
+        padding: '0.6rem 1rem', 
+        paddingRight: '3rem', 
+        borderRadius: '4rem'
+    },
     form: {
         position: 'relative',
         margin: 0,

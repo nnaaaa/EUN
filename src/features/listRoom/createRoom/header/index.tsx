@@ -13,6 +13,7 @@ import { Dispatch, SetStateAction, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { chatActions } from 'states/slices/chatSlice'
+import { Color } from 'styles/global'
 import { IconBox } from '../chatStyles'
 import { NameOfFriend } from './headerStyles'
 
@@ -38,7 +39,7 @@ function Header({ setIsOpen }: IProps) {
             height="60px"
             alignItems="center"
         >
-            <Typography noWrap fontSize={16} fontWeight="bold" color="black">
+            <Typography noWrap fontSize={16} fontWeight="bold" color={Color.TEXT_PRIMARY_COLOR}>
                 New message
             </Typography>
 

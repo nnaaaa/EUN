@@ -13,7 +13,7 @@ export default function Intro({ user }: IIntroProps) {
     const showMoreAboutHobbie = () => {}
 
     return (
-        <Box mb={2} p={2} borderRadius={1} boxShadow={1} bgcolor="white">
+        <Box mb={2} p={2} borderRadius={1} boxShadow={1} bgcolor="background.paper">
             <Box mb={2} display="flex" justifyContent="space-between">
                 <Typography className={style.title}>Intro</Typography>
             </Box>

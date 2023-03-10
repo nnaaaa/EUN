@@ -29,7 +29,7 @@ export default function InteractBar({ interactHook }: IInteractBarProps) {
     const colorComment = isJoinReply ? '#1198F6' : '#a19c9c'
 
     return (
-        <Stack p={0.5} flexDirection="row">
+        <Stack p={0.5} flexDirection="row" justifyContent='left' width="min-content">
             <Button
                 className={className.reactionButton}
                 disabled={isReactLoading}

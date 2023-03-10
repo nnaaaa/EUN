@@ -10,11 +10,14 @@ import { FriendProfileHandler } from 'screens/profile/friendScreen'
 import OwnerProfile from 'screens/profile/ownerScreen'
 import { useAppSelector } from 'states/hooks'
 import GlobalStyles, { theme } from 'styles/global'
+import { ThemeContext } from 'states/context/theme'
+import { useContext } from 'react'
 
 function App() {
     useOnlineUser()
     useOfflineUser()
     const user = useAppSelector((state) => state.user.current)
+    const { theme } = useContext(ThemeContext)
 
     return (
         <ThemeProvider theme={theme}>

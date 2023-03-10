@@ -22,5 +22,4 @@ export const WrapperInput = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background: white;
 `

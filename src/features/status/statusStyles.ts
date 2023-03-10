@@ -22,7 +22,6 @@ export const css = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-start',
         padding: '0 15px',
-        backgroundColor: '#F0F2F5',
         marginLeft: 10,
     },
     selectWrap: {

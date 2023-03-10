@@ -16,7 +16,7 @@ import { useAppSelector } from 'states/hooks'
 import CardHeader from '../header'
 import InteractBar from '../interactBar'
 import { PostContext } from '../postContext'
-import { CardContent, CardLoading, CardMargin } from '../styles'
+import { CardContent, CardLoading, CardStyled } from '../styles'
 
 export default function Post(post: IPost) {
     const { isLoading } = useContext(PostContext)
@@ -47,7 +47,7 @@ export default function Post(post: IPost) {
     useReactSocket(reactToPost)
 
     return (
-        <CardMargin>
+        <CardStyled>
             {isLoading && <CardLoading />}
 
             <CardHeader post={post} />
@@ -81,6 +81,6 @@ export default function Post(post: IPost) {
                 open={interactHook.isPopupReactTable}
                 onClose={() => interactHook.setIsPopupReactTable(false)}
             />
-        </CardMargin>
+        </CardStyled>
     )
 }

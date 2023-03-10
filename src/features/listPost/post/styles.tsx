@@ -1,13 +1,20 @@
 import { Card, Typography, Box } from '@mui/material'
 import SolarSystem2d from 'components/logo/2dSolarSystem'
+import { FC } from 'react'
 import styled from 'styled-components'
+import { Color } from 'styles/global'
 
 export const CardMargin = styled(Card)`
     position: relative;
     border-radius: 10px;
     margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.8) !important;
 `
+
+export const CardStyled: FC = ({children})=>{
+    return <CardMargin sx={{bgcolor: Color.CARD_BACKGROUND}}>{children}</CardMargin>
+}
+
+
 export const CardContent = styled(Typography)`
     padding: 15px;
     padding-top: 0px;

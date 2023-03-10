@@ -4,6 +4,7 @@ import { IComment } from 'models/comment'
 import { IPublicInfo } from 'models/user'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
+import { Color } from 'styles/global'
 import { useStyle } from './styles'
 
 interface IDisplayProps {
@@ -18,7 +19,7 @@ function Display({ comment }: IDisplayProps) {
     const timeDetail = moment(createAt).fromNow()
 
     return (
-        <Box p={1} bgcolor="#F0F2F5" borderRadius={2}>
+        <Box p={1} bgcolor={Color.FOCUS_CARD_BACKGROUND} borderRadius={2}>
             <Typography
                 className={style.name}
                 component={Link}

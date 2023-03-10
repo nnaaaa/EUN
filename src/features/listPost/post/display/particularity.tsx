@@ -1,4 +1,4 @@
-import { Box, CardMedia, Collapse, Divider, Grid } from '@mui/material'
+import { Box, CardMedia, Grid } from '@mui/material'
 import { useCommentSocket } from 'api/socket/comment'
 import { usePostSocket } from 'api/socket/post'
 import { useReactSocket } from 'api/socket/react'
@@ -12,12 +12,12 @@ import { useReactAndReply } from 'hooks/useReactAndReply'
 import { ID } from 'models/index'
 import { IPost } from 'models/post'
 import { IPublicInfo } from 'models/user'
-import { useContext, useEffect, useMemo, useRef } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { useAppSelector } from 'states/hooks'
 import CardHeader from '../header'
 import InteractBar from '../interactBar'
 import { PostContext } from '../postContext'
-import { CardContent, CardLoading, CardMargin } from '../styles'
+import { CardContent, CardLoading, CardMargin, CardStyled } from '../styles'
 
 interface IPostProps {
     post: IPost
@@ -61,7 +61,7 @@ export default function Post({ post, concentratedCommentId }: IPostProps) {
     return (
         <Grid container>
             <Grid item xs={6}>
-                <CardMargin>
+                <CardStyled>
                     {isLoading && <CardLoading />}
 
                     <CardHeader post={post} />
@@ -89,7 +89,7 @@ export default function Post({ post, concentratedCommentId }: IPostProps) {
                         open={interactHook.isPopupReactTable}
                         onClose={() => interactHook.setIsPopupReactTable(false)}
                     />
-                </CardMargin>
+                </CardStyled>
             </Grid>
             <Grid item xs={6}>
                 <CardMargin sx={{ ml: 2, p: 2 }}>

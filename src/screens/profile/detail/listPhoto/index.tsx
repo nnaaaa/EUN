@@ -12,7 +12,7 @@ export default function ListPhoto({ user }: IListPhotoProps) {
     // const urls = useSelector((state) => state.listPost.map((post) => post.images).flat(1))
 
     return (
-        <Box p={2} mb={2} borderRadius={1} boxShadow={1} bgcolor="white">
+        <Box p={2} mb={2} borderRadius={1} boxShadow={1} bgcolor="background.paper">
             <Box mb={2} display="flex" justifyContent="space-between">
                 <Typography className={style.title}>Photos</Typography>
             </Box>

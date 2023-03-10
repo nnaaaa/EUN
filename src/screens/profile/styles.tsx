@@ -1,17 +1,17 @@
 import { Box, Grid, Skeleton } from '@mui/material'
-import className from './profileStyles.module.css'
+import { Color } from 'styles/global'
 
 export const BoxStyled = ({ children }: { children: React.ReactElement }) => (
     <Box
-        className={className.wrapper}
         py={2}
         sx={{
             px: {
                 xs: 10,
                 lg: 30,
             },
+            height:'100%'
         }}
-        bgcolor="#f2f5f6"
+        bgcolor={Color.FOCUS_CARD_BACKGROUND}
     >
         {children}
     </Box>

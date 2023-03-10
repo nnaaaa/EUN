@@ -7,11 +7,11 @@ export const useStyle = makeStyles((theme: any) => ({
         boxShadow: '1px 3px 5px 0px rgba(0,0,0,0.1)',
         alignItems: 'stretch',
         height: 50,
-        background: 'rgba(255,255,255,0.6)',
+        // background: 'rgba(255,255,255,0.6)',
     },
     appBar: {
         boxShadow: 'none',
-        background: 'rgba(255,255,255,0.6)',
+        // background: 'rgba(255,255,255,0.6)',
     },
     logo: {
         fontSize: 50,

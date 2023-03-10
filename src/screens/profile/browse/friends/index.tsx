@@ -17,7 +17,7 @@ export default function Friends({ setIndex, user }: IFriendsProps) {
             p={2}
             borderRadius={1}
             boxShadow={1}
-            bgcolor="white"
+            bgcolor="background.paper"
             className={style.wrapper}
         >
             <Box mb={2} display="flex" justifyContent="space-between">

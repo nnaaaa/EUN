@@ -5,6 +5,7 @@ export const useStyle = makeStyles((theme) => ({
         padding: 10,
         justifyContent: `flex-start`,
         width: '100%',
+        // marginBottom: 10,
     },
     text: {
         fontWeight: 'bold',

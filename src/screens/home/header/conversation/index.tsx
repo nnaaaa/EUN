@@ -15,7 +15,7 @@ const Conversation = ({ iteratorHook, closeConverse }: IConversationProps) => {
 
     if (!user || !listRoom || listRoom.length === 0)
         return (
-            <Box boxShadow={2} bgcolor="white" width="100%" p={1}>
+            <Box boxShadow={2} bgcolor="background.paper" width="100%" p={1}>
                 <Typography>Không có tin nhắn nào</Typography>
             </Box>
         )
@@ -23,7 +23,7 @@ const Conversation = ({ iteratorHook, closeConverse }: IConversationProps) => {
     return (
         <Box
             boxShadow={2}
-            bgcolor="white"
+            bgcolor="background.paper"
             width="300px"
             maxHeight="200px"
             overflow="auto"

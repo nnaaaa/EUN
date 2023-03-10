@@ -1,6 +1,6 @@
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Stack } from '@mui/material'
+import { Avatar, InputBase, Stack } from '@mui/material'
 import { Box } from '@mui/system'
 import { commentAPI } from 'api/rest/list/comment'
 import InputImage from 'components/images/input'
@@ -11,7 +11,8 @@ import { Dispatch, FormEvent, SetStateAction, useEffect, useRef } from 'react'
 import Loading from 'screens/loading'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { commentActions } from 'states/slices/commentSlice'
-import { StatusInput, useStyle } from './styles'
+import { Color } from 'styles/global'
+import { useStyle } from './styles'
 
 interface IEditCommentProps {
     initComment: IComment
@@ -59,11 +60,13 @@ function EditComment({ initComment, setIsEdit }: IEditCommentProps) {
             <Avatar src={user.avatar} />
             <Stack flex={1} ml={1} alignItems="center">
                 <form onSubmit={editComment} className={style.form}>
-                    <StatusInput
+                    <InputBase
+                        className={style.input}
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Nhập bình luận"
                         ref={inputContent}
+                        sx={{ bgcolor: Color.FOCUS_CARD_BACKGROUND }}
                     />
                     <Box className={style.tool}>
                         <InputImage onChange={inputImages}>

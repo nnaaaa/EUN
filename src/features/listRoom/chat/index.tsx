@@ -16,7 +16,7 @@ function Chat(props: IChatRoom) {
 
     return (
         <Box
-            bgcolor="white"
+            bgcolor="background.paper"
             boxShadow={2}
             mr={1}
             borderRadius={2}

@@ -13,6 +13,7 @@ import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'states/hooks'
+import { Color } from 'styles/global'
 import { useStrangerSocket } from './strangerHook'
 
 export default function StrangerOnline() {
@@ -30,6 +31,7 @@ export default function StrangerOnline() {
         <Accordion
             className={style.accordion}
             expanded={expand}
+            sx={{ bgcolor: Color.CARD_BACKGROUND }}
             onChange={() => setExpand((pre) => !pre)}
         >
             <AccordionSummary
@@ -52,6 +54,7 @@ export default function StrangerOnline() {
                             <Box ml={1} overflow="hidden">
                                 <Typography
                                     className={style.name}
+                                    color={Color.TEXT_PRIMARY_COLOR}
                                     align="left"
                                     noWrap
                                     component={Link}

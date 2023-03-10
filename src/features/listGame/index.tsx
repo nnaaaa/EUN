@@ -7,12 +7,13 @@ import { SmallCard } from 'games/card'
 import pokerIcon from 'games/poker/assets/icon.png'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Color } from 'styles/global'
 
 const ListGame = () => {
     const [playing, setPlaying] = useState<JSX.Element>(<></>)
     const stopPlaying = () => setPlaying(<></>)
     return (
-        <Box mb={2} borderRadius={1} boxShadow={1} bgcolor="rgba(255,255,255,0.8)">
+        <Box mb={2} borderRadius={1} boxShadow={1} bgcolor={Color.CARD_BACKGROUND}>
             <Typography
                 p={2}
                 sx={{
@@ -21,7 +22,7 @@ const ListGame = () => {
                     fontWeight: 'bold',
                     fontSize: 14,
                     display: 'inline-block',
-                    color: 'black',
+                    color: Color.TEXT_PRIMARY_COLOR
                 }}
                 component={Link}
                 to="/games"

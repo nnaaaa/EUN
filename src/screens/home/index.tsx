@@ -15,6 +15,7 @@ import Games from './games'
 import { HomeLazyLoading, useStyle } from './homeStyles'
 // import Map from 'components/map'
 import Newsfeed from './newsfeed'
+import { Color } from 'styles/global'
 
 export default function Home() {
     const style = useStyle()
@@ -39,7 +40,7 @@ export default function Home() {
     return (
         <>
             <Header />
-            <Grid container className={style.wrapper} pt={10}>
+            <Grid container className={style.wrapper} pt={10} sx={{bgcolor: Color.FOCUS_CARD_BACKGROUND}}>
                 <Grid
                     item
                     md={3}

@@ -13,7 +13,7 @@ export default function SearchForm() {
     const dispatch = useAppDispatch()
     return (
         <Box width="70%">
-            <Button className={style.inputBtn} onClick={() => setPopup(true)}>
+            <Button className={style.inputBtn} onClick={() => setPopup(true)} variant="outlined">
                 Tìm kiếm bạn bè
             </Button>
             <Popup

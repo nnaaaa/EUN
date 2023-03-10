@@ -6,7 +6,7 @@ export const NotificationLoading = () => {
         <Box
             p={1}
             boxShadow={2}
-            bgcolor="white"
+            bgcolor="background.paper"
             width="100%"
             display="flex"
             justifyContent="center"

@@ -14,7 +14,7 @@ export default function ListFriend({ setIndex, user }: IListFriendProps) {
     const style = useStyle()
 
     return (
-        <Box p={2} borderRadius={1} boxShadow={1} bgcolor="white">
+        <Box p={2} borderRadius={1} boxShadow={1} bgcolor="background.paper">
             <Box mb={2} display="flex" justifyContent="space-between">
                 <Typography className={style.title}>Friends</Typography>
             </Box>

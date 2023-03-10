@@ -13,7 +13,7 @@ function CreateRoom({ isOpen, setIsOpen }: ICreateRoomProps) {
 
     return (
         <Box
-            bgcolor="white"
+            bgcolor="background.paper"
             boxShadow={2}
             mr={1}
             borderRadius={2}

@@ -7,7 +7,7 @@ const Options = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.user.current)
     return (
-        <Stack p={1} width="300px" boxShadow={2} bgcolor="white" alignItems="center">
+        <Stack p={1} width="300px" boxShadow={2} bgcolor="background.paper" alignItems="center">
             <Button
                 sx={{
                     p: 1,

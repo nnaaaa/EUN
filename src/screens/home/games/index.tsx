@@ -23,7 +23,7 @@ const Games = () => {
             <Box
                 boxShadow={1}
                 borderRadius={1}
-                bgcolor="white"
+                bgcolor="background.paper"
                 overflow="hidden"
                 width="100%"
                 height="100%"

@@ -3,6 +3,7 @@ import ListPost from 'features/listPost'
 import { IPublicInfo } from 'models/user'
 import { Component } from 'react'
 import SwipeableViews from 'react-swipeable-views'
+import { Color } from 'styles/global'
 import Friends from './browse/friends'
 import Intro from './browse/intro'
 import Photos from './browse/photos'
@@ -43,7 +44,7 @@ export default abstract class Profile extends Component<IProfileProps, IProfileS
         if (!user) return <ProfileLazyloading />
 
         return (
-            <Box bgcolor="white" width="100%">
+            <Box width="100%" minHeight='100vh'>
                 <this.Header />
 
                 <SwipeableViews

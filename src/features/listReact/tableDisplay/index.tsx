@@ -27,7 +27,7 @@ function TableDisplay({ counter, open, onClose }: ITableDisplayProps) {
 
     return (
         <Popup open={open} onClose={onClose}>
-            <Box width={590} height={400} bgcolor="white" boxShadow={1} borderRadius={2}>
+            <Box width={590} height={400} bgcolor="background.paper" boxShadow={1} borderRadius={2}>
                 <Box>
                     <Tabs
                         value={index}

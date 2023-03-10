@@ -19,7 +19,7 @@ const NotificationList = ({ iteratorHook }: INotificationListProps) => {
 
     if (!current || current.length === 0)
         return (
-            <Box boxShadow={2} bgcolor="white" width="100%" p={1}>
+            <Box boxShadow={2} bgcolor="background.paper" width="100%" p={1}>
                 <Typography>Không có thông báo nào</Typography>
             </Box>
         )
@@ -27,7 +27,7 @@ const NotificationList = ({ iteratorHook }: INotificationListProps) => {
     return (
         <Box
             boxShadow={2}
-            bgcolor="white"
+            bgcolor="background.paper"
             maxHeight="400px"
             width="300px"
             overflow="auto"

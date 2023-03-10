@@ -1,11 +1,9 @@
 import {
-    faBars,
-    faBorderNone,
-    faGamepad,
+    faBars, faGamepad,
     faHome,
     faSortDown,
     faTv,
-    faUsers,
+    faUsers
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -17,7 +15,7 @@ import {
     IconButton,
     Popover,
     SwipeableDrawer,
-    Toolbar,
+    Toolbar
 } from '@mui/material'
 import Logo from 'components/logo'
 import { useRef, useState } from 'react'
@@ -28,6 +26,7 @@ import SearchForm from '../../../features/searchForm'
 import ConversationButton from './conversation/representButton'
 import NotificationButton from './notificationList/representButton'
 import Options from './options'
+import { ThemeModeSwitch } from './themeModeButton'
 
 export default function Header() {
     const style = useStyle()
@@ -83,9 +82,10 @@ export default function Header() {
                         justifyContent="space-evenly"
                     >
                         <Hidden mdDown>
-                            <IconButton className={style.icon} disabled>
+                            {/* <IconButton className={style.icon} disabled>
                                 <FontAwesomeIcon icon={faBorderNone} />
-                            </IconButton>
+                            </IconButton> */}
+                            <ThemeModeSwitch/>
 
                             <ConversationButton />
                             <NotificationButton />

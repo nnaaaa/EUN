@@ -1,6 +1,6 @@
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Box, Stack, Tooltip } from '@mui/material'
+import { Avatar, Box, InputBase, Stack, Tooltip } from '@mui/material'
 import { notificationAPI } from 'api/rest/list/notification'
 import InputImage from 'components/images/input'
 import PreviewImages from 'components/images/output'
@@ -10,8 +10,9 @@ import { useReactAndReply } from 'hooks/useReactAndReply'
 import { FormEvent, useState } from 'react'
 import Loading from 'screens/loading'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { Color } from 'styles/global'
 import { Branch, Trunk } from '../styles'
-import { StatusInput, useStyle } from './styles'
+import { useStyle } from './styles'
 
 interface ICreateCommentProps {
     interactHook: ReturnType<typeof useReactAndReply>
@@ -69,11 +70,13 @@ function CreateComment({ interactHook }: ICreateCommentProps) {
             <Avatar src={user.avatar} />
             <Stack flex={1} ml={1} alignItems="center">
                 <form onSubmit={sendComment} className={style.form}>
-                    <StatusInput
+                    <InputBase
+                        className={style.input}
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="Nhập bình luận"
                         ref={inputContentRef}
+                        sx={{ bgcolor: Color.FOCUS_CARD_BACKGROUND }}
                     />
                     <Tooltip title={Helper.choseImages} placement="top">
                         <Box className={style.tool}>

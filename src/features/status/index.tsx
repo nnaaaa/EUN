@@ -8,9 +8,9 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Loading from 'screens/loading'
 import { useAppSelector } from 'states/hooks'
+import { Color } from 'styles/global'
 import CreatePost from '../listPost/crudPost/index'
 import { css } from './statusStyles'
-import className from './statusStyles.module.css'
 
 export default function Status() {
     const style = css()
@@ -22,13 +22,13 @@ export default function Status() {
     if (!user) return <Loading />
 
     return (
-        <Box mb={2} p={2} borderRadius={2} boxShadow={1} className={className.wrapper}>
+        <Box mb={2} p={2} borderRadius={2} boxShadow={1} bgcolor={Color.CARD_BACKGROUND}>
             <CreatePost isPopup={isPopup} setPopup={setPopup} type={createType} />
 
             <Grid container>
                 <Grid item container wrap="nowrap" xs={12} style={{ paddingBottom: 10 }}>
                     <Avatar src={user.avatar} component={Link} to="/profile" />
-                    <Button className={style.inputBtn} onClick={() => setPopup(true)}>
+                    <Button variant="contained" sx={{ bgcolor: Color.FOCUS_CARD_BACKGROUND }} className={style.inputBtn} onClick={() => setPopup(true)}>
                         <Typography variant="subtitle2" color="textSecondary">
                             What's on your mind
                         </Typography>

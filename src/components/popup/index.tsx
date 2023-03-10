@@ -13,7 +13,7 @@ const Popup: React.FC<IProps> = (props) => {
             <Wrapper
                 borderRadius={3}
                 boxShadow={6}
-                bgcolor="white"
+                bgcolor="background.paper"
                 display="block"
                 onClick={(e) => e.stopPropagation()}
             >

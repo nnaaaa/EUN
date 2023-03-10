@@ -4,6 +4,7 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import Loading from 'screens/loading'
 import { useAppSelector } from 'states/hooks'
+import { Color } from 'styles/global'
 import Mode from './mode'
 import Options from './options'
 
@@ -26,7 +27,7 @@ export default function PostHeader({ post }: { post: IPost }) {
                     variant="h6"
                     component={Link}
                     to={`/user/${owner._id}`}
-                    color="black"
+                    color={Color.TEXT_PRIMARY_COLOR}
                 >
                     {owner.username}
                 </Typography>
