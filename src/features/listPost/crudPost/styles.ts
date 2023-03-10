@@ -44,4 +44,12 @@ export const useStyle = makeStyles({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    inputArea: {
+        width: '100%',
+        height: '30%',
+        fontSize: '1rem',
+        resize: 'none',
+        border: 'none',
+        outline: 'none',
+    }
 })

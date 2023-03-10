@@ -2,6 +2,7 @@ import { Avatar, Button, Divider, Stack, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { authActions } from 'screens/authenticate/authSlice'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { Color } from 'styles/global'
 
 const Options = () => {
     const dispatch = useAppDispatch()
@@ -25,7 +26,7 @@ const Options = () => {
                 />
                 <Stack alignItems="flex-start" maxWidth="70%">
                     <Typography
-                        sx={{ fontWeight: 'bold', fontSize: 20, color: '#000' }}
+                        sx={{ fontWeight: 'bold', fontSize: 20, color: Color.TEXT_PRIMARY_COLOR }}
                         noWrap
                         width="100%"
                     >

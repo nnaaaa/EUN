@@ -9,6 +9,7 @@ import { IComment } from 'models/comment'
 import { IPublicInfo } from 'models/user'
 import { useMemo, useState } from 'react'
 import { useAppSelector } from 'states/hooks'
+import { Color } from 'styles/global'
 import ListComment from '..'
 import CommentToReply from '../strategies/commentToComment'
 import EditComment from './crudComment/edit'
@@ -84,6 +85,7 @@ export default function Comment({ comment, isLastComment }: ICommentProps) {
                                         onClick={() =>
                                             interactHook.setIsPopupReactTable(true)
                                         }
+                                        bgcolor={Color.FOCUS_CARD_BACKGROUND}
                                     >
                                         <EmojiCounter
                                             counter={interactHook.reactCounter}

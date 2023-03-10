@@ -6,7 +6,8 @@ import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 import styled from 'styled-components'
 
-const Image = styled.img``
+const Image = styled.img`
+`
 const Icon = styled(FontAwesomeIcon)`
     width: 80% !important;
     height: 80%;

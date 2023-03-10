@@ -5,7 +5,7 @@ import {
     faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CircularProgress, Stack } from '@mui/material'
+import { CircularProgress, InputBase, Stack } from '@mui/material'
 import { chatAPI } from 'api/rest'
 import InputImage from 'components/images/input'
 import PreviewImage from 'components/images/output'
@@ -14,8 +14,9 @@ import { useContent } from 'hooks/useContent'
 import { IChatRoom } from 'models/chatRoom'
 import { IMessage } from 'models/message'
 import { FormEvent, useRef, useState } from 'react'
+import { Color } from 'styles/global'
 import { IconBox } from '../chatStyles'
-import { MessageInput } from './footerStyles'
+import { useStyles } from './footerStyles'
 
 interface IProps {
     room: IChatRoom
@@ -33,6 +34,7 @@ function Footer({ room, onFocus, onBlur }: IProps) {
         inputImages,
         clearImages,
     } = useContent<IMessage>(inputMessageRef)
+    const styles = useStyles()
     const { isAllow, timeToAllow, setCountCurSpam } = useBlockingSpam(10000, 20)
     const [isSending, setIsSending] = useState<boolean>(false)
 
@@ -66,13 +68,15 @@ function Footer({ room, onFocus, onBlur }: IProps) {
             </InputImage>
 
             <form onSubmit={sendMessageWithBlockingSpam}>
-                <MessageInput
+                <InputBase
                     ref={inputMessageRef}
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     type="text"
                     onFocus={onFocus}
                     onBlur={onBlur}
+                    className={styles.messageInput}
+                    sx={{ bgcolor: Color.FOCUS_CARD_BACKGROUND }}
                 />
             </form>
 

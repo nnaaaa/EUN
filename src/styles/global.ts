@@ -50,6 +50,7 @@ export const theme = createTheme({
 })
 
 export const Color = {
+    PRIMARY: "primary.main",
     CARD_BACKGROUND: 'background.paper',
     FOCUS_CARD_BACKGROUND: 'action.disabledBackground',
     TEXT_PRIMARY_COLOR: 'text.primary',

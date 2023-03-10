@@ -1,12 +1,13 @@
 import { faImages } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Box, Button, Divider, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Button, Divider, Stack, TextareaAutosize, Typography } from '@mui/material'
 import InputImages from 'components/images/input'
 import PreviewImage from 'components/images/output'
 import Popup from 'components/popup'
 import { useContent } from 'hooks/useContent'
 import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { Color } from 'styles/global'
 import { PostContext } from '../post/postContext'
 import { CRUDType } from './crudTool'
 import Select, { useInitMode } from './selectMode/index'
@@ -82,10 +83,12 @@ export default function CRUDModel(props: IModelProps) {
                     </Box>
                 </Box>
                 <Box className={style.inputPosition}>
-                    <StatusInput
+                    <TextareaAutosize
                         placeholder="What's on your mind"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
+                        className={style.inputArea}
+                        
                     />
                     <PreviewImage
                         images={previewImages}

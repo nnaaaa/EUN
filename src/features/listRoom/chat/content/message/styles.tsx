@@ -25,7 +25,7 @@ export const FriendMessageWrap = styledMUI(Message)(({ theme }) => ({
 
 export const FriendMessage = styledMUI('div')(({ theme }) => ({
     position: 'relative',
-    backgroundColor: '#D8DADF',
+    backgroundColor: theme.palette.action.disabledBackground,
     maxWidth: '90%',
     borderRadius: '10px',
     marginTop: 0,
@@ -46,7 +46,7 @@ export const MyMessage = styledMUI('div')(({ theme }) => ({
     borderRadius: '10px',
     marginTop: 0,
     backgroundColor: theme.palette.primary.main,
-    color: '#fff',
+    // color: '#fff',
 }))
 
 export const MyEmoji = styledMUI(Emoji)(({ theme }) => ({

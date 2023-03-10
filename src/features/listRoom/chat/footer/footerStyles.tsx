@@ -1,9 +1,11 @@
-import styled from 'styled-components'
+import { makeStyles } from '@mui/styles'
 
-export const MessageInput = styled.input`
-    font-size: 14px;
-    padding: 0.5rem 0.8rem;
-    flex: 1;
-    border-radius: 4rem;
-    background: #f0f2f5;
-`
+export const useStyles = makeStyles((theme) => ({
+    messageInput: {
+        fontSize: '14px',
+        padding: '0.1rem 0.8rem',
+        flex: 1,
+        borderRadius: '4rem',
+    }
+}))
+

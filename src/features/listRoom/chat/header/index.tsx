@@ -35,7 +35,7 @@ function Header({ room, setExpand, user }: IProps) {
                         <Avatar src={member.avatar} key={'avatar' + member.avatar} />
                     ))}
                 </AvatarGroup>
-                <Typography noWrap fontSize={16} fontWeight="bold" mx={1} color="black">
+                <Typography noWrap fontSize={16} fontWeight="bold" mx={1}>
                     {roomName}
                 </Typography>
             </Box>
