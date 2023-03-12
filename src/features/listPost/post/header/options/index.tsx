@@ -1,9 +1,12 @@
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconButton, Popover } from '@mui/material'
+import { Box, IconButton, Popover, Switch, Tooltip } from '@mui/material'
+import Switcher from 'components/switcher'
 import { IPost } from 'models/post'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import CRUDButtons from '../../crudButtons'
+import { PostContext } from '../../postContext'
+import Helper from 'helpers/comment'
 
 interface IOptionsProps {
     post: IPost
@@ -12,8 +15,21 @@ interface IOptionsProps {
 function Options({ post }: IOptionsProps) {
     const toggleBtnRef = useRef(null)
     const [isToggle, setIsToggle] = useState(false)
+    const { setIsDisplayNERContent } = useContext(PostContext)
+
+    const toggleNERContent = () => {
+        if (setIsDisplayNERContent) {
+            setIsDisplayNERContent((prev) => !prev)
+        }
+    }
+
     return (
-        <>
+        <Box display="flex" alignItems="center">
+                <Tooltip title={Helper.ner} placement="top">
+            <Box mr={4}>
+                    <Switcher label='NER' defaultChecked onClick={toggleNERContent} />
+            </Box>
+                </Tooltip>
             <IconButton
                 color="primary"
                 size="small"
@@ -37,7 +53,7 @@ function Options({ post }: IOptionsProps) {
             >
                 <CRUDButtons post={post} setIsOpenCRUDButtons={setIsToggle} />
             </Popover>
-        </>
+        </Box>
     )
 }
 
