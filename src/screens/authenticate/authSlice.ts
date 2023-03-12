@@ -84,7 +84,7 @@ const authSlice = createSlice({
 
 const loginWithToken = (): AppThunk => async (dispatch, getState) => {
     try {
-        await userAPI.updateProfile({ isOnline: true })
+        userAPI.updateProfile({ isOnline: true })
         unwrapResult(await dispatch(userActions.getProfile()))
         dispatch(actions.login())
     } catch {

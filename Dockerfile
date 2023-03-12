@@ -1,13 +1,32 @@
-FROM node:14-slim
+#Build Stage Start
 
-WORKDIR /usr/src/app
+#Specify a base image
+FROM node:14-alpine as builder 
 
-COPY ./package.json ./
+#Specify a working directory
+WORKDIR /app
 
-RUN npm install
+#Copy the dependencies file
+COPY package.json .
+COPY yarn.lock .
 
+#Install dependencies
+RUN yarn install --frozen-lockfile
+
+#Copy remaining files
 COPY . .
 
-EXPOSE 3000
+#Build the project for production
+RUN yarn run build 
 
-CMD [ "npm", "start" ]
+
+# Stage 2: deploy app with Nginx
+FROM nginx:latest
+
+COPY --from=builder /app/build /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

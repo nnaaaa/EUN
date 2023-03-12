@@ -3,3 +3,5 @@ declare module 'query-string' {
 }
 
 declare module 'link-preview'
+
+declare module 'js-cookie'

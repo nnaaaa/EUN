@@ -9,7 +9,7 @@ interface IinitState {
 }
 
 const initialState: IinitState = {
-    loading: false,
+    loading: true,
     current: undefined,
 }
 

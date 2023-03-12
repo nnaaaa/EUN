@@ -24,6 +24,7 @@ function Display({ comment }: IDisplayProps) {
                 className={style.name}
                 component={Link}
                 to={`/user/${(owner as IPublicInfo)._id}`}
+                color={Color.TEXT_PRIMARY_COLOR}
             >
                 {username}
             </Typography>

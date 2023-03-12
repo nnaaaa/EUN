@@ -22,7 +22,6 @@ export const useOnlineUser = () => {
     useEffect(() => {
         const executeFunc = async () => {
             dispatch(authActions.loginWithToken())
-            await userAPI.updateProfile({ isOnline: true })
         }
         executeFunc().finally(() => {})
     }, [])
