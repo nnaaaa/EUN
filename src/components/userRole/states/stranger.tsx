@@ -1,7 +1,7 @@
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Button, Typography } from '@mui/material'
-import { friendAPI } from 'api/rest'
-import { notificationAPI } from 'api/rest/list/notification'
+import { friendAPI } from 'api/restful-user'
+import { notificationAPI } from 'api/restful-user/list/notification'
 import Role from '.'
 import Pending from './pending'
 export default class Stranger extends Role {

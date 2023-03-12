@@ -1,6 +1,6 @@
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
-import { useOfflineUser, useOnlineUser } from 'api/socket/hooks'
+import { useOfflineUser, useOnlineUser } from 'api/socket-user/hooks'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import Authentication from 'screens/authenticate'
 import Home from 'screens/home'

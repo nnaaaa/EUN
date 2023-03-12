@@ -1,4 +1,4 @@
-import Axios, { imagesConditon } from 'api/rest/axios'
+import Axios, { imagesConditon } from 'api/restful-user/axios'
 import { IPublicInfo, IUser } from 'models/user'
 
 class UserAPI {

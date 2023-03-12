@@ -5,7 +5,7 @@ import { useRef, useState } from 'react'
 import Conversation from '..'
 import { useStyle } from '../../headerStyles'
 import useIteratorChatRoom from '../useChatRoomIterator'
-import { useMessageSocket } from 'api/socket/message'
+import { useMessageSocket } from 'api/socket-user/message'
 
 const ConversationButton = () => {
     const style = useStyle()

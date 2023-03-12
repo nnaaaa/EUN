@@ -1,7 +1,7 @@
 import { RootState } from 'states/store'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { filterSearch } from 'algorithms/filterSearch'
-import { friendAPI } from 'api/rest'
+import { friendAPI } from 'api/restful-user'
 import { IPublicInfo } from 'models/user'
 import { IQueryPost } from 'models/index'
 

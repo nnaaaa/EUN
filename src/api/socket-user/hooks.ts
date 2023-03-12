@@ -1,7 +1,7 @@
 import { authActions } from 'screens/authenticate/authSlice'
 import { useAppDispatch } from 'states/hooks'
 import { useEffect, useMemo } from 'react'
-import { userAPI } from 'api/rest/list/user'
+import { userAPI } from 'api/restful-user/list/user'
 
 export const useOfflineUser = () => {
     useEffect(() => {

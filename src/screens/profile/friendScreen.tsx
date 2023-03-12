@@ -1,5 +1,5 @@
-import { friendAPI, userAPI } from 'api/rest'
-import { useUserSocket } from 'api/socket/user'
+import { friendAPI, userAPI } from 'api/restful-user'
+import { useUserSocket } from 'api/socket-user/user'
 import { IPublicInfo } from 'models/user'
 import { useCallback, useEffect, useState } from 'react'
 import { Redirect, useLocation } from 'react-router-dom'

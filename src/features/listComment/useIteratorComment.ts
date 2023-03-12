@@ -1,4 +1,4 @@
-import { commentAPI } from 'api/rest/list/comment'
+import { commentAPI } from 'api/restful-user/list/comment'
 import usePagination from 'hooks/usePagination'
 import { IComment } from 'models/comment'
 import { ID } from 'models/index'

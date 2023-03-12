@@ -1,4 +1,4 @@
-import Axios from 'api/rest/axios'
+import Axios from 'api/restful-user/axios'
 import { IComment } from 'models/comment'
 import { ID, IQueryPost } from 'models/index'
 import { INotification } from 'models/notification'

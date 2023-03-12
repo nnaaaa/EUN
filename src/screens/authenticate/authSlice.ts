@@ -1,6 +1,6 @@
-import { userAPI } from 'api/rest/list/user'
+import { userAPI } from 'api/restful-user/list/user'
 import { createAsyncThunk, createSlice, unwrapResult } from '@reduxjs/toolkit'
-import { authAPI } from 'api/rest'
+import { authAPI } from 'api/restful-user'
 import Cookie from 'js-cookie'
 import { IUser, SignInType } from 'models/user'
 import { userActions } from 'states/slices/userSlice'

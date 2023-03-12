@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material'
-import { userAPI } from 'api/rest'
-import { useUserSocket } from 'api/socket/user'
+import { userAPI } from 'api/restful-user'
+import { useUserSocket } from 'api/socket-user/user'
 import { IPublicInfo } from 'models/user'
 import { useCallback } from 'react'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'

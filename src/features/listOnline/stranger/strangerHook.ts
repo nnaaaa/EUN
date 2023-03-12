@@ -1,5 +1,5 @@
 import { attachRelationship, filterSearch } from 'algorithms/filterSearch'
-import { userAPI } from 'api/rest/list/user'
+import { userAPI } from 'api/restful-user/list/user'
 import { IPublicInfo } from 'models/user'
 import { useCallback, useEffect, useState } from 'react'
 import { IFriendPublicInfo } from 'states/slices/friendSlice'

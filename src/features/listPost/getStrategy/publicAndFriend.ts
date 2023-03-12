@@ -1,4 +1,4 @@
-import { postAPI } from 'api/rest'
+import { postAPI } from 'api/restful-user'
 import { IQueryPost } from 'models/index'
 import GetPostStrategy from '.'
 

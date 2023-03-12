@@ -1,5 +1,5 @@
 import { LinkPreview } from '@dhaiwat10/react-link-preview'
-import { chatAPI } from 'api/rest'
+import { chatAPI } from 'api/restful-user'
 import { FACEBOOK_DB } from 'config/keys'
 import { IMessage } from 'models/message'
 import moment from 'moment'

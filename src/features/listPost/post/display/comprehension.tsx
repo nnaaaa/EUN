@@ -1,7 +1,7 @@
 import { Box, CardMedia, Collapse, Divider } from '@mui/material'
-import { useCommentSocket } from 'api/socket/comment'
-import { usePostSocket } from 'api/socket/post'
-import { useReactSocket } from 'api/socket/react'
+import { useCommentSocket } from 'api/socket-user/comment'
+import { usePostSocket } from 'api/socket-user/post'
+import { useReactSocket } from 'api/socket-user/react'
 import DisplayGridImages from 'components/images/output2'
 import ListComment from 'features/listComment'
 import CommentToPost from 'features/listComment/strategies/commentToPost'
@@ -13,6 +13,7 @@ import { IPost } from 'models/post'
 import { IPublicInfo } from 'models/user'
 import { useContext, useMemo } from 'react'
 import { useAppSelector } from 'states/hooks'
+import PostContent from '../content'
 import CardHeader from '../header'
 import InteractBar from '../interactBar'
 import { PostContext } from '../postContext'
@@ -52,7 +53,7 @@ export default function Post(post: IPost) {
 
             <CardHeader post={post} />
 
-            {content && <CardContent>{content}</CardContent>}
+            <PostContent post={post} />
 
             <CardMedia>
                 <DisplayGridImages images={images} title={owner.username} />

@@ -1,5 +1,5 @@
 import { postActions } from 'states/slices/postSlice'
-import { postAPI } from 'api/rest'
+import { postAPI } from 'api/restful-user'
 import { IPost } from 'models/post'
 import { CRUDType } from '.'
 import { modeOptions } from 'features/listPost/crudPost/selectMode'

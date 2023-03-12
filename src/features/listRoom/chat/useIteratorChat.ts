@@ -1,4 +1,4 @@
-import { chatAPI } from 'api/rest'
+import { chatAPI } from 'api/restful-user'
 import usePagination from 'hooks/usePagination'
 import { IChatRoom } from 'models/chatRoom'
 import { useEffect } from 'react'

@@ -12,7 +12,7 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import { userAPI } from 'api/rest'
+import { userAPI } from 'api/restful-user'
 import InputSingleImage from 'components/images/singleInput'
 import Popup from 'components/popup'
 import { IPublicInfo } from 'models/user'

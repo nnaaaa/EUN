@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CircularProgress, InputBase, Stack } from '@mui/material'
-import { chatAPI } from 'api/rest'
+import { chatAPI } from 'api/restful-user'
 import InputImage from 'components/images/input'
 import PreviewImage from 'components/images/output'
 import { useBlockingSpam } from 'hooks/useBlockingSpam'

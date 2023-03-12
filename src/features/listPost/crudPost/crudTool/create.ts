@@ -1,4 +1,4 @@
-import { postAPI } from 'api/rest'
+import { postAPI } from 'api/restful-user'
 import { IPost } from 'models/post'
 import { postActions } from 'states/slices/postSlice'
 import { CRUDType } from '.'

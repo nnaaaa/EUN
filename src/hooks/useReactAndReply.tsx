@@ -1,4 +1,4 @@
-import { reactAPI } from 'api/rest/list/react'
+import { reactAPI } from 'api/restful-user/list/react'
 import { FACEBOOK_DB } from 'config/keys'
 import CommentStrategy from 'features/listComment/strategies'
 import useIteratorComment from 'features/listComment/useIteratorComment'

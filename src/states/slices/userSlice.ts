@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { userAPI } from 'api/rest/list/user'
+import { userAPI } from 'api/restful-user/list/user'
 import { IPublicInfo } from 'models/user'
 
 interface IinitState {

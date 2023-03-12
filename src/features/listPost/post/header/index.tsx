@@ -1,19 +1,34 @@
-import { Avatar, Box, CardHeader, Tooltip, Typography } from '@mui/material'
+import { faPython } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Avatar, Box, CardHeader, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material'
 import { IPost } from 'models/post'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import Loading from 'screens/loading'
-import { useAppSelector } from 'states/hooks'
+import { useAppDispatch, useAppSelector } from 'states/hooks'
 import { Color } from 'styles/global'
 import Mode from './mode'
 import Options from './options'
+import { postAPI } from 'api/restful-user'
+import { postActions } from 'states/slices/postSlice'
+import { useState } from 'react'
+
 
 export default function PostHeader({ post }: { post: IPost }) {
     const { owner, mode, createAt } = post
+    const [isFetching, setIsFetching] = useState(false)
+    const dispatch = useAppDispatch()
 
     const user = useAppSelector((state) => state.user.current)
     const time = moment(createAt).fromNow(true)
     const detailTime = moment(createAt).format('h:mm:ss a, DD MMMM YYYY')
+
+    const onLoadEntities = async () => {
+        setIsFetching(true)
+        const fetchedPost = await postAPI.get(post._id)
+        dispatch(postActions.updatePost(fetchedPost.data))
+        setIsFetching(false)
+    }
 
     if (!user) return <Loading />
 
@@ -51,6 +66,12 @@ export default function PostHeader({ post }: { post: IPost }) {
                         >
                             <Mode mode={mode} />
                         </Typography>
+                    </Tooltip>
+                    <Tooltip title="Load your content with named words by AI Mode. It is accomplished by Natural Language Processing technique" placement="top">
+                        <IconButton size="small" onClick={onLoadEntities} disabled={isFetching}>
+                            {isFetching ? <CircularProgress size="15px" /> : <FontAwesomeIcon icon={faPython} size="sm" />}
+                            
+                        </IconButton>
                     </Tooltip>
                 </Box>
             }

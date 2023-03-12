@@ -1,4 +1,4 @@
-import Axios, { imagesConditon } from 'api/rest/axios'
+import Axios, { imagesConditon } from 'api/restful-user/axios'
 import { IChatRoom } from 'models/chatRoom'
 import { ID, IQueryPost } from 'models/index'
 import { IMessage } from 'models/message'

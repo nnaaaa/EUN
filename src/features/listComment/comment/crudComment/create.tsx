@@ -1,7 +1,7 @@
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Box, InputBase, Stack, Tooltip } from '@mui/material'
-import { notificationAPI } from 'api/rest/list/notification'
+import { notificationAPI } from 'api/restful-user/list/notification'
 import InputImage from 'components/images/input'
 import PreviewImages from 'components/images/output'
 import Helper from 'helpers/comment'

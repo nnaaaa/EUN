@@ -7,7 +7,7 @@ import {
     Typography,
 } from '@mui/material'
 import { attachRelationship } from 'algorithms/filterSearch'
-import { notificationAPI } from 'api/rest/list/notification'
+import { notificationAPI } from 'api/restful-user/list/notification'
 import UserRole from 'components/userRole'
 import { INotification } from 'models/notification'
 import moment from 'moment'

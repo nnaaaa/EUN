@@ -1,4 +1,4 @@
-import { chatAPI } from 'api/rest'
+import { chatAPI } from 'api/restful-user'
 import { IPublicInfo } from 'models/user'
 import { RefObject, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'states/hooks'

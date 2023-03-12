@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
 import { Avatar, IconButton, Stack, Tooltip } from '@mui/material'
-import { useReactSocket } from 'api/socket/react'
+import { useReactSocket } from 'api/socket-user/react'
 import DisplayGridImages from 'components/images/output2'
 import Popup from 'components/popup'
 import { Picker } from 'emoji-mart'

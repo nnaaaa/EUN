@@ -1,4 +1,4 @@
-import Axios, { imagesConditon } from 'api/rest/axios'
+import Axios, { imagesConditon } from 'api/restful-user/axios'
 import { ID, IQueryPost } from 'models/index'
 import { IModePost, IPost } from 'models/post'
 import { IPublicInfo } from 'models/user'

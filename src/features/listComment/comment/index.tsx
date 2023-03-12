@@ -1,6 +1,6 @@
 import { Avatar, Box, Collapse, Stack } from '@mui/material'
-import { useCommentSocket } from 'api/socket/comment'
-import { useReactSocket } from 'api/socket/react'
+import { useCommentSocket } from 'api/socket-user/comment'
+import { useReactSocket } from 'api/socket-user/react'
 import EmojiCounter from 'features/listReact'
 import ReactToComment from 'features/listReact/strategies/reactToComment'
 import ReactTableDisplay from 'features/listReact/tableDisplay'

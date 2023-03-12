@@ -1,4 +1,4 @@
-import { chatAPI } from 'api/rest'
+import { chatAPI } from 'api/restful-user'
 import { FACEBOOK_DB } from 'config/keys'
 import { IChatRoom } from 'models/chatRoom'
 import { ID } from 'models/index'

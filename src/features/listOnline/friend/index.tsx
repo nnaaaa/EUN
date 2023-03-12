@@ -11,7 +11,7 @@ import {
     Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { useListUserSocket } from 'api/socket/user'
+import { useListUserSocket } from 'api/socket-user/user'
 import { useStyle } from 'features/listOnline/listOnlineStyles'
 import { useState } from 'react'
 import { useAppSelector } from 'states/hooks'

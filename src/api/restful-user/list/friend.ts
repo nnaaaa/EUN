@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import Axios from 'api/rest/axios'
+import Axios from 'api/restful-user/axios'
 import { ID, IQueryPost } from 'models/index'
 import { IPublicInfo } from 'models/user'
 

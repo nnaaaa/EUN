@@ -1,6 +1,6 @@
 import PeopleIcon from '@mui/icons-material/People'
 import { Button, Typography } from '@mui/material'
-import { friendAPI } from 'api/rest'
+import { friendAPI } from 'api/restful-user'
 import Role from '.'
 import Stranger from './stranger'
 

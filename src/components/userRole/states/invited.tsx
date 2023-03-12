@@ -1,7 +1,7 @@
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, Typography } from '@mui/material'
-import { friendAPI } from 'api/rest'
+import { friendAPI } from 'api/restful-user'
 import Role from '.'
 import Accepted from './accepted'
 import Stranger from './stranger'

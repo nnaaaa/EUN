@@ -9,3 +9,9 @@ export interface IQueryPost {
 export type Populated<M, K extends keyof M> = Omit<M, K> & {
     [P in K]: Exclude<M[P], ID[] | ID>
 }
+
+export interface INameEntity {
+    entity: string
+    start: number
+    end: number
+}

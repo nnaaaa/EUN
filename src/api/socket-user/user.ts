@@ -3,7 +3,7 @@ import { ID } from 'models/index'
 import { IPublicInfo } from 'models/user'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from 'states/context/socket'
-import { userAPI } from 'api/rest/list/user'
+import { userAPI } from 'api/restful-user/list/user'
 import { useAppDispatch } from 'states/hooks'
 import { userActions } from 'states/slices/userSlice'
 

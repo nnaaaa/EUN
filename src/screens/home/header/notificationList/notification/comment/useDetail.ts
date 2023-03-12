@@ -1,4 +1,4 @@
-import { friendAPI, postAPI } from 'api/rest'
+import { friendAPI, postAPI } from 'api/restful-user'
 import { IPost } from 'models/post'
 import { IPublicInfo } from 'models/user'
 import { useEffect, useState } from 'react'

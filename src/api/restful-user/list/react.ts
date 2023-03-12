@@ -1,4 +1,4 @@
-import Axios from 'api/rest/axios'
+import Axios from 'api/restful-user/axios'
 import { ID } from 'models/index'
 import { IReact } from 'models/react'
 

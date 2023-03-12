@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { chatAPI } from 'api/rest'
+import { chatAPI } from 'api/restful-user'
 import { IChatRoom } from 'models/chatRoom'
 import { ID, IQueryPost } from 'models/index'
 import { IMessage } from 'models/message'

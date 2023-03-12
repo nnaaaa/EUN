@@ -1,7 +1,7 @@
 import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Box, Button, Typography } from '@mui/material'
-import { postAPI } from 'api/rest'
+import { postAPI } from 'api/restful-user'
 import EditPost from 'features/listPost/crudPost'
 import { CRUDType } from 'features/listPost/crudPost/crudTool'
 import EditType from 'features/listPost/crudPost/crudTool/edit'

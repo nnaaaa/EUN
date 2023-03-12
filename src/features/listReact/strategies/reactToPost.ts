@@ -1,4 +1,4 @@
-import { reactAPI } from 'api/rest/list/react'
+import { reactAPI } from 'api/restful-user/list/react'
 import { postActions } from 'states/slices/postSlice'
 import ReactStrategy from '.'
 

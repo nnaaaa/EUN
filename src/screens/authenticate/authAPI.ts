@@ -1,4 +1,4 @@
-import Axios from 'api/rest/axios'
+import Axios from 'api/restful-user/axios'
 import { AxiosResponse } from 'axios'
 import { IUser, SignInType } from 'models/user'
 
