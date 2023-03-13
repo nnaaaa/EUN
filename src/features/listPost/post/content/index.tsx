@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import clsx from 'clsx'
 import { IPost } from 'models/post'
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { PostContext } from '../postContext'
 import { CardContent } from '../styles'
 import SplitContentInteraction from './splitContentInteraction'
@@ -24,7 +24,16 @@ const PostContent = ({ post }: IPostContentProps) => {
 
         return filterEntities
     }, [aggregateEntities])
-    const [selectedEntities, setSelectedEntities] = useState<string[]>(mappedEntities.slice(0, 1))
+
+    const [selectedEntities, setSelectedEntities] = useState<string[]>(()=>{
+        return mappedEntities.slice(0, 1)
+    })
+
+    useEffect(() => {
+        if (mappedEntities.length) {
+            setSelectedEntities(mappedEntities.slice(0, 1))
+        }
+    }, [mappedEntities])
 
     if (!content) return <></>
 
