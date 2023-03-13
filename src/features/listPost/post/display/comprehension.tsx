@@ -21,7 +21,7 @@ import { CardLoading, CardStyled } from '../styles'
 
 export default function Post(post: IPost) {
     const { isLoading } = useContext(PostContext)
-    const { owner, images, content, reacts, _id, participants } = post
+    const { owner, images, reacts, _id, participants } = post
 
     const reply = useAppSelector((state) =>
         state.comment.current.find((possess) => possess._id === _id)

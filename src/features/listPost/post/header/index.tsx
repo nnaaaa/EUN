@@ -86,14 +86,14 @@ export default function PostHeader({ post }: { post: IPost }) {
                 </Box>
             }
             action={
-                <>
+                <Box display="flex">
                     <Tooltip title={Helper.ner} placement="top">
                         <Box mr={4}>
                             <Switcher label='NER' defaultChecked onClick={toggleNERContent} />
                         </Box>
                     </Tooltip>
                     {user._id === owner._id ? <Options post={post} /> : <></>}
-                </>
+                </Box>
             }
         />
     )

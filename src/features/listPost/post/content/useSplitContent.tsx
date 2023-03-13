@@ -10,7 +10,7 @@ type IDisplayEntity = Partial<INameEntity> & {
 export const useSplitContent = (post: IPost) => {
     const { content, contentNER } = post
 
-    const splittedContent = useMemo(() => {
+    const { splittedContent, aggregateEntities } = useMemo(() => {
         const array: IDisplayEntity[] = []
         const entities = contentNER
 
@@ -23,22 +23,26 @@ export const useSplitContent = (post: IPost) => {
             const nextEntity = entities[i + 1]
 
             if (curEntity.end === nextEntity.start && curEntity.entity === nextEntity.entity) {
-                // phần tử áp cuối thì tính là đã kết thúc
-                // ex: [0, 2, 1, 1] thì khi đến 1 tại vị trí thứ 2 là kết thúc
                 if (i === entities.length - 2) {
-                    aggregateEntities.push({
-                        ...curEntity,
-                        start: startPos,
-                        end: nextEntity.end,
-                    })
-                    continue
                 }
                 else {
                     isMatching = true
                 }
             }
             else {
+                
                 isMatching = false
+            }
+
+            // phần tử áp cuối thì tính là đã kết thúc
+            // ex: [0, 2, 1, 1] thì khi đến 1 tại vị trí thứ 2 là kết thúc
+            if (i === entities.length - 2) {
+                aggregateEntities.push({
+                    ...curEntity,
+                    start: startPos,
+                    end: nextEntity.end,
+                })
+                continue
             }
 
             if (!isMatching) {
@@ -55,23 +59,20 @@ export const useSplitContent = (post: IPost) => {
         let seekingStart = 0
         for (const entity of aggregateEntities) {
             const entityTarget = content.slice(entity.start, entity.end)
-            // console.log(content.slice(seekingStart, entity.start))
             array.push({
                 word: content.slice(seekingStart, entity.start)
             })
 
             seekingStart = entity.end
 
-            // console.log(entityTarget)
             array.push({
                 ...entity,
                 word: entityTarget,
             })
         }
-        // console.log(array)
-
-        return array
+        
+        return { splittedContent: array, aggregateEntities }
     }, [content, contentNER])
 
-    return { splittedContent }
+    return { splittedContent, aggregateEntities }
 }

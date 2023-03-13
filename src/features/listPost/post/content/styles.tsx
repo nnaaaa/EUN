@@ -4,8 +4,14 @@ import { makeStyles } from "@mui/styles";
 
 
 export const useStyles = makeStyles((theme: Theme) => ({
+    wrapperInteractionLabel: {
+        width: 110
+    },
+    contentInteractionLabel: {
+    },
     contentWrapper: {
         lineHeight: 2.5,
+        textTransform: 'initial'
     },
     entityWord: {
         borderRadius: 8,
