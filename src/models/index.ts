@@ -11,7 +11,7 @@ export type Populated<M, K extends keyof M> = Omit<M, K> & {
 }
 
 export interface INameEntity {
-    entity: string
+    entity: any
     start: number
     end: number
 }
