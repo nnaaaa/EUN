@@ -1,22 +1,26 @@
 import { faPython } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Box, CardHeader, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material'
+import { postAPI } from 'api/restful-user'
+import Switcher from 'components/switcher'
+import Helper from 'helpers/comment'
 import { IPost } from 'models/post'
 import moment from 'moment'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Loading from 'screens/loading'
 import { useAppDispatch, useAppSelector } from 'states/hooks'
+import { postActions } from 'states/slices/postSlice'
 import { Color } from 'styles/global'
+import { PostContext } from '../postContext'
 import Mode from './mode'
 import Options from './options'
-import { postAPI } from 'api/restful-user'
-import { postActions } from 'states/slices/postSlice'
-import { useState } from 'react'
 
 
 export default function PostHeader({ post }: { post: IPost }) {
     const { owner, mode, createAt } = post
     const [isFetching, setIsFetching] = useState(false)
+    const { setIsDisplayNERContent } = useContext(PostContext)
     const dispatch = useAppDispatch()
 
     const user = useAppSelector((state) => state.user.current)
@@ -28,6 +32,12 @@ export default function PostHeader({ post }: { post: IPost }) {
         const fetchedPost = await postAPI.get(post._id)
         dispatch(postActions.updatePost(fetchedPost.data))
         setIsFetching(false)
+    }
+
+    const toggleNERContent = () => {
+        if (setIsDisplayNERContent) {
+            setIsDisplayNERContent((prev) => !prev)
+        }
     }
 
     if (!user) return <Loading />
@@ -70,12 +80,21 @@ export default function PostHeader({ post }: { post: IPost }) {
                     <Tooltip title="Load your content with named words by AI Mode. It is accomplished by Natural Language Processing technique" placement="top">
                         <IconButton size="small" onClick={onLoadEntities} disabled={isFetching}>
                             {isFetching ? <CircularProgress size="15px" /> : <FontAwesomeIcon icon={faPython} size="sm" />}
-                            
+
                         </IconButton>
                     </Tooltip>
                 </Box>
             }
-            action={user._id == owner._id ? <Options post={post} /> : <></>}
+            action={
+                <>
+                    <Tooltip title={Helper.ner} placement="top">
+                        <Box mr={4}>
+                            <Switcher label='NER' defaultChecked onClick={toggleNERContent} />
+                        </Box>
+                    </Tooltip>
+                    {user._id === owner._id ? <Options post={post} /> : <></>}
+                </>
+            }
         />
     )
 }

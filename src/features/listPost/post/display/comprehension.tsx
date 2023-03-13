@@ -17,7 +17,7 @@ import PostContent from '../content'
 import CardHeader from '../header'
 import InteractBar from '../interactBar'
 import { PostContext } from '../postContext'
-import { CardContent, CardLoading, CardStyled } from '../styles'
+import { CardLoading, CardStyled } from '../styles'
 
 export default function Post(post: IPost) {
     const { isLoading } = useContext(PostContext)
